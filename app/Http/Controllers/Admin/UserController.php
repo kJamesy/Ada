@@ -223,9 +223,9 @@ class UserController extends Controller
                 $rules = $this->rules;
 
                 if ( strtolower($resource->email) == strtolower(trim($request->email)) )
-                    $rules['email'] = str_replace("|unique:users|unique:members", '', $rules['email'] );
+                    $rules['email'] = str_replace("|unique:users", '', $rules['email'] );
                 if ( strtolower($resource->username) == strtolower(trim($request->username)))
-                    $rules['username'] = str_replace("|unique:users|unique:members", '', $rules['username']);
+                    $rules['username'] = str_replace("|unique:users", '', $rules['username']);
                 if ( ! $request->has('password') && ! $request->has('password_confirmation') )
                     unset($rules['password']);
 

@@ -70,9 +70,9 @@ class AdminController extends Controller
             unset($rules['password']);
 
             if ( strtolower(trim($request->email)) == strtolower($user->email) )
-                $rules['email'] = str_replace("|unique:users|unique:members", '', $rules['email']);
+                $rules['email'] = str_replace("|unique:users", '', $rules['email']);
             if ( strtolower(trim($request->username)) == strtolower($user->username) )
-                $rules['username'] = str_replace("|unique:users|unique:members", '', $rules['username']);
+                $rules['username'] = str_replace("|unique:users", '', $rules['username']);
 
             $this->validate($request, $rules);
 
