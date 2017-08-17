@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Member;
-use App\Policies\MemberPolicy;
+use App\MailingList;
+use App\Policies\MailingListPolicy;
 use App\Policies\UserPolicy;
 use App\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -17,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         User::class => UserPolicy::class,
+        MailingList::class => MailingListPolicy::class,
     ];
 
     /**

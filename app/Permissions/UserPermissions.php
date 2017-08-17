@@ -95,7 +95,9 @@ class UserPermissions
     {
         try {
             $reflect = new \ReflectionClass($modelClass);
-            return str_plural(strtolower($reflect->getShortName()));
+	        $class = preg_replace('/\B([A-Z])/', '_$1', $reflect->getShortName());
+
+            return str_plural(strtolower($class));
         } catch (\Exception $e) {
             return '';
         }
@@ -108,7 +110,7 @@ class UserPermissions
      */
     public static function getModelFromShortName($shortName)
     {
-        $shortName = str_singular($shortName);
+        $shortName = str_replace('_', '', str_singular($shortName));
         $class = "\\App\\{$shortName}";
 
         return class_exists($class) ? new $class : null;
@@ -131,4 +133,14 @@ class UserPermissions
         return false;
     }
 
+	/**
+	 * Find uppercase letters occurrence in a string
+	 * @param $string
+	 * @return array
+	 */
+    public static function getUppercaseLetters($string)
+    {
+	    $number = preg_match_all('/[A-Z]/', $string, $matches, PREG_OFFSET_CAPTURE);
+	    return [$number, $matches];
+    }
 }

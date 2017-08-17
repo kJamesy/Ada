@@ -283,6 +283,8 @@ class UserController extends Controller
 
         $resource->meta = json_encode($currentPermissions);
         $resource->save();
+
+        UserPermissions::getCachedUserPermissions($resource, true);
     }
 
     /**

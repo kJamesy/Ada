@@ -31,8 +31,8 @@ class ResourceExporter
             case 'users':
                 return static::generateUsersExport();
                 break;
-            case 'members':
-                return static::generateMembersExport();
+            case 'mailing_lists':
+                return static::generateMailingListsExport();
                 break;
         }
     }
@@ -73,7 +73,7 @@ class ResourceExporter
      * Generate members export
      * @return mixed
      */
-    public function generateMembersExport()
+    public function generateMailingListsExport()
     {
         return Excel::create($this->exportFileName, function($excel) {
             $resources = $this->resources;
@@ -82,19 +82,16 @@ class ResourceExporter
             if ( count($resources) ) {
                 foreach ($resources as $resource) {
                     $exportArr[] = [
-                        'First Name' => $resource->first_name,
-                        'Last Name' => $resource->last_name,
-                        'Phone' => $resource->phone ?: 'None Provided',
-                        'Email' => $resource->email,
-                        'Username' => $resource->username,
-                        'Active' => $resource->active ? '✔' : '✗',
-                        'Member Since' => $resource->created_at->toDateTimeString(),
+                        'Name' => $resource->name,
+                        'Description' => $resource->description,
+                        'Created' => $resource->created_at->toDateTimeString(),
+                        'Last Updated' => $resource->updated_at->toDateTimeString(),
                     ];
 
                 }
             }
 
-            $excel->sheet('Members', function($sheet) use ($exportArr) {
+            $excel->sheet('Mailing Lists', function($sheet) use ($exportArr) {
                 $sheet->fromArray($exportArr);
             });
 

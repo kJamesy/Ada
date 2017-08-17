@@ -16,6 +16,7 @@ Route::get('/home', function () { return redirect(route('guest.home')); });
 
 Route::get('lab', function() {
 
+//	dd(\App\MailingList::whereIn('id', [3])->update(['is_deleted' => 0, 'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]));
 });
 
 /**
@@ -43,10 +44,15 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
                 Route::get('settings/{vue?}', 'AdminController@index');
                 Route::get('users/export', 'UserController@export');
                 Route::get('users/{vue?}', 'UserController@index');
+	            Route::get('mailing-lists/export', 'MailingListController@export');
+	            Route::get('mailing-lists/{vue?}', 'MailingListController@index');
             }
+
             Route::resource('settings', 'AdminController');
-            Route::put('users/{option}/quick-edit', 'UserController@quickUpdate');
+            Route::put('users/{option}/quick-update', 'UserController@quickUpdate');
             Route::resource('users', 'UserController');
+	        Route::put('mailing-lists/{option}/quick-update', 'MailingListController@quickUpdate');
+	        Route::resource('mailing-lists', 'MailingListController');
         });
 
         Route::get('inactive', ['as' => 'admin.inactive', 'middleware' => 'inactive', function () { return view('admin.inactive'); }]);

@@ -10,9 +10,9 @@
                         <input type="text" v-model.trim="appSearchText" placeholder="Search" class="form-control" />
                     </div>
                 </form>
-                <div class="mt-md-4 mb-md-4">
+                <div class="mt-4 mb-4">
                     <form class="form-inline pull-left" v-if="appSelectedResources.length">
-                        <label class=" mr-sm-2" for="quick-edit">Options</label>
+                        <label class="form-control-label mr-sm-2" for="quick-edit">Options</label>
                         <select class="custom-select form-control mb-2 mb-sm-0 mr-sm-5" v-model="appQuickEditOption" id="quick-edit">
                             <option v-for="option in quickEditOptions" v-bind:value="option.value" v-if="appUserHasPermission(option.value)">
                                 {{ option.text }}
@@ -20,7 +20,7 @@
                         </select>
                     </form>
                     <form class="form-inline pull-right">
-                        <label class=" mr-sm-2" for="records_per_page">
+                        <label class="form-control-label mr-sm-2" for="records_per_page">
                             Per Page
                         </label>
                         <select class="custom-select form-control mb-2 mb-sm-0" v-model="appPerPage" id="records_per_page">
@@ -37,40 +37,27 @@
                             <tr class="pointer-cursor">
                                 <th class="normal-cursor" v-if="appUserHasPermission('update')">
                                     <label class="custom-control custom-checkbox mr-0">
-                                        <input type="checkbox" class="custom-control-input" v-model="selectAll">
+                                        <input type="checkbox" class="custom-control-input" v-model="appSelectAll">
                                         <span class="custom-control-indicator"></span>
                                     </label>
                                 </th>
-                                <th v-on:click.prevent="appChangeSort('first_name')">Name <span v-html="appGetSortMarkup('first_name')"></span></th>
-                                <th v-on:click.prevent="appChangeSort('email')">Email <span v-html="appGetSortMarkup('email')"></span></th>
-                                <th v-on:click.prevent="appChangeSort('username')">Username <span v-html="appGetSortMarkup('username')"></span></th>
-                                <th v-on:click.prevent="appChangeSort('active')" >Active <span v-html="appGetSortMarkup('active')"></span></th>
+                                <th v-on:click.prevent="appChangeSort('name')">Name <span v-html="appGetSortMarkup('name')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('updated_at')" >Updated <span v-html="appGetSortMarkup('updated_at')"></span></th>
-                                <th></th>
+                                <th v-if="appUserHasPermission('update')"></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="user in orderedAppResources">
+                            <tr v-for="resource in orderedAppResources">
                                 <td v-if="appUserHasPermission('update')">
-                                    <template v-if="appUserHasPermissionOnUser('update', user)">
-                                        <label class="custom-control custom-checkbox mr-0">
-                                            <input type="checkbox" class="custom-control-input" v-model="appSelectedResources" v-bind:value="user.id">
-                                            <span class="custom-control-indicator"></span>
-                                        </label>
-                                    </template>
+                                    <label class="custom-control custom-checkbox mr-0">
+                                        <input type="checkbox" class="custom-control-input" v-model="appSelectedResources" v-bind:value="resource.id">
+                                        <span class="custom-control-indicator"></span>
+                                    </label>
                                 </td>
-                                <td>{{ user.name }} <small v-if="user.is_super_admin" class="text-warning" title="Super Admin" data-toggle="tooltip"> <i class="fa fa-certificate"></i> </small></td>
-                                <td>{{ user.email }}</td>
-                                <td> {{ user.username }}</td>
-                                <td v-html="appActiveMarkup(user.active)"></td>
-                                <td>{{ user.updated_at | dateToTheDay }}</td>
-                                <td>
-                                    <template v-if="appUserHasPermissionOnUser('read', user)">
-                                        <router-link v-bind:to="{ name: 'admin_users.view', params: { id: user.id }}" class="btn btn-sm btn-outline-primary"><i class="fa fa-user-o"></i></router-link>
-                                    </template>
-                                    <template v-if="appUserIsCurrentUser(user)">
-                                        <a v-bind:href="appUserHome" class="btn btn-sm btn-outline-warning" data-toggle="tooltip" title="Yours truly :)"><i class="fa fa-user-o"></i></a>
-                                    </template>
+                                <td v-bind:title="resource.description" data-toggle="tooltip">{{ resource.name }}</td>
+                                <td><span v-bind:title="resource.updated_at" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
+                                <td v-if="appUserHasPermission('read')">
+                                    <router-link v-bind:to="{ name: 'admin_mailing_lists.view', params: { id: resource.id }}" class="btn btn-sm btn-outline-primary"><i class="fa fa-eye"></i></router-link>
                                 </td>
                             </tr>
                         </tbody>
@@ -78,15 +65,19 @@
                 </div>
 
                 <pagination :pagination="appPagination" :callback="fetchResources" :options="appPaginationOptions"></pagination>
-                Page {{ appPagination.current_page }} of {{ appPagination.last_page }} [{{ appPagination.total }} records]
-
+                <div class="mt-3 mb-3">
+                    Page {{ appPagination.current_page }} of {{ appPagination.last_page }} [{{ appPagination.total }} items]
+                </div>
             </div>
             <div v-if="! appUserHasPermission('read')">
                 <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </div>
         <div v-if="! fetchingData && ! appResourceCount" class="mt-5">
-            No records found
+            No items found
+        </div>
+        <div class="mt-3 mb-3 font-italic text-right" v-if="! fetchingData && appDeletedNum">
+            <router-link v-bind:to="{ name: 'admin_mailing_lists.trash'}" class="btn btn-link"><i class="fa fa-trash"></i> Deleted Items ({{ appDeletedNum }})</router-link>
         </div>
     </div>
 </template>
@@ -106,31 +97,9 @@
                 quickEditOptions: [
                     { text: 'Select Option', value: '' },
                     { text: 'Export', value: 'export' },
-                    { text: 'Activate', value: 'activate' },
-                    { text: 'Deactivate', value: 'deactivate' },
                     { text: 'Delete', value: 'delete' }
-                ]
-            }
-        },
-        computed: {
-            selectAll: {
-                get() {
-                    return this.appResourcesIds ? this.appSelectedResources.length === this.appResourcesIds.length : false;
-                },
-                set(value) {
-                    let vm = this;
-                    let resourcesIds = _.cloneDeep(vm.appResourcesIds);
-                    let selected = [];
-
-                    if ( value ) {
-                        _.forEach(resourcesIds, function(id) {
-                            if ( id !== vm.appUser.id )
-                                selected.push(id);
-                        });
-                    }
-
-                    this.appSelectedResources = selected;
-                }
+                ],
+                quickEditOption: '',
             }
         },
         methods: {

@@ -27,7 +27,7 @@
                     <div class="row">
                         <div v-if="newPoliciesLength" v-for="(policy, key, index) in newPolicies">
                             <div class="col-6 mb-3">
-                                <h4>{{ appCapitalise(key) }}</h4>
+                                <h4>{{ appStartCase(appReplaceUnderscores(key)) }}</h4>
                                 <label class="custom-control custom-checkbox" v-for="(action, key2) in policy">
                                     <input type="checkbox" class="custom-control-input"
                                            v-model="action.resource" v-bind:disabled="disableCheckbox(action.user)" v-on:change="checkboxChanged()">

@@ -63,6 +63,39 @@ if ( $('#admin-app').length ) {
     });
 }
 
+/**
+ * Mailing Lists
+ */
+import AdminMailingLists from './components/AdminMailingLists/AdminMailingLists.vue';
+import AdminMailingListsAll from './components/AdminMailingLists/AllMailingLists.vue';
+import AdminMailingListsTrash from './components/AdminMailingLists/TrashMailingLists.vue';
+import AdminMailingListsNew from './components/AdminMailingLists/NewMailingList.vue';
+import AdminMailingListsView from './components/AdminMailingLists/ViewMailingList.vue';
+import AdminMailingListsEdit from './components/AdminMailingLists/EditMailingList.vue';
+
+if ( $('#admin-mailing-lists-app').length ) {
+    let router = new VueRouter({
+        mode: 'history',
+        base: links.base,
+        linkActiveClass: 'active',
+        routes: [
+            { path: '/', name: 'admin_mailing_lists.index', component: AdminMailingListsAll },
+            { path: '/trash', name: 'admin_mailing_lists.trash', component: AdminMailingListsTrash },
+            { path: '/create', name: 'admin_mailing_lists.create', component: AdminMailingListsNew },
+            { path: '/:id(\\d+)/view', name: 'admin_mailing_lists.view', component: AdminMailingListsView },
+            { path: '/:id(\\d+)/edit', name: 'admin_mailing_lists.edit', component: AdminMailingListsEdit },
+            { path: '*', redirect: { name: 'admin_mailing_lists.index' } }
+        ]
+    });
+
+    new Vue({
+        el: '#admin-mailing-lists-app',
+        components: {
+            AdminMailingLists
+        },
+        router: router
+    });
+}
 
 /**
  * Users

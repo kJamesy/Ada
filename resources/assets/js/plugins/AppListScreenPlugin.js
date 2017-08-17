@@ -19,6 +19,7 @@ const AppListScreenPlugin = {
                     appSettings: window.settings ? settings : {},
                     appSettingsKey: window.settingsKey ? settingsKey : '',
                     appResources: [],
+                    appDeletedNum: 0,
                     appOrderAttr: 'updated_at',
                     appOrder: 'desc',
                     appOrderToggle: -1,
@@ -43,6 +44,9 @@ const AppListScreenPlugin = {
                 }
             },
             computed: {
+                appResourceCount() {
+                    return this.appResources.length;
+                },
                 orderedAppResources() {
                     return _.orderBy(this.appResources, [this.appOrderAttr, 'updated_at'], [( this.appOrderToggle === 1 ) ? 'asc' : 'desc', 'desc']);
                 },
@@ -61,12 +65,14 @@ const AppListScreenPlugin = {
                     let orderBy = orderAttr ? orderAttr : vm.appOrderAttr;
                     let orderToggle2 = orderToggle ? orderToggle : vm.appOrderToggle;
                     let lastPage = _.ceil(vm.appPagination.total / vm.appPagination.per_page);
+                    let trash = (typeof vm.trash === 'undefined') ? 0 : vm.trash;
 
                     let params = {
                         perPage: vm.appPagination.per_page,
                         page: ( lastPage < vm.appPagination.last_page ) ? 1 : vm.appPagination.current_page,
                         orderBy: orderBy,
-                        order: ( orderToggle2 === 1 ) ? 'asc' : 'desc'
+                        order: ( orderToggle2 === 1 ) ? 'asc' : 'desc',
+                        trash: trash
                     };
 
                     if ( vm.appSearchText.length )
@@ -107,22 +113,31 @@ const AppListScreenPlugin = {
                         else {
                             let message = vm.appSearching ? 'Your search returned no results. Please try again with different keywords' : 'No records found';
 
-                            vm.appCustomErrorAlertConfirmed(message);
+                            if ( vm.appSearching )
+                                vm.appCustomErrorAlertConfirmed(message);
+
                             vm.appSearchText = '';
                             vm.appResources = [];
                             vm.fetchingData = false;
                             progress.fail();
                         }
+
+                        if ( response.data.deletedNum )
+                            vm.appDeletedNum = response.data.deletedNum;
                     }, function(error) {
                         if ( error.status && error.status === 403 && error.data )
                             vm.appCustomErrorAlert(error.data.error);
                         else if ( error.status && error.status === 404 && error.data ){
                             let message = vm.appSearching ? 'Your search returned no results. Please try again with different keywords' : error.data.error;
 
-                            vm.appCustomErrorAlertConfirmed(message);
+                            if ( vm.appSearching )
+                                vm.appCustomErrorAlertConfirmed(message);
                         }
                         else
                             vm.appGeneralErrorAlert();
+
+                        if ( error.data.deletedNum )
+                            vm.appDeletedNum = error.data.deletedNum;
 
                         vm.appSearchText = '';
                         vm.appResources = [];
@@ -162,7 +177,7 @@ const AppListScreenPlugin = {
                         else {
                             progress.start();
 
-                            vm.$http.put(vm.appResourceUrl + '/' + action + '/quick-edit', {resources: selected}).then(function (response) {
+                            vm.$http.put(vm.appResourceUrl + '/' + action + '/quick-update', {resources: selected}).then(function (response) {
                                 if (response.data && response.data.success) {
                                     progress.finish();
 
@@ -170,8 +185,11 @@ const AppListScreenPlugin = {
                                         vm.appQuickEditOption = '';
                                         vm.appCustomSuccessAlertConfirmed(response.data.success);
 
-                                        if ( typeof vm.fetchResources === 'function' )
-                                            vm.fetchResources();
+                                        if ( typeof vm.fetchResources === 'function' ) {
+                                            _.delay(function () {
+                                                vm.fetchResources();
+                                            }, 1000);
+                                        }
                                     }, 500);
                                 }
                             }, function (error) {
@@ -189,7 +207,9 @@ const AppListScreenPlugin = {
                     }
                 },
                 appExportAll() {
-                    window.location = this.appResourceUrl + '/export';
+                    let vm = this;
+                    let trash = (typeof vm.trash === 'undefined') ? 0 : vm.trash;
+                    window.location = vm.appResourceUrl + '/export?trash=' + trash;
                 },
                 appInitialiseSettings() {
                     let vm = this;
@@ -257,20 +277,29 @@ const AppListScreenPlugin = {
                 appActiveMarkup(activeAttr) {
                     return activeAttr ? '&#10003;' : '&#10007;';
                 },
-                appSentenceCase(word) {
+                appStartCase(word) {
                     return _.startCase(word);
                 },
                 appCapitalise(string) {
                     return _.capitalize(string);
+                },
+                appReplaceUnderscores(string) {
+                  return _.replace(string, '_', ' ');
                 },
                 appUpdateSettings() {
                     let vm = this;
                     let win = window;
 
                     if ( vm.appSettingsKey.length ) {
+
                         //Order Attr
                         let order_by = vm.appSettingsKey + '_' + 'order_by';
-                        win.settings[vm.appSettingsKey][order_by] = vm.appOrderAttr;
+                        if ( win.settings[vm.appSettingsKey] )
+                            win.settings[vm.appSettingsKey][order_by] = vm.appOrderAttr;
+                        else {
+                            win.settings[vm.appSettingsKey] = {};
+                            win.settings[vm.appSettingsKey][order_by] = vm.appOrderAttr;
+                        }
 
                         // Order
                         let order = vm.appSettingsKey + '_' + 'order';
@@ -315,6 +344,10 @@ const AppListScreenPlugin = {
                         case 'export':
                             action = 'read';
                             break;
+                        case 'destroy':
+                        case 'restore':
+                            action = 'delete';
+                            break;
                     }
 
                     return vm.appUser.is_super_admin ? true : vm.appPermissions[action + '_' + vm.appPermissionsKey];
@@ -339,7 +372,10 @@ const AppListScreenPlugin = {
                 },
                 appUserIsCurrentUser(user) {
                     return this.appUser.id === user.id;
-                }
+                },
+                appIsTrashPage() {
+                    return _.includes(this.$route.name, 'trash');
+                },
             },
             watch: {
                 appSelectedResources() {
