@@ -16,6 +16,9 @@ Vue.use(VueProgressBar, { color: '#F8CA00', failedColor: '#FF003C', thickness: '
 //.default to fix bug!!!
 Vue.component('pagination', require('vue-bootstrap-pagination').default);
 
+import VueSelect from 'vue-select';
+Vue.component('v-select', VueSelect);
+
 import AppListScreenPlugin from './plugins/AppListScreenPlugin';
 Vue.use(AppListScreenPlugin);
 
@@ -92,6 +95,40 @@ if ( $('#admin-mailing-lists-app').length ) {
         el: '#admin-mailing-lists-app',
         components: {
             AdminMailingLists
+        },
+        router: router
+    });
+}
+
+/**
+ * Subscribers
+ */
+import AdminSubscribers from './components/AdminSubscribers/AdminSubscribers.vue';
+import AdminSubscribersAll from './components/AdminSubscribers/AllSubscribers.vue';
+import AdminSubscribersTrash from './components/AdminSubscribers/TrashSubscribers.vue';
+import AdminSubscribersNew from './components/AdminSubscribers/NewSubscriber.vue';
+import AdminSubscribersView from './components/AdminSubscribers/ViewSubscriber.vue';
+import AdminSubscribersEdit from './components/AdminSubscribers/EditSubscriber.vue';
+
+if ( $('#admin-subscribers-app').length ) {
+    let router = new VueRouter({
+        mode: 'history',
+        base: links.base,
+        linkActiveClass: 'active',
+        routes: [
+            { path: '/', name: 'admin_subscribers.index', component: AdminSubscribersAll },
+            { path: '/trash', name: 'admin_subscribers.trash', component: AdminSubscribersTrash },
+            { path: '/create', name: 'admin_subscribers.create', component: AdminSubscribersNew },
+            { path: '/:id(\\d+)/view', name: 'admin_subscribers.view', component: AdminSubscribersView },
+            { path: '/:id(\\d+)/edit', name: 'admin_subscribers.edit', component: AdminSubscribersEdit },
+            { path: '*', redirect: { name: 'admin_subscribers.index' } }
+        ]
+    });
+
+    new Vue({
+        el: '#admin-subscribers-app',
+        components: {
+            AdminSubscribers
         },
         router: router
     });

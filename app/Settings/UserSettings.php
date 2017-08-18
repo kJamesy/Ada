@@ -25,7 +25,8 @@ class UserSettings
      */
     public static $cacheKeys = [
         'users',
-        'mailing_lists'
+        'mailing_lists',
+	    'subscribers',
     ];
 
     /**

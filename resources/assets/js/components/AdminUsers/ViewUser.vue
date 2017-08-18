@@ -78,8 +78,8 @@
                     let meta = JSON.parse(vm.resource.meta);
 
                     _.forEach(meta, function(value, key) {
-                       if ( value === true )
-                           permissionsMarkup += _.upperFirst( _.replace(key, '_', ' ') ) + '; ';
+                        if ( value === true )
+                            permissionsMarkup += _.upperFirst(_.replace(key, /_/g, ' ')) + '; ';
                     });
                 }
 

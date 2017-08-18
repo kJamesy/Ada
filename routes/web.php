@@ -46,6 +46,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
                 Route::get('users/{vue?}', 'UserController@index');
 	            Route::get('mailing-lists/export', 'MailingListController@export');
 	            Route::get('mailing-lists/{vue?}', 'MailingListController@index');
+	            Route::get('subscribers/export', 'SubscriberController@export');
+	            Route::get('subscribers/{vue?}', 'SubscriberController@index');
             }
 
             Route::resource('settings', 'AdminController');
@@ -53,6 +55,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
             Route::resource('users', 'UserController');
 	        Route::put('mailing-lists/{option}/quick-update', 'MailingListController@quickUpdate');
 	        Route::resource('mailing-lists', 'MailingListController');
+	        Route::put('subscribers/{option}/quick-update', 'SubscriberController@quickUpdate');
+	        Route::resource('subscribers', 'SubscriberController');
         });
 
         Route::get('inactive', ['as' => 'admin.inactive', 'middleware' => 'inactive', function () { return view('admin.inactive'); }]);

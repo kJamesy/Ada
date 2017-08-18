@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
-class MailingList extends Model
+class Subscriber extends Model
 {
     use Searchable;
 
@@ -15,24 +15,25 @@ class MailingList extends Model
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'description', 'is_deleted'];
+	protected $fillable = ['first_name', 'last_name', 'email', 'active', 'is_deleted'];
 
 	/**
 	 * Validation rules
 	 * @var array
 	 */
 	public static $rules = [
-		'name' => 'required|unique:mailing_lists|max:255',
-		'description' => 'required|max:512'
+		'first_name' => 'required|max:255',
+		'last_name' => 'required|max:255',
+		'email' => 'required|email|max:255|unique:subscribers'
 	];
 
 	/**
 	 * Many to Many relationship
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
 	 */
-	public function subscribers()
+	public function mailing_lists()
 	{
-		return $this->belongsToMany(Subscriber::class, 'mailing_list_subscriber', 'mailing_list_id', 'subscriber_id');
+		return $this->belongsToMany(MailingList::class, 'mailing_list_subscriber', 'subscriber_id', 'mailing_list_id');
 	}
 
 	/**
@@ -56,13 +57,33 @@ class MailingList extends Model
 	}
 
 	/**
+	 * Scope for active model
+	 * @param $query
+	 * @return mixed
+	 */
+	public function scopeIsActive($query)
+	{
+		return $query->where('active', 1);
+	}
+
+	/**
+	 * Scope for is not active model
+	 * @param $query
+	 * @return mixed
+	 */
+	public function scopeIsNotActive($query)
+	{
+		return $query->where('active', 0);
+	}
+
+	/**
 	 * Find resource by id
 	 * @param $id
 	 * @return mixed
 	 */
 	public static function findResource($id)
 	{
-		return static::find($id);
+		return static::with('mailing_lists')->find($id);
 	}
 
 	/**
@@ -138,6 +159,14 @@ class MailingList extends Model
 		if ( is_array($selected) && count($selected) ) {
 
 			switch( $verb ) {
+				case 'activate':
+					static::whereIn('id', $selected)->update(['active' => 1, 'updated_at' => Carbon::now()]);
+					$count = count($selected);
+					break;
+				case 'deactivate':
+					static::whereIn('id', $selected)->update(['active' => 0, 'updated_at' => Carbon::now()]);
+					$count = count($selected);
+					break;
 				case 'delete':
 					static::whereIn('id', $selected)->update(['is_deleted' => 1, 'updated_at' => Carbon::now()]);
 					$count = count($selected);
@@ -156,13 +185,6 @@ class MailingList extends Model
 		return $count;
 	}
 
-	/**
-	 * Get resources that can be attached to others
-	 * @return mixed
-	 */
-	public static function getAttachableResources()
-	{
-		return static::isNotDeleted()->orderBy('name')->get(['id', 'name']);
-	}
+
 
 }

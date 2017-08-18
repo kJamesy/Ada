@@ -10036,6 +10036,17 @@ button {
   border-radius: 0;
 }
 
+.v-select .dropdown-toggle {
+  background: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  white-space: normal !important;
+}
+
+.v-select .dropdown-toggle input[type="search"] {
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+}
+
 .dropdown-menu {
   margin: 0.4rem 0 0;
 }

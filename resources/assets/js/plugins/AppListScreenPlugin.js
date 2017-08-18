@@ -284,7 +284,7 @@ const AppListScreenPlugin = {
                     return _.capitalize(string);
                 },
                 appReplaceUnderscores(string) {
-                  return _.replace(string, '_', ' ');
+                  return _.replace(string, /_/g, ' ');
                 },
                 appUpdateSettings() {
                     let vm = this;
