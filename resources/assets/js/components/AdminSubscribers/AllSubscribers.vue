@@ -102,6 +102,8 @@
                 fetchingData: true,
                 quickEditOptions: [
                     { text: 'Select Option', value: '' },
+                    { text: 'Activate', value: 'activate' },
+                    { text: 'Deactivate', value: 'deactivate' },
                     { text: 'Export', value: 'export' },
                     { text: 'Delete', value: 'delete' }
                 ],

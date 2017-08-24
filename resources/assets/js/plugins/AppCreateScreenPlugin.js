@@ -38,6 +38,7 @@ const AppCreatecreenPlugin = {
 
                         vm.appClearResource();
                         progress.finish();
+                        vm.$emit('successfulcreate');
                         vm.fetchingData = false;
                     }, function(error) {
                         if ( error.status && error.status === 422 && error.data ) {

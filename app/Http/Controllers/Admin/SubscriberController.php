@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exporters\ResourceExporter;
 use App\MailingList;
 use App\Permissions\UserPermissions;
 use App\Settings\UserSettings;
 use App\Subscriber;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -145,16 +147,28 @@ class SubscriberController extends Controller
 	    return response()->json(['error' => "$this->friendlyName does not exist"], 404);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+	/**
+	 * Show resource for editing
+	 * @param $id
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function edit($id, Request $request)
+	{
+		$resource = Subscriber::findResource( (int) $id );
+		$currentUser = $request->user();
+
+		if ( $resource ) {
+			if ( ! $currentUser->can('update', $this->policyOwnerClass) )
+				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+
+			$mailing_lists = MailingList::getAttachableResources();
+
+			return response()->json(compact('resource', 'mailing_lists'));
+		}
+
+		return response()->json(['error' => "$this->friendlyName does not exist"], 404);
+	}
 
     /**
      * Update the specified resource in storage.
@@ -165,17 +179,154 @@ class SubscriberController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+	    $resource = Subscriber::findResource( (int) $id );
+	    $currentUser = $request->user();
+
+	    if ( $resource ) {
+		    if ( ! $currentUser->can('update', $this->policyOwnerClass) )
+			    return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+
+		    $rules = $this->rules;
+
+		    if ( strtolower($resource->email) == strtolower(trim($request->email)) )
+			    $rules['email'] = str_replace("|unique:subscribers", '', $rules['email'] );
+
+		    $this->validate($request, $rules);
+
+		    $resource->first_name = trim($request->first_name);
+		    $resource->last_name = trim($request->last_name);
+		    $resource->email = strtolower(trim($request->email));
+		    $resource->active = $request->active ? 1 : 0;
+		    $resource->save();
+
+		    if ( $request->has('mailing_lists') ) {
+			    $resource->mailing_lists()->sync($request->mailing_lists);
+			    $resource->touch();
+		    }
+
+		    return response()->json(compact('resource'));
+	    }
+
+	    return response()->json(['error' => "$this->friendlyName does not exist"], 404);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+	/**
+	 * Delete/destroy the specified resource
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy($id, Request $request)
+	{
+		$resource = Subscriber::findResource( (int) $id );
+		$currentUser = $request->user();
+
+		if ( $currentUser->can('delete', $this->policyOwnerClass) ) {
+			if ( ! $resource )
+				return response()->json(['error' => "$this->friendlyName does not exist"], 404);
+
+			$suffix = 'permanently deleted';
+
+			if ( $request->permanent )
+				$resource->delete();
+			else {
+				$resource->is_deleted = 1;
+				$resource->save();
+				$suffix = 'moved to trash';
+			}
+
+			return response()->json(['success' => "$this->friendlyName $suffix"]);
+		}
+
+		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+	}
+
+	/**
+	 * Quickly update resources in bulk
+	 * @param Request $request
+	 * @param $update
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function quickUpdate(Request $request, $update)
+	{
+		$currentUser = $request->user();
+		$resourceIds = $request->resources;
+
+		if ( $currentUser->can('delete', $this->policyOwnerClass) ) {
+			$selectedNum = count($resourceIds);
+
+			if ( $selectedNum ) {
+				try {
+					$resources = Subscriber::getResources($resourceIds, -1)->pluck('id')->toArray();
+					$successNum = 0;
+
+					if ( $resources ) {
+						switch ($update) {
+							case 'activate':
+								$successNum = Subscriber::doBulkActions($resources, 'activate');
+								break;
+							case 'deactivate':
+								$successNum = Subscriber::doBulkActions($resources, 'deactivate');
+								break;
+							case 'delete':
+								$successNum = Subscriber::doBulkActions($resources, 'delete');
+								break;
+							case 'restore':
+								$successNum = Subscriber::doBulkActions($resources, 'restore');
+								break;
+							case 'destroy':
+								$successNum = Subscriber::doBulkActions($resources, 'destroy');
+								break;
+						}
+
+						$append = ( $selectedNum == $successNum ) ? '' : "Please note you do not have sufficient permissions to $update some $this->friendlyNamePlural.";
+						$string = $successNum == 1 ? $this->friendlyName : $this->friendlyNamePlural;
+						$successNum = $successNum ?: 'No';
+
+						if ( $update == 'delete')
+							$update = 'moved to trash';
+						else if ( $update == 'destroy')
+							$update = 'permanently deleted';
+						else
+							$update = "{$update}d";
+
+						return response()->json(['success' => "$successNum $string $update. $append"]);
+					}
+					else
+						return response()->json(['error' => "$this->friendlyNamePlural do not exist"], 404);
+				}
+				catch (\Exception $e) {
+					return response()->json(['error' => 'A server error occurred.'], 500);
+				}
+			}
+			else
+				return response()->json(['error' => "No $this->friendlyNamePlural received"], 500);
+		}
+
+		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+	}
+
+	/**
+	 * Export resources to Excel
+	 * @param Request $request
+	 * @return \Illuminate\Http\RedirectResponse|mixed
+	 */
+	public function export(Request $request)
+	{
+		if ( $request->user()->can('read', $this->policyOwnerClass) ) {
+			$resourceIds = (array) $request->resourceIds;
+			$fileName = '';
+
+			$deleted = $request->has('trash') ? (int) $request->trash : -1;
+
+			$resources = Subscriber::getResources($resourceIds, $deleted);
+
+			$fileName .= count($resourceIds) ? 'Specified-Items-' : 'All-Items-';
+			$fileName .= Carbon::now()->toDateString();
+
+			$exporter = new ResourceExporter($resources, $fileName);
+			return $exporter->generateExcelExport('subscribers');
+		}
+		else
+			return redirect()->back();
+	}
 }

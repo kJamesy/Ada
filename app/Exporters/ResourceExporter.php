@@ -34,6 +34,9 @@ class ResourceExporter
             case 'mailing_lists':
                 return static::generateMailingListsExport();
                 break;
+	        case 'subscribers':
+		        return static::generateSubscribersExport();
+		        break;
         }
     }
 
@@ -98,5 +101,35 @@ class ResourceExporter
         })->download('xls');
     }
 
+	/**
+	 * Generate subscribers export
+	 * @return mixed
+	 */
+	public function generateSubscribersExport()
+	{
+		return Excel::create($this->exportFileName, function($excel) {
+			$resources = $this->resources;
+			$exportArr = [];
+
+			if ( count($resources) ) {
+				foreach ($resources as $resource) {
+					$exportArr[] = [
+						'First Name' => $resource->first_name,
+						'Last Name' => $resource->last_name,
+						'Email' => $resource->email,
+						'Active' => $resource->active ? '✔' : '✗',
+						'Subscribed' => $resource->created_at->toDateTimeString(),
+						'Last Updated' => $resource->updated_at->toDateTimeString(),
+					];
+
+				}
+			}
+
+			$excel->sheet('Subscribers', function($sheet) use ($exportArr) {
+				$sheet->fromArray($exportArr);
+			});
+
+		})->download('xls');
+	}
 
 }

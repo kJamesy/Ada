@@ -56225,6 +56225,7 @@ var AppCreatecreenPlugin = {
 
                         vm.appClearResource();
                         progress.finish();
+                        vm.$emit('successfulcreate');
                         vm.fetchingData = false;
                     }, function (error) {
                         if (error.status && error.status === 422 && error.data) {
@@ -59672,7 +59673,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             fetchingData: true,
-            quickEditOptions: [{ text: 'Select Option', value: '' }, { text: 'Export', value: 'export' }, { text: 'Delete', value: 'delete' }],
+            quickEditOptions: [{ text: 'Select Option', value: '' }, { text: 'Activate', value: 'activate' }, { text: 'Deactivate', value: 'deactivate' }, { text: 'Export', value: 'export' }, { text: 'Delete', value: 'delete' }],
             quickEditOption: ''
         };
     },
@@ -60133,6 +60134,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -60346,12 +60353,45 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": function($event) {
         $event.preventDefault();
-        _vm.appChangeSort('name')
+        _vm.appChangeSort('first_name')
       }
     }
-  }, [_vm._v("Name "), _c('span', {
+  }, [_vm._v("First Name "), _c('span', {
     domProps: {
-      "innerHTML": _vm._s(_vm.appGetSortMarkup('name'))
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('first_name'))
+    }
+  })]), _vm._v(" "), _c('th', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.appChangeSort('last_name')
+      }
+    }
+  }, [_vm._v("Last Name "), _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('last_name'))
+    }
+  })]), _vm._v(" "), _c('th', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.appChangeSort('email')
+      }
+    }
+  }, [_vm._v("Email "), _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('email'))
+    }
+  })]), _vm._v(" "), _c('th', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.appChangeSort('active')
+      }
+    }
+  }, [_vm._v("Active "), _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('active'))
     }
   })]), _vm._v(" "), _c('th', {
     on: {
@@ -60402,12 +60442,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }), _vm._v(" "), _c('span', {
       staticClass: "custom-control-indicator"
-    })])]) : _vm._e(), _vm._v(" "), _c('td', {
-      attrs: {
-        "title": resource.description,
-        "data-toggle": "tooltip"
-      }
-    }, [_vm._v(_vm._s(resource.name))]), _vm._v(" "), _c('td', [_c('span', {
+    })])]) : _vm._e(), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.first_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.last_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.email))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.active ? 'Yes' : 'No'))]), _vm._v(" "), _c('td', [_c('span', {
       attrs: {
         "title": resource.updated_at,
         "data-toggle": "tooltip"
@@ -60548,6 +60583,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$nextTick(function () {
             this.goTime();
         });
+
+        this.$on('successfulcreate', function () {
+            this.clearDefaults();
+        });
     },
     data: function data() {
         return {
@@ -60577,7 +60616,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             progress.start();
             vm.appClearValidationErrors();
 
-            vm.$http.get(vm.appResourceUrl + '/create', vm.resource).then(function (response) {
+            vm.$http.get(vm.appResourceUrl + '/create').then(function (response) {
                 if (response.data && response.data.mailing_lists && response.data.mailing_lists.length) vm.mailing_lists = response.data.mailing_lists;
 
                 progress.finish();
@@ -60591,12 +60630,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         createResource: function createResource() {
             this.appCreateResource();
+        },
+        clearDefaults: function clearDefaults() {
+            this.selected_mailing_lists = [];
         }
     },
     watch: {
         'selected_mailing_lists': function selected_mailing_lists(newVal) {
             this.resource.mailing_lists = this.flattenedMLists;
         }
+
     }
 });
 
@@ -60922,15 +60965,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             fetchingData: true,
-            resource: { id: '', first_name: '', last_name: '', email: '', active: 1, created_at: '', updated_at: '', mailing_lists: [] }
+            resource: { id: '', first_name: '', last_name: '', email: '', active: null, created_at: '', updated_at: '', mailing_lists: [] }
         };
     },
 
     computed: {
         flattenedMLists: function flattenedMLists() {
-            return _.join(_.flatMapDeep(this.resource.mailing_lists, function (mList) {
+            return this.resource.mailing_lists.length ? _.join(_.flatMapDeep(this.resource.mailing_lists, function (mList) {
                 return mList.name;
-            }), ', ');
+            }), ', ') : '-';
         }
     },
     methods: {
@@ -61091,6 +61134,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -61101,17 +61167,57 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             fetchingData: true,
-            resource: { name: '', description: '' },
-            validationErrors: { name: '', description: '' },
-            listRoute: 'admin_mailing_lists.index',
-            moreOptions: [{ text: 'Select Option', value: '' }, { text: 'Delete Mailing List', value: 'delete' }],
+            resource: { first_name: '', last_name: '', email: '', active: '', mailing_lists: [] },
+            validationErrors: { first_name: '', last_name: '', email: '' },
+            mailing_lists: [],
+            selected_mailing_lists: [],
+            listRoute: 'admin_subscribers.index',
+            moreOptions: [{ text: 'Select Option', value: '' }, { text: 'Delete Subscriber', value: 'delete' }],
             moreOption: ''
         };
     },
 
+    computed: {
+        sortedMailingLists: function sortedMailingLists() {
+            return _.sortBy(this.mailing_lists, ['name']);
+        },
+        flattenedMLists: function flattenedMLists() {
+            return _.flatMapDeep(this.selected_mailing_lists, function (mList) {
+                return mList.id;
+            });
+        },
+        name: function name() {
+            return this.resource.first_name + ' ' + this.resource.last_name;
+        }
+    },
     methods: {
         getResource: function getResource() {
-            this.appGetResource();
+            var vm = this;
+            var progress = vm.$Progress;
+
+            progress.start();
+            vm.appClearValidationErrors();
+
+            vm.$http.get(vm.appResourceUrl + '/' + vm.id + '/edit').then(function (response) {
+                if (response.data) {
+                    if (response.data.mailing_lists && response.data.mailing_lists.length) vm.mailing_lists = response.data.mailing_lists;
+                    vm.resource = response.data.resource;
+
+                    if (vm.resource.mailing_lists) {
+                        _.forEach(vm.resource.mailing_lists, function (mailing_list) {
+                            vm.selected_mailing_lists.push({ id: mailing_list.id, name: mailing_list.name });
+                        });
+                    }
+                }
+
+                progress.finish();
+                vm.fetchingData = false;
+            }, function (error) {
+                if (error.status && error.status === 403 && error.data) vm.appCustomErrorAlert(error.data.error);else vm.appGeneralErrorAlert();
+
+                progress.fail();
+                vm.fetchingData = false;
+            });
         },
         updateResource: function updateResource() {
             this.appUpdateResource();
@@ -61131,6 +61237,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     });
                 }
             }
+        },
+
+        'selected_mailing_lists': function selected_mailing_lists(newVal) {
+            this.resource.mailing_lists = this.flattenedMLists;
         }
     }
 });
@@ -61148,7 +61258,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "mb-5"
   }, [_c('i', {
     staticClass: "fa fa-edit"
-  }), _vm._v(" " + _vm._s(_vm.resource.name) + "\n            ")]), _vm._v(" "), (!_vm.fetchingData) ? _c('form', {
+  }), _vm._v(" " + _vm._s(_vm.name) + "\n            ")]), _vm._v(" "), (!_vm.fetchingData) ? _c('form', {
     on: {
       "submit": function($event) {
         $event.preventDefault();
@@ -61160,33 +61270,33 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "col-md-4 form-control-label",
     attrs: {
-      "for": "name"
+      "for": "first_name"
     }
-  }, [_vm._v("Name")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("First Name")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-8"
   }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model.trim",
-      value: (_vm.resource.name),
-      expression: "resource.name",
+      value: (_vm.resource.first_name),
+      expression: "resource.first_name",
       modifiers: {
         "trim": true
       }
     }],
     staticClass: "form-control",
-    class: _vm.validationErrors.name ? 'is-invalid' : '',
+    class: _vm.validationErrors.first_name ? 'is-invalid' : '',
     attrs: {
       "type": "text",
-      "id": "name"
+      "id": "first_name"
     },
     domProps: {
-      "value": (_vm.resource.name)
+      "value": (_vm.resource.first_name)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.resource.name = $event.target.value.trim()
+        _vm.resource.first_name = $event.target.value.trim()
       },
       "blur": function($event) {
         _vm.$forceUpdate()
@@ -61194,38 +61304,38 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('small', {
     staticClass: "invalid-feedback"
-  }, [_vm._v("\n                            " + _vm._s(_vm.validationErrors.name) + "\n                        ")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n                            " + _vm._s(_vm.validationErrors.first_name) + "\n                        ")])])]), _vm._v(" "), _c('div', {
     staticClass: "form-group row"
   }, [_c('label', {
     staticClass: "col-md-4 form-control-label",
     attrs: {
-      "for": "description"
+      "for": "last_name"
     }
-  }, [_vm._v("Description")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Last Name")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-8"
-  }, [_c('textarea', {
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model.trim",
-      value: (_vm.resource.description),
-      expression: "resource.description",
+      value: (_vm.resource.last_name),
+      expression: "resource.last_name",
       modifiers: {
         "trim": true
       }
     }],
     staticClass: "form-control",
-    class: _vm.validationErrors.description ? 'is-invalid' : '',
+    class: _vm.validationErrors.last_name ? 'is-invalid' : '',
     attrs: {
-      "id": "description",
-      "rows": "4"
+      "type": "text",
+      "id": "last_name"
     },
     domProps: {
-      "value": (_vm.resource.description)
+      "value": (_vm.resource.last_name)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.resource.description = $event.target.value.trim()
+        _vm.resource.last_name = $event.target.value.trim()
       },
       "blur": function($event) {
         _vm.$forceUpdate()
@@ -61233,7 +61343,108 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('small', {
     staticClass: "invalid-feedback"
-  }, [_vm._v("\n                            " + _vm._s(_vm.validationErrors.description) + "\n                        ")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n                            " + _vm._s(_vm.validationErrors.last_name) + "\n                        ")])])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group row"
+  }, [_c('label', {
+    staticClass: "col-md-4 form-control-label",
+    attrs: {
+      "for": "email"
+    }
+  }, [_vm._v("Email")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-8"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: (_vm.resource.email),
+      expression: "resource.email",
+      modifiers: {
+        "trim": true
+      }
+    }],
+    staticClass: "form-control",
+    class: _vm.validationErrors.email ? 'is-invalid' : '',
+    attrs: {
+      "type": "text",
+      "id": "email"
+    },
+    domProps: {
+      "value": (_vm.resource.email)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.resource.email = $event.target.value.trim()
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  }), _vm._v(" "), _c('small', {
+    staticClass: "invalid-feedback"
+  }, [_vm._v("\n                            " + _vm._s(_vm.validationErrors.email) + "\n                        ")])])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group row checkbox"
+  }, [_c('div', {
+    staticClass: "col-md-8 ml-md-auto"
+  }, [_c('label', {
+    staticClass: "custom-control custom-checkbox"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.resource.active),
+      expression: "resource.active"
+    }],
+    staticClass: "custom-control-input",
+    attrs: {
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.resource.active) ? _vm._i(_vm.resource.active, null) > -1 : (_vm.resource.active)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.resource.active,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.resource.active = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.resource.active = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.resource.active = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('span', {
+    staticClass: "custom-control-indicator"
+  }), _vm._v(" "), _c('span', {
+    staticClass: "custom-control-description"
+  }, [_vm._v("Active")])])])]), _vm._v(" "), (_vm.mailing_lists.length) ? _c('div', {
+    staticClass: "form-group row"
+  }, [_c('label', {
+    staticClass: "col-md-4 form-control-label"
+  }, [_vm._v("Mailing Lists")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-8"
+  }, [_c('v-select', {
+    attrs: {
+      "options": _vm.sortedMailingLists,
+      "label": "name",
+      "placeholder": "No Mailing Lists",
+      "multiple": ""
+    },
+    model: {
+      value: (_vm.selected_mailing_lists),
+      callback: function($$v) {
+        _vm.selected_mailing_lists = $$v
+      },
+      expression: "selected_mailing_lists"
+    }
+  })], 1)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "form-group row"
   }, [_c('div', {
     staticClass: "col-md-8 ml-md-auto"

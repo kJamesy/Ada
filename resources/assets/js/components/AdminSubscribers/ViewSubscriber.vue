@@ -56,14 +56,16 @@
         data() {
             return {
                 fetchingData: true,
-                resource: {id: '', first_name: '', last_name: '', email: '', active: 1, created_at: '', updated_at: '', mailing_lists: []}
+                resource: {id: '', first_name: '', last_name: '', email: '', active: null, created_at: '', updated_at: '', mailing_lists: []}
             }
         },
         computed: {
             flattenedMLists() {
-                return _.join(_.flatMapDeep(this.resource.mailing_lists, function(mList) {
-                    return mList.name;
-                }), ', ');
+                return this.resource.mailing_lists.length
+                    ? _.join(_.flatMapDeep(this.resource.mailing_lists, function(mList) {
+                        return mList.name;
+                    }), ', ')
+                    : '-';
             }
         },
         methods: {

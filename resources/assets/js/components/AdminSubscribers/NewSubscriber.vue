@@ -67,6 +67,10 @@
             this.$nextTick(function() {
                 this.goTime();
             });
+
+            this.$on('successfulcreate', function () {
+               this.clearDefaults();
+            });
         },
         data() {
             return {
@@ -95,12 +99,13 @@
                 progress.start();
                 vm.appClearValidationErrors();
 
-                vm.$http.get(vm.appResourceUrl + '/create', vm.resource).then(function(response) {
+                vm.$http.get(vm.appResourceUrl + '/create').then(function(response) {
                     if ( response.data && response.data.mailing_lists && response.data.mailing_lists.length )
                         vm.mailing_lists = response.data.mailing_lists;
 
                     progress.finish();
                     vm.fetchingData = false;
+
                 }, function(error) {
                     if ( error.status && error.status === 403 && error.data )
                         vm.appCustomErrorAlert(error.data.error);
@@ -114,11 +119,15 @@
             createResource() {
                 this.appCreateResource();
             },
+            clearDefaults() {
+                this.selected_mailing_lists = [];
+            }
         },
         watch: {
             'selected_mailing_lists': function(newVal) {
                 this.resource.mailing_lists = this.flattenedMLists;
-            }
+            },
+
         }
     }
 </script>

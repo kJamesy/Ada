@@ -41,7 +41,10 @@
                                         <span class="custom-control-indicator"></span>
                                     </label>
                                 </th>
-                                <th v-on:click.prevent="appChangeSort('name')">Name <span v-html="appGetSortMarkup('name')"></span></th>
+                                <th v-on:click.prevent="appChangeSort('first_name')">First Name <span v-html="appGetSortMarkup('first_name')"></span></th>
+                                <th v-on:click.prevent="appChangeSort('last_name')">Last Name <span v-html="appGetSortMarkup('last_name')"></span></th>
+                                <th v-on:click.prevent="appChangeSort('email')">Email <span v-html="appGetSortMarkup('email')"></span></th>
+                                <th v-on:click.prevent="appChangeSort('active')">Active <span v-html="appGetSortMarkup('active')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('updated_at')" >Deleted <span v-html="appGetSortMarkup('updated_at')"></span></th>
                             </tr>
                             </thead>
@@ -53,7 +56,10 @@
                                         <span class="custom-control-indicator"></span>
                                     </label>
                                 </td>
-                                <td v-bind:title="resource.description" data-toggle="tooltip">{{ resource.name }}</td>
+                                <td>{{ resource.first_name }}</td>
+                                <td>{{ resource.last_name }}</td>
+                                <td>{{ resource.email }}</td>
+                                <td>{{ resource.active ? 'Yes' : 'No' }}</td>
                                 <td><span v-bind:title="resource.updated_at" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
                             </tr>
                         </tbody>

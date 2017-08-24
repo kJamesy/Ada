@@ -181,7 +181,7 @@ class MailingListController extends Controller
 	}
 
 	/**
-	 * Destroy the specified resource
+	 * Delete/destroy the specified resource
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
@@ -247,7 +247,7 @@ class MailingListController extends Controller
 						$string = $successNum == 1 ? $this->friendlyName : $this->friendlyNamePlural;
 						$successNum = $successNum ?: 'No';
 
-						if ( $update == 'delete ')
+						if ( $update == 'delete')
 							$update = 'moved to trash';
 						else if ( $update == 'destroy')
 							$update = 'permanently deleted';
@@ -281,7 +281,7 @@ class MailingListController extends Controller
 			$resourceIds = (array) $request->resourceIds;
 			$fileName = '';
 
-			$deleted = (int) $request->trash;
+			$deleted = $request->has('trash') ? (int) $request->trash : -1;
 
 			$resources = MailingList::getResources($resourceIds, $deleted);
 			$fileName .= count($resourceIds) ? 'Specified-Items-' : 'All-Items-';
