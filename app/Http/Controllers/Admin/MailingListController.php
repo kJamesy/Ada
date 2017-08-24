@@ -32,7 +32,7 @@ class MailingListController extends Controller
 		$this->redirect = route('admin.home');
 		$this->rules = MailingList::$rules;
 		$this->perPage = 25;
-		$this->orderByFields = ['name', 'created_at', 'updated_at'];
+		$this->orderByFields = ['name', 'subscribers_count', 'created_at', 'updated_at'];
 		$this->orderCriteria = ['asc', 'desc'];
 		$this->settingsKey = 'mailing_lists';
 		$this->policies = UserPermissions::getPolicies();

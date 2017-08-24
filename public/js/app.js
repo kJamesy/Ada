@@ -57904,6 +57904,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -58127,6 +58129,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": function($event) {
         $event.preventDefault();
+        _vm.appChangeSort('subscribers_count')
+      }
+    }
+  }, [_vm._v("Subscribers "), _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('subscribers_count'))
+    }
+  })]), _vm._v(" "), _c('th', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
         _vm.appChangeSort('updated_at')
       }
     }
@@ -58177,7 +58190,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "title": resource.description,
         "data-toggle": "tooltip"
       }
-    }, [_vm._v(_vm._s(resource.name))]), _vm._v(" "), _c('td', [_c('span', {
+    }, [_vm._v(_vm._s(resource.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.subscribers_count))]), _vm._v(" "), _c('td', [_c('span', {
       attrs: {
         "title": resource.updated_at,
         "data-toggle": "tooltip"
@@ -58274,6 +58287,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -58573,6 +58588,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": function($event) {
         $event.preventDefault();
+        _vm.appChangeSort('subscribers_count')
+      }
+    }
+  }, [_vm._v("Subscribers "), _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('subscribers_count'))
+    }
+  })]), _vm._v(" "), _c('th', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
         _vm.appChangeSort('updated_at')
       }
     }
@@ -58623,7 +58649,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "title": resource.description,
         "data-toggle": "tooltip"
       }
-    }, [_vm._v(_vm._s(resource.name))]), _vm._v(" "), _c('td', [_c('span', {
+    }, [_vm._v(_vm._s(resource.name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.subscribers_count))]), _vm._v(" "), _c('td', [_c('span', {
       attrs: {
         "title": resource.updated_at,
         "data-toggle": "tooltip"

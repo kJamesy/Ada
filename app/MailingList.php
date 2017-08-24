@@ -77,7 +77,9 @@ class MailingList extends Model
 	 */
 	public static function getResources($selected = [], $deleted = 0, $orderBy = 'updated_at', $order = 'desc', $paginate = null)
 	{
-		$query = static::with([]);
+		$query = static::withCount(['subscribers' => function($query) {
+			$query->isNotDeleted();
+		}]);
 
 		if ( count($selected) )
 			$query->whereIn('id', $selected);

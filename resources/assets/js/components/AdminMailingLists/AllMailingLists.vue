@@ -42,6 +42,7 @@
                                     </label>
                                 </th>
                                 <th v-on:click.prevent="appChangeSort('name')">Name <span v-html="appGetSortMarkup('name')"></span></th>
+                                <th v-on:click.prevent="appChangeSort('subscribers_count')">Subscribers <span v-html="appGetSortMarkup('subscribers_count')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('updated_at')" >Updated <span v-html="appGetSortMarkup('updated_at')"></span></th>
                                 <th v-if="appUserHasPermission('update')"></th>
                             </tr>
@@ -55,6 +56,7 @@
                                     </label>
                                 </td>
                                 <td v-bind:title="resource.description" data-toggle="tooltip">{{ resource.name }}</td>
+                                <td>{{ resource.subscribers_count }}</td>
                                 <td><span v-bind:title="resource.updated_at" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
                                 <td v-if="appUserHasPermission('read')">
                                     <router-link v-bind:to="{ name: 'admin_mailing_lists.view', params: { id: resource.id }}" class="btn btn-sm btn-outline-primary"><i class="fa fa-eye"></i></router-link>
