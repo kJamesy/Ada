@@ -8,39 +8,9 @@
 }
 
 .sweet-alert, .sweet-alert button, .custom-checkbox .custom-control-indicator {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
+  @include border_radius_none;
 }
 
-.v-select {
-  .dropdown-toggle {
-    //padding-left: 5px !important;
-    //padding-right: 5px !important;
-    background: none !important;
-    border: 0 !important;
-    -webkit-border-radius: 0 !important;
-    -moz-border-radius: 0 !important;
-    border-radius: 0 !important;
-    white-space: normal !important;
-
-    //&:focus {
-    //  color: #495057 !important;
-    //  background-color: #FFF !important;
-    //  border-color: #0D98FA !important;
-    //  outline: none !important;
-    //}
-
-    input[type="search"] {
-      border: 1px solid rgba(0, 0, 0, .15) !important;
-
-      &:focus {
-        //border: 1px solid #0D98FA !important;
-        //color: #495057 !important;
-      }
-    }
-  }
-}
 .dropdown-menu {
   margin: 0.4rem 0 0;
 }
