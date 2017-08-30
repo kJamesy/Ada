@@ -3,13 +3,31 @@
         <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
         <div v-if="! fetchingData && appResourceCount">
             <div v-if="appUserHasPermission('read')">
-                <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right"><i class="fa fa-arrow-circle-o-down"></i></a>
+                <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right" title="Export All" data-toggle="tooltip"><i class="fa fa-arrow-circle-o-down"></i></a>
                 <div class="clearfix mb-2"></div>
-                <form v-on:submit.prevent="appDoSearch">
-                    <div class="form-group">
-                        <input type="text" v-model.trim="appSearchText" placeholder="Search" class="form-control" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <form v-on:submit.prevent="appDoSearch">
+                            <div class="form-group">
+                                <input type="text" v-model.trim="appSearchText" placeholder="Search" class="form-control" />
+                            </div>
+                        </form>
                     </div>
-                </form>
+                    <div class="col-md-6 mt-4 mt-md-0">
+                        <form class="form-inline pull-right">
+                            <label class="form-control-label mr-sm-2" for="mailing_lists">
+                                Mailing List
+                            </label>
+                            <select class="custom-select form-control" v-model="mailingList" id="mailing_lists">
+                                <option value="0">(All)</option>
+                                <option v-for="mList in mailingLists" v-bind:value="mList.id">
+                                    {{ mList.name }}
+                                </option>
+                                <option value="-1">(Unattached)</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
                 <div class="mt-4 mb-4">
                     <form class="form-inline pull-left" v-if="appSelectedResources.length">
                         <label class="form-control-label mr-sm-2" for="quick-edit">Options</label>
@@ -68,11 +86,38 @@
                             </tr>
                         </tbody>
                     </table>
+
                 </div>
 
                 <pagination :pagination="appPagination" :callback="fetchResources" :options="appPaginationOptions"></pagination>
                 <div class="mt-3 mb-3">
                     Page {{ appPagination.current_page }} of {{ appPagination.last_page }} [{{ appPagination.total }} items]
+                </div>
+                <div class="modal fade" id="attachModal">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Attach Subscribers to Mailing List</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form v-on:submit.prevent="attachToMailingList">
+                                    <label class="form-control-label mr-sm-2" for="attach_to_mailing_list">
+                                        Select Mailing List
+                                    </label>
+                                    <select class="custom-select form-control" v-model="attachTo" id="attach_to_mailing_list">
+                                        <option value="0" disabled>(None)</option>
+                                        <option v-for="mList in mailingLists" v-bind:value="mList.id" v-if="mList.id !== mailingList">
+                                            {{ mList.name }}
+                                        </option>
+                                    </select>
+                                    <button class="btn btn-primary mt-3" v-bind:disabled="! allowAttaching()">Attach</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div v-if="! appUserHasPermission('read')">
@@ -82,9 +127,10 @@
         <div v-if="! fetchingData && ! appResourceCount" class="mt-5">
             No items found
         </div>
-        <div class="mt-3 mb-3 font-italic text-right" v-if="! fetchingData && appDeletedNum">
+        <div class="mt-3 mb-3 font-italic text-right" v-if="! fetchingData && appDeletedNum && ! parseInt(belongingTo)">
             <router-link v-bind:to="{ name: 'admin_subscribers.trash'}" class="btn btn-link"><i class="fa fa-trash"></i> Deleted Items ({{ appDeletedNum }})</router-link>
         </div>
+
     </div>
 </template>
 
@@ -94,7 +140,9 @@
             this.$nextTick(function() {
                 this.appInitialiseSettings();
                 this.appInitialiseTooltip();
+                this.belongingTo = this.appBelongingToOrUnattached;
                 this.fetchResources();
+                this.applyListeners();
             });
         },
         data() {
@@ -104,10 +152,14 @@
                     { text: 'Select Option', value: '' },
                     { text: 'Activate', value: 'activate' },
                     { text: 'Deactivate', value: 'deactivate' },
+                    { text: 'Attach to Mailing List', value: 'attach' },
+                    { text: 'Detach from All Mailing Lists', value: 'detach' },
                     { text: 'Export', value: 'export' },
                     { text: 'Delete', value: 'delete' }
                 ],
-                quickEditOption: '',
+                mailingList: 0,
+                mailingLists: [],
+                attachTo: 0
             }
         },
         methods: {
@@ -120,6 +172,67 @@
             exportAll() {
                 this.appExportAll();
             },
+            setOtherData() {
+                let vm = this;
+                if ( typeof vm.appFetchResponse !== 'undefined' ) {
+                    let response = vm.appFetchResponse;
+
+                    if ( response.data.mailingLists )
+                        vm.mailingLists = response.data.mailingLists;
+                    if ( response.data.mailingList )
+                        vm.mailingList = response.data.mailingList.id;
+                    else if ( vm.appUnattached )
+                        vm.mailingList = -1;
+                }
+            },
+            selectAttachableMailingList() {
+                let vm = this;
+
+                $('#attachModal').modal('show');
+
+                $('#attachModal').on('hidden.bs.modal', function(e) {
+                    vm.attachTo = 0;
+                    vm.appQuickEditOption = '';
+                });
+            },
+            attachToMailingList() {
+                let vm = this;
+                let current = parseInt(vm.mailingList);
+                let selected = parseInt(vm.attachTo);
+
+                if ( selected ) {
+                    if ( selected !== current ) {
+                        $('#attachModal').modal('hide');
+                        vm.quickEditResources();
+                    }
+                }
+            },
+            allowAttaching() {
+                return ( parseInt(this.attachTo) && (parseInt(this.attachTo) !== parseInt(this.mailingList)) );
+            },
+            applyListeners() {
+                let vm = this;
+
+                vm.$on('successfulfetch', function () {
+                    vm.setOtherData();
+                });
+
+                vm.$on('attaching', function () {
+                    vm.selectAttachableMailingList();
+                });
+            }
+        },
+        watch: {
+            mailingList(newVal) {
+                let vm = this;
+
+                if ( parseInt(newVal) > 0 )
+                    vm.$router.push({ name: 'admin_subscribers.list', params: {mListId: parseInt(newVal)} });
+                else if ( parseInt(newVal) === -1 )
+                    vm.$router.push({ name: 'admin_subscribers.unattached' });
+                else
+                    vm.$router.push({ name: 'admin_subscribers.index' });
+            }
         },
     }
 </script>

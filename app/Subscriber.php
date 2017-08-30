@@ -77,6 +77,29 @@ class Subscriber extends Model
 	}
 
 	/**
+	 * Scope for subscribers in a given mailing list
+	 * @param $query
+	 * @param $mListId
+	 * @return mixed
+	 */
+	public function scopeInMailingList($query, $mListId)
+	{
+		return $query->whereHas('mailing_lists', function($query) use ($mListId) {
+			$query->where('id', $mListId);
+		});
+	}
+
+	/**
+	 * Scope for subscribers not attached to any mailing list
+	 * @param $query
+	 * @return mixed
+	 */
+	public function scopeIsUnattached($query)
+	{
+		return $query->whereDoesntHave('mailing_lists');
+	}
+
+	/**
 	 * Find resource by id
 	 * @param $id
 	 * @return mixed
@@ -88,6 +111,8 @@ class Subscriber extends Model
 
 	/**
 	 * Get all resources
+	 *
+	 * @param int $mListId
 	 * @param array $selected
 	 * @param int $deleted
 	 * @param string $orderBy
@@ -96,9 +121,14 @@ class Subscriber extends Model
 	 *
 	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection|static[]
 	 */
-	public static function getResources($selected = [], $deleted = 0, $orderBy = 'updated_at', $order = 'desc', $paginate = null)
+	public static function getResources( $mListId = 0, $selected = [], $deleted = 0, $orderBy = 'updated_at', $order = 'desc', $paginate = null)
 	{
 		$query = static::with([]);
+
+		if ( $mListId === -1 )
+			$query->isUnattached();
+		elseif ( $mListId )
+			$query->inMailingList($mListId);
 
 		if ( count($selected) )
 			$query->whereIn('id', $selected);
@@ -115,14 +145,21 @@ class Subscriber extends Model
 
 	/**
 	 * Get search results
+	 *
 	 * @param $search
+	 * @param int $mListId
+	 * @param int $deleted
 	 * @param int $paginate
-	 * @param array $except
+	 *
 	 * @return mixed
+	 * @internal param array $except
 	 */
-	public static function getSearchResults($search, $deleted = 0, $paginate = 25)
+	public static function getSearchResults($search, $mListId = 0, $deleted = 0, $paginate = 25)
 	{
 		$query = static::whereIn('id', static::search($search)->get()->pluck('id'));
+
+		if ( $mListId )
+			$query->inMailingList($mListId);
 
 		if ( (int) $deleted == 1 )
 			$query->isDeleted();

@@ -105,6 +105,8 @@ if ( $('#admin-mailing-lists-app').length ) {
  */
 import AdminSubscribers from './components/AdminSubscribers/AdminSubscribers.vue';
 import AdminSubscribersAll from './components/AdminSubscribers/AllSubscribers.vue';
+import AdminSubscribersList from './components/AdminSubscribers/AllSubscribers.vue';
+import AdminSubscribersUnattached from './components/AdminSubscribers/AllSubscribers.vue';
 import AdminSubscribersTrash from './components/AdminSubscribers/TrashSubscribers.vue';
 import AdminSubscribersNew from './components/AdminSubscribers/NewSubscriber.vue';
 import AdminSubscribersView from './components/AdminSubscribers/ViewSubscriber.vue';
@@ -117,6 +119,8 @@ if ( $('#admin-subscribers-app').length ) {
         linkActiveClass: 'active',
         routes: [
             { path: '/', name: 'admin_subscribers.index', component: AdminSubscribersAll },
+            { path: '/:mListId(\\d+)/in-mailing-list', name: 'admin_subscribers.list', component: AdminSubscribersList},
+            { path: '/unattached', name: 'admin_subscribers.unattached', component: AdminSubscribersUnattached},
             { path: '/trash', name: 'admin_subscribers.trash', component: AdminSubscribersTrash },
             { path: '/create', name: 'admin_subscribers.create', component: AdminSubscribersNew },
             { path: '/:id(\\d+)/view', name: 'admin_subscribers.view', component: AdminSubscribersView },

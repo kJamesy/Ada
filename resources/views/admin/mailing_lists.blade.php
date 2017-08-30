@@ -9,6 +9,7 @@
         window.links = {
             home: '{{ route('settings.index') }}',
             base: '{{ explode( $_SERVER['SERVER_NAME'], route('mailing-lists.index'))[1] }}',
+            admin: '{{ rtrim(route('admin.home'), '/') }}'
         }
     </script>
 @endsection

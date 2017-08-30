@@ -13,11 +13,13 @@ const AppListScreenPlugin = {
                 return {
                     appResourceUrl: window.links.base ? links.base : '',
                     appUserHome: window.links.home ? links.home : '',
+                    appAdminHome: window.links.admin ? links.admin : '',
                     appUser: window.user ? user : {},
                     appPermissions: window.permissions ? permissions : {},
                     appPermissionsKey: window.permissionsKey ? permissionsKey : '',
                     appSettings: window.settings ? settings : {},
                     appSettingsKey: window.settingsKey ? settingsKey : '',
+                    appFetchResponse: {},
                     appResources: [],
                     appDeletedNum: 0,
                     appOrderAttr: 'updated_at',
@@ -57,6 +59,20 @@ const AppListScreenPlugin = {
                     set(value) {
                         this.appSelectedResources = value ? this.appResourcesIds : [];
                     }
+                },
+                appBelongingToMList() {
+                    return this.$route.params.mListId ? this.$route.params.mListId: 0;
+                },
+                appUnattached() {
+                    return _.includes(this.$route.path, 'unattached');
+                },
+                appBelongingToOrUnattached() {
+                    if ( this.appBelongingToMList )
+                       return this.$route.params.mListId;
+                    else if ( this.appUnattached )
+                        return -1;
+                    else
+                        return 0;
                 }
             },
             methods: {
@@ -66,13 +82,15 @@ const AppListScreenPlugin = {
                     let orderToggle2 = orderToggle ? orderToggle : vm.appOrderToggle;
                     let lastPage = _.ceil(vm.appPagination.total / vm.appPagination.per_page);
                     let trash = (typeof vm.trash === 'undefined') ? 0 : vm.trash;
+                    let belongingTo = (typeof vm.belongingTo === 'undefined') ? 0 : vm.belongingTo;
 
                     let params = {
                         perPage: vm.appPagination.per_page,
                         page: ( lastPage < vm.appPagination.last_page ) ? 1 : vm.appPagination.current_page,
                         orderBy: orderBy,
                         order: ( orderToggle2 === 1 ) ? 'asc' : 'desc',
-                        trash: trash
+                        trash: trash,
+                        belongingTo: belongingTo
                     };
 
                     if ( vm.appSearchText.length )
@@ -106,6 +124,9 @@ const AppListScreenPlugin = {
                             });
 
                             vm.appUpdateSettings();
+
+                            vm.appFetchResponse = response;
+                            vm.$emit('successfulfetch');
 
                             progress.finish();
                             vm.fetchingData = false;
@@ -175,9 +196,11 @@ const AppListScreenPlugin = {
                             window.location = vm.appResourceUrl + '/export' + urlString;
                         }
                         else {
+                            let attachTo = (typeof vm.attachTo === 'undefined') ? 0 : vm.attachTo;
+
                             progress.start();
 
-                            vm.$http.put(vm.appResourceUrl + '/' + action + '/quick-update', {resources: selected}).then(function (response) {
+                            vm.$http.put(vm.appResourceUrl + '/' + action + '/quick-update', {resources: selected, attachTo: attachTo}).then(function (response) {
                                 if (response.data && response.data.success) {
                                     progress.finish();
 
@@ -209,7 +232,9 @@ const AppListScreenPlugin = {
                 appExportAll() {
                     let vm = this;
                     let trash = (typeof vm.trash === 'undefined') ? 0 : vm.trash;
-                    window.location = vm.appResourceUrl + '/export?trash=' + trash;
+                    let belongingTo = (typeof vm.belongingTo === 'undefined') ? 0 : vm.belongingTo;
+
+                    window.location = vm.appResourceUrl + '/export?trash=' + trash + '&belongingTo=' + belongingTo;
                 },
                 appInitialiseSettings() {
                     let vm = this;
@@ -386,19 +411,24 @@ const AppListScreenPlugin = {
                     let num = vm.appSelectedResources.length;
 
                     if ( action.length && num ) {
-                        let records = num === 1 ? 'record' : 'records';
+                        if ( action === 'attach' )
+                            vm.$emit('attaching');
 
-                        swal({
-                            title: _.capitalize(action) + ' ' + num + ' ' + records + '?',
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonText: _.capitalize(action),
-                        }, function(confirmed) {
-                            if ( confirmed && typeof vm.quickEditResources === 'function' )
-                                vm.quickEditResources();
-                            else
-                                vm.appQuickEditOption = '';
-                        });
+                        else {
+                            let records = num === 1 ? 'record' : 'records';
+
+                            swal({
+                                title: _.capitalize(action) + ' ' + num + ' ' + records + '?',
+                                type: "warning",
+                                showCancelButton: true,
+                                confirmButtonText: _.capitalize(action),
+                            }, function (confirmed) {
+                                if (confirmed && typeof vm.quickEditResources === 'function')
+                                    vm.quickEditResources();
+                                else
+                                    vm.appQuickEditOption = '';
+                            });
+                        }
                     }
                 },
                 appSearchText(newVal, oldVal) {

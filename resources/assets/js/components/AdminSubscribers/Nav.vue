@@ -4,6 +4,14 @@
             <router-link v-bind:to="{ name: 'admin_subscribers.index' }" tag="a" class="nav-link" exact><i class="fa fa-home"></i>
                 All Subscribers</router-link>
         </li>
+        <li class="nav-item" v-if="appUserHasPermission('read') && appBelongingToMList">
+            <router-link v-bind:to="{ name: 'admin_subscribers.list', params: { mListId: appBelongingToMList } }" tag="a" class="nav-link" exact><i class="fa fa-folder-open"></i>
+                Subscribers in Mailing List</router-link>
+        </li>
+        <li class="nav-item" v-if="appUserHasPermission('read') && appUnattached">
+            <router-link v-bind:to="{ name: 'admin_subscribers.unattached'}" tag="a" class="nav-link" exact><i class="fa fa-exclamation-circle"></i>
+                Unattached Subscribers</router-link>
+        </li>
         <li class="nav-item" v-if="appUserHasPermission('read') && appIsTrashPage()"> <!-- ! appCurrentRouteIdParam -->
             <router-link v-bind:to="{ name: 'admin_subscribers.trash' }" tag="a" class="nav-link" exact><i class="fa fa-trash"></i>
                 Deleted Subscribers</router-link>

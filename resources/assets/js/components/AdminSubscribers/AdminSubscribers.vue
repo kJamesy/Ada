@@ -2,7 +2,7 @@
     <div class="ml-md-5">
         <vue-progress-bar></vue-progress-bar>
         <app-nav></app-nav>
-        <router-view></router-view>
+        <router-view v-bind:key="$route.fullPath"></router-view>
     </div>
 </template>
 

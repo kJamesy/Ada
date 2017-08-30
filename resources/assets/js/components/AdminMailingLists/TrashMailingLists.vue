@@ -3,7 +3,7 @@
         <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
         <div v-if="! fetchingData && appResourceCount">
             <div v-if="appUserHasPermission('read')">
-                <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right"><i class="fa fa-arrow-circle-o-down"></i></a>
+                <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right" title="Export All" data-toggle="tooltip"><i class="fa fa-arrow-circle-o-down"></i></a>
                 <div class="clearfix mb-2"></div>
                 <form v-on:submit.prevent="appDoSearch">
                     <div class="form-group">

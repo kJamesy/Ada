@@ -3,7 +3,7 @@
         <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
         <div v-if="! fetchingData && appResourceCount">
             <div v-if="appUserHasPermission('read')">
-                <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right"><i class="fa fa-arrow-circle-o-down"></i></a>
+                <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right" title="Export All" data-toggle="tooltip"><i class="fa fa-arrow-circle-o-down"></i></a>
                 <div class="clearfix mb-2"></div>
                 <form v-on:submit.prevent="appDoSearch">
                     <div class="form-group">
@@ -56,7 +56,11 @@
                                     </label>
                                 </td>
                                 <td v-bind:title="resource.description" data-toggle="tooltip">{{ resource.name }}</td>
-                                <td>{{ resource.subscribers_count }}</td>
+                                <td>
+                                    <a v-bind:class="! parseInt(resource.subscribers_count) ? 'disabled' : ''" v-bind:href="getSubscribersInMListLink(resource.id)" class="btn btn-link">
+                                        {{ resource.subscribers_count }}
+                                    </a>
+                                </td>
                                 <td><span v-bind:title="resource.updated_at" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
                                 <td v-if="appUserHasPermission('read')">
                                     <router-link v-bind:to="{ name: 'admin_mailing_lists.view', params: { id: resource.id }}" class="btn btn-sm btn-outline-primary"><i class="fa fa-eye"></i></router-link>
@@ -113,6 +117,9 @@
             },
             exportAll() {
                 this.appExportAll();
+            },
+            getSubscribersInMListLink(mList) {
+                return this.appAdminHome + '/subscribers/' + mList + '/in-mailing-list';
             },
         },
     }

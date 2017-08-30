@@ -63,16 +63,19 @@ class SubscriberController extends Controller
 			}
 			else {
 				$settings = UserSettings::getSettings($user->id, $this->settingsKey, $orderBy, $order, $perPage, true);
+				$belongingTo = (int) $request->belongingTo;
 				$search = strtolower($request->search);
 
 				$resources = $search
-					? Subscriber::getSearchResults($search, $deleted, $settings["{$this->settingsKey}_per_page"])
-					: Subscriber::getResources([], $deleted, $settings["{$this->settingsKey}_order_by"], $settings["{$this->settingsKey}_order"], $settings["{$this->settingsKey}_per_page"]);
+					? Subscriber::getSearchResults($search, $belongingTo, $deleted, $settings["{$this->settingsKey}_per_page"] )
+					: Subscriber::getResources($belongingTo, [], $deleted, $settings["{$this->settingsKey}_order_by"], $settings["{$this->settingsKey}_order"], $settings["{$this->settingsKey}_per_page"] );
 
 				$deletedNum = Subscriber::getCount(1);
+				$mailingList = $belongingTo ? MailingList::findResource($belongingTo) : null;
+				$mailingLists = MailingList::getAttachableResources();
 
 				if ( $resources->count() )
-					return response()->json(compact('resources', 'deletedNum'));
+					return response()->json(compact('resources', 'deletedNum', 'mailingList', 'mailingLists'));
 				else
 					return response()->json(['error' => "No $this->friendlyNamePlural found", 'deletedNum' => $deletedNum], 404);
 			}
@@ -256,7 +259,8 @@ class SubscriberController extends Controller
 
 			if ( $selectedNum ) {
 				try {
-					$resources = Subscriber::getResources($resourceIds, -1)->pluck('id')->toArray();
+					$resources = Subscriber::getResources(0, $resourceIds, - 1 )->pluck('id')->toArray();
+					$attachTo = (int) $request->attachTo;
 					$successNum = 0;
 
 					if ( $resources ) {
@@ -266,6 +270,29 @@ class SubscriberController extends Controller
 								break;
 							case 'deactivate':
 								$successNum = Subscriber::doBulkActions($resources, 'deactivate');
+								break;
+							case 'attach':
+								if ( $attachTo ) {
+									foreach( $resources as $resourceId ) {
+										$sub = Subscriber::findResource($resourceId);
+
+										if ( ! in_array($attachTo, $sub->mailing_lists->pluck('id')->toArray()) ) {
+											$sub->mailing_lists()->attach($attachTo);
+											$sub->touch();
+										}
+
+										$successNum++;
+									}
+								}
+								break;
+							case 'detach':
+								foreach( $resources as $resourceId ) {
+									$sub = Subscriber::findResource($resourceId);
+									$sub->mailing_lists()->detach();
+									$sub->touch();
+
+									$successNum++;
+								}
 								break;
 							case 'delete':
 								$successNum = Subscriber::doBulkActions($resources, 'delete');
@@ -286,6 +313,10 @@ class SubscriberController extends Controller
 							$update = 'moved to trash';
 						else if ( $update == 'destroy')
 							$update = 'permanently deleted';
+						else if ( $update == 'attach')
+							$update = 'attached to mailing list';
+						else if ( $update == 'detach')
+							$update = 'detached from all mailing lists';
 						else
 							$update = "{$update}d";
 
@@ -316,11 +347,12 @@ class SubscriberController extends Controller
 			$resourceIds = (array) $request->resourceIds;
 			$fileName = '';
 
+			$belongingTo = (int) $request->belongingTo;
 			$deleted = $request->has('trash') ? (int) $request->trash : -1;
 
-			$resources = Subscriber::getResources($resourceIds, $deleted);
+			$resources = Subscriber::getResources($belongingTo, $resourceIds, $deleted );
 
-			$fileName .= count($resourceIds) ? 'Specified-Items-' : 'All-Items-';
+			$fileName .= count($resourceIds) || $belongingTo ? 'Specified-Items-' : 'All-Items-';
 			$fileName .= Carbon::now()->toDateString();
 
 			$exporter = new ResourceExporter($resources, $fileName);
