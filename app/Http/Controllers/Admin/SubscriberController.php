@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exporters\ResourceExporter;
+use App\Importers\ResourceImporter;
 use App\MailingList;
 use App\Permissions\UserPermissions;
 use App\Settings\UserSettings;
@@ -24,6 +25,9 @@ class SubscriberController extends Controller
 	protected $permissionsKey;
 	protected $friendlyName;
 	protected $friendlyNamePlural;
+	protected $allowedFileExts;
+	protected $excelImportColumns;
+	protected $uploadStoragePath;
 
 	/**
 	 * SubscriberController constructor.
@@ -41,6 +45,9 @@ class SubscriberController extends Controller
 		$this->permissionsKey = UserPermissions::getModelShortName($this->policyOwnerClass);
 		$this->friendlyName = 'Subscriber';
 		$this->friendlyNamePlural = 'Subscribers';
+		$this->allowedFileExts = ['xlt', 'xls', 'csv'];
+		$this->excelImportColumns = ['first_name' => 'first_name', 'last_name' => 'last_name', 'email' => 'email'];
+		$this->uploadStoragePath = storage_path('app/uploads');
 	}
 
 	/**
@@ -111,6 +118,9 @@ class SubscriberController extends Controller
     public function store(Request $request)
     {
 	    if ( $request->user()->can('create', $this->policyOwnerClass) ) {
+		    if ( $request->has('importing') && $request->importing )
+		    	return $this->handleImport($request);
+
 		    $this->validate($request, $this->rules);
 
 		    $resource = new Subscriber();
@@ -128,6 +138,115 @@ class SubscriberController extends Controller
 
 	    return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
     }
+
+	/**
+	 * Process import
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+    public function handleImport(Request $request)
+    {
+	    if ( $request->has('finalising') && $request->finalising )
+		    return $this->finaliseImport($request);
+
+	    $file = $request->file('upload');
+
+	    if ( ! $file || ! $file->isValid() )
+		    return response()->json(['file' => ['Your file isn\'t valid. Please try again with a different file.']], 422);
+
+	    $ext = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+
+	    if ( ! in_array($ext, $this->allowedFileExts))
+		    return response()->json(['file' => ['Your file extension is not allowed. Please use a valid excel or CSV file.']], 422);
+
+	    $fileName = time() . ".$ext";
+	    $safeFileName = str_replace('.', '_', $fileName);
+	    $storageDirectory = rtrim(explode('app', $this->uploadStoragePath)[1], '/');
+	    $file->storeAs($storageDirectory, $fileName);
+	    $filePath = "$this->uploadStoragePath/$fileName";
+
+	    $excelReader = new ResourceImporter($fileName, $safeFileName, $filePath, $this->excelImportColumns, $this->rules);
+	    $excelResults = $excelReader->getResults('subscribers');
+
+	    if ( $excelResults )
+		    return response()->json(['success' => "Import successfully processed", 'badRows' => $excelResults->badRows, 'rowsCount' => $excelResults->rowsNum, 'fileName' => $fileName]);
+	    else
+		    return response()->json(['error' => 'Please try the import again.'], 500);
+    }
+
+	/**
+	 * Finalise the import and save the records - or cancel
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function finaliseImport(Request $request)
+	{
+		$active = (int) $request->active;
+		$mailing_lists = (array) $request->mailing_lists;
+		$fileName = $request->fileName;
+		$safeFileName = $fileName ? str_replace('.', '_', $fileName) : null;
+		$filePath = $fileName ? "$this->uploadStoragePath/$fileName" : '';
+
+		if ( strtolower($request->action) == 'cancel' ) {
+			if ( $safeFileName ) {
+				unlink($filePath);
+				cache()->forget("resultsOfImport$safeFileName");
+			}
+
+			return response()->json(['cancellation' => "Import successfully cancelled"]);
+		}
+		elseif ( strtolower($request->action) == 'proceed' ) {
+			$excelReader = new ExcelReader($fileName, $safeFileName, $filePath, $this->excelImportColumns, $this->rules);
+			$excelResults = $excelReader->getResults();
+
+			if ( $safeFileName ) {
+				unlink($filePath);
+				cache()->forget("resultsOfImport$safeFileName");
+			}
+
+			$failedNum = 0;
+			$succeededNum = 0;
+
+			if ( $excelResults ) {
+				if ( count($excelResults->goodOnes) ) {
+					foreach ($excelResults->goodOnes as $record ) {
+						$validator = validator()->make( (array) $record, $this->rules);
+
+						if ( $validator->fails() ) {
+							$exists = Subscriber::where('email', $record->email)->first(); //Attempt to find an existing subscriber and just attach them to the mailing lists
+							if ( $exists ) {
+								if ( $mailing_lists )
+									$exists->mailing_lists()->sync($mailing_lists);
+							}
+
+							$failedNum++;
+						}
+						else {
+							$subscriber = new Subscriber();
+							$subscriber->first_name = $record->first_name;
+							$subscriber->last_name = $record->last_name;
+							$subscriber->email = $record->email;
+							$subscriber->active = $active;
+							$subscriber->save();
+
+							if ( $mailing_lists )
+								$subscriber->mailing_lists()->sync($mailing_lists);
+
+							$succeededNum++;
+						}
+					}
+					return response()->json(['success' => "Imported subscribers successfully saved.", 'failedNum' => $failedNum, 'succeededNum' => $succeededNum]);
+				}
+				else
+					return response()->json(['no_good_records' => 'None of the rows in the file passed validation. Please check the rows in the file and try again.'], 422);
+			}
+			else
+				return response()->json(['file_does_not_exist' => 'Please try the import again.'], 500);
+		}
+		else
+			return response()->json(['error' => 'Please try the import again.'], 500);
+	}
 
 	/**
 	 * Show specified resource.

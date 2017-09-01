@@ -21,10 +21,12 @@ class ResourceExporter
         $this->exportFileName = $fileName;
     }
 
-    /**
-     * Generate excel export
-     * @param $type
-     */
+	/**
+	 * Generate excel export
+	 * @param $type
+	 *
+	 * @return mixed|null
+	 */
     public function generateExcelExport($type)
     {
         switch ($type) {
@@ -38,6 +40,8 @@ class ResourceExporter
 		        return static::generateSubscribersExport();
 		        break;
         }
+
+        return null;
     }
 
     /**

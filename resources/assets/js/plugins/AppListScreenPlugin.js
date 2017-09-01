@@ -73,7 +73,10 @@ const AppListScreenPlugin = {
                         return -1;
                     else
                         return 0;
-                }
+                },
+                appImporting() {
+                    return _.includes(this.$route.path, 'import');
+                },
             },
             methods: {
                 appFetchResources(vm, orderAttr, orderToggle) {

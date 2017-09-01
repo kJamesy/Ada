@@ -4,6 +4,11 @@
 
         <template v-if="! fetchingData">
             <div v-if="appUserHasPermission('create')">
+                <div class="mb-5 text-right font-italic">
+                    <router-link v-bind:to="{ name: 'admin_subscribers.import'}" class="btn btn-link">
+                        Import from Excel/CSV Instead?
+                    </router-link>
+                </div>
                 <form v-on:submit.prevent='createResource'>
                     <div class="form-group row">
                         <label class="col-md-4 form-control-label" for="first_name">First Name</label>

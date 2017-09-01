@@ -20,6 +20,10 @@
             <router-link v-bind:to="{ name: 'admin_subscribers.create' }" tag="a" class="nav-link" exact><i class="fa fa-pencil"></i>
                 New Subscriber</router-link>
         </li>
+        <li class="nav-item" v-if="appUserHasPermission('create') && appImporting">
+            <router-link v-bind:to="{ name: 'admin_subscribers.import' }" tag="a" class="nav-link" exact><i class="fa fa-upload"></i>
+                Import Subscribers</router-link>
+        </li>
         <li class="nav-item" v-if="appCurrentRouteIdParam && appUserHasPermission('read')">
             <router-link v-bind:to="{ name: 'admin_subscribers.view', params: { id: appCurrentRouteIdParam }}" class="nav-link" exact><i class="fa fa-eye"></i>
                 View Subscriber</router-link>

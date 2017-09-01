@@ -7,6 +7,15 @@
   padding-top: 0.36rem;
 }
 
+input[type=file], .custom-checkbox {
+  cursor: pointer;
+}
+.custom-file-input:focus ~ .custom-file-control {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
 .sweet-alert, .sweet-alert button, .custom-checkbox .custom-control-indicator {
   @include border_radius_none;
 }

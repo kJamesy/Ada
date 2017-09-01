@@ -109,6 +109,7 @@ import AdminSubscribersList from './components/AdminSubscribers/AllSubscribers.v
 import AdminSubscribersUnattached from './components/AdminSubscribers/AllSubscribers.vue';
 import AdminSubscribersTrash from './components/AdminSubscribers/TrashSubscribers.vue';
 import AdminSubscribersNew from './components/AdminSubscribers/NewSubscriber.vue';
+import AdminSubscribersImport from './components/AdminSubscribers/ImportSubscribers.vue';
 import AdminSubscribersView from './components/AdminSubscribers/ViewSubscriber.vue';
 import AdminSubscribersEdit from './components/AdminSubscribers/EditSubscriber.vue';
 
@@ -123,6 +124,7 @@ if ( $('#admin-subscribers-app').length ) {
             { path: '/unattached', name: 'admin_subscribers.unattached', component: AdminSubscribersUnattached},
             { path: '/trash', name: 'admin_subscribers.trash', component: AdminSubscribersTrash },
             { path: '/create', name: 'admin_subscribers.create', component: AdminSubscribersNew },
+            { path: '/import', name: 'admin_subscribers.import', component: AdminSubscribersImport },
             { path: '/:id(\\d+)/view', name: 'admin_subscribers.view', component: AdminSubscribersView },
             { path: '/:id(\\d+)/edit', name: 'admin_subscribers.edit', component: AdminSubscribersEdit },
             { path: '*', redirect: { name: 'admin_subscribers.index' } }
