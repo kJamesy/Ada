@@ -49,6 +49,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 	            Route::get('subscribers/{vue?}', 'SubscriberController@index');
 	            Route::get('campaigns/export', 'CampaignController@export');
 	            Route::get('campaigns/{vue?}', 'CampaignController@index');
+	            Route::get('templates/export', 'TemplateController@export');
+	            Route::get('templates/{vue?}', 'TemplateController@index');
             }
 
             Route::resource('settings', 'AdminController');
@@ -60,6 +62,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 	        Route::resource('subscribers', 'SubscriberController');
 	        Route::put('campaigns/{option}/quick-update', 'CampaignController@quickUpdate');
 	        Route::resource('campaigns', 'CampaignController');
+	        Route::put('templates/{option}/quick-update', 'TemplateController@quickUpdate');
+	        Route::resource('templates', 'TemplateController');
         });
 
         Route::get('inactive', ['as' => 'admin.inactive', 'middleware' => 'inactive', function () { return view('admin.inactive'); }]);

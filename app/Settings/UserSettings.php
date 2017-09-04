@@ -28,6 +28,7 @@ class UserSettings
         'mailing_lists',
 	    'subscribers',
 	    'campaigns',
+	    'templates',
     ];
 
     /**

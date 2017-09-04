@@ -101,40 +101,6 @@ if ( $('#admin-mailing-lists-app').length ) {
 }
 
 /**
- * Campaigns
- */
-import AdminCampaigns from './components/AdminCampaigns/AdminCampaigns.vue';
-import AdminCampaignsAll from './components/AdminCampaigns/AllCampaigns.vue';
-import AdminCampaignsTrash from './components/AdminCampaigns/TrashCampaigns.vue';
-import AdminCampaignsNew from './components/AdminCampaigns/NewCampaign.vue';
-import AdminCampaignsView from './components/AdminCampaigns/ViewCampaign.vue';
-import AdminCampaignsEdit from './components/AdminCampaigns/EditCampaign.vue';
-
-if ( $('#admin-campaigns-app').length ) {
-    let router = new VueRouter({
-        mode: 'history',
-        base: links.base,
-        linkActiveClass: 'active',
-        routes: [
-            { path: '/', name: 'admin_campaigns.index', component: AdminCampaignsAll },
-            { path: '/trash', name: 'admin_campaigns.trash', component: AdminCampaignsTrash },
-            { path: '/create', name: 'admin_campaigns.create', component: AdminCampaignsNew },
-            { path: '/:id(\\d+)/view', name: 'admin_campaigns.view', component: AdminCampaignsView },
-            { path: '/:id(\\d+)/edit', name: 'admin_campaigns.edit', component: AdminCampaignsEdit },
-            { path: '*', redirect: { name: 'admin_campaigns.index' } }
-        ]
-    });
-
-    new Vue({
-        el: '#admin-campaigns-app',
-        components: {
-            AdminCampaigns
-        },
-        router: router
-    });
-}
-
-/**
  * Subscribers
  */
 import AdminSubscribers from './components/AdminSubscribers/AdminSubscribers.vue';
@@ -169,6 +135,74 @@ if ( $('#admin-subscribers-app').length ) {
         el: '#admin-subscribers-app',
         components: {
             AdminSubscribers
+        },
+        router: router
+    });
+}
+
+/**
+ * Campaigns
+ */
+import AdminCampaigns from './components/AdminCampaigns/AdminCampaigns.vue';
+import AdminCampaignsAll from './components/AdminCampaigns/AllCampaigns.vue';
+import AdminCampaignsTrash from './components/AdminCampaigns/TrashCampaigns.vue';
+import AdminCampaignsNew from './components/AdminCampaigns/NewCampaign.vue';
+import AdminCampaignsView from './components/AdminCampaigns/ViewCampaign.vue';
+import AdminCampaignsEdit from './components/AdminCampaigns/EditCampaign.vue';
+
+if ( $('#admin-campaigns-app').length ) {
+    let router = new VueRouter({
+        mode: 'history',
+        base: links.base,
+        linkActiveClass: 'active',
+        routes: [
+            { path: '/', name: 'admin_campaigns.index', component: AdminCampaignsAll },
+            { path: '/trash', name: 'admin_campaigns.trash', component: AdminCampaignsTrash },
+            { path: '/create', name: 'admin_campaigns.create', component: AdminCampaignsNew },
+            { path: '/:id(\\d+)/view', name: 'admin_campaigns.view', component: AdminCampaignsView },
+            { path: '/:id(\\d+)/edit', name: 'admin_campaigns.edit', component: AdminCampaignsEdit },
+            { path: '*', redirect: { name: 'admin_campaigns.index' } }
+        ]
+    });
+
+    new Vue({
+        el: '#admin-campaigns-app',
+        components: {
+            AdminCampaigns
+        },
+        router: router
+    });
+}
+
+/**
+ * Templates
+ */
+import AdminTemplates from './components/AdminTemplates/AdminTemplates.vue';
+import AdminTemplatesAll from './components/AdminTemplates/AllTemplates.vue';
+import AdminTemplatesTrash from './components/AdminTemplates/TrashTemplates.vue';
+import AdminTemplatesNew from './components/AdminTemplates/NewTemplate.vue';
+import AdminTemplatesView from './components/AdminTemplates/ViewTemplate.vue';
+import AdminTemplatesEdit from './components/AdminTemplates/EditTemplate.vue';
+
+if ( $('#admin-templates-app').length ) {
+    let router = new VueRouter({
+        mode: 'history',
+        base: links.base,
+        linkActiveClass: 'active',
+        routes: [
+            { path: '/', name: 'admin_templates.index', component: AdminTemplatesAll },
+            { path: '/trash', name: 'admin_templates.trash', component: AdminTemplatesTrash },
+            { path: '/create', name: 'admin_templates.create', component: AdminTemplatesNew },
+            { path: '/:id(\\d+)/view', name: 'admin_templates.view', component: AdminTemplatesView },
+            { path: '/:id(\\d+)/edit', name: 'admin_templates.edit', component: AdminTemplatesEdit },
+            { path: '*', redirect: { name: 'admin_templates.index' } }
+        ]
+    });
+
+    new Vue({
+        el: '#admin-templates-app',
+        components: {
+            AdminTemplates
         },
         router: router
     });
