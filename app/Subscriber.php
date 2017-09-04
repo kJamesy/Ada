@@ -110,6 +110,16 @@ class Subscriber extends Model
 	}
 
 	/**
+	 * Find resource by email
+	 * @param $email
+	 * @return Model|null|static
+	 */
+	public static function findResourceByEmail($email)
+	{
+		return static::with('mailing_lists')->where('email', $email)->first();
+	}
+
+	/**
 	 * Get all resources
 	 *
 	 * @param int $mListId

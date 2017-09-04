@@ -7,7 +7,7 @@
                 <form v-if="! givingFeedback" v-on:submit.prevent='importResources'>
                     <div class="form-group row">
                         <label class="col-md-4 form-control-label">
-                            Excel/CSV File ({{ allowedExtensions | arrToString }})
+                            Excel File ({{ allowedExtensions | arrToString }})
                             <br />
                             Expected columns: {{ allowedColumnNames | arrToString }}
                         </label>
@@ -52,22 +52,25 @@
                 </form>
                 <div v-if="givingFeedback">
                     <p>There were {{ rowsCount }} rows in the uploaded file.</p>
-                    <div v-if="badRows.length">
+                    <div v-if="existingRows.length" class="text-danger">
+                        <p>Rows with email addresses that are taken: {{ existingRows.length }} </p>
+                        <p>Please check the following row numbers for taken email addresses:<br /> {{ existingRows | arrToString }} </p>
+                    </div>
+                    <div v-if="badRows.length" class="text-danger">
                         <p>Rows with errors: {{ badRows.length }} </p>
-                        <p>Please check the following row numbers for missing or bad names/email:<br /> {{ badRows | arrToString }} </p>
+                        <p>Please check the following row numbers for bad names/email:<br /> {{ badRows | arrToString }} </p>
                     </div>
                     <div class="form-group">
-                        <label for="finish_import">Select Next Step <span v-if="nextStepValidation" class="text-danger">{{ nextStepValidation }}</span></label>
-                        <!--<select class="form-control" id="" v-model="finalStep">-->
-                            <!--<option value="">Next Step</option>-->
-                            <!--<option value="proceed" v-if="rowsCount - badRows.length">Save Good Rows ({{ rowsCount - badRows.length }})</option>-->
-                            <!--<option value="cancel">Cancel Import</option>-->
-                        <!--</select>-->
+                        <label for="finish_import">Select Next Step</label>
                         <select class="custom-select form-control" v-model="finalStep" id="finish_import">
                             <option value="" disabled>Next Step</option>
-                            <option value="proceed" v-if="rowsCount - badRows.length">Save Good Rows ({{ rowsCount - badRows.length }})</option>
+                            <option value="proceed" v-if="rowsCount - badRows.length">Save Good Rows
+                                ({{ rowsCount - badRows.length - existingRows.length }}), Attach Existing Rows ({{ existingRows.length }})</option>
                             <option value="cancel">Cancel Import</option>
                         </select>
+                        <small class="text-danger">
+                            {{ nextStepValidation }}
+                        </small>
                     </div>
                     <button v-on:click.prevent="finaliseImport" class="btn btn-primary btn-outline-primary">Finish</button>
                 </div>
@@ -95,11 +98,12 @@
                 selected_mailing_lists: [],
                 upload: {name: '', size: '', type: ''},
                 proceedWithUpload: false,
-                allowedExtensions: ['xls', 'xlt', 'csv'],
+                allowedExtensions: ['xls', 'xlt', 'xlsx'],
                 allowedColumnNames: ['first_name', 'last_name', 'email'],
                 givingFeedback: false,
                 fileName: '',
                 rowsCount: 0,
+                existingRows: [],
                 badRows: [],
                 finalStep: '',
                 nextStepValidation: ''
@@ -164,6 +168,7 @@
                     if ( response.data.success && response.data.fileName ) {
                         vm.fileName = response.data.fileName;
                         vm.rowsCount = response.data.rowsCount;
+                        vm.existingRows = response.data.existingRows;
                         vm.badRows = response.data.badRows;
                         vm.givingFeedback = true;
                     }
@@ -209,23 +214,24 @@
                     vm.$http.post(vm.appResourceUrl, data).then(function(response) {
                         progress.finish();
                         if ( response.data.success ) {
-                            let message = response.data.succeededNum + " subscribers were successfully saved in the database.";
+                            let message = response.data.succeededNum + " subscribers successfully created.";
 
-                            if ( response.data.failedNum ) {
-                                message += " " + response.data.failedNum +
-                                    " could not be stored due to validation issues (likely they already exist in the database - in which case they have been attached to the provided mailing lists";
-                            }
+                            if ( response.data.existingNum )
+                                message += " " + response.data.existingNum + " already existed and have been attached to the selected mailing list.";
+
+                            if ( response.data.failedNum )
+                                message += " " + response.data.failedNum + " could not be stored due to missing names or bad email.";
 
                             swal({ title: "Success", text: message, type: 'success', animation: 'slide-from-bottom'}, function() {
                                 vm.$router.push({
-                                    name: 'admin_subscribers.import',
+                                    name: 'admin_subscribers.create',
                                 });
                             });
                         }
                         else if ( response.data.cancellation ) {
                             swal({ title: "Success", text: response.data.cancellation, type: 'success', animation: 'slide-from-bottom'}, function() {
                                 vm.$router.push({
-                                    name: 'admin_subscribers.import',
+                                    name: 'admin_subscribers.create',
                                 });
                             });
                         }
@@ -233,12 +239,11 @@
                         vm.fetchingData = false;
                         progress.finish();
                     }, function(error) {
-                        progress.fail();
                         let message = ( error.status && error.status === 422 && error.data ) ? error.data.no_good_records : 'Please refresh the page and try again.';
 
                         swal({ title: "An Error Occurred", text: message, type: 'error', animation: 'slide-from-top'}, function() {
                             vm.$router.push({
-                                name: 'admin_subscribers.import',
+                                name: 'admin_subscribers.create',
                             });
                         });
 
@@ -294,9 +299,6 @@
 
         },
         filters: {
-            capitalize(string) {
-                return _.capitalize(string);
-            },
             convertToKb(bytes) {
                 return _.round(bytes/1024, 2);
             },

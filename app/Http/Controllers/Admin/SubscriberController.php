@@ -45,7 +45,7 @@ class SubscriberController extends Controller
 		$this->permissionsKey = UserPermissions::getModelShortName($this->policyOwnerClass);
 		$this->friendlyName = 'Subscriber';
 		$this->friendlyNamePlural = 'Subscribers';
-		$this->allowedFileExts = ['xlt', 'xls', 'csv'];
+		$this->allowedFileExts = ['xlt', 'xls', 'xlsx'];
 		$this->excelImportColumns = ['first_name' => 'first_name', 'last_name' => 'last_name', 'email' => 'email'];
 		$this->uploadStoragePath = storage_path('app/uploads');
 	}
@@ -166,11 +166,18 @@ class SubscriberController extends Controller
 	    $file->storeAs($storageDirectory, $fileName);
 	    $filePath = "$this->uploadStoragePath/$fileName";
 
-	    $excelReader = new ResourceImporter($fileName, $safeFileName, $filePath, $this->excelImportColumns, $this->rules);
-	    $excelResults = $excelReader->getResults('subscribers');
+	    $rules = $this->rules;
+	    $rules['email'] = str_replace("|unique:subscribers", '', $rules['email']);
+
+	    $importer = new ResourceImporter($fileName, $safeFileName, $filePath, $this->excelImportColumns, $rules);
+	    $excelResults = $importer->getResults('subscribers');
 
 	    if ( $excelResults )
-		    return response()->json(['success' => "Import successfully processed", 'badRows' => $excelResults->badRows, 'rowsCount' => $excelResults->rowsNum, 'fileName' => $fileName]);
+		    return response()->json(['success' => "Import successfully processed",
+		                             'existingRows' => $excelResults->existingRows,
+		                             'badRows' => $excelResults->badRows,
+		                             'rowsCount' => $excelResults->rowsNum,
+		                             'fileName' => $fileName]);
 	    else
 		    return response()->json(['error' => 'Please try the import again.'], 500);
     }
@@ -188,7 +195,7 @@ class SubscriberController extends Controller
 		$safeFileName = $fileName ? str_replace('.', '_', $fileName) : null;
 		$filePath = $fileName ? "$this->uploadStoragePath/$fileName" : '';
 
-		if ( strtolower($request->action) == 'cancel' ) {
+		if ( strtolower($request->action) === 'cancel' ) {
 			if ( $safeFileName ) {
 				unlink($filePath);
 				cache()->forget("resultsOfImport$safeFileName");
@@ -196,9 +203,12 @@ class SubscriberController extends Controller
 
 			return response()->json(['cancellation' => "Import successfully cancelled"]);
 		}
-		elseif ( strtolower($request->action) == 'proceed' ) {
-			$excelReader = new ExcelReader($fileName, $safeFileName, $filePath, $this->excelImportColumns, $this->rules);
-			$excelResults = $excelReader->getResults();
+		elseif ( strtolower($request->action) === 'proceed' ) {
+			$rules = $this->rules;
+			$rules['email'] = str_replace("|unique:subscribers", '', $rules['email']);
+
+			$importer = new ResourceImporter($fileName, $safeFileName, $filePath, $this->excelImportColumns, $rules);
+			$excelResults = $importer->getResults('subscribers');
 
 			if ( $safeFileName ) {
 				unlink($filePath);
@@ -206,40 +216,63 @@ class SubscriberController extends Controller
 			}
 
 			$failedNum = 0;
+			$existingNum = 0;
 			$succeededNum = 0;
 
 			if ( $excelResults ) {
 				if ( count($excelResults->goodOnes) ) {
-					foreach ($excelResults->goodOnes as $record ) {
-						$validator = validator()->make( (array) $record, $this->rules);
+
+					if ( ! count($mailing_lists) ) { //If user didn't choose a mailing list, create a time-stamped one for them
+						$time = Carbon::now()->toDateTimeString();
+
+						$defaultMList = new MailingList();
+						$defaultMList->name = "Import - $time";
+						$defaultMList->description = "System-created mailing list for subscribers imported at $time";
+						$defaultMList->save();
+
+						$mailing_lists = [$defaultMList->id];
+					}
+
+
+					foreach ($excelResults->goodOnes as $row ) {
+						$validator = validator()->make( (array) $row, $this->rules);
 
 						if ( $validator->fails() ) {
-							$exists = Subscriber::where('email', $record->email)->first(); //Attempt to find an existing subscriber and just attach them to the mailing lists
-							if ( $exists ) {
-								if ( $mailing_lists )
-									$exists->mailing_lists()->sync($mailing_lists);
-							}
+							$existingSub = Subscriber::findResourceByEmail($row->email); //Attempt to find an existing subscriber and just attach them to the mailing lists
 
-							$failedNum++;
+							if ( $existingSub ) {
+								$existingMLists =  $existingSub->mailing_lists->pluck('id')->toArray();
+
+								foreach( $mailing_lists as $mListId ) {
+									if ( ! in_array($mListId, $existingMLists) )
+										$existingMLists[] = $mListId;
+								}
+
+								$existingSub->mailing_lists()->sync($existingMLists);
+								$existingSub->touch();
+								$existingNum++;
+							}
+							else
+								$failedNum++;
 						}
 						else {
 							$subscriber = new Subscriber();
-							$subscriber->first_name = $record->first_name;
-							$subscriber->last_name = $record->last_name;
-							$subscriber->email = $record->email;
-							$subscriber->active = $active;
+							$subscriber->first_name = $row->first_name;
+							$subscriber->last_name = $row->last_name;
+							$subscriber->email = $row->email;
+							$subscriber->active = $active ? 1 : 0;
 							$subscriber->save();
 
-							if ( $mailing_lists )
-								$subscriber->mailing_lists()->sync($mailing_lists);
+							$subscriber->mailing_lists()->sync($mailing_lists);
 
 							$succeededNum++;
 						}
 					}
-					return response()->json(['success' => "Imported subscribers successfully saved.", 'failedNum' => $failedNum, 'succeededNum' => $succeededNum]);
+
+					return response()->json(['success' => "Imported subscribers successfully saved.", 'failedNum' => $failedNum, 'existingNum' => $existingNum, 'succeededNum' => $succeededNum]);
 				}
 				else
-					return response()->json(['no_good_records' => 'None of the rows in the file passed validation. Please check the rows in the file and try again.'], 422);
+					return response()->json(['no_good_records' => 'None of the rows in the file passed validation. Please check and try again.'], 422);
 			}
 			else
 				return response()->json(['file_does_not_exist' => 'Please try the import again.'], 500);

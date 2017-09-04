@@ -2,6 +2,7 @@
 
 namespace App\Importers;
 
+use App\Subscriber;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -64,6 +65,7 @@ class ResourceImporter
 					$excelColumns = $this->excelColumns;
 					$rules = $this->validationRules;
 					$sheet = $reader->get($excelColumns);
+					$existingRows = [];
 					$goodOnes = [];
 					$badRows = [];
 					$rowsNum = 0;
@@ -80,19 +82,25 @@ class ResourceImporter
 
 							if ( $validator->fails() )
 								$badRows[] = $key + 2;
-							else
+							else {
 								$goodOnes[] = (object) $subscriber;
+								$existingSub = Subscriber::findResourceByEmail($subscriber['email']);
+
+								if ( $existingSub )
+									$existingRows[] = $key + 2;
+							}
 
 							$rowsNum++;
 						}
 					}
 
 					$reader->goodOnes = $goodOnes;
+					$reader->existingRows = $existingRows;
 					$reader->badRows = $badRows;
 					$reader->rowsNum = $rowsNum;
 				}, 'UTF-8');
 
-				return (object)['goodOnes' => $excel->goodOnes, 'badRows' => $excel->badRows, 'rowsNum' => $excel->rowsNum];
+				return (object)['goodOnes' => $excel->goodOnes, 'existingRows' => $excel->existingRows, 'badRows' => $excel->badRows, 'rowsNum' => $excel->rowsNum];
 			}
 			else
 				return null;

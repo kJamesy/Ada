@@ -4472,81 +4472,96 @@ return hooks;
 /* 1 */
 /***/ (function(module, exports) {
 
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
+/* globals __VUE_SSR_CONTEXT__ */
 
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
+// this module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle
 
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
 
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
 
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
 
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+  }
 
-	return [content].join('\n');
-}
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
 
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = injectStyles
+  }
 
-	return '/*# ' + data + ' */';
+  if (hook) {
+    var functional = options.functional
+    var existing = functional
+      ? options.render
+      : options.beforeCreate
+    if (!functional) {
+      // inject component registration as beforeCreate hook
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    } else {
+      // register for functioal component in vue file
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return existing(h, context)
+      }
+    }
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
 }
 
 
@@ -5005,7 +5020,7 @@ exports.fixVerticalPosition = fixVerticalPosition;
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(199),
   /* template */
@@ -55279,7 +55294,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(143)
 }
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(148),
   /* template */
@@ -55344,7 +55359,7 @@ if(false) {
 /* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)(undefined);
+exports = module.exports = __webpack_require__(145)(undefined);
 // imports
 
 
@@ -55355,7 +55370,88 @@ exports.push([module.i, "\n.__cov-progress {\n  position: fixed;\n  opacity: 1;\
 
 
 /***/ }),
-/* 145 */,
+/* 145 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
 /* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -56564,7 +56660,7 @@ var AppHelpers = {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(158),
   /* template */
@@ -56629,7 +56725,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   null,
   /* template */
@@ -56753,7 +56849,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(163),
   /* template */
@@ -56859,7 +56955,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(166),
   /* template */
@@ -57012,7 +57108,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(169),
   /* template */
@@ -57364,7 +57460,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(172),
   /* template */
@@ -57641,7 +57737,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(175),
   /* template */
@@ -57706,7 +57802,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   null,
   /* template */
@@ -57849,7 +57945,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(180),
   /* template */
@@ -58331,7 +58427,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(183),
   /* template */
@@ -58767,7 +58863,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(186),
   /* template */
@@ -58992,7 +59088,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(189),
   /* template */
@@ -59136,7 +59232,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(192),
   /* template */
@@ -59435,7 +59531,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(195),
   /* template */
@@ -59500,7 +59596,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   null,
   /* template */
@@ -60369,7 +60465,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(202),
   /* template */
@@ -60826,7 +60922,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(205),
   /* template */
@@ -61233,7 +61329,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(208),
   /* template */
@@ -61355,6 +61451,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -61371,11 +61470,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             selected_mailing_lists: [],
             upload: { name: '', size: '', type: '' },
             proceedWithUpload: false,
-            allowedExtensions: ['xls', 'xlt', 'csv'],
+            allowedExtensions: ['xls', 'xlt', 'xlsx'],
             allowedColumnNames: ['first_name', 'last_name', 'email'],
             givingFeedback: false,
             fileName: '',
             rowsCount: 0,
+            existingRows: [],
             badRows: [],
             finalStep: '',
             nextStepValidation: ''
@@ -61436,6 +61536,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (response.data.success && response.data.fileName) {
                     vm.fileName = response.data.fileName;
                     vm.rowsCount = response.data.rowsCount;
+                    vm.existingRows = response.data.existingRows;
                     vm.badRows = response.data.badRows;
                     vm.givingFeedback = true;
                 }
@@ -61475,21 +61576,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 vm.$http.post(vm.appResourceUrl, data).then(function (response) {
                     progress.finish();
                     if (response.data.success) {
-                        var message = response.data.succeededNum + " subscribers were successfully saved in the database.";
+                        var message = response.data.succeededNum + " subscribers successfully created.";
 
-                        if (response.data.failedNum) {
-                            message += " " + response.data.failedNum + " could not be stored due to validation issues (likely they already exist in the database - in which case they have been attached to the provided mailing lists";
-                        }
+                        if (response.data.existingNum) message += " " + response.data.existingNum + " already existed and have been attached to the selected mailing list.";
+
+                        if (response.data.failedNum) message += " " + response.data.failedNum + " could not be stored due to missing names or bad email.";
 
                         swal({ title: "Success", text: message, type: 'success', animation: 'slide-from-bottom' }, function () {
                             vm.$router.push({
-                                name: 'admin_subscribers.import'
+                                name: 'admin_subscribers.create'
                             });
                         });
                     } else if (response.data.cancellation) {
                         swal({ title: "Success", text: response.data.cancellation, type: 'success', animation: 'slide-from-bottom' }, function () {
                             vm.$router.push({
-                                name: 'admin_subscribers.import'
+                                name: 'admin_subscribers.create'
                             });
                         });
                     }
@@ -61497,12 +61598,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     vm.fetchingData = false;
                     progress.finish();
                 }, function (error) {
-                    progress.fail();
                     var message = error.status && error.status === 422 && error.data ? error.data.no_good_records : 'Please refresh the page and try again.';
 
                     swal({ title: "An Error Occurred", text: message, type: 'error', animation: 'slide-from-top' }, function () {
                         vm.$router.push({
-                            name: 'admin_subscribers.import'
+                            name: 'admin_subscribers.create'
                         });
                     });
 
@@ -61554,9 +61654,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     },
     filters: {
-        capitalize: function capitalize(string) {
-            return _.capitalize(string);
-        },
         convertToKb: function convertToKb(bytes) {
             return _.round(bytes / 1024, 2);
         },
@@ -61586,7 +61683,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-group row"
   }, [_c('label', {
     staticClass: "col-md-4 form-control-label"
-  }, [_vm._v("\n                        Excel/CSV File (" + _vm._s(_vm._f("arrToString")(_vm.allowedExtensions)) + ")\n                        "), _c('br'), _vm._v("\n                        Expected columns: " + _vm._s(_vm._f("arrToString")(_vm.allowedColumnNames)) + "\n                    ")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n                        Excel File (" + _vm._s(_vm._f("arrToString")(_vm.allowedExtensions)) + ")\n                        "), _c('br'), _vm._v("\n                        Expected columns: " + _vm._s(_vm._f("arrToString")(_vm.allowedColumnNames)) + "\n                    ")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-8"
   }, [_c('label', {
     staticClass: "custom-file"
@@ -61686,15 +61783,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         name: 'admin_subscribers.index'
       }
     }
-  }, [_vm._v("Cancel")])], 1)])]) : _vm._e(), _vm._v(" "), (_vm.givingFeedback) ? _c('div', [_c('p', [_vm._v("There were " + _vm._s(_vm.rowsCount) + " rows in the uploaded file.")]), _vm._v(" "), (_vm.badRows.length) ? _c('div', [_c('p', [_vm._v("Rows with errors: " + _vm._s(_vm.badRows.length) + " ")]), _vm._v(" "), _c('p', [_vm._v("Please check the following row numbers for missing or bad names/email:"), _c('br'), _vm._v(" " + _vm._s(_vm._f("arrToString")(_vm.badRows)) + " ")])]) : _vm._e(), _vm._v(" "), _c('div', {
+  }, [_vm._v("Cancel")])], 1)])]) : _vm._e(), _vm._v(" "), (_vm.givingFeedback) ? _c('div', [_c('p', [_vm._v("There were " + _vm._s(_vm.rowsCount) + " rows in the uploaded file.")]), _vm._v(" "), (_vm.existingRows.length) ? _c('div', {
+    staticClass: "text-danger"
+  }, [_c('p', [_vm._v("Rows with email addresses that are taken: " + _vm._s(_vm.existingRows.length) + " ")]), _vm._v(" "), _c('p', [_vm._v("Please check the following row numbers for taken email addresses:"), _c('br'), _vm._v(" " + _vm._s(_vm._f("arrToString")(_vm.existingRows)) + " ")])]) : _vm._e(), _vm._v(" "), (_vm.badRows.length) ? _c('div', {
+    staticClass: "text-danger"
+  }, [_c('p', [_vm._v("Rows with errors: " + _vm._s(_vm.badRows.length) + " ")]), _vm._v(" "), _c('p', [_vm._v("Please check the following row numbers for bad names/email:"), _c('br'), _vm._v(" " + _vm._s(_vm._f("arrToString")(_vm.badRows)) + " ")])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "form-group"
   }, [_c('label', {
     attrs: {
       "for": "finish_import"
     }
-  }, [_vm._v("Select Next Step "), (_vm.nextStepValidation) ? _c('span', {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.nextStepValidation))]) : _vm._e()]), _vm._v(" "), _c('select', {
+  }, [_vm._v("Select Next Step")]), _vm._v(" "), _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -61725,11 +61824,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "proceed"
     }
-  }, [_vm._v("Save Good Rows (" + _vm._s(_vm.rowsCount - _vm.badRows.length) + ")")]) : _vm._e(), _vm._v(" "), _c('option', {
+  }, [_vm._v("Save Good Rows\n                            (" + _vm._s(_vm.rowsCount - _vm.badRows.length - _vm.existingRows.length) + "), Attach Existing Rows (" + _vm._s(_vm.existingRows.length) + ")")]) : _vm._e(), _vm._v(" "), _c('option', {
     attrs: {
       "value": "cancel"
     }
-  }, [_vm._v("Cancel Import")])])]), _vm._v(" "), _c('button', {
+  }, [_vm._v("Cancel Import")])]), _vm._v(" "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v("\n                        " + _vm._s(_vm.nextStepValidation) + "\n                    ")])]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-primary btn-outline-primary",
     on: {
       "click": function($event) {
@@ -61754,7 +61855,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(211),
   /* template */
@@ -61929,7 +62030,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(214),
   /* template */
@@ -62396,7 +62497,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(217),
   /* template */
@@ -62461,7 +62562,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   null,
   /* template */
@@ -62606,7 +62707,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(222),
   /* template */
@@ -63119,7 +63220,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(225),
   /* template */
@@ -63575,7 +63676,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(228),
   /* template */
@@ -63781,7 +63882,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(231),
   /* template */
@@ -64313,7 +64414,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var Component = __webpack_require__(241)(
+var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(234),
   /* template */
@@ -64669,107 +64770,6 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 237 */,
-/* 238 */,
-/* 239 */,
-/* 240 */,
-/* 241 */
-/***/ (function(module, exports) {
-
-/* globals __VUE_SSR_CONTEXT__ */
-
-// this module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
 
 /***/ })
 ],[125]);
