@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Campaign;
 use App\Exporters\ResourceExporter;
-use App\MailingList;
 use App\Permissions\UserPermissions;
 use App\Settings\UserSettings;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class MailingListController extends Controller
+class CampaignController extends Controller
 {
 	protected $redirect;
 	public $rules;
@@ -25,22 +25,21 @@ class MailingListController extends Controller
 	protected $friendlyNamePlural;
 
 	/**
-	 * MailingListController constructor.
+	 * CampaignController constructor.
 	 */
 	public function __construct()
 	{
 		$this->redirect = route('admin.home');
-		$this->rules = MailingList::$rules;
+		$this->rules = Campaign::$rules;
 		$this->perPage = 25;
-		$this->orderByFields = ['name', 'subscribers_count', 'created_at', 'updated_at'];
+		$this->orderByFields = ['name', 'emails_count', 'created_at', 'updated_at'];
 		$this->orderCriteria = ['asc', 'desc'];
-		$this->settingsKey = 'mailing_lists';
+		$this->settingsKey = 'campaigns';
 		$this->policies = UserPermissions::getPolicies();
-		$this->policyOwnerClass = MailingList::class;
+		$this->policyOwnerClass = Campaign::class;
 		$this->permissionsKey = UserPermissions::getModelShortName($this->policyOwnerClass);
-		$this->friendlyName = 'Mailing List';
-		$this->friendlyNamePlural = 'Mailing Lists';
-
+		$this->friendlyName = 'Campaign';
+		$this->friendlyNamePlural = 'Campaigns';
 	}
 
 	/**
@@ -59,17 +58,17 @@ class MailingListController extends Controller
 			$deleted = (int) $request->trash;
 
 			if ( ! $request->ajax() ) {
-				return view('admin.mailing_lists')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey]);
+				return view('admin.campaigns')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey]);
 			}
 			else {
 				$settings = UserSettings::getSettings($user->id, $this->settingsKey, $orderBy, $order, $perPage, true);
 				$search = strtolower($request->search);
 
 				$resources = $search
-					? MailingList::getSearchResults($search, $deleted, $settings["{$this->settingsKey}_per_page"])
-					: MailingList::getResources([], $deleted, $settings["{$this->settingsKey}_order_by"], $settings["{$this->settingsKey}_order"], $settings["{$this->settingsKey}_per_page"]);
+					? Campaign::getSearchResults($search, $deleted, $settings["{$this->settingsKey}_per_page"])
+					: Campaign::getResources([], $deleted, $settings["{$this->settingsKey}_order_by"], $settings["{$this->settingsKey}_order"], $settings["{$this->settingsKey}_per_page"]);
 
-				$deletedNum = MailingList::getCount(1);
+				$deletedNum = Campaign::getCount(1);
 
 				if ( $resources->count() )
 					return response()->json(compact('resources', 'deletedNum'));
@@ -88,14 +87,14 @@ class MailingListController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 * @param Request $request
-	 * @return MailingList|\Illuminate\Http\JsonResponse
+	 * @return Campaign|\Illuminate\Http\JsonResponse
 	 */
 	public function store(Request $request)
 	{
 		if ( $request->user()->can('create', $this->policyOwnerClass) ) {
 			$this->validate($request, $this->rules);
 
-			$resource = new MailingList();
+			$resource = new Campaign();
 			$resource->name = trim($request->name);
 			$resource->description = trim($request->description);
 			$resource->save();
@@ -114,7 +113,7 @@ class MailingListController extends Controller
 	 */
 	public function show($id, Request $request)
 	{
-		$resource = MailingList::findResource( (int) $id );
+		$resource = Campaign::findResource( (int) $id );
 		$currentUser = $request->user();
 
 		if ( $resource ) {
@@ -135,7 +134,7 @@ class MailingListController extends Controller
 	 */
 	public function edit($id, Request $request)
 	{
-		$resource = MailingList::findResource( (int) $id );
+		$resource = Campaign::findResource( (int) $id );
 		$currentUser = $request->user();
 
 		if ( $resource ) {
@@ -156,7 +155,7 @@ class MailingListController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
-		$resource = MailingList::findResource( (int) $id );
+		$resource = Campaign::findResource( (int) $id );
 		$currentUser = $request->user();
 
 		if ( $resource ) {
@@ -166,7 +165,7 @@ class MailingListController extends Controller
 			$rules = $this->rules;
 
 			if ( strtolower($resource->name) == strtolower(trim($request->name)) )
-				$rules['name'] = str_replace("|unique:mailing_lists", '', $rules['name'] );
+				$rules['name'] = str_replace("|unique:campaigns", '', $rules['name'] );
 
 			$this->validate($request, $rules);
 
@@ -187,7 +186,7 @@ class MailingListController extends Controller
 	 */
 	public function destroy($id, Request $request)
 	{
-		$resource = MailingList::findResource( (int) $id );
+		$resource = Campaign::findResource( (int) $id );
 		$currentUser = $request->user();
 
 		if ( $currentUser->can('delete', $this->policyOwnerClass) ) {
@@ -226,19 +225,19 @@ class MailingListController extends Controller
 
 			if ( $selectedNum ) {
 				try {
-					$resources = MailingList::getResources($resourceIds, -1)->pluck('id')->toArray();
+					$resources = Campaign::getResources($resourceIds, -1)->pluck('id')->toArray();
 					$successNum = 0;
 
 					if ( $resources ) {
 						switch ($update) {
 							case 'delete':
-								$successNum = MailingList::doBulkActions($resources, 'delete');
+								$successNum = Campaign::doBulkActions($resources, 'delete');
 								break;
 							case 'restore':
-								$successNum = MailingList::doBulkActions($resources, 'restore');
+								$successNum = Campaign::doBulkActions($resources, 'restore');
 								break;
 							case 'destroy':
-								$successNum = MailingList::doBulkActions($resources, 'destroy');
+								$successNum = Campaign::doBulkActions($resources, 'destroy');
 								break;
 						}
 
@@ -282,12 +281,12 @@ class MailingListController extends Controller
 
 			$deleted = $request->has('trash') ? (int) $request->trash : -1;
 
-			$resources = MailingList::getResources($resourceIds, $deleted);
+			$resources = Campaign::getResources($resourceIds, $deleted);
 			$fileName .= count($resourceIds) ? 'Specified-Items-' : 'All-Items-';
 			$fileName .= Carbon::now()->toDateString();
 
 			$exporter = new ResourceExporter($resources, $fileName);
-			return $exporter->generateExcelExport('mailing_lists');
+			return $exporter->generateExcelExport('campaigns');
 		}
 		else
 			return redirect()->back();

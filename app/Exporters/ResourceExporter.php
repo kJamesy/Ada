@@ -39,6 +39,9 @@ class ResourceExporter
 	        case 'subscribers':
 		        return static::generateSubscribersExport();
 		        break;
+	        case 'campaigns':
+		        return static::generateCampaignsExport();
+		        break;
         }
 
         return null;
@@ -77,7 +80,7 @@ class ResourceExporter
     }
 
     /**
-     * Generate members export
+     * Generate mailing lists export
      * @return mixed
      */
     public function generateMailingListsExport()
@@ -130,6 +133,35 @@ class ResourceExporter
 			}
 
 			$excel->sheet('Subscribers', function($sheet) use ($exportArr) {
+				$sheet->fromArray($exportArr);
+			});
+
+		})->download('xls');
+	}
+
+	/**
+	 * Generate campaigns export
+	 * @return mixed
+	 */
+	public function generateCampaignsExport()
+	{
+		return Excel::create($this->exportFileName, function($excel) {
+			$resources = $this->resources;
+			$exportArr = [];
+
+			if ( count($resources) ) {
+				foreach ($resources as $resource) {
+					$exportArr[] = [
+						'Name' => $resource->name,
+						'Description' => $resource->description,
+						'Created' => $resource->created_at->toDateTimeString(),
+						'Last Updated' => $resource->updated_at->toDateTimeString(),
+					];
+
+				}
+			}
+
+			$excel->sheet('Campaigns', function($sheet) use ($exportArr) {
 				$sheet->fromArray($exportArr);
 			});
 

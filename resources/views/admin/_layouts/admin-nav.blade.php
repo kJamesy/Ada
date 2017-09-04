@@ -12,6 +12,11 @@
             <a class="nav-link @yield('mailing_lists_active')" href="{{ route('mailing-lists.index') }}">Mailing Lists</a>
         </li>
     @endif
+    @if ( (array_key_exists('read_campaigns', $permissions) && $permissions['read_campaigns']) || ! array_key_exists('read_campaigns', $permissions) )
+        <li class="nav-item">
+            <a class="nav-link @yield('campaigns_active')" href="{{ route('campaigns.index') }}">Campaigns</a>
+        </li>
+    @endif
     @if ( (array_key_exists('read_users', $permissions) && $permissions['read_users']) || ! array_key_exists('read_users', $permissions) )
         <li class="nav-item">
             <a class="nav-link @yield('users_active')" href="{{ route('users.index') }}">Users</a>

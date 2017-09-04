@@ -101,6 +101,40 @@ if ( $('#admin-mailing-lists-app').length ) {
 }
 
 /**
+ * Campaigns
+ */
+import AdminCampaigns from './components/AdminCampaigns/AdminCampaigns.vue';
+import AdminCampaignsAll from './components/AdminCampaigns/AllCampaigns.vue';
+import AdminCampaignsTrash from './components/AdminCampaigns/TrashCampaigns.vue';
+import AdminCampaignsNew from './components/AdminCampaigns/NewCampaign.vue';
+import AdminCampaignsView from './components/AdminCampaigns/ViewCampaign.vue';
+import AdminCampaignsEdit from './components/AdminCampaigns/EditCampaign.vue';
+
+if ( $('#admin-campaigns-app').length ) {
+    let router = new VueRouter({
+        mode: 'history',
+        base: links.base,
+        linkActiveClass: 'active',
+        routes: [
+            { path: '/', name: 'admin_campaigns.index', component: AdminCampaignsAll },
+            { path: '/trash', name: 'admin_campaigns.trash', component: AdminCampaignsTrash },
+            { path: '/create', name: 'admin_campaigns.create', component: AdminCampaignsNew },
+            { path: '/:id(\\d+)/view', name: 'admin_campaigns.view', component: AdminCampaignsView },
+            { path: '/:id(\\d+)/edit', name: 'admin_campaigns.edit', component: AdminCampaignsEdit },
+            { path: '*', redirect: { name: 'admin_campaigns.index' } }
+        ]
+    });
+
+    new Vue({
+        el: '#admin-campaigns-app',
+        components: {
+            AdminCampaigns
+        },
+        router: router
+    });
+}
+
+/**
  * Subscribers
  */
 import AdminSubscribers from './components/AdminSubscribers/AdminSubscribers.vue';
