@@ -69,6 +69,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         Route::get('inactive', ['as' => 'admin.inactive', 'middleware' => 'inactive', function () { return view('admin.inactive'); }]);
     });
 
-
     Route::get('login-helper', ['as' => 'login', function () { return redirect(route('admin.auth.show_login')); }]);
+});
+
+Route::group(['prefix' => 'guest'], function() {
+	Route::get('templates/{id}/display', ['as' => 'templates.display', 'uses' => 'Admin\\TemplateController@display']);
 });

@@ -42,6 +42,9 @@ class ResourceExporter
 	        case 'campaigns':
 		        return static::generateCampaignsExport();
 		        break;
+	        case 'templates':
+		        return static::generateTemplatesExport();
+		        break;
         }
 
         return null;
@@ -154,6 +157,36 @@ class ResourceExporter
 					$exportArr[] = [
 						'Name' => $resource->name,
 						'Description' => $resource->description,
+						'Created' => $resource->created_at->toDateTimeString(),
+						'Last Updated' => $resource->updated_at->toDateTimeString(),
+					];
+
+				}
+			}
+
+			$excel->sheet('Campaigns', function($sheet) use ($exportArr) {
+				$sheet->fromArray($exportArr);
+			});
+
+		})->download('xls');
+	}
+
+	/**
+	 * Generate templates export
+	 * @return mixed
+	 */
+	public function generateTemplatesExport()
+	{
+		return Excel::create($this->exportFileName, function($excel) {
+			$resources = $this->resources;
+			$exportArr = [];
+
+			if ( count($resources) ) {
+				foreach ($resources as $resource) {
+					$exportArr[] = [
+						'Name' => $resource->name,
+						'Description' => $resource->description,
+						'Last Edited by' => $resource->last_editor,
 						'Created' => $resource->created_at->toDateTimeString(),
 						'Last Updated' => $resource->updated_at->toDateTimeString(),
 					];

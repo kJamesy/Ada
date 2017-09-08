@@ -27,6 +27,8 @@ const AppEditcreenPlugin = {
                                     if ( response.data.resource[idx] )
                                         vm.$set(vm.resource, idx, response.data.resource[idx]);
                                 });
+
+                                vm.$emit('successfulfetch');
                             }
 
                             progress.finish();
@@ -63,6 +65,7 @@ const AppEditcreenPlugin = {
                         vm.appCustomSuccessAlert('Resource updated');
                         progress.finish();
                         vm.fetchingData = false;
+                        vm.$emit('successfulupdate');
                     }, function(error) {
                         if ( error.status && error.status === 422 && error.data ) {
                             vm.appValidationErrorAlert();
@@ -81,6 +84,7 @@ const AppEditcreenPlugin = {
 
                         progress.fail();
                         vm.fetchingData = false;
+                        vm.$emit('unsuccessfulupdate');
                     });
                 },
                 appDeleteResource() {

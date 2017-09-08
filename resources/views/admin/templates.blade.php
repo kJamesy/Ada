@@ -12,6 +12,7 @@
             admin: '{{ rtrim(route('admin.home'), '/') }}'
         }
     </script>
+    @include('admin._layouts.admin-tinymce')
 @endsection
 
 @section('templates_active', 'active')
