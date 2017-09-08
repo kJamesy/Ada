@@ -2,6 +2,11 @@
     <li class="nav-item">
         <a class="nav-link @yield('dashboard_active')" href="{{ route('admin.home') }}">Dashboard</a>
     </li>
+    @if ( (array_key_exists('read_emails', $permissions) && $permissions['read_emails']) || ! array_key_exists('read_emails', $permissions) )
+        <li class="nav-item">
+            <a class="nav-link @yield('emails_active')" href="{{ route('emails.index') }}">Emails</a>
+        </li>
+    @endif
     @if ( (array_key_exists('read_subscribers', $permissions) && $permissions['read_subscribers']) || ! array_key_exists('read_subscribers', $permissions) )
         <li class="nav-item">
             <a class="nav-link @yield('subscribers_active')" href="{{ route('subscribers.index') }}">Subscribers</a>

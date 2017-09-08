@@ -16271,18 +16271,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_AdminTemplates_ViewTemplate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_36__components_AdminTemplates_ViewTemplate_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_AdminTemplates_EditTemplate_vue__ = __webpack_require__(253);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_AdminTemplates_EditTemplate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_37__components_AdminTemplates_EditTemplate_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_AdminUsers_AdminUsers_vue__ = __webpack_require__(256);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_AdminUsers_AdminUsers_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_38__components_AdminUsers_AdminUsers_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_AdminUsers_AllUsers_vue__ = __webpack_require__(261);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_AdminUsers_AllUsers_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_39__components_AdminUsers_AllUsers_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_AdminUsers_NewUser_vue__ = __webpack_require__(264);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_AdminUsers_NewUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_40__components_AdminUsers_NewUser_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_AdminUsers_ViewUser_vue__ = __webpack_require__(267);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_AdminUsers_ViewUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_41__components_AdminUsers_ViewUser_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_AdminUsers_EditUser_vue__ = __webpack_require__(270);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_AdminUsers_EditUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_42__components_AdminUsers_EditUser_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_AdminUsers_EditUserPermissions_vue__ = __webpack_require__(273);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_AdminUsers_EditUserPermissions_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_43__components_AdminUsers_EditUserPermissions_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_AdminEmails_AdminEmails_vue__ = __webpack_require__(283);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_AdminEmails_AdminEmails_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_38__components_AdminEmails_AdminEmails_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_AdminEmails_AllEmails_vue__ = __webpack_require__(282);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_AdminEmails_AllEmails_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_39__components_AdminEmails_AllEmails_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_AdminEmails_TrashEmails_vue__ = __webpack_require__(290);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_AdminEmails_TrashEmails_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_40__components_AdminEmails_TrashEmails_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_AdminEmails_NewEmail_vue__ = __webpack_require__(293);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_AdminEmails_NewEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_41__components_AdminEmails_NewEmail_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_AdminEmails_ViewEmail_vue__ = __webpack_require__(296);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_AdminEmails_ViewEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_42__components_AdminEmails_ViewEmail_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_AdminEmails_EditEmail_vue__ = __webpack_require__(299);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_AdminEmails_EditEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_43__components_AdminEmails_EditEmail_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__components_AdminUsers_AdminUsers_vue__ = __webpack_require__(256);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__components_AdminUsers_AdminUsers_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_44__components_AdminUsers_AdminUsers_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__components_AdminUsers_AllUsers_vue__ = __webpack_require__(261);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__components_AdminUsers_AllUsers_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_45__components_AdminUsers_AllUsers_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__components_AdminUsers_NewUser_vue__ = __webpack_require__(264);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__components_AdminUsers_NewUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_46__components_AdminUsers_NewUser_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__components_AdminUsers_ViewUser_vue__ = __webpack_require__(267);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__components_AdminUsers_ViewUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_47__components_AdminUsers_ViewUser_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__components_AdminUsers_EditUser_vue__ = __webpack_require__(270);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__components_AdminUsers_EditUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_48__components_AdminUsers_EditUser_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__components_AdminUsers_EditUserPermissions_vue__ = __webpack_require__(273);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__components_AdminUsers_EditUserPermissions_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_49__components_AdminUsers_EditUserPermissions_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -16457,6 +16469,35 @@ if ($('#admin-templates-app').length) {
 }
 
 /**
+ * Subscribers
+ */
+
+
+
+
+
+
+
+
+
+if ($('#admin-emails-app').length) {
+    var _router5 = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
+        mode: 'history',
+        base: links.base,
+        linkActiveClass: 'active',
+        routes: [{ path: '/', name: 'admin_emails.index', component: __WEBPACK_IMPORTED_MODULE_39__components_AdminEmails_AllEmails_vue___default.a }, { path: '/:userId(\\d+)/by-user', name: 'admin_emails.user', component: __WEBPACK_IMPORTED_MODULE_39__components_AdminEmails_AllEmails_vue___default.a }, { path: '/:campaignId(\\d+)/in-campaign', name: 'admin_emails.campaign', component: __WEBPACK_IMPORTED_MODULE_39__components_AdminEmails_AllEmails_vue___default.a }, { path: '/trash', name: 'admin_emails.trash', component: __WEBPACK_IMPORTED_MODULE_40__components_AdminEmails_TrashEmails_vue___default.a }, { path: '/create', name: 'admin_emails.create', component: __WEBPACK_IMPORTED_MODULE_41__components_AdminEmails_NewEmail_vue___default.a }, { path: '/:id(\\d+)/view', name: 'admin_emails.view', component: __WEBPACK_IMPORTED_MODULE_42__components_AdminEmails_ViewEmail_vue___default.a }, { path: '/:id(\\d+)/edit', name: 'admin_emails.edit', component: __WEBPACK_IMPORTED_MODULE_43__components_AdminEmails_EditEmail_vue___default.a }, { path: '*', redirect: { name: 'admin_emails.index' } }]
+    });
+
+    new Vue({
+        el: '#admin-emails-app',
+        components: {
+            AdminEmails: __WEBPACK_IMPORTED_MODULE_38__components_AdminEmails_AdminEmails_vue___default.a
+        },
+        router: _router5
+    });
+}
+
+/**
  * Users
  */
 
@@ -16467,19 +16508,19 @@ if ($('#admin-templates-app').length) {
 
 
 if ($('#admin-users-app').length) {
-    var _router5 = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
+    var _router6 = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
         mode: 'history',
         base: links.base,
         linkActiveClass: 'active',
-        routes: [{ path: '/', name: 'admin_users.index', component: __WEBPACK_IMPORTED_MODULE_39__components_AdminUsers_AllUsers_vue___default.a }, { path: '/create', name: 'admin_users.create', component: __WEBPACK_IMPORTED_MODULE_40__components_AdminUsers_NewUser_vue___default.a }, { path: '/:id(\\d+)/view', name: 'admin_users.view', component: __WEBPACK_IMPORTED_MODULE_41__components_AdminUsers_ViewUser_vue___default.a }, { path: '/:id(\\d+)/edit', name: 'admin_users.edit', component: __WEBPACK_IMPORTED_MODULE_42__components_AdminUsers_EditUser_vue___default.a }, { path: '/:id(\\d+)/permissions', name: 'admin_users.edit_permissions', component: __WEBPACK_IMPORTED_MODULE_43__components_AdminUsers_EditUserPermissions_vue___default.a }, { path: '*', redirect: { name: 'admin_users.index' } }]
+        routes: [{ path: '/', name: 'admin_users.index', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminUsers_AllUsers_vue___default.a }, { path: '/create', name: 'admin_users.create', component: __WEBPACK_IMPORTED_MODULE_46__components_AdminUsers_NewUser_vue___default.a }, { path: '/:id(\\d+)/view', name: 'admin_users.view', component: __WEBPACK_IMPORTED_MODULE_47__components_AdminUsers_ViewUser_vue___default.a }, { path: '/:id(\\d+)/edit', name: 'admin_users.edit', component: __WEBPACK_IMPORTED_MODULE_48__components_AdminUsers_EditUser_vue___default.a }, { path: '/:id(\\d+)/permissions', name: 'admin_users.edit_permissions', component: __WEBPACK_IMPORTED_MODULE_49__components_AdminUsers_EditUserPermissions_vue___default.a }, { path: '*', redirect: { name: 'admin_users.index' } }]
     });
 
     new Vue({
         el: '#admin-users-app',
         components: {
-            AdminUsers: __WEBPACK_IMPORTED_MODULE_38__components_AdminUsers_AdminUsers_vue___default.a
+            AdminUsers: __WEBPACK_IMPORTED_MODULE_44__components_AdminUsers_AdminUsers_vue___default.a
         },
-        router: _router5
+        router: _router6
     });
 }
 
@@ -55959,6 +56000,12 @@ var AppListScreenPlugin = {
                 },
                 appImporting: function appImporting() {
                     return _.includes(this.$route.path, 'import');
+                },
+                appBelongingToUser: function appBelongingToUser() {
+                    return this.$route.params.userId ? this.$route.params.userId : 0;
+                },
+                appBelongingToCampaign: function appBelongingToCampaign() {
+                    return this.$route.params.campaignId ? this.$route.params.campaignId : 0;
                 }
             },
             methods: {
@@ -55969,6 +56016,7 @@ var AppListScreenPlugin = {
                     var lastPage = _.ceil(vm.appPagination.total / vm.appPagination.per_page);
                     var trash = typeof vm.trash === 'undefined' ? 0 : vm.trash;
                     var belongingTo = typeof vm.belongingTo === 'undefined' ? 0 : vm.belongingTo;
+                    var by = typeof vm.by === 'undefined' ? 0 : vm.by;
 
                     var params = {
                         perPage: vm.appPagination.per_page,
@@ -55976,7 +56024,8 @@ var AppListScreenPlugin = {
                         orderBy: orderBy,
                         order: orderToggle2 === 1 ? 'asc' : 'desc',
                         trash: trash,
-                        belongingTo: belongingTo
+                        belongingTo: belongingTo,
+                        by: by
                     };
 
                     if (vm.appSearchText.length) params.search = vm.appSearchText;
@@ -65435,7 +65484,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -68584,6 +68632,2477 @@ module.exports = function normalizeComponent (
   }
 }
 
+
+/***/ }),
+/* 282 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(281)(
+  /* script */
+  __webpack_require__(288),
+  /* template */
+  __webpack_require__(289),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "C:\\wamp\\www\\ada\\resources\\assets\\js\\components\\AdminEmails\\AllEmails.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] AllEmails.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1b41f1ce", Component.options)
+  } else {
+    hotAPI.reload("data-v-1b41f1ce", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 283 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(281)(
+  /* script */
+  __webpack_require__(284),
+  /* template */
+  __webpack_require__(287),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "C:\\wamp\\www\\ada\\resources\\assets\\js\\components\\AdminEmails\\AdminEmails.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] AdminEmails.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-49e2adf2", Component.options)
+  } else {
+    hotAPI.reload("data-v-49e2adf2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 284 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Nav_vue__ = __webpack_require__(285);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Nav_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Nav_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        AppNav: __WEBPACK_IMPORTED_MODULE_0__Nav_vue___default.a
+    }
+});
+
+/***/ }),
+/* 285 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(281)(
+  /* script */
+  null,
+  /* template */
+  __webpack_require__(286),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "C:\\wamp\\www\\ada\\resources\\assets\\js\\components\\AdminEmails\\Nav.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Nav.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-45c89424", Component.options)
+  } else {
+    hotAPI.reload("data-v-45c89424", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 286 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('ul', {
+    staticClass: "nav nav-tabs mt-3"
+  }, [(_vm.appUserHasPermission('read')) ? _c('li', {
+    staticClass: "nav-item"
+  }, [_c('router-link', {
+    staticClass: "nav-link",
+    attrs: {
+      "to": {
+        name: 'admin_emails.index'
+      },
+      "tag": "a",
+      "exact": ""
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-home"
+  }), _vm._v("\n            All Emails")])], 1) : _vm._e(), _vm._v(" "), (_vm.appUserHasPermission('read') && _vm.appBelongingToUser) ? _c('li', {
+    staticClass: "nav-item"
+  }, [_c('router-link', {
+    staticClass: "nav-link",
+    attrs: {
+      "to": {
+        name: 'admin_emails.list',
+        params: {
+          userId: _vm.appBelongingToUser
+        }
+      },
+      "tag": "a",
+      "exact": ""
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-user"
+  }), _vm._v("\n            Emails by User")])], 1) : _vm._e(), _vm._v(" "), (_vm.appUserHasPermission('read') && _vm.appBelongingToCampaign) ? _c('li', {
+    staticClass: "nav-item"
+  }, [_c('router-link', {
+    staticClass: "nav-link",
+    attrs: {
+      "to": {
+        name: 'admin_emails.list',
+        params: {
+          campaignId: _vm.appBelongingToCampaign
+        }
+      },
+      "tag": "a",
+      "exact": ""
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-folder-open"
+  }), _vm._v("\n            Emails in Campaign")])], 1) : _vm._e(), _vm._v(" "), (_vm.appUserHasPermission('read') && _vm.appIsTrashPage()) ? _c('li', {
+    staticClass: "nav-item"
+  }, [_c('router-link', {
+    staticClass: "nav-link",
+    attrs: {
+      "to": {
+        name: 'admin_emails.trash'
+      },
+      "tag": "a",
+      "exact": ""
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-trash"
+  }), _vm._v("\n            Deleted Emails")])], 1) : _vm._e(), _vm._v(" "), (_vm.appUserHasPermission('create')) ? _c('li', {
+    staticClass: "nav-item"
+  }, [_c('router-link', {
+    staticClass: "nav-link",
+    attrs: {
+      "to": {
+        name: 'admin_emails.create'
+      },
+      "tag": "a",
+      "exact": ""
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-pencil"
+  }), _vm._v("\n            New Email")])], 1) : _vm._e(), _vm._v(" "), (_vm.appCurrentRouteIdParam && _vm.appUserHasPermission('read')) ? _c('li', {
+    staticClass: "nav-item"
+  }, [_c('router-link', {
+    staticClass: "nav-link",
+    attrs: {
+      "to": {
+        name: 'admin_emails.view',
+        params: {
+          id: _vm.appCurrentRouteIdParam
+        }
+      },
+      "exact": ""
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-eye"
+  }), _vm._v("\n            View Email")])], 1) : _vm._e(), _vm._v(" "), (_vm.appCurrentRouteIdParam && _vm.appUserHasPermission('update')) ? _c('li', {
+    staticClass: "nav-item"
+  }, [_c('router-link', {
+    staticClass: "nav-link",
+    attrs: {
+      "to": {
+        name: 'admin_emails.edit',
+        params: {
+          id: _vm.appCurrentRouteIdParam
+        }
+      },
+      "exact": ""
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-edit"
+  }), _vm._v("\n            Edit Email")])], 1) : _vm._e()])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-45c89424", module.exports)
+  }
+}
+
+/***/ }),
+/* 287 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "ml-md-5"
+  }, [_c('vue-progress-bar'), _vm._v(" "), _c('app-nav'), _vm._v(" "), _c('router-view', {
+    key: _vm.$route.fullPath
+  })], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-49e2adf2", module.exports)
+  }
+}
+
+/***/ }),
+/* 288 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        this.$nextTick(function () {
+            this.appInitialiseSettings();
+            this.appInitialiseTooltip();
+            this.belongingTo = this.appBelongingToCampaign;
+            this.by = this.appBelongingToUser;
+            this.fetchResources();
+            this.applyListeners();
+        });
+    },
+    data: function data() {
+        return {
+            fetchingData: true,
+            quickEditOptions: [{ text: 'Select Option', value: '' }, { text: 'Activate', value: 'activate' }, { text: 'Deactivate', value: 'deactivate' }, { text: 'Attach to Mailing List', value: 'attach' }, { text: 'Detach from All Mailing Lists', value: 'detach' }, { text: 'Export', value: 'export' }, { text: 'Delete', value: 'delete' }],
+            mailingList: 0,
+            mailingLists: [],
+            attachTo: 0
+        };
+    },
+
+    methods: {
+        fetchResources: function fetchResources(orderAttr, orderToggle) {
+            this.appFetchResources(this, orderAttr, orderToggle);
+        },
+        quickEditResources: function quickEditResources() {
+            this.appQuickEditResources();
+        },
+        exportAll: function exportAll() {
+            this.appExportAll();
+        },
+        setOtherData: function setOtherData() {
+            var vm = this;
+            if (typeof vm.appFetchResponse !== 'undefined') {
+                var response = vm.appFetchResponse;
+
+                if (response.data.mailingLists) vm.mailingLists = response.data.mailingLists;
+                if (response.data.mailingList) vm.mailingList = response.data.mailingList.id;else if (vm.appUnattached) vm.mailingList = -1;
+            }
+        },
+        selectAttachableMailingList: function selectAttachableMailingList() {
+            var vm = this;
+
+            $('#attachModal').modal('show');
+
+            $('#attachModal').on('hidden.bs.modal', function (e) {
+                vm.attachTo = 0;
+                vm.appQuickEditOption = '';
+            });
+        },
+        attachToMailingList: function attachToMailingList() {
+            var vm = this;
+            var current = parseInt(vm.mailingList);
+            var selected = parseInt(vm.attachTo);
+
+            if (selected) {
+                if (selected !== current) {
+                    $('#attachModal').modal('hide');
+                    vm.quickEditResources();
+                }
+            }
+        },
+        allowAttaching: function allowAttaching() {
+            return parseInt(this.attachTo) && parseInt(this.attachTo) !== parseInt(this.mailingList);
+        },
+        applyListeners: function applyListeners() {
+            var vm = this;
+
+            vm.$on('successfulfetch', function () {
+                vm.setOtherData();
+            });
+
+            vm.$on('attaching', function () {
+                vm.selectAttachableMailingList();
+            });
+        }
+    },
+    watch: {
+        mailingList: function mailingList(newVal) {
+            var vm = this;
+
+            if (parseInt(newVal) > 0) vm.$router.push({ name: 'admin_subscribers.list', params: { mListId: parseInt(newVal) } });else if (parseInt(newVal) === -1) vm.$router.push({ name: 'admin_subscribers.unattached' });else vm.$router.push({ name: 'admin_subscribers.index' });
+        }
+    }
+});
+
+/***/ }),
+/* 289 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "mt-3"
+  }, [(_vm.fetchingData) ? _c('i', {
+    staticClass: "fa fa-spinner fa-spin"
+  }) : _vm._e(), _vm._v(" "), (!_vm.fetchingData && _vm.appResourceCount) ? _c('div', [(_vm.appUserHasPermission('read')) ? _c('div', [_c('a', {
+    staticClass: "btn btn-link pull-right",
+    attrs: {
+      "href": "#",
+      "title": "Export All",
+      "data-toggle": "tooltip"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.exportAll($event)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-arrow-circle-o-down"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix mb-2"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-6"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.appDoSearch($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: (_vm.appSearchText),
+      expression: "appSearchText",
+      modifiers: {
+        "trim": true
+      }
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "placeholder": "Search"
+    },
+    domProps: {
+      "value": (_vm.appSearchText)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.appSearchText = $event.target.value.trim()
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-6 mt-4 mt-md-0"
+  }, [_c('form', {
+    staticClass: "form-inline pull-right"
+  }, [_c('label', {
+    staticClass: "form-control-label mr-sm-2",
+    attrs: {
+      "for": "mailing_lists"
+    }
+  }, [_vm._v("\n                            Mailing List\n                        ")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.mailingList),
+      expression: "mailingList"
+    }],
+    staticClass: "custom-select form-control",
+    attrs: {
+      "id": "mailing_lists"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.mailingList = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "0"
+    }
+  }, [_vm._v("(All)")]), _vm._v(" "), _vm._l((_vm.mailingLists), function(mList) {
+    return _c('option', {
+      domProps: {
+        "value": mList.id
+      }
+    }, [_vm._v("\n                                " + _vm._s(mList.name) + "\n                            ")])
+  }), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "-1"
+    }
+  }, [_vm._v("(Unattached)")])], 2)])])]), _vm._v(" "), _c('div', {
+    staticClass: "mt-4 mb-4"
+  }, [(_vm.appSelectedResources.length) ? _c('form', {
+    staticClass: "form-inline pull-left"
+  }, [_c('label', {
+    staticClass: "form-control-label mr-sm-2",
+    attrs: {
+      "for": "quick-edit"
+    }
+  }, [_vm._v("Options")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.appQuickEditOption),
+      expression: "appQuickEditOption"
+    }],
+    staticClass: "custom-select form-control mb-2 mb-sm-0 mr-sm-5",
+    attrs: {
+      "id": "quick-edit"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.appQuickEditOption = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.quickEditOptions), function(option) {
+    return (_vm.appUserHasPermission(option.value)) ? _c('option', {
+      domProps: {
+        "value": option.value
+      }
+    }, [_vm._v("\n                            " + _vm._s(option.text) + "\n                        ")]) : _vm._e()
+  }))]) : _vm._e(), _vm._v(" "), _c('form', {
+    staticClass: "form-inline pull-right"
+  }, [_c('label', {
+    staticClass: "form-control-label mr-sm-2",
+    attrs: {
+      "for": "records_per_page"
+    }
+  }, [_vm._v("\n                        Per Page\n                    ")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.appPerPage),
+      expression: "appPerPage"
+    }],
+    staticClass: "custom-select form-control mb-2 mb-sm-0",
+    attrs: {
+      "id": "records_per_page"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.appPerPage = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.appPerPageOptions), function(option) {
+    return _c('option', {
+      domProps: {
+        "value": option.value
+      }
+    }, [_vm._v("\n                            " + _vm._s(option.text) + "\n                        ")])
+  }))]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "table-responsive"
+  }, [_c('table', {
+    staticClass: "table table-striped"
+  }, [_c('thead', [_c('tr', {
+    staticClass: "pointer-cursor"
+  }, [(_vm.appUserHasPermission('update')) ? _c('th', {
+    staticClass: "normal-cursor"
+  }, [_c('label', {
+    staticClass: "custom-control custom-checkbox mr-0"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.appSelectAll),
+      expression: "appSelectAll"
+    }],
+    staticClass: "custom-control-input",
+    attrs: {
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.appSelectAll) ? _vm._i(_vm.appSelectAll, null) > -1 : (_vm.appSelectAll)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.appSelectAll,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.appSelectAll = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.appSelectAll = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.appSelectAll = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('span', {
+    staticClass: "custom-control-indicator"
+  })])]) : _vm._e(), _vm._v(" "), _c('th', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.appChangeSort('first_name')
+      }
+    }
+  }, [_vm._v("First Name "), _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('first_name'))
+    }
+  })]), _vm._v(" "), _c('th', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.appChangeSort('last_name')
+      }
+    }
+  }, [_vm._v("Last Name "), _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('last_name'))
+    }
+  })]), _vm._v(" "), _c('th', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.appChangeSort('email')
+      }
+    }
+  }, [_vm._v("Email "), _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('email'))
+    }
+  })]), _vm._v(" "), _c('th', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.appChangeSort('active')
+      }
+    }
+  }, [_vm._v("Active "), _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('active'))
+    }
+  })]), _vm._v(" "), _c('th', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.appChangeSort('updated_at')
+      }
+    }
+  }, [_vm._v("Updated "), _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('updated_at'))
+    }
+  })]), _vm._v(" "), (_vm.appUserHasPermission('update')) ? _c('th') : _vm._e()])]), _vm._v(" "), _c('tbody', _vm._l((_vm.orderedAppResources), function(resource) {
+    return _c('tr', [(_vm.appUserHasPermission('update')) ? _c('td', [_c('label', {
+      staticClass: "custom-control custom-checkbox mr-0"
+    }, [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.appSelectedResources),
+        expression: "appSelectedResources"
+      }],
+      staticClass: "custom-control-input",
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "value": resource.id,
+        "checked": Array.isArray(_vm.appSelectedResources) ? _vm._i(_vm.appSelectedResources, resource.id) > -1 : (_vm.appSelectedResources)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = _vm.appSelectedResources,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = resource.id,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (_vm.appSelectedResources = $$a.concat($$v))
+            } else {
+              $$i > -1 && (_vm.appSelectedResources = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            _vm.appSelectedResources = $$c
+          }
+        }
+      }
+    }), _vm._v(" "), _c('span', {
+      staticClass: "custom-control-indicator"
+    })])]) : _vm._e(), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.first_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.last_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.email))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.active ? 'Yes' : 'No'))]), _vm._v(" "), _c('td', [_c('span', {
+      attrs: {
+        "title": resource.updated_at,
+        "data-toggle": "tooltip"
+      }
+    }, [_vm._v(_vm._s(_vm._f("dateToTheDay")(resource.updated_at)))])]), _vm._v(" "), (_vm.appUserHasPermission('read')) ? _c('td', [_c('router-link', {
+      staticClass: "btn btn-sm btn-outline-primary",
+      attrs: {
+        "to": {
+          name: 'admin_subscribers.view',
+          params: {
+            id: resource.id
+          }
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-eye"
+    })])], 1) : _vm._e()])
+  }))])]), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination": _vm.appPagination,
+      "callback": _vm.fetchResources,
+      "options": _vm.appPaginationOptions
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "mt-3 mb-3"
+  }, [_vm._v("\n                Page " + _vm._s(_vm.appPagination.current_page) + " of " + _vm._s(_vm.appPagination.last_page) + " [" + _vm._s(_vm.appPagination.total) + " items]\n            ")]), _vm._v(" "), _c('div', {
+    staticClass: "modal fade",
+    attrs: {
+      "id": "attachModal"
+    }
+  }, [_c('div', {
+    staticClass: "modal-dialog",
+    attrs: {
+      "role": "document"
+    }
+  }, [_c('div', {
+    staticClass: "modal-content"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "modal-body"
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.attachToMailingList($event)
+      }
+    }
+  }, [_c('label', {
+    staticClass: "form-control-label mr-sm-2",
+    attrs: {
+      "for": "attach_to_mailing_list"
+    }
+  }, [_vm._v("\n                                    Select Mailing List\n                                ")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.attachTo),
+      expression: "attachTo"
+    }],
+    staticClass: "custom-select form-control",
+    attrs: {
+      "id": "attach_to_mailing_list"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.attachTo = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "0",
+      "disabled": ""
+    }
+  }, [_vm._v("(None)")]), _vm._v(" "), _vm._l((_vm.mailingLists), function(mList) {
+    return (mList.id !== _vm.mailingList) ? _c('option', {
+      domProps: {
+        "value": mList.id
+      }
+    }, [_vm._v("\n                                        " + _vm._s(mList.name) + "\n                                    ")]) : _vm._e()
+  })], 2), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-primary mt-3",
+    attrs: {
+      "disabled": !_vm.allowAttaching()
+    }
+  }, [_vm._v("Attach")])])])])])])], 1) : _vm._e(), _vm._v(" "), (!_vm.appUserHasPermission('read')) ? _c('div', [_c('i', {
+    staticClass: "fa fa-warning"
+  }), _vm._v(" " + _vm._s(_vm.appUnauthorisedErrorMessage) + "\n        ")]) : _vm._e()]) : _vm._e(), _vm._v(" "), (!_vm.fetchingData && !_vm.appResourceCount) ? _c('div', {
+    staticClass: "mt-5"
+  }, [_vm._v("\n        No items found\n    ")]) : _vm._e(), _vm._v(" "), (!_vm.fetchingData && _vm.appDeletedNum && !parseInt(_vm.belongingTo)) ? _c('div', {
+    staticClass: "mt-3 mb-3 font-italic text-right"
+  }, [_c('router-link', {
+    staticClass: "btn btn-link",
+    attrs: {
+      "to": {
+        name: 'admin_subscribers.trash'
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-trash"
+  }), _vm._v(" Deleted Items (" + _vm._s(_vm.appDeletedNum) + ")")])], 1) : _vm._e()])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "modal-header"
+  }, [_c('h5', {
+    staticClass: "modal-title"
+  }, [_vm._v("Attach Subscribers to Mailing List")]), _vm._v(" "), _c('button', {
+    staticClass: "close",
+    attrs: {
+      "type": "button",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }
+  }, [_c('span', {
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("×")])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-1b41f1ce", module.exports)
+  }
+}
+
+/***/ }),
+/* 290 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(281)(
+  /* script */
+  __webpack_require__(291),
+  /* template */
+  __webpack_require__(292),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "C:\\wamp\\www\\ada\\resources\\assets\\js\\components\\AdminEmails\\TrashEmails.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] TrashEmails.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-fc2eeca0", Component.options)
+  } else {
+    hotAPI.reload("data-v-fc2eeca0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 291 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        this.$nextTick(function () {
+            this.appInitialiseSettings();
+            this.trash = 1;
+            this.appInitialiseTooltip();
+            this.fetchResources();
+        });
+    },
+    data: function data() {
+        return {
+            fetchingData: true,
+            quickEditOptions: [{ text: 'Select Option', value: '' }, { text: 'Restore', value: 'restore' }, { text: 'Export', value: 'export' }, { text: 'Destroy', value: 'destroy' }],
+            quickEditOption: ''
+        };
+    },
+
+    methods: {
+        fetchResources: function fetchResources(orderAttr, orderToggle) {
+            this.appFetchResources(this, orderAttr, orderToggle);
+        },
+        quickEditResources: function quickEditResources() {
+            this.appQuickEditResources();
+        },
+        exportAll: function exportAll() {
+            this.appExportAll();
+        }
+    }
+});
+
+/***/ }),
+/* 292 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "mt-3"
+  }, [(_vm.fetchingData) ? _c('i', {
+    staticClass: "fa fa-spinner fa-spin"
+  }) : _vm._e(), _vm._v(" "), (!_vm.fetchingData && _vm.appResourceCount) ? _c('div', [(_vm.appUserHasPermission('read')) ? _c('div', [_c('a', {
+    staticClass: "btn btn-link pull-right",
+    attrs: {
+      "href": "#",
+      "title": "Export All",
+      "data-toggle": "tooltip"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.exportAll($event)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-arrow-circle-o-down"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix mb-2"
+  }), _vm._v(" "), _c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.appDoSearch($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: (_vm.appSearchText),
+      expression: "appSearchText",
+      modifiers: {
+        "trim": true
+      }
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "placeholder": "Search"
+    },
+    domProps: {
+      "value": (_vm.appSearchText)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.appSearchText = $event.target.value.trim()
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "mt-4 mb-4"
+  }, [(_vm.appSelectedResources.length) ? _c('form', {
+    staticClass: "form-inline pull-left"
+  }, [_c('label', {
+    staticClass: "form-control-label mr-sm-2",
+    attrs: {
+      "for": "quick-edit"
+    }
+  }, [_vm._v("Options")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.appQuickEditOption),
+      expression: "appQuickEditOption"
+    }],
+    staticClass: "custom-select form-control mb-2 mb-sm-0 mr-sm-5",
+    attrs: {
+      "id": "quick-edit"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.appQuickEditOption = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.quickEditOptions), function(option) {
+    return (_vm.appUserHasPermission(option.value)) ? _c('option', {
+      domProps: {
+        "value": option.value
+      }
+    }, [_vm._v("\n                            " + _vm._s(option.text) + "\n                        ")]) : _vm._e()
+  }))]) : _vm._e(), _vm._v(" "), _c('form', {
+    staticClass: "form-inline pull-right"
+  }, [_c('label', {
+    staticClass: "form-control-label mr-sm-2",
+    attrs: {
+      "for": "records_per_page"
+    }
+  }, [_vm._v("\n                        Per Page\n                    ")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.appPerPage),
+      expression: "appPerPage"
+    }],
+    staticClass: "custom-select form-control mb-2 mb-sm-0",
+    attrs: {
+      "id": "records_per_page"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.appPerPage = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.appPerPageOptions), function(option) {
+    return _c('option', {
+      domProps: {
+        "value": option.value
+      }
+    }, [_vm._v("\n                            " + _vm._s(option.text) + "\n                        ")])
+  }))]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "table-responsive"
+  }, [_c('table', {
+    staticClass: "table table-striped"
+  }, [_c('thead', [_c('tr', {
+    staticClass: "pointer-cursor"
+  }, [(_vm.appUserHasPermission('update')) ? _c('th', {
+    staticClass: "normal-cursor"
+  }, [_c('label', {
+    staticClass: "custom-control custom-checkbox mr-0"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.appSelectAll),
+      expression: "appSelectAll"
+    }],
+    staticClass: "custom-control-input",
+    attrs: {
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.appSelectAll) ? _vm._i(_vm.appSelectAll, null) > -1 : (_vm.appSelectAll)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.appSelectAll,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.appSelectAll = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.appSelectAll = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.appSelectAll = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('span', {
+    staticClass: "custom-control-indicator"
+  })])]) : _vm._e(), _vm._v(" "), _c('th', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.appChangeSort('first_name')
+      }
+    }
+  }, [_vm._v("First Name "), _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('first_name'))
+    }
+  })]), _vm._v(" "), _c('th', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.appChangeSort('last_name')
+      }
+    }
+  }, [_vm._v("Last Name "), _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('last_name'))
+    }
+  })]), _vm._v(" "), _c('th', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.appChangeSort('email')
+      }
+    }
+  }, [_vm._v("Email "), _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('email'))
+    }
+  })]), _vm._v(" "), _c('th', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.appChangeSort('active')
+      }
+    }
+  }, [_vm._v("Active "), _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('active'))
+    }
+  })]), _vm._v(" "), _c('th', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.appChangeSort('updated_at')
+      }
+    }
+  }, [_vm._v("Deleted "), _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('updated_at'))
+    }
+  })])])]), _vm._v(" "), _c('tbody', _vm._l((_vm.orderedAppResources), function(resource) {
+    return _c('tr', [(_vm.appUserHasPermission('update')) ? _c('td', [_c('label', {
+      staticClass: "custom-control custom-checkbox mr-0"
+    }, [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.appSelectedResources),
+        expression: "appSelectedResources"
+      }],
+      staticClass: "custom-control-input",
+      attrs: {
+        "type": "checkbox"
+      },
+      domProps: {
+        "value": resource.id,
+        "checked": Array.isArray(_vm.appSelectedResources) ? _vm._i(_vm.appSelectedResources, resource.id) > -1 : (_vm.appSelectedResources)
+      },
+      on: {
+        "__c": function($event) {
+          var $$a = _vm.appSelectedResources,
+            $$el = $event.target,
+            $$c = $$el.checked ? (true) : (false);
+          if (Array.isArray($$a)) {
+            var $$v = resource.id,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (_vm.appSelectedResources = $$a.concat($$v))
+            } else {
+              $$i > -1 && (_vm.appSelectedResources = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            _vm.appSelectedResources = $$c
+          }
+        }
+      }
+    }), _vm._v(" "), _c('span', {
+      staticClass: "custom-control-indicator"
+    })])]) : _vm._e(), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.first_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.last_name))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.email))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.active ? 'Yes' : 'No'))]), _vm._v(" "), _c('td', [_c('span', {
+      attrs: {
+        "title": resource.updated_at,
+        "data-toggle": "tooltip"
+      }
+    }, [_vm._v(_vm._s(_vm._f("dateToTheDay")(resource.updated_at)))])])])
+  }))])]), _vm._v(" "), _c('pagination', {
+    attrs: {
+      "pagination": _vm.appPagination,
+      "callback": _vm.fetchResources,
+      "options": _vm.appPaginationOptions
+    }
+  }), _vm._v("\n            Page " + _vm._s(_vm.appPagination.current_page) + " of " + _vm._s(_vm.appPagination.last_page) + " [" + _vm._s(_vm.appPagination.total) + " items]\n        ")], 1) : _vm._e(), _vm._v(" "), (!_vm.appUserHasPermission('read')) ? _c('div', [_c('i', {
+    staticClass: "fa fa-warning"
+  }), _vm._v(" " + _vm._s(_vm.appUnauthorisedErrorMessage) + "\n        ")]) : _vm._e()]) : _vm._e(), _vm._v(" "), (!_vm.fetchingData && !_vm.appResourceCount) ? _c('div', {
+    staticClass: "mt-5"
+  }, [_vm._v("\n        No items found\n    ")]) : _vm._e()])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-fc2eeca0", module.exports)
+  }
+}
+
+/***/ }),
+/* 293 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(281)(
+  /* script */
+  __webpack_require__(294),
+  /* template */
+  __webpack_require__(295),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "C:\\wamp\\www\\ada\\resources\\assets\\js\\components\\AdminEmails\\NewEmail.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] NewEmail.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-804d3baa", Component.options)
+  } else {
+    hotAPI.reload("data-v-804d3baa", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 294 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        this.$nextTick(function () {
+            this.goTime();
+            this.listenEvents();
+        });
+    },
+    data: function data() {
+        return {
+            fetchingData: true,
+            resource: { subscribers: [], mailing_lists: [], subject: '', campaign: '', content: '' },
+            validationErrors: { subscribers: '', mailing_lists: '', subject: '', campaign: '', content: '' },
+            subscribers: [],
+            selected_subscribers: [],
+            mailing_lists: [],
+            selected_mailing_lists: [],
+            campaigns: []
+        };
+    },
+
+    computed: {
+        sortedSubscribers: function sortedSubscribers() {
+            return _.sortBy(this.subscribers, ['name']);
+        },
+        flattenedSubscribers: function flattenedSubscribers() {
+            return _.flatMapDeep(this.selected_subscribers, function (subscriber) {
+                return subscriber.id;
+            });
+        },
+        sortedMailingLists: function sortedMailingLists() {
+            return _.sortBy(this.mailing_lists, ['name']);
+        },
+        flattenedMLists: function flattenedMLists() {
+            return _.flatMapDeep(this.selected_mailing_lists, function (mList) {
+                return mList.id;
+            });
+        },
+        sortedCampaigns: function sortedCampaigns() {
+            return _.sortBy(this.campaigns, ['name']);
+        }
+    },
+    methods: {
+        goTime: function goTime() {
+            var vm = this;
+            var progress = vm.$Progress;
+
+            progress.start();
+            vm.appClearValidationErrors();
+
+            vm.$http.get(vm.appResourceUrl + '/create').then(function (response) {
+                if (response.data && response.data.subscribers && response.data.subscribers.length) vm.subscribers = response.data.subscribers;
+
+                if (response.data && response.data.mailing_lists && response.data.mailing_lists.length) vm.mailing_lists = response.data.mailing_lists;
+
+                if (response.data && response.data.campaigns && response.data.campaigns.length) vm.campaigns = response.data.campaigns;
+
+                vm.initTinyMce(100);
+                progress.finish();
+                vm.fetchingData = false;
+            }, function (error) {
+                if (error.status && error.status === 403 && error.data) vm.appCustomErrorAlert(error.data.error);else vm.appGeneralErrorAlert();
+
+                progress.fail();
+                vm.fetchingData = false;
+            });
+        },
+        createResource: function createResource() {
+            this.appCreateResource();
+        },
+        initTinyMce: function initTinyMce(wait) {
+            var vm = this;
+
+            var newCOnfig = {
+                selector: '#content',
+                setup: function setup(editor) {
+                    editor.on('init', function () {
+                        editor.setContent(vm.resource.content);
+                        vm.editorReady = true;
+                    });
+
+                    editor.on('change keyup blur', function () {
+                        vm.resource.content = editor.getContent();
+                    });
+                }
+            };
+
+            _.delay(function () {
+                tinymce.remove();
+                tinymce.init(_.assign(tinyMceConfig, newCOnfig));
+            }, parseInt(wait));
+        },
+        checkEditor: function checkEditor() {
+            var vm = this;
+            if (!vm.editorReady) vm.initTinyMce(100);
+        },
+        listenEvents: function listenEvents() {
+            var vm = this;
+
+            vm.$on('unsuccessfulcreate', function () {
+                vm.initTinyMce(100);
+            });
+
+            vm.$on('successfulcreate', function () {
+                this.clearDefaults();
+                vm.initTinyMce(100);
+            });
+        },
+        clearDefaults: function clearDefaults() {
+            this.selected_subscribers = [];
+            this.selected_mailing_lists = [];
+        }
+    },
+    watch: {
+        'selected_subscribers': function selected_subscribers(newVal) {
+            this.resource.subscribers = this.flattenedSubscribers;
+        },
+        'selected_mailing_lists': function selected_mailing_lists(newVal) {
+            this.resource.mailing_lists = this.flattenedMLists;
+        }
+    }
+});
+
+/***/ }),
+/* 295 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "mt-5"
+  }, [(_vm.fetchingData) ? _c('i', {
+    staticClass: "fa fa-spinner fa-spin"
+  }) : _vm._e(), _vm._v(" "), (!_vm.fetchingData) ? [(_vm.appUserHasPermission('create')) ? _c('div', [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.createResource($event)
+      }
+    }
+  }, [(_vm.subscribers.length) ? _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "form-control-label"
+  }, [_vm._v("Recipient Subscribers "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.validationErrors.subscribers))])]), _vm._v(" "), _c('div', {}, [_c('v-select', {
+    attrs: {
+      "options": _vm.sortedSubscribers,
+      "placeholder": "Select Subscribers",
+      "multiple": ""
+    },
+    model: {
+      value: (_vm.selected_subscribers),
+      callback: function($$v) {
+        _vm.selected_subscribers = $$v
+      },
+      expression: "selected_subscribers"
+    }
+  })], 1)]) : _vm._e(), _vm._v(" "), (_vm.mailing_lists.length) ? _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "form-control-label"
+  }, [_vm._v("Recipient Mailing Lists "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.validationErrors.mailing_lists))])]), _vm._v(" "), _c('div', {}, [_c('v-select', {
+    attrs: {
+      "options": _vm.sortedMailingLists,
+      "label": "name",
+      "placeholder": "Select Mailing Lists",
+      "multiple": ""
+    },
+    model: {
+      value: (_vm.selected_mailing_lists),
+      callback: function($$v) {
+        _vm.selected_mailing_lists = $$v
+      },
+      expression: "selected_mailing_lists"
+    }
+  })], 1)]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "form-group "
+  }, [_c('label', {
+    staticClass: "form-control-label",
+    attrs: {
+      "for": "subject"
+    }
+  }, [_vm._v("Subject "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.validationErrors.subject))])]), _vm._v(" "), _c('div', {}, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: (_vm.resource.subject),
+      expression: "resource.subject",
+      modifiers: {
+        "trim": true
+      }
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "id": "subject"
+    },
+    domProps: {
+      "value": (_vm.resource.subject)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.resource.subject = $event.target.value.trim()
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "form-control-label"
+  }, [_vm._v("Campaign "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.validationErrors.campaign))])]), _vm._v(" "), _c('div', {}, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.resource.campaign),
+      expression: "resource.campaign"
+    }],
+    staticClass: "custom-select form-control",
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.resource.campaign = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.sortedCampaigns), function(option) {
+    return _c('option', {
+      domProps: {
+        "value": option.id
+      }
+    }, [_vm._v("\n                                " + _vm._s(option.name) + "\n                            ")])
+  }))])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "form-control-label",
+    attrs: {
+      "for": "content"
+    }
+  }, [_vm._v("Content "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.validationErrors.content))])]), _vm._v(" "), _c('div', {}, [_c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: (_vm.resource.content),
+      expression: "resource.content",
+      modifiers: {
+        "trim": true
+      }
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "id": "content",
+      "rows": "4"
+    },
+    domProps: {
+      "value": (_vm.resource.content)
+    },
+    on: {
+      "click": _vm.checkEditor,
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.resource.content = $event.target.value.trim()
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })])]), _vm._v(" "), _vm._m(0)])]) : _vm._e(), _vm._v(" "), (!_vm.appUserHasPermission('create')) ? _c('div', [_c('i', {
+    staticClass: "fa fa-warning"
+  }), _vm._v(" " + _vm._s(_vm.appUnauthorisedErrorMessage) + "\n        ")]) : _vm._e()] : _vm._e()], 2)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "form-group"
+  }, [_c('div', {
+    staticClass: "ml-md-auto"
+  }, [_c('button', {
+    staticClass: "btn btn-primary btn-outline-primary",
+    attrs: {
+      "type": "submit"
+    }
+  }, [_vm._v("Save")])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-804d3baa", module.exports)
+  }
+}
+
+/***/ }),
+/* 296 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(281)(
+  /* script */
+  __webpack_require__(297),
+  /* template */
+  __webpack_require__(298),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "C:\\wamp\\www\\ada\\resources\\assets\\js\\components\\AdminEmails\\ViewEmail.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ViewEmail.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-174a8e38", Component.options)
+  } else {
+    hotAPI.reload("data-v-174a8e38", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 297 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        this.$nextTick(function () {
+            this.showResource();
+        });
+    },
+    data: function data() {
+        return {
+            fetchingData: true,
+            resource: { id: '', first_name: '', last_name: '', email: '', active: null, created_at: '', updated_at: '', mailing_lists: [] }
+        };
+    },
+
+    computed: {
+        flattenedMLists: function flattenedMLists() {
+            return this.resource.mailing_lists.length ? _.join(_.flatMapDeep(this.resource.mailing_lists, function (mList) {
+                return mList.name;
+            }), ', ') : '-';
+        }
+    },
+    methods: {
+        showResource: function showResource() {
+            this.appShowResource();
+        }
+    }
+});
+
+/***/ }),
+/* 298 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "mt-5"
+  }, [(_vm.fetchingData) ? _c('i', {
+    staticClass: "fa fa-spinner fa-spin"
+  }) : _vm._e(), _vm._v(" "), (!_vm.fetchingData) ? [(_vm.appUserHasPermission('read')) ? _c('div', [_c('div', {
+    staticClass: "table-responsive"
+  }, [_c('table', {
+    staticClass: "table table-striped"
+  }, [_c('tbody', [_c('tr', [_c('th', {
+    attrs: {
+      "scope": "row"
+    }
+  }, [_vm._v("First Name")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.resource.first_name))])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "scope": "row"
+    }
+  }, [_vm._v("Last Name")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.resource.last_name))])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "scope": "row"
+    }
+  }, [_vm._v("Email")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.resource.email))])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "scope": "row"
+    }
+  }, [_vm._v("Active")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.resource.active ? 'Yes' : 'No'))])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "scope": "row"
+    }
+  }, [_vm._v("Mailing Lists")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.flattenedMLists))])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "scope": "row"
+    }
+  }, [_vm._v("Created")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm._f("dateToTheMinute")(_vm.resource.created_at)))])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "scope": "row"
+    }
+  }, [_vm._v("Last Update")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm._f("dateToTheMinute")(_vm.resource.updated_at)))])])])])])]) : _c('div', [_c('i', {
+    staticClass: "fa fa-warning"
+  }), _vm._v(" " + _vm._s(_vm.appUnauthorisedErrorMessage) + "\n        ")])] : _vm._e()], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-174a8e38", module.exports)
+  }
+}
+
+/***/ }),
+/* 299 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(281)(
+  /* script */
+  __webpack_require__(300),
+  /* template */
+  __webpack_require__(301),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "C:\\wamp\\www\\ada\\resources\\assets\\js\\components\\AdminEmails\\EditEmail.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] EditEmail.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-de55471a", Component.options)
+  } else {
+    hotAPI.reload("data-v-de55471a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 300 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        this.$nextTick(function () {
+            this.getResource();
+        });
+    },
+    data: function data() {
+        return {
+            fetchingData: true,
+            resource: { first_name: '', last_name: '', email: '', active: '', mailing_lists: [] },
+            validationErrors: { first_name: '', last_name: '', email: '' },
+            mailing_lists: [],
+            selected_mailing_lists: [],
+            listRoute: 'admin_subscribers.index',
+            moreOptions: [{ text: 'Select Option', value: '' }, { text: 'Delete Subscriber', value: 'delete' }],
+            moreOption: ''
+        };
+    },
+
+    computed: {
+        sortedMailingLists: function sortedMailingLists() {
+            return _.sortBy(this.mailing_lists, ['name']);
+        },
+        flattenedMLists: function flattenedMLists() {
+            return _.flatMapDeep(this.selected_mailing_lists, function (mList) {
+                return mList.id;
+            });
+        },
+        name: function name() {
+            return this.resource.first_name + ' ' + this.resource.last_name;
+        }
+    },
+    methods: {
+        getResource: function getResource() {
+            var vm = this;
+            var progress = vm.$Progress;
+
+            progress.start();
+            vm.appClearValidationErrors();
+
+            vm.$http.get(vm.appResourceUrl + '/' + vm.id + '/edit').then(function (response) {
+                if (response.data) {
+                    if (response.data.mailing_lists && response.data.mailing_lists.length) vm.mailing_lists = response.data.mailing_lists;
+                    vm.resource = response.data.resource;
+
+                    if (vm.resource.mailing_lists) {
+                        _.forEach(vm.resource.mailing_lists, function (mailing_list) {
+                            vm.selected_mailing_lists.push({ id: mailing_list.id, name: mailing_list.name });
+                        });
+                    }
+                }
+
+                progress.finish();
+                vm.fetchingData = false;
+            }, function (error) {
+                if (error.status && error.status === 403 && error.data) vm.appCustomErrorAlert(error.data.error);else vm.appGeneralErrorAlert();
+
+                progress.fail();
+                vm.fetchingData = false;
+            });
+        },
+        updateResource: function updateResource() {
+            this.appUpdateResource();
+        },
+        deleteResource: function deleteResource() {
+            this.appDeleteResource();
+        }
+    },
+    watch: {
+        moreOption: function moreOption(action) {
+            var vm = this;
+
+            if (action.length) {
+                if (action === 'delete' && vm.appUserHasPermission(action)) {
+                    swal({ title: 'Hey, are you sure about this?', type: "warning", showCancelButton: true, confirmButtonText: _.capitalize(action) }, function (confirmed) {
+                        if (confirmed) vm.deleteResource();else vm.moreOption = '';
+                    });
+                }
+            }
+        },
+
+        'selected_mailing_lists': function selected_mailing_lists(newVal) {
+            this.resource.mailing_lists = this.flattenedMLists;
+        }
+    }
+});
+
+/***/ }),
+/* 301 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "mt-5"
+  }, [(_vm.fetchingData) ? _c('i', {
+    staticClass: "fa fa-spinner fa-spin"
+  }) : _vm._e(), _vm._v(" "), (!_vm.fetchingData) ? [(_vm.appUserHasPermission('update')) ? _c('div', [_c('h3', {
+    staticClass: "mb-5"
+  }, [_c('i', {
+    staticClass: "fa fa-edit"
+  }), _vm._v(" " + _vm._s(_vm.name) + "\n            ")]), _vm._v(" "), (!_vm.fetchingData) ? _c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.updateResource($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "form-group row"
+  }, [_c('label', {
+    staticClass: "col-md-4 form-control-label",
+    attrs: {
+      "for": "first_name"
+    }
+  }, [_vm._v("First Name")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-8"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: (_vm.resource.first_name),
+      expression: "resource.first_name",
+      modifiers: {
+        "trim": true
+      }
+    }],
+    staticClass: "form-control",
+    class: _vm.validationErrors.first_name ? 'is-invalid' : '',
+    attrs: {
+      "type": "text",
+      "id": "first_name"
+    },
+    domProps: {
+      "value": (_vm.resource.first_name)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.resource.first_name = $event.target.value.trim()
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  }), _vm._v(" "), _c('small', {
+    staticClass: "invalid-feedback"
+  }, [_vm._v("\n                            " + _vm._s(_vm.validationErrors.first_name) + "\n                        ")])])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group row"
+  }, [_c('label', {
+    staticClass: "col-md-4 form-control-label",
+    attrs: {
+      "for": "last_name"
+    }
+  }, [_vm._v("Last Name")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-8"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: (_vm.resource.last_name),
+      expression: "resource.last_name",
+      modifiers: {
+        "trim": true
+      }
+    }],
+    staticClass: "form-control",
+    class: _vm.validationErrors.last_name ? 'is-invalid' : '',
+    attrs: {
+      "type": "text",
+      "id": "last_name"
+    },
+    domProps: {
+      "value": (_vm.resource.last_name)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.resource.last_name = $event.target.value.trim()
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  }), _vm._v(" "), _c('small', {
+    staticClass: "invalid-feedback"
+  }, [_vm._v("\n                            " + _vm._s(_vm.validationErrors.last_name) + "\n                        ")])])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group row"
+  }, [_c('label', {
+    staticClass: "col-md-4 form-control-label",
+    attrs: {
+      "for": "email"
+    }
+  }, [_vm._v("Email")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-8"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: (_vm.resource.email),
+      expression: "resource.email",
+      modifiers: {
+        "trim": true
+      }
+    }],
+    staticClass: "form-control",
+    class: _vm.validationErrors.email ? 'is-invalid' : '',
+    attrs: {
+      "type": "text",
+      "id": "email"
+    },
+    domProps: {
+      "value": (_vm.resource.email)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.resource.email = $event.target.value.trim()
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  }), _vm._v(" "), _c('small', {
+    staticClass: "invalid-feedback"
+  }, [_vm._v("\n                            " + _vm._s(_vm.validationErrors.email) + "\n                        ")])])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group row checkbox"
+  }, [_c('div', {
+    staticClass: "col-md-8 ml-md-auto"
+  }, [_c('label', {
+    staticClass: "custom-control custom-checkbox"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.resource.active),
+      expression: "resource.active"
+    }],
+    staticClass: "custom-control-input",
+    attrs: {
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.resource.active) ? _vm._i(_vm.resource.active, null) > -1 : (_vm.resource.active)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.resource.active,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.resource.active = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.resource.active = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.resource.active = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('span', {
+    staticClass: "custom-control-indicator"
+  }), _vm._v(" "), _c('span', {
+    staticClass: "custom-control-description"
+  }, [_vm._v("Active")])])])]), _vm._v(" "), (_vm.mailing_lists.length) ? _c('div', {
+    staticClass: "form-group row"
+  }, [_c('label', {
+    staticClass: "col-md-4 form-control-label"
+  }, [_vm._v("Mailing Lists")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-8"
+  }, [_c('v-select', {
+    attrs: {
+      "options": _vm.sortedMailingLists,
+      "label": "name",
+      "placeholder": "No Mailing Lists",
+      "multiple": ""
+    },
+    model: {
+      value: (_vm.selected_mailing_lists),
+      callback: function($$v) {
+        _vm.selected_mailing_lists = $$v
+      },
+      expression: "selected_mailing_lists"
+    }
+  })], 1)]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "form-group row"
+  }, [_c('div', {
+    staticClass: "col-md-8 ml-md-auto"
+  }, [_c('button', {
+    staticClass: "btn btn-primary btn-outline-primary",
+    attrs: {
+      "type": "submit"
+    }
+  }, [_vm._v("Update")]), _vm._v(" "), _c('form', {
+    staticClass: "form-inline pull-right",
+    attrs: {
+      "action": ""
+    }
+  }, [_c('label', {
+    staticClass: "form-control-label mr-sm-2",
+    attrs: {
+      "for": "more-options"
+    }
+  }, [_vm._v("More Options")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.moreOption),
+      expression: "moreOption"
+    }],
+    staticClass: "custom-select form-control mb-2 mb-sm-0",
+    attrs: {
+      "id": "more-options"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.moreOption = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.moreOptions), function(option) {
+    return (_vm.appUserHasPermission(option.value)) ? _c('option', {
+      domProps: {
+        "value": option.value
+      }
+    }, [_vm._v("\n                                    " + _vm._s(option.text) + "\n                                ")]) : _vm._e()
+  }))])])])]) : _vm._e()]) : _c('div', [_c('i', {
+    staticClass: "fa fa-warning"
+  }), _vm._v(" " + _vm._s(_vm.appUnauthorisedErrorMessage) + "\n        ")])] : _vm._e()], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-de55471a", module.exports)
+  }
+}
 
 /***/ })
 ],[125]);

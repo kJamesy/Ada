@@ -79,7 +79,7 @@ class SubscriberController extends Controller
 
 				$deletedNum = Subscriber::getCount(1);
 				$mailingList = $belongingTo ? MailingList::findResource($belongingTo) : null;
-				$mailingLists = MailingList::getAttachableResources();
+				$mailingLists = MailingList::getAttachedResources();
 
 				if ( $resources->count() )
 					return response()->json(compact('resources', 'deletedNum', 'mailingList', 'mailingLists'));
@@ -94,7 +94,6 @@ class SubscriberController extends Controller
 				return redirect($this->redirect);
 		}
 	}
-
 
     /**
      * Show the form for creating a new resource.

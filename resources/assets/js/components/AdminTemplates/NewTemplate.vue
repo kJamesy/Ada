@@ -31,7 +31,6 @@
                         </div>
                     </div>
                 </form>
-
             </div>
             <div v-if="! appUserHasPermission('create')">
                 <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}

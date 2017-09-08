@@ -16,7 +16,7 @@ class CreateTemplatesTable extends Migration
         Schema::create('templates', function (Blueprint $table) {
             $table->increments('id');
 	        $table->string('name')->unique();
-	        $table->text('description');
+	        $table->text('description')->nullable();
 	        $table->mediumText('content')->nullable();
 	        $table->text('last_editor');
 	        $table->boolean('is_deleted')->default(0);

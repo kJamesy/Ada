@@ -77,6 +77,12 @@ const AppListScreenPlugin = {
                 appImporting() {
                     return _.includes(this.$route.path, 'import');
                 },
+                appBelongingToUser() {
+                    return this.$route.params.userId ? this.$route.params.userId: 0;
+                },
+                appBelongingToCampaign() {
+                    return this.$route.params.campaignId ? this.$route.params.campaignId: 0;
+                },
             },
             methods: {
                 appFetchResources(vm, orderAttr, orderToggle) {
@@ -86,6 +92,7 @@ const AppListScreenPlugin = {
                     let lastPage = _.ceil(vm.appPagination.total / vm.appPagination.per_page);
                     let trash = (typeof vm.trash === 'undefined') ? 0 : vm.trash;
                     let belongingTo = (typeof vm.belongingTo === 'undefined') ? 0 : vm.belongingTo;
+                    let by = (typeof vm.by === 'undefined') ? 0 : vm.by;
 
                     let params = {
                         perPage: vm.appPagination.per_page,
@@ -93,7 +100,8 @@ const AppListScreenPlugin = {
                         orderBy: orderBy,
                         order: ( orderToggle2 === 1 ) ? 'asc' : 'desc',
                         trash: trash,
-                        belongingTo: belongingTo
+                        belongingTo: belongingTo,
+                        by: by
                     };
 
                     if ( vm.appSearchText.length )

@@ -18,6 +18,12 @@ class Subscriber extends Model
 	protected $fillable = ['first_name', 'last_name', 'email', 'active', 'is_deleted'];
 
 	/**
+	 * Custom attributes
+	 * @var array
+	 */
+	protected $appends = ['name', 'label'];
+
+	/**
 	 * Validation rules
 	 * @var array
 	 */
@@ -34,6 +40,26 @@ class Subscriber extends Model
 	public function mailing_lists()
 	{
 		return $this->belongsToMany(MailingList::class, 'mailing_list_subscriber', 'subscriber_id', 'mailing_list_id');
+	}
+
+	/**
+	 * 'name' accessor
+	 * @return string
+	 */
+	public function getNameAttribute()
+	{
+		$name = "$this->first_name $this->last_name";
+		return $name;
+	}
+
+	/**
+	 * 'name' accessor
+	 * @return string
+	 */
+	public function getLabelAttribute()
+	{
+		$name = "$this->first_name $this->last_name <$this->email>";
+		return $name;
 	}
 
 	/**
@@ -232,6 +258,13 @@ class Subscriber extends Model
 		return $count;
 	}
 
-
+	/**
+	 * Get resources that are attached to subscribers
+	 * @return \Illuminate\Database\Eloquent\Collection|static[]
+	 */
+	public static function getAttachableResources()
+	{
+		return static::isActive()->isNotDeleted()->orderBy('first_name')->get(['id', 'first_name', 'last_name', 'email']);
+	}
 
 }

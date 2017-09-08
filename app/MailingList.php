@@ -167,4 +167,13 @@ class MailingList extends Model
 		return static::isNotDeleted()->orderBy('name')->get(['id', 'name']);
 	}
 
+	/**
+	 * Get resources that are attached to subscribers
+	 * @return \Illuminate\Database\Eloquent\Collection|static[]
+	 */
+	public static function getAttachedResources()
+	{
+		return static::has('subscribers')->isNotDeleted()->orderBy('name')->get(['id', 'name']);
+	}
+
 }

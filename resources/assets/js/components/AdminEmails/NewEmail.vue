@@ -1,0 +1,186 @@
+<template>
+    <div class="mt-5">
+        <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
+
+        <template v-if="! fetchingData">
+            <div v-if="appUserHasPermission('create')">
+                <form v-on:submit.prevent='createResource'>
+                    <div class="form-group" v-if="subscribers.length">
+                        <label class="form-control-label">Recipient Subscribers <small class="text-danger">{{ validationErrors.subscribers }}</small></label>
+                        <div class="">
+                            <v-select :options="sortedSubscribers"  placeholder="Select Subscribers" v-model="selected_subscribers" multiple></v-select>
+                        </div>
+                    </div>
+                    <div class="form-group" v-if="mailing_lists.length">
+                        <label class="form-control-label">Recipient Mailing Lists <small class="text-danger">{{ validationErrors.mailing_lists }}</small></label>
+                        <div class="">
+                            <v-select :options="sortedMailingLists" label="name" placeholder="Select Mailing Lists" v-model="selected_mailing_lists" multiple></v-select>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="form-control-label" for="subject">Subject <small class="text-danger">{{ validationErrors.subject }}</small></label>
+                        <div class="">
+                            <input type="text" class="form-control" id="subject" v-model.trim="resource.subject">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Campaign <small class="text-danger">{{ validationErrors.campaign }}</small></label>
+                        <div class="">
+                            <select class="custom-select form-control" v-model="resource.campaign">
+                                <option v-for="option in sortedCampaigns" v-bind:value="option.id">
+                                    {{ option.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="content">Content <small class="text-danger">{{ validationErrors.content }}</small></label>
+                        <div class="">
+                            <textarea class="form-control" id="content" v-model.trim="resource.content" rows="4" v-on:click="checkEditor">
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="ml-md-auto">
+                            <button type="submit" class="btn btn-primary btn-outline-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div v-if="! appUserHasPermission('create')">
+                <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
+            </div>
+        </template>
+    </div>
+</template>
+
+<script>
+    export default {
+        mounted() {
+            this.$nextTick(function() {
+                this.goTime();
+                this.listenEvents();
+            });
+        },
+        data() {
+            return {
+                fetchingData: true,
+                resource: {subscribers: [], mailing_lists: [], subject: '', campaign: '', content: ''},
+                validationErrors: {subscribers: '', mailing_lists: '', subject: '', campaign: '', content: ''},
+                subscribers: [],
+                selected_subscribers: [],
+                mailing_lists: [],
+                selected_mailing_lists: [],
+                campaigns: [],
+            }
+        },
+        computed: {
+            sortedSubscribers() {
+                return _.sortBy(this.subscribers, ['name']);
+            },
+            flattenedSubscribers() {
+                return _.flatMapDeep(this.selected_subscribers, function(subscriber) {
+                    return subscriber.id;
+                });
+            },
+            sortedMailingLists() {
+                return _.sortBy(this.mailing_lists, ['name']);
+            },
+            flattenedMLists() {
+                return _.flatMapDeep(this.selected_mailing_lists, function(mList) {
+                    return mList.id;
+                });
+            },
+            sortedCampaigns() {
+                return _.sortBy(this.campaigns, ['name']);
+            },
+        },
+        methods: {
+            goTime() {
+                let vm = this;
+                let progress = vm.$Progress;
+
+                progress.start();
+                vm.appClearValidationErrors();
+
+                vm.$http.get(vm.appResourceUrl + '/create').then(function(response) {
+                    if ( response.data && response.data.subscribers && response.data.subscribers.length )
+                        vm.subscribers = response.data.subscribers;
+
+                    if ( response.data && response.data.mailing_lists && response.data.mailing_lists.length )
+                        vm.mailing_lists = response.data.mailing_lists;
+
+                    if ( response.data && response.data.campaigns && response.data.campaigns.length )
+                        vm.campaigns = response.data.campaigns;
+
+                    vm.initTinyMce(100);
+                    progress.finish();
+                    vm.fetchingData = false;
+
+                }, function(error) {
+                    if ( error.status && error.status === 403 && error.data )
+                        vm.appCustomErrorAlert(error.data.error);
+                    else
+                        vm.appGeneralErrorAlert();
+
+                    progress.fail();
+                    vm.fetchingData = false;
+                });
+            },
+            createResource() {
+                this.appCreateResource();
+            },
+            initTinyMce(wait) {
+                let vm = this;
+
+                let newCOnfig = {
+                    selector: '#content',
+                    setup: function(editor) {
+                        editor.on('init', function() {
+                            editor.setContent(vm.resource.content);
+                            vm.editorReady = true;
+                        });
+
+                        editor.on('change keyup blur', function() {
+                            vm.resource.content = editor.getContent();
+                        });
+                    }
+                };
+
+                _.delay(function() {
+                    tinymce.remove();
+                    tinymce.init(_.assign(tinyMceConfig, newCOnfig));
+                }, parseInt(wait));
+            },
+            checkEditor() {
+                let vm = this;
+                if ( ! vm.editorReady )
+                    vm.initTinyMce(100);
+            },
+            listenEvents() {
+                let vm = this;
+
+                vm.$on('unsuccessfulcreate', function() {
+                    vm.initTinyMce(100);
+                });
+
+                vm.$on('successfulcreate', function() {
+                    this.clearDefaults();
+                    vm.initTinyMce(100);
+                });
+            },
+            clearDefaults() {
+                this.selected_subscribers = [];
+                this.selected_mailing_lists = [];
+            },
+        },
+        watch: {
+            'selected_subscribers': function(newVal) {
+                this.resource.subscribers = this.flattenedSubscribers;
+            },
+            'selected_mailing_lists': function(newVal) {
+                this.resource.mailing_lists = this.flattenedMLists;
+            },
+        }
+    }
+</script>

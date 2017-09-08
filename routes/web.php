@@ -51,6 +51,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 	            Route::get('campaigns/{vue?}', 'CampaignController@index');
 	            Route::get('templates/export', 'TemplateController@export');
 	            Route::get('templates/{vue?}', 'TemplateController@index');
+	            Route::get('emails/export', 'EmailController@export');
+	            Route::get('emails/{vue?}', 'EmailController@index');
             }
 
             Route::resource('settings', 'AdminController');
@@ -64,6 +66,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 	        Route::resource('campaigns', 'CampaignController');
 	        Route::put('templates/{option}/quick-update', 'TemplateController@quickUpdate');
 	        Route::resource('templates', 'TemplateController');
+	        Route::put('emails/{option}/quick-update', 'EmailController@quickUpdate');
+	        Route::resource('emails', 'EmailController');
         });
 
         Route::get('inactive', ['as' => 'admin.inactive', 'middleware' => 'inactive', function () { return view('admin.inactive'); }]);
@@ -74,4 +78,5 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
 Route::group(['prefix' => 'guest'], function() {
 	Route::get('templates/{id}/display', ['as' => 'templates.display', 'uses' => 'Admin\\TemplateController@display']);
+	Route::get('emails/{id}/display', ['as' => 'emails.display', 'uses' => 'Admin\\EmailController@display']);
 });

@@ -27,6 +27,15 @@ class Campaign extends Model
 	];
 
 	/**
+	 * A Campaign has many Emails
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function emails()
+	{
+		return $this->hasMany(Email::class);
+	}
+
+	/**
 	 * Scope for deleted model
 	 * @param $query
 	 * @return mixed
@@ -154,6 +163,15 @@ class Campaign extends Model
 	public static function getAttachableResources()
 	{
 		return static::isNotDeleted()->orderBy('name')->get(['id', 'name']);
+	}
+
+	/**
+	 * Get resources that are attached to emails
+	 * @return \Illuminate\Database\Eloquent\Collection|static[]
+	 */
+	public static function getAttachedResources()
+	{
+		return static::has('emails')->isNotDeleted()->orderBy('name')->get(['id', 'name']);
 	}
 
 }

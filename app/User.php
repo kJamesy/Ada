@@ -44,6 +44,14 @@ class User extends Authenticatable
         'password' => 'required|min:6|confirmed',
     ];
 
+	/**
+	 * A User has many Emails
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+    public function emails()
+    {
+    	return $this->hasMany(Email::class);
+    }
     /**
      * Get default user role
      * @return string
@@ -159,5 +167,14 @@ class User extends Authenticatable
     {
         return static::whereIn('id', static::search($search)->get()->pluck('id'))->whereNotIn('id', $except)->paginate($paginate);
     }
+
+	/**
+	 * Get resources that are attached to emails
+	 * @return \Illuminate\Database\Eloquent\Collection|static[]
+	 */
+	public static function getAttachedResources()
+	{
+		return static::has('emails')->orderBy('first_name')->get(['id', 'first_name', 'last_name']);
+	}
 
 }

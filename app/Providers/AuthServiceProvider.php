@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Campaign;
+use App\Email;
 use App\MailingList;
 use App\Policies\CampaignPolicy;
+use App\Policies\EmailPolicy;
 use App\Policies\MailingListPolicy;
 use App\Policies\SubscriberPolicy;
 use App\Policies\TemplatePolicy;
@@ -27,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
 	    Subscriber::class => SubscriberPolicy::class,
 	    Campaign::class => CampaignPolicy::class,
 	    Template::class => TemplatePolicy::class,
-
+	    Email::class => EmailPolicy::class,
     ];
 
     /**

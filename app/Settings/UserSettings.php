@@ -29,6 +29,7 @@ class UserSettings
 	    'subscribers',
 	    'campaigns',
 	    'templates',
+	    'emails'
     ];
 
     /**
