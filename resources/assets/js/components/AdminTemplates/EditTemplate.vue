@@ -56,7 +56,6 @@
         mounted() {
             this.$nextTick(function() {
                 this.getResource();
-                this.initTinyMce(400);
                 this.listenEvents();
             });
         },
@@ -71,12 +70,41 @@
                     { text: 'Delete Template', value: 'delete' },
                 ],
                 moreOption: '',
+                templates: [],
                 editorReady: false
             }
         },
         methods: {
             getResource() {
-                this.appGetResource();
+                let vm = this;
+                let progress = vm.$Progress;
+
+                progress.start();
+
+                vm.$http.get(vm.appResourceUrl + '/' + vm.id + '/edit').then(function(response) {
+                    if ( response.data && response.data.resource )
+                        vm.resource = response.data.resource;
+
+                    if ( response.data && response.data.templates )
+                        vm.templates = response.data.templates;
+
+                    vm.initTinyMce(10);
+                    progress.finish();
+                    vm.fetchingData = false;
+
+                }, function(error) {
+                    if ( error.status && error.status === 403 && error.data ) {
+                        swal({ title: "Uh oh!", text: error.data.error, type: 'error', animation: 'slide-from-top'}, function(){
+                            window.location.replace(vm.appUserHome);
+                        });
+                    }
+                    else if ( error.status && error.status === 404 && error.data )
+                        vm.appCustomErrorAlert(error.data.error);
+                    else
+                        vm.appGeneralErrorAlert();
+                    progress.fail();
+                    vm.fetchingData = false;
+                });
             },
             updateResource() {
                 this.appUpdateResource();
@@ -86,6 +114,9 @@
             },
             initTinyMce(wait) {
                 let vm = this;
+                let defaultConfig = tinyMceConfig;
+
+                defaultConfig.plugins[0] += ' template'; //Extra plugin
 
                 let newCOnfig = {
                     selector: '#content',
@@ -98,32 +129,29 @@
                         editor.on('change keyup blur', function() {
                             vm.resource.content = editor.getContent();
                         });
-                    }
+                    },
+                    templates: vm.templates
                 };
 
                 _.delay(function() {
                     tinymce.remove();
-                    tinymce.init(_.assign(tinyMceConfig, newCOnfig));
+                    tinymce.init(_.assign(defaultConfig, newCOnfig));
                 }, parseInt(wait));
             },
             checkEditor() {
                 let vm = this;
                 if ( ! vm.editorReady )
-                    vm.initTinyMce(100);
+                    vm.initTinyMce(50);
             },
             listenEvents() {
                 let vm = this;
 
-                vm.$on('successfulfetch', function() {
-                    vm.initTinyMce(100);
-                });
-
                 vm.$on('unsuccessfulupdate', function() {
-                    vm.initTinyMce(100);
+                    vm.initTinyMce(50);
                 });
 
                 vm.$on('successfulupdate', function() {
-                    vm.initTinyMce(100);
+                    vm.initTinyMce(50);
                 });
             }
         },

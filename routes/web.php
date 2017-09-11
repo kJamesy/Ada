@@ -51,6 +51,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 	            Route::get('campaigns/{vue?}', 'CampaignController@index');
 	            Route::get('templates/export', 'TemplateController@export');
 	            Route::get('templates/{vue?}', 'TemplateController@index');
+	            Route::get('email-settings/export', 'EmailSettingController@export');
+	            Route::get('email-settings/{vue?}', 'EmailSettingController@index');
 	            Route::get('emails/export', 'EmailController@export');
 	            Route::get('emails/{vue?}', 'EmailController@index');
             }
@@ -66,6 +68,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 	        Route::resource('campaigns', 'CampaignController');
 	        Route::put('templates/{option}/quick-update', 'TemplateController@quickUpdate');
 	        Route::resource('templates', 'TemplateController');
+	        Route::put('email-settings/{option}/quick-update', 'EmailSettingController@quickUpdate');
+	        Route::resource('email-settings', 'EmailSettingController');
 	        Route::put('emails/{option}/quick-update', 'EmailController@quickUpdate');
 	        Route::resource('emails', 'EmailController');
         });

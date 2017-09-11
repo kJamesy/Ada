@@ -86,6 +86,21 @@ class TemplateController extends Controller
 	}
 
 	/**
+	 * Show the form for creating a new resource.
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create(Request $request)
+	{
+		if ( $request->user()->can('create', $this->policyOwnerClass) ) {
+			$templates = Template::getAttachableResources();
+
+			return response()->json(compact('templates'));
+		}
+
+		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+	}
+
+	/**
 	 * Store a newly created resource in storage.
 	 * @param Request $request
 	 * @return Template|\Illuminate\Http\JsonResponse
@@ -160,7 +175,8 @@ class TemplateController extends Controller
 			if ( ! $currentUser->can('update', $this->policyOwnerClass) )
 				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 
-			return response()->json(compact('resource'));
+			$templates = Template::getAttachableResources();
+			return response()->json(compact('resource', 'templates'));
 		}
 
 		return response()->json(['error' => "$this->friendlyName does not exist"], 404);

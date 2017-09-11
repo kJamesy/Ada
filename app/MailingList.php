@@ -18,6 +18,12 @@ class MailingList extends Model
 	protected $fillable = ['name', 'description', 'is_deleted'];
 
 	/**
+	 * Custom attributes
+	 * @var array
+	 */
+	protected $appends = ['label'];
+
+	/**
 	 * Validation rules
 	 * @var array
 	 */
@@ -33,6 +39,16 @@ class MailingList extends Model
 	public function subscribers()
 	{
 		return $this->belongsToMany(Subscriber::class, 'mailing_list_subscriber', 'mailing_list_id', 'subscriber_id');
+	}
+
+	/**
+	 * 'label' accessor
+	 * @return string
+	 */
+	public function getLabelAttribute()
+	{
+		$name = $this->subscribers_count ? "$this->name [$this->subscribers_count]" : $this->name;
+		return $name;
 	}
 
 	/**
@@ -97,8 +113,8 @@ class MailingList extends Model
 	/**
 	 * Get search results
 	 * @param $search
+	 * @param int $deleted
 	 * @param int $paginate
-	 * @param array $except
 	 * @return mixed
 	 */
 	public static function getSearchResults($search, $deleted = 0, $paginate = 25)
@@ -169,11 +185,13 @@ class MailingList extends Model
 
 	/**
 	 * Get resources that are attached to subscribers
-	 * @return \Illuminate\Database\Eloquent\Collection|static[]
+	 * @return mixed
 	 */
 	public static function getAttachedResources()
 	{
-		return static::has('subscribers')->isNotDeleted()->orderBy('name')->get(['id', 'name']);
+		return static::whereHas('subscribers', function($q) {
+			$q->isActive()->isNotDeleted();
+		})->withCount('subscribers')->isNotDeleted()->orderBy('name')->get(['id', 'name']);
 	}
 
 }

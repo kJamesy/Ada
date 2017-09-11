@@ -209,6 +209,39 @@ if ( $('#admin-templates-app').length ) {
 }
 
 /**
+ * EmailSettings
+ */
+import AdminEmailSettings from './components/AdminEmailSettings/AdminEmailSettings.vue';
+import AdminEmailSettingsAll from './components/AdminEmailSettings/AllEmailSettings.vue';
+import AdminEmailSettingsNew from './components/AdminEmailSettings/NewEmailSetting.vue';
+import AdminEmailSettingsView from './components/AdminEmailSettings/ViewEmailSetting.vue';
+import AdminEmailSettingsEdit from './components/AdminEmailSettings/EditEmailSetting.vue';
+
+if ( $('#admin-email-settings-app').length ) {
+    let router = new VueRouter({
+        mode: 'history',
+        base: links.base,
+        linkActiveClass: 'active',
+        routes: [
+            { path: '/', name: 'admin_email_settings.index', component: AdminEmailSettingsAll },
+            { path: '/create', name: 'admin_email_settings.create', component: AdminEmailSettingsNew },
+            { path: '/:id(\\d+)/view', name: 'admin_email_settings.view', component: AdminEmailSettingsView },
+            { path: '/:id(\\d+)/edit', name: 'admin_email_settings.edit', component: AdminEmailSettingsEdit },
+            { path: '*', redirect: { name: 'admin_email_settings.index' } }
+        ]
+    });
+
+    new Vue({
+        el: '#admin-email-settings-app',
+        components: {
+            AdminEmailSettings
+        },
+        router: router
+    });
+}
+
+
+/**
  * Subscribers
  */
 import AdminEmails from './components/AdminEmails/AdminEmails.vue';

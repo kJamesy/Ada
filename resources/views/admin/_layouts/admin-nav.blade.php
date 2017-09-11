@@ -27,6 +27,11 @@
             <a class="nav-link @yield('templates_active')" href="{{ route('templates.index') }}">Templates</a>
         </li>
     @endif
+    @if ( (array_key_exists('read_emails', $permissions) && $permissions['read_emails']) || ! array_key_exists('read_emails', $permissions) )
+        <li class="nav-item">
+            <a class="nav-link @yield('email_settings_active')" href="{{ route('email-settings.index') }}">Email Settings</a>
+        </li>
+    @endif
     @if ( (array_key_exists('read_users', $permissions) && $permissions['read_users']) || ! array_key_exists('read_users', $permissions) )
         <li class="nav-item">
             <a class="nav-link @yield('users_active')" href="{{ route('users.index') }}">Users</a>

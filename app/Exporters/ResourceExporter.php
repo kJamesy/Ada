@@ -45,6 +45,9 @@ class ResourceExporter
 	        case 'templates':
 		        return static::generateTemplatesExport();
 		        break;
+	        case 'email_settings':
+		        return static::generateEmailSettingsExport();
+		        break;
         }
 
         return null;
@@ -195,6 +198,36 @@ class ResourceExporter
 			}
 
 			$excel->sheet('Campaigns', function($sheet) use ($exportArr) {
+				$sheet->fromArray($exportArr);
+			});
+
+		})->download('xls');
+	}
+
+	/**
+	 * Generate email settings export
+	 * @return mixed
+	 */
+	public function generateEmailSettingsExport()
+	{
+		return Excel::create($this->exportFileName, function($excel) {
+			$resources = $this->resources;
+			$exportArr = [];
+
+			if ( count($resources) ) {
+				foreach ($resources as $resource) {
+					$exportArr[] = [
+						'Name' => $resource->name,
+						'Description' => $resource->description,
+						'Setting Value' => $resource->setting_value,
+						'Created' => $resource->created_at->toDateTimeString(),
+						'Last Updated' => $resource->updated_at->toDateTimeString(),
+					];
+
+				}
+			}
+
+			$excel->sheet('Email Settings', function($sheet) use ($exportArr) {
 				$sheet->fromArray($exportArr);
 			});
 

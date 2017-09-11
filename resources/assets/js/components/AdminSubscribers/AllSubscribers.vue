@@ -21,7 +21,7 @@
                             <select class="custom-select form-control" v-model="mailingList" id="mailing_lists">
                                 <option value="0">(All)</option>
                                 <option v-for="mList in mailingLists" v-bind:value="mList.id">
-                                    {{ mList.name }}
+                                    {{ mList.label }}
                                 </option>
                                 <option value="-1">(Unattached)</option>
                             </select>

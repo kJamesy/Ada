@@ -14,7 +14,7 @@
                     <div class="form-group" v-if="mailing_lists.length">
                         <label class="form-control-label">Recipient Mailing Lists <small class="text-danger">{{ validationErrors.mailing_lists }}</small></label>
                         <div class="">
-                            <v-select :options="sortedMailingLists" label="name" placeholder="Select Mailing Lists" v-model="selected_mailing_lists" multiple></v-select>
+                            <v-select :options="sortedMailingLists" placeholder="Select Mailing Lists" v-model="selected_mailing_lists" multiple></v-select>
                         </div>
                     </div>
                     <div class="form-group ">
@@ -72,6 +72,8 @@
                 mailing_lists: [],
                 selected_mailing_lists: [],
                 campaigns: [],
+                templates: [],
+                editorReady: false
             }
         },
         computed: {
@@ -101,7 +103,6 @@
                 let progress = vm.$Progress;
 
                 progress.start();
-                vm.appClearValidationErrors();
 
                 vm.$http.get(vm.appResourceUrl + '/create').then(function(response) {
                     if ( response.data && response.data.subscribers && response.data.subscribers.length )
@@ -113,7 +114,10 @@
                     if ( response.data && response.data.campaigns && response.data.campaigns.length )
                         vm.campaigns = response.data.campaigns;
 
-                    vm.initTinyMce(100);
+                    if ( response.data && response.data.templates && response.data.templates.length )
+                        vm.templates = response.data.templates;
+
+                    vm.initTinyMce(10);
                     progress.finish();
                     vm.fetchingData = false;
 
@@ -132,6 +136,9 @@
             },
             initTinyMce(wait) {
                 let vm = this;
+                let defaultConfig = tinyMceConfig;
+
+                defaultConfig.plugins[0] += ' template'; //Extra plugin
 
                 let newCOnfig = {
                     selector: '#content',
@@ -144,29 +151,30 @@
                         editor.on('change keyup blur', function() {
                             vm.resource.content = editor.getContent();
                         });
-                    }
+                    },
+                    templates: vm.templates
                 };
 
                 _.delay(function() {
                     tinymce.remove();
-                    tinymce.init(_.assign(tinyMceConfig, newCOnfig));
+                    tinymce.init(_.assign(defaultConfig, newCOnfig));
                 }, parseInt(wait));
             },
             checkEditor() {
                 let vm = this;
                 if ( ! vm.editorReady )
-                    vm.initTinyMce(100);
+                    vm.initTinyMce(50);
             },
             listenEvents() {
                 let vm = this;
 
                 vm.$on('unsuccessfulcreate', function() {
-                    vm.initTinyMce(100);
+                    vm.initTinyMce(50);
                 });
 
                 vm.$on('successfulcreate', function() {
                     this.clearDefaults();
-                    vm.initTinyMce(100);
+                    vm.initTinyMce(50);
                 });
             },
             clearDefaults() {

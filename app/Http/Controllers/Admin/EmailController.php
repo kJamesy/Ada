@@ -8,6 +8,7 @@ use App\MailingList;
 use App\Permissions\UserPermissions;
 use App\Settings\UserSettings;
 use App\Subscriber;
+use App\Template;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -105,10 +106,11 @@ class EmailController extends Controller
 	{
 		if ( $request->user()->can('create', $this->policyOwnerClass) ) {
 			$subscribers = Subscriber::getAttachableResources();
-			$mailing_lists = MailingList::getAttachableResources();
+			$mailing_lists = MailingList::getAttachedResources();
 			$campaigns = Campaign::getAttachableResources();
+			$templates = Template::getAttachableResources();
 
-			return response()->json(compact('subscribers', 'mailing_lists', 'campaigns'));
+			return response()->json(compact('subscribers', 'mailing_lists', 'campaigns', 'templates'));
 		}
 
 		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);

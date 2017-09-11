@@ -43,8 +43,7 @@
     export default {
         mounted() {
             this.$nextTick(function() {
-                this.appGoTime();
-                this.initTinyMce(400);
+                this.goTime();
                 this.listenEvents();
             });
         },
@@ -53,15 +52,43 @@
                 fetchingData: true,
                 resource: {name: '', description: '', content: ''},
                 validationErrors: {name: '', description: '', content: ''},
+                templates: [],
                 editorReady: false
             }
         },
         methods: {
+            goTime() {
+                let vm = this;
+                let progress = vm.$Progress;
+
+                progress.start();
+
+                vm.$http.get(vm.appResourceUrl + '/create').then(function(response) {
+                    if ( response.data && response.data.templates && response.data.templates.length )
+                        vm.templates = response.data.templates;
+
+                    vm.initTinyMce(10);
+                    progress.finish();
+                    vm.fetchingData = false;
+
+                }, function(error) {
+                    if ( error.status && error.status === 403 && error.data )
+                        vm.appCustomErrorAlert(error.data.error);
+                    else
+                        vm.appGeneralErrorAlert();
+
+                    progress.fail();
+                    vm.fetchingData = false;
+                });
+            },
             createResource() {
                 this.appCreateResource();
             },
             initTinyMce(wait) {
                 let vm = this;
+                let defaultConfig = tinyMceConfig;
+
+                defaultConfig.plugins[0] += ' template'; //Extra plugin
 
                 let newCOnfig = {
                     selector: '#content',
@@ -74,28 +101,29 @@
                         editor.on('change keyup blur', function() {
                             vm.resource.content = editor.getContent();
                         });
-                    }
+                    },
+                    templates: vm.templates
                 };
 
                 _.delay(function() {
                     tinymce.remove();
-                    tinymce.init(_.assign(tinyMceConfig, newCOnfig));
+                    tinymce.init(_.assign(defaultConfig, newCOnfig));
                 }, parseInt(wait));
             },
             checkEditor() {
                 let vm = this;
                 if ( ! vm.editorReady )
-                    vm.initTinyMce(100);
+                    vm.initTinyMce(50);
             },
             listenEvents() {
                 let vm = this;
 
                 vm.$on('unsuccessfulcreate', function() {
-                    vm.initTinyMce(100);
+                    vm.initTinyMce(50);
                 });
 
                 vm.$on('successfulcreate', function() {
-                    vm.initTinyMce(100);
+                    vm.initTinyMce(50);
                 });
             }
         },

@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Email;
+use App\EmailSetting;
 use App\Exporters\ResourceExporter;
-use App\MailingList;
 use App\Permissions\UserPermissions;
 use App\Settings\UserSettings;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class MailingListController extends Controller
+class EmailSettingController extends Controller
 {
 	protected $redirect;
 	public $rules;
@@ -25,21 +26,21 @@ class MailingListController extends Controller
 	protected $friendlyNamePlural;
 
 	/**
-	 * MailingListController constructor.
+	 * EmailSettingController constructor.
 	 */
 	public function __construct()
 	{
 		$this->redirect = route('admin.home');
-		$this->rules = MailingList::$rules;
+		$this->rules = EmailSetting::$rules;
 		$this->perPage = 25;
-		$this->orderByFields = ['name', 'subscribers_count', 'created_at', 'updated_at'];
+		$this->orderByFields = ['name', 'setting_value', 'created_at', 'updated_at'];
 		$this->orderCriteria = ['asc', 'desc'];
-		$this->settingsKey = 'mailing_lists';
+		$this->settingsKey = 'email_settings';
 		$this->policies = UserPermissions::getPolicies();
-		$this->policyOwnerClass = MailingList::class;
+		$this->policyOwnerClass = Email::class;
 		$this->permissionsKey = UserPermissions::getModelShortName($this->policyOwnerClass);
-		$this->friendlyName = 'Mailing List';
-		$this->friendlyNamePlural = 'Mailing Lists';
+		$this->friendlyName = 'Email Setting';
+		$this->friendlyNamePlural = 'Email Settings';
 	}
 
 	/**
@@ -58,22 +59,21 @@ class MailingListController extends Controller
 			$deleted = (int) $request->trash;
 
 			if ( ! $request->ajax() ) {
-				return view('admin.mailing_lists')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey]);
+				return view('admin.email_settings')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey]);
 			}
 			else {
 				$settings = UserSettings::getSettings($user->id, $this->settingsKey, $orderBy, $order, $perPage, true);
 				$search = strtolower($request->search);
 
 				$resources = $search
-					? MailingList::getSearchResults($search, $deleted, $settings["{$this->settingsKey}_per_page"])
-					: MailingList::getResources([], $deleted, $settings["{$this->settingsKey}_order_by"], $settings["{$this->settingsKey}_order"], $settings["{$this->settingsKey}_per_page"]);
+					? EmailSetting::getSearchResults($search, $settings["{$this->settingsKey}_per_page"])
+					: EmailSetting::getResources([], $settings["{$this->settingsKey}_order_by"], $settings["{$this->settingsKey}_order"], $settings["{$this->settingsKey}_per_page"]);
 
-				$deletedNum = MailingList::getCount(1);
 
 				if ( $resources->count() )
-					return response()->json(compact('resources', 'deletedNum'));
+					return response()->json(compact('resources'));
 				else
-					return response()->json(['error' => "No $this->friendlyNamePlural found", 'deletedNum' => $deletedNum], 404);
+					return response()->json(['error' => "No $this->friendlyNamePlural found"], 404);
 			}
 		}
 		else {
@@ -87,16 +87,17 @@ class MailingListController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 * @param Request $request
-	 * @return MailingList|\Illuminate\Http\JsonResponse
+	 * @return EmailSetting|\Illuminate\Http\JsonResponse
 	 */
 	public function store(Request $request)
 	{
 		if ( $request->user()->can('create', $this->policyOwnerClass) ) {
 			$this->validate($request, $this->rules);
 
-			$resource = new MailingList();
+			$resource = new EmailSetting();
 			$resource->name = trim($request->name);
 			$resource->description = trim($request->description);
+			$resource->setting_value = trim($request->setting_value);
 			$resource->save();
 
 			return $resource;
@@ -113,7 +114,7 @@ class MailingListController extends Controller
 	 */
 	public function show($id, Request $request)
 	{
-		$resource = MailingList::findResource( (int) $id );
+		$resource = EmailSetting::findResource( (int) $id );
 		$currentUser = $request->user();
 
 		if ( $resource ) {
@@ -134,7 +135,7 @@ class MailingListController extends Controller
 	 */
 	public function edit($id, Request $request)
 	{
-		$resource = MailingList::findResource( (int) $id );
+		$resource = EmailSetting::findResource( (int) $id );
 		$currentUser = $request->user();
 
 		if ( $resource ) {
@@ -155,7 +156,7 @@ class MailingListController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
-		$resource = MailingList::findResource( (int) $id );
+		$resource = EmailSetting::findResource( (int) $id );
 		$currentUser = $request->user();
 
 		if ( $resource ) {
@@ -165,12 +166,13 @@ class MailingListController extends Controller
 			$rules = $this->rules;
 
 			if ( strtolower($resource->name) == strtolower(trim($request->name)) )
-				$rules['name'] = str_replace("|unique:mailing_lists", '', $rules['name'] );
+				$rules['name'] = str_replace("|unique:email_settings", '', $rules['name'] );
 
 			$this->validate($request, $rules);
 
 			$resource->name = trim($request->name);
 			$resource->description = trim($request->description);
+			$resource->setting_value = trim($request->setting_value);
 			$resource->save();
 
 			return response()->json(compact('resource'));
@@ -180,30 +182,22 @@ class MailingListController extends Controller
 	}
 
 	/**
-	 * Delete/destroy the specified resource
+	 * Destroy the specified resource
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
 	public function destroy($id, Request $request)
 	{
-		$resource = MailingList::findResource( (int) $id );
+		$resource = EmailSetting::findResource( (int) $id );
 		$currentUser = $request->user();
 
 		if ( $currentUser->can('delete', $this->policyOwnerClass) ) {
 			if ( ! $resource )
 				return response()->json(['error' => "$this->friendlyName does not exist"], 404);
 
-			$suffix = 'permanently deleted';
+			$resource->delete();
 
-			if ( $request->permanent )
-				$resource->delete();
-			else {
-				$resource->is_deleted = 1;
-				$resource->save();
-				$suffix = 'moved to trash';
-			}
-
-			return response()->json(['success' => "$this->friendlyName $suffix"]);
+			return response()->json(['success' => "$this->friendlyName permanently deleted."]);
 		}
 
 		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
@@ -225,19 +219,13 @@ class MailingListController extends Controller
 
 			if ( $selectedNum ) {
 				try {
-					$resources = MailingList::getResources($resourceIds, -1)->pluck('id')->toArray();
+					$resources = EmailSetting::getResources($resourceIds)->pluck('id')->toArray();
 					$successNum = 0;
 
 					if ( $resources ) {
 						switch ($update) {
 							case 'delete':
-								$successNum = MailingList::doBulkActions($resources, 'delete');
-								break;
-							case 'restore':
-								$successNum = MailingList::doBulkActions($resources, 'restore');
-								break;
-							case 'destroy':
-								$successNum = MailingList::doBulkActions($resources, 'destroy');
+								$successNum = EmailSetting::doBulkActions($resources, 'delete');
 								break;
 						}
 
@@ -246,8 +234,6 @@ class MailingListController extends Controller
 						$successNum = $successNum ?: 'No';
 
 						if ( $update == 'delete')
-							$update = 'moved to trash';
-						else if ( $update == 'destroy')
 							$update = 'permanently deleted';
 						else
 							$update = "{$update}d";
@@ -279,14 +265,12 @@ class MailingListController extends Controller
 			$resourceIds = (array) $request->resourceIds;
 			$fileName = '';
 
-			$deleted = $request->has('trash') ? (int) $request->trash : -1;
-
-			$resources = MailingList::getResources($resourceIds, $deleted);
+			$resources = EmailSetting::getResources($resourceIds);
 			$fileName .= count($resourceIds) ? 'Specified-Items-' : 'All-Items-';
 			$fileName .= Carbon::now()->toDateString();
 
 			$exporter = new ResourceExporter($resources, $fileName);
-			return $exporter->generateExcelExport('mailing_lists');
+			return $exporter->generateExcelExport('email_settings');
 		}
 		else
 			return redirect()->back();

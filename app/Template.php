@@ -18,6 +18,12 @@ class Template extends Model
 	protected $fillable = ['name', 'description', 'content', 'last_editor', 'is_deleted'];
 
 	/**
+	 * Custom attributes
+	 * @var array
+	 */
+	protected $appends = ['title'];
+
+	/**
 	 * Validation rules
 	 * @var array
 	 */
@@ -26,6 +32,15 @@ class Template extends Model
 		'description' => 'required|max:512',
 		'content' => 'required|max:48000',
 	];
+
+	/**
+	 * 'title' accessor
+	 * @return string
+	 */
+	public function getTitleAttribute()
+	{
+		return $this->name;
+	}
 
 	/**
 	 * Scope for deleted model
@@ -154,7 +169,7 @@ class Template extends Model
 	 */
 	public static function getAttachableResources()
 	{
-		return static::isNotDeleted()->orderBy('name')->get(['id', 'name']);
+		return static::isNotDeleted()->orderBy('name')->get();
 	}
 
 }

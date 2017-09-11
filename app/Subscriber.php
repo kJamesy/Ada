@@ -53,7 +53,7 @@ class Subscriber extends Model
 	}
 
 	/**
-	 * 'name' accessor
+	 * 'label' accessor
 	 * @return string
 	 */
 	public function getLabelAttribute()

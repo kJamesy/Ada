@@ -13,7 +13,7 @@
         paste_as_text: true,
         toolbar: [
             'outdent indent | alignleft aligncenter alignright alignjustify | link unlink anchor | image | bullist numlist | fullscreen', // | save
-            'undo redo | bold italic underline | fontselect fontsizeselect | forecolor backcolor'
+            'undo redo | bold italic underline | formatselect | fontselect fontsizeselect | forecolor backcolor'
         ],
         image_caption: false,
         image_description: true,
