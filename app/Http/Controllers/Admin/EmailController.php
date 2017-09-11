@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Campaign;
 use App\Email;
+use App\EmailSetting;
 use App\MailingList;
 use App\Permissions\UserPermissions;
 use App\Settings\UserSettings;
@@ -109,8 +110,11 @@ class EmailController extends Controller
 			$mailing_lists = MailingList::getAttachedResources();
 			$campaigns = Campaign::getAttachableResources();
 			$templates = Template::getAttachableResources();
+			$sender_email = EmailSetting::getSenderEmail();
+			$sender_name = EmailSetting::getSenderName();
+			$reply_to_email = EmailSetting::getReplyToEmail();
 
-			return response()->json(compact('subscribers', 'mailing_lists', 'campaigns', 'templates'));
+			return response()->json(compact('subscribers', 'mailing_lists', 'campaigns', 'templates', 'sender_email', 'sender_name', 'reply_to_email'));
 		}
 
 		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);

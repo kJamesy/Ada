@@ -90,4 +90,35 @@ class EmailSetting extends Model
 		return $count;
 	}
 
+	/**
+	 * Get sender name
+	 * @return Model|null|static
+	 */
+	public static function getSenderName()
+	{
+		$setting = static::where('name', 'LIKE', '%sender name%')->first();
+		return $setting ? $setting->setting_value : null;
+	}
+
+	/**
+	 * Get sender email
+	 * @return Model|null|static
+	 */
+	public static function getSenderEmail()
+	{
+		$setting = static::where('name', 'LIKE', '%sender email%')->first();
+		return $setting ? $setting->setting_value : null;
+	}
+
+	/**
+	 * Get reply-to email
+	 * @return Model|null|static
+	 */
+	public static function getReplyToEmail()
+	{
+		$setting = static::where('name', 'LIKE', '%reply%')->first();
+		return $setting ? $setting->setting_value : null;
+	}
+
+
 }

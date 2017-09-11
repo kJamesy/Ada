@@ -5,6 +5,28 @@
         <template v-if="! fetchingData">
             <div v-if="appUserHasPermission('create')">
                 <form v-on:submit.prevent='createResource'>
+                    <a class="pull-right btn btn-link btn-sm" v-show="showToggleBtn" v-on:click.prevent="toggleSenderDetails">Toggle Sender Details</a>
+                    <div class="clearfix"></div>
+                    <div v-show="showSenderDetails">
+                        <div class="form-group ">
+                            <label class="form-control-label" for="sender_name">Sender Name <small class="text-danger">{{ validationErrors.sender_name }}</small></label>
+                            <div class="">
+                                <input type="text" class="form-control" id="sender_name" v-model.trim="resource.sender_name">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="form-control-label" for="sender_email">Sender Email <small class="text-danger">{{ validationErrors.sender_email }}</small></label>
+                            <div class="">
+                                <input type="text" class="form-control" id="sender_email" v-model.trim="resource.sender_email">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="form-control-label" for="reply_to_email">Reply-To Email <small class="text-danger">{{ validationErrors.reply_to_email }}</small></label>
+                            <div class="">
+                                <input type="text" class="form-control" id="reply_to_email" v-model.trim="resource.reply_to_email">
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group" v-if="subscribers.length">
                         <label class="form-control-label">Recipient Subscribers <small class="text-danger">{{ validationErrors.subscribers }}</small></label>
                         <div class="">
@@ -65,15 +87,17 @@
         data() {
             return {
                 fetchingData: true,
-                resource: {subscribers: [], mailing_lists: [], subject: '', campaign: '', content: ''},
-                validationErrors: {subscribers: '', mailing_lists: '', subject: '', campaign: '', content: ''},
+                resource: {sender_name: '', sender_email: '', reply_to_email: '', subscribers: [], mailing_lists: [], subject: '', campaign: '', content: ''},
+                validationErrors: {sender_name: '', sender_email: '', reply_to_email: '', subscribers: '', mailing_lists: '', subject: '', campaign: '', content: ''},
                 subscribers: [],
                 selected_subscribers: [],
                 mailing_lists: [],
                 selected_mailing_lists: [],
                 campaigns: [],
                 templates: [],
-                editorReady: false
+                editorReady: false,
+                showSenderDetails: true,
+                showToggleBtn: true
             }
         },
         computed: {
@@ -116,6 +140,20 @@
 
                     if ( response.data && response.data.templates && response.data.templates.length )
                         vm.templates = response.data.templates;
+
+                    if ( response.data && response.data.sender_name )
+                        vm.resource.sender_name = response.data.sender_name;
+
+                    if ( response.data && response.data.sender_email )
+                        vm.resource.sender_email = response.data.sender_email;
+
+                    if ( response.data && response.data.reply_to_email )
+                        vm.resource.reply_to_email = response.data.reply_to_email;
+
+                    if ( vm.resource.sender_name && vm.resource.sender_email && vm.resource.reply_to_email )
+                        vm.showSenderDetails = false;
+                    else
+                        vm.showToggleBtn = false;
 
                     vm.initTinyMce(10);
                     progress.finish();
@@ -181,6 +219,10 @@
                 this.selected_subscribers = [];
                 this.selected_mailing_lists = [];
             },
+            toggleSenderDetails() {
+                let vm = this;
+                vm.showSenderDetails = ! vm.showSenderDetails;
+            }
         },
         watch: {
             'selected_subscribers': function(newVal) {
@@ -189,6 +231,13 @@
             'selected_mailing_lists': function(newVal) {
                 this.resource.mailing_lists = this.flattenedMLists;
             },
+            'resource': {
+                handler: function(newVal) {
+                    let vm = this;
+                    vm.showToggleBtn = ( vm.resource.sender_name && vm.resource.sender_email && vm.resource.reply_to_email );
+                },
+                deep: true
+            }
         }
     }
 </script>

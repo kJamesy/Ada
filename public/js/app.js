@@ -67953,6 +67953,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -67964,15 +67986,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             fetchingData: true,
-            resource: { subscribers: [], mailing_lists: [], subject: '', campaign: '', content: '' },
-            validationErrors: { subscribers: '', mailing_lists: '', subject: '', campaign: '', content: '' },
+            resource: { sender_name: '', sender_email: '', reply_to_email: '', subscribers: [], mailing_lists: [], subject: '', campaign: '', content: '' },
+            validationErrors: { sender_name: '', sender_email: '', reply_to_email: '', subscribers: '', mailing_lists: '', subject: '', campaign: '', content: '' },
             subscribers: [],
             selected_subscribers: [],
             mailing_lists: [],
             selected_mailing_lists: [],
             campaigns: [],
             templates: [],
-            editorReady: false
+            editorReady: false,
+            showSenderDetails: true,
+            showToggleBtn: true
         };
     },
 
@@ -68012,6 +68036,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (response.data && response.data.campaigns && response.data.campaigns.length) vm.campaigns = response.data.campaigns;
 
                 if (response.data && response.data.templates && response.data.templates.length) vm.templates = response.data.templates;
+
+                if (response.data && response.data.sender_name) vm.resource.sender_name = response.data.sender_name;
+
+                if (response.data && response.data.sender_email) vm.resource.sender_email = response.data.sender_email;
+
+                if (response.data && response.data.reply_to_email) vm.resource.reply_to_email = response.data.reply_to_email;
+
+                if (vm.resource.sender_name && vm.resource.sender_email && vm.resource.reply_to_email) vm.showSenderDetails = false;else vm.showToggleBtn = false;
 
                 vm.initTinyMce(10);
                 progress.finish();
@@ -68071,6 +68103,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         clearDefaults: function clearDefaults() {
             this.selected_subscribers = [];
             this.selected_mailing_lists = [];
+        },
+        toggleSenderDetails: function toggleSenderDetails() {
+            var vm = this;
+            vm.showSenderDetails = !vm.showSenderDetails;
         }
     },
     watch: {
@@ -68079,6 +68115,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         'selected_mailing_lists': function selected_mailing_lists(newVal) {
             this.resource.mailing_lists = this.flattenedMLists;
+        },
+        'resource': {
+            handler: function handler(newVal) {
+                var vm = this;
+                vm.showToggleBtn = vm.resource.sender_name && vm.resource.sender_email && vm.resource.reply_to_email;
+            },
+            deep: true
         }
     }
 });
@@ -68099,7 +68142,138 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.createResource($event)
       }
     }
-  }, [(_vm.subscribers.length) ? _c('div', {
+  }, [_c('a', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.showToggleBtn),
+      expression: "showToggleBtn"
+    }],
+    staticClass: "pull-right btn btn-link btn-sm",
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.toggleSenderDetails($event)
+      }
+    }
+  }, [_vm._v("Toggle Sender Details")]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix"
+  }), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.showSenderDetails),
+      expression: "showSenderDetails"
+    }]
+  }, [_c('div', {
+    staticClass: "form-group "
+  }, [_c('label', {
+    staticClass: "form-control-label",
+    attrs: {
+      "for": "sender_name"
+    }
+  }, [_vm._v("Sender Name "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.validationErrors.sender_name))])]), _vm._v(" "), _c('div', {}, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: (_vm.resource.sender_name),
+      expression: "resource.sender_name",
+      modifiers: {
+        "trim": true
+      }
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "id": "sender_name"
+    },
+    domProps: {
+      "value": (_vm.resource.sender_name)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.resource.sender_name = $event.target.value.trim()
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group "
+  }, [_c('label', {
+    staticClass: "form-control-label",
+    attrs: {
+      "for": "sender_email"
+    }
+  }, [_vm._v("Sender Email "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.validationErrors.sender_email))])]), _vm._v(" "), _c('div', {}, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: (_vm.resource.sender_email),
+      expression: "resource.sender_email",
+      modifiers: {
+        "trim": true
+      }
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "id": "sender_email"
+    },
+    domProps: {
+      "value": (_vm.resource.sender_email)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.resource.sender_email = $event.target.value.trim()
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group "
+  }, [_c('label', {
+    staticClass: "form-control-label",
+    attrs: {
+      "for": "reply_to_email"
+    }
+  }, [_vm._v("Reply-To Email "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.validationErrors.reply_to_email))])]), _vm._v(" "), _c('div', {}, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: (_vm.resource.reply_to_email),
+      expression: "resource.reply_to_email",
+      modifiers: {
+        "trim": true
+      }
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "id": "reply_to_email"
+    },
+    domProps: {
+      "value": (_vm.resource.reply_to_email)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.resource.reply_to_email = $event.target.value.trim()
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })])])]), _vm._v(" "), (_vm.subscribers.length) ? _c('div', {
     staticClass: "form-group"
   }, [_c('label', {
     staticClass: "form-control-label"
