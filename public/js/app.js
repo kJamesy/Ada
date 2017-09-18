@@ -57326,9 +57326,6 @@ var AppListScreenPlugin = {
 
                             vm.appUpdateSettings();
 
-                            vm.appFetchResponse = response;
-                            vm.$emit('successfulfetch');
-
                             progress.finish();
                             vm.fetchingData = false;
                         } else {
@@ -57343,11 +57340,17 @@ var AppListScreenPlugin = {
                         }
 
                         if (response.data.deletedNum) vm.appDeletedNum = response.data.deletedNum;
+
+                        vm.appFetchResponse = response;
+                        vm.$emit('successfulfetch');
                     }, function (error) {
                         if (error.status && error.status === 403 && error.data) vm.appCustomErrorAlert(error.data.error);else if (error.status && error.status === 404 && error.data) {
                             var message = vm.appSearching ? 'Your search returned no results. Please try again with different keywords' : error.data.error;
 
                             if (vm.appSearching) vm.appCustomErrorAlertConfirmed(message);
+
+                            vm.appFetchResponse = error;
+                            vm.$emit('successfulfetch');
                         } else vm.appGeneralErrorAlert();
 
                         if (error.data.deletedNum) vm.appDeletedNum = error.data.deletedNum;
@@ -69425,6 +69428,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -69464,6 +69469,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         setOtherData: function setOtherData() {
             var vm = this;
+
             if (typeof vm.appFetchResponse !== 'undefined') {
                 var response = vm.appFetchResponse;
 
@@ -69541,7 +69547,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "mt-3"
   }, [(_vm.fetchingData) ? _c('i', {
     staticClass: "fa fa-spinner fa-spin"
-  }) : _vm._e(), _vm._v(" "), (!_vm.fetchingData && _vm.appResourceCount) ? _c('div', [(_vm.appUserHasPermission('read')) ? _c('div', [_c('a', {
+  }) : _vm._e(), _vm._v(" "), (!_vm.fetchingData) ? _c('div', [(_vm.appUserHasPermission('read')) ? _c('div', [(_vm.appResourceCount) ? [_c('a', {
     staticClass: "btn btn-link pull-right",
     attrs: {
       "href": "#",
@@ -69638,7 +69644,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": option.filter
       }
-    }, [_vm._v("\n                                " + _vm._s(option.filter) + "\n                            ")])
+    }, [_vm._v("\n                                    " + _vm._s(option.filter) + "\n                                ")])
   })], 2)]) : _vm._e(), _vm._v(" "), (!_vm.isLandingPage() && _vm.filterOption) ? _c('form', {
     staticClass: "form-inline pull-right"
   }, [_c('label', {
@@ -69677,7 +69683,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": option.id
       }
-    }, [_vm._v("\n                                " + _vm._s(option.name) + "\n                            ")])
+    }, [_vm._v("\n                                    " + _vm._s(option.name) + "\n                                ")])
   })], 2)]) : _vm._e()])]), _vm._v(" "), (_vm.isLandingPage() && _vm.filterOption) ? _c('div', {
     staticClass: "mt-4 mb-4"
   }, [_c('form', {
@@ -69718,7 +69724,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": option.id
       }
-    }, [_vm._v("\n                            " + _vm._s(option.name) + "\n                        ")])
+    }, [_vm._v("\n                                " + _vm._s(option.name) + "\n                            ")])
   })], 2)])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "clearfix"
   }), _vm._v(" "), _c('div', {
@@ -69757,7 +69763,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": option.value
       }
-    }, [_vm._v("\n                            " + _vm._s(option.text) + "\n                        ")]) : _vm._e()
+    }, [_vm._v("\n                                " + _vm._s(option.text) + "\n                            ")]) : _vm._e()
   }))]) : _vm._e(), _vm._v(" "), _c('form', {
     staticClass: "form-inline pull-right"
   }, [_c('label', {
@@ -69792,7 +69798,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": option.value
       }
-    }, [_vm._v("\n                            " + _vm._s(option.text) + "\n                        ")])
+    }, [_vm._v("\n                                " + _vm._s(option.text) + "\n                            ")])
   }))]), _vm._v(" "), _c('div', {
     staticClass: "clearfix"
   })]), _vm._v(" "), _c('div', {
@@ -69974,11 +69980,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('div', {
     staticClass: "mt-3 mb-3"
-  }, [_vm._v("\n                Page " + _vm._s(_vm.appPagination.current_page) + " of " + _vm._s(_vm.appPagination.last_page) + " [" + _vm._s(_vm.appPagination.total) + " items]\n            ")])], 1) : _vm._e(), _vm._v(" "), (!_vm.appUserHasPermission('read')) ? _c('div', [_c('i', {
-    staticClass: "fa fa-warning"
-  }), _vm._v(" " + _vm._s(_vm.appUnauthorisedErrorMessage) + "\n        ")]) : _vm._e()]) : _vm._e(), _vm._v(" "), (!_vm.fetchingData && !_vm.appResourceCount) ? _c('div', {
+  }, [_vm._v("\n                    Page " + _vm._s(_vm.appPagination.current_page) + " of " + _vm._s(_vm.appPagination.last_page) + " [" + _vm._s(_vm.appPagination.total) + " items]\n                ")])] : _c('div', {
     staticClass: "mt-5"
-  }, [_vm._v("\n        No items found\n    ")]) : _vm._e(), _vm._v(" "), (!_vm.fetchingData && _vm.appDeletedNum && !parseInt(_vm.belongingTo)) ? _c('div', {
+  }, [_vm._v("\n                No items found\n            ")])], 2) : _vm._e(), _vm._v(" "), (!_vm.appUserHasPermission('read')) ? _c('div', [_c('i', {
+    staticClass: "fa fa-warning"
+  }), _vm._v(" " + _vm._s(_vm.appUnauthorisedErrorMessage) + "\n        ")]) : _vm._e()]) : _vm._e(), _vm._v(" "), (!_vm.fetchingData && _vm.appDeletedNum && !_vm.isLandingPage()) ? _c('div', {
     staticClass: "mt-3 mb-3 font-italic text-right"
   }, [_c('router-link', {
     staticClass: "btn btn-link",

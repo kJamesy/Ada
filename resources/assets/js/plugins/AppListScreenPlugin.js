@@ -148,9 +148,6 @@ const AppListScreenPlugin = {
 
                             vm.appUpdateSettings();
 
-                            vm.appFetchResponse = response;
-                            vm.$emit('successfulfetch');
-
                             progress.finish();
                             vm.fetchingData = false;
                         }
@@ -169,6 +166,9 @@ const AppListScreenPlugin = {
                         if ( response.data.deletedNum )
                             vm.appDeletedNum = response.data.deletedNum;
 
+                        vm.appFetchResponse = response;
+                        vm.$emit('successfulfetch');
+
                     }, function(error) {
                         if ( error.status && error.status === 403 && error.data )
                             vm.appCustomErrorAlert(error.data.error);
@@ -177,6 +177,9 @@ const AppListScreenPlugin = {
 
                             if ( vm.appSearching )
                                 vm.appCustomErrorAlertConfirmed(message);
+
+                            vm.appFetchResponse = error;
+                            vm.$emit('successfulfetch');
                         }
                         else
                             vm.appGeneralErrorAlert();

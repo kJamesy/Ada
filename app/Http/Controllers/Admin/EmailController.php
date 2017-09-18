@@ -89,7 +89,7 @@ class EmailController extends Controller
 				if ( $resources->count() )
 					return response()->json(compact('resources', 'deletedNum', 'draftsNum', 'campaign', 'campaigns', 'user', 'users'));
 				else
-					return response()->json(['error' => "No $this->friendlyNamePlural found", 'deletedNum' => $deletedNum], 404);
+					return response()->json(['error' => "No $this->friendlyNamePlural found", 'deletedNum' => $deletedNum, 'draftsNum' => $draftsNum], 404);
 			}
 		}
 		else {

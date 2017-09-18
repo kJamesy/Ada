@@ -123,7 +123,7 @@ class Email extends Model
 	public function scopeStatus($query, $status)
 	{
 		$status = (int) $status;
-		return $status === 2 ? $query->where('status', '<>', -3) : $query->where('status', $status);
+		return $status === 2 ? $query->where('status', '<>', -2) : $query->where('status', $status);
 	}
 
 	/**
