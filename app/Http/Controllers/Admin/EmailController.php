@@ -11,6 +11,7 @@ use App\Settings\UserSettings;
 use App\Subscriber;
 use App\Template;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -36,9 +37,9 @@ class EmailController extends Controller
 		$this->redirect = route('admin.home');
 		$this->rules = Email::$rules;
 		$this->perPage = 25;
-		$this->orderByFields = ['campaign_id', 'sender', 'subject', 'recipients_num', 'status', 'created_at', 'updated_at', 'sent_at'];
+		$this->orderByFields = ['subject', 'sender', 'recipients_num', 'status', 'created_at', 'updated_at', 'sent_at'];
 		$this->orderCriteria = ['asc', 'desc'];
-		$this->settingsKey = 'templates';
+		$this->settingsKey = 'emails';
 		$this->policies = UserPermissions::getPolicies();
 		$this->policyOwnerClass = Email::class;
 		$this->permissionsKey = UserPermissions::getModelShortName($this->policyOwnerClass);
@@ -66,10 +67,9 @@ class EmailController extends Controller
 			}
 			else {
 				$settings = UserSettings::getSettings($user->id, $this->settingsKey, $orderBy, $order, $perPage, true);
-				$campaignId = (int) $request->belongingTo;
-				$userId = (int) $request->by;
-				$rawStatus = (int) $request->status;
-				$status = in_array($rawStatus, [-2, -1, 0, 1]) ? $rawStatus : 1;
+				$userId = (int) $request->userId;
+				$campaignId = (int) $request->campaignId;
+				$status = (int) $request->drafts ? -2 : 2;
 				$search = strtolower($request->search);
 
 				$resources = $search
@@ -78,6 +78,7 @@ class EmailController extends Controller
 						$settings["{$this->settingsKey}_per_page"] );
 
 				$deletedNum = Email::getCount(1);
+				$draftsNum = Email::getCount(0, -2);
 
 				$campaign = $campaignId ? Campaign::findResource($campaignId) : null;
 				$campaigns = Campaign::getAttachedResources();
@@ -86,7 +87,7 @@ class EmailController extends Controller
 				$users = User::getAttachedResources();
 
 				if ( $resources->count() )
-					return response()->json(compact('resources', 'deletedNum', 'campaign', 'campaigns', 'user', 'users'));
+					return response()->json(compact('resources', 'deletedNum', 'draftsNum', 'campaign', 'campaigns', 'user', 'users'));
 				else
 					return response()->json(['error' => "No $this->friendlyNamePlural found", 'deletedNum' => $deletedNum], 404);
 			}
@@ -120,16 +121,58 @@ class EmailController extends Controller
 		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+	/**
+	 * Store a newly created resource in storage.
+	 * @param Request $request
+	 * @return Email|\Illuminate\Http\JsonResponse
+	 */
+	public function store(Request $request)
+	{
+		if ( $request->user()->can('create', $this->policyOwnerClass) ) {
+
+			$rules = $this->rules;
+
+			if ( $request->is_draft ) {
+				$rules = array_diff_key( $rules, [ 'sender_name'    => '',
+				                                   'sender_email'   => '',
+				                                   'reply_to_email' => '',
+				                                   'subscribers'  => '',
+				                                   'mailing_lists'    => ''
+				] );
+			}
+
+			$this->validate($request, $rules);
+
+			$send_at = Carbon::now();
+
+			if ( $rawTime = $request->send_at ) {
+				$userInputDt = Carbon::createFromFormat( 'Y-m-d H:i', $rawTime, 'UTC');
+
+				if ( ! $userInputDt->isPast() )
+					$send_at = $userInputDt;
+			}
+
+			$user = $request->user();
+
+			$resource = new Email();
+			$resource->user_id = $user->id;
+			$resource->campaign_id = (int) $request->campaign;
+
+			if ( ! $request->is_draft ) {
+				$resource->sender         = trim( $request->sender_name ) . "<" . trim( $request->sender_email ) . ">";
+				$resource->reply_to_email = trim( $request->reply_to_email );
+			}
+
+			$resource->subject = trim($request->subject);
+			$resource->content = trim($request->get('content'));
+			$resource->status = $request->is_draft ? -2 : -1;
+			$resource->save();
+
+			return $resource;
+		}
+
+		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+	}
 
     /**
      * Display the specified resource.

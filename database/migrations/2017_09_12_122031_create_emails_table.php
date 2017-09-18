@@ -17,10 +17,11 @@ class CreateEmailsTable extends Migration
             $table->increments('id');
 	        $table->integer('user_id')->unsigned();
 	        $table->integer('campaign_id')->unsigned();
-	        $table->text('sender');
+	        $table->text('sender')->nullable();
+	        $table->string('reply_to_email')->nullable();
 	        $table->string('subject')->nullable();
 	        $table->mediumText('content')->nullable();
-	        $table->integer('recipients_num')->nullable();
+	        $table->integer('recipients_num')->default(0);
 	        $table->boolean('is_deleted')->default(0);
 	        $table->tinyInteger('status')->default(-2); //-2 Draft; -1 Scheduled; 0 Failed; 1 Success
 	        $table->dateTime('sent_at')->nullable();

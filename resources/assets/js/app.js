@@ -19,6 +19,9 @@ Vue.component('pagination', require('vue-bootstrap-pagination').default);
 import VueSelect from 'vue-select';
 Vue.component('v-select', VueSelect);
 
+import DatePicker from 'vue-datepicker';
+Vue.component('datepicker', DatePicker);
+
 import AppListScreenPlugin from './plugins/AppListScreenPlugin';
 Vue.use(AppListScreenPlugin);
 
@@ -242,12 +245,10 @@ if ( $('#admin-email-settings-app').length ) {
 
 
 /**
- * Subscribers
+ * Emails
  */
 import AdminEmails from './components/AdminEmails/AdminEmails.vue';
 import AdminEmailsAll from './components/AdminEmails/AllEmails.vue';
-import AdminEmailsUser from './components/AdminEmails/AllEmails.vue';
-import AdminEmailsCampaign from './components/AdminEmails/AllEmails.vue';
 import AdminEmailsTrash from './components/AdminEmails/TrashEmails.vue';
 import AdminEmailsNew from './components/AdminEmails/NewEmail.vue';
 import AdminEmailsView from './components/AdminEmails/ViewEmail.vue';
@@ -260,8 +261,9 @@ if ( $('#admin-emails-app').length ) {
         linkActiveClass: 'active',
         routes: [
             { path: '/', name: 'admin_emails.index', component: AdminEmailsAll },
-            { path: '/:userId(\\d+)/by-user', name: 'admin_emails.user', component: AdminEmailsUser },
-            { path: '/:campaignId(\\d+)/in-campaign', name: 'admin_emails.campaign', component: AdminEmailsCampaign },
+            { path: '/drafts', name: 'admin_emails.drafts', component: AdminEmailsAll },
+            { path: '/:campaignId(\\d+)/in-campaign', name: 'admin_emails.campaign', component: AdminEmailsAll },
+            { path: '/:userId(\\d+)/by-user', name: 'admin_emails.user', component: AdminEmailsAll },
             { path: '/trash', name: 'admin_emails.trash', component: AdminEmailsTrash },
             { path: '/create', name: 'admin_emails.create', component: AdminEmailsNew },
             { path: '/:id(\\d+)/view', name: 'admin_emails.view', component: AdminEmailsView },

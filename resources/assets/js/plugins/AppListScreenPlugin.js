@@ -1,7 +1,10 @@
 'use strict';
 
 const AppListScreenPlugin = {
+
     install(Vue, options) {
+
+        const rootEventsHub = new Vue();
 
         Vue.mixin({
             mounted() {
@@ -43,6 +46,7 @@ const AppListScreenPlugin = {
                     appSearchText: '',
                     appSearching: false,
                     appUnauthorisedErrorMessage: 'You are not authorised to view this page.',
+                    rootEventsHub: rootEventsHub
                 }
             },
             computed: {
@@ -83,6 +87,9 @@ const AppListScreenPlugin = {
                 appBelongingToCampaign() {
                     return this.$route.params.campaignId ? this.$route.params.campaignId: 0;
                 },
+                appIsDraftsPage() {
+                    return _.includes(this.$route.path, 'draft') ? 1 : 0;
+                }
             },
             methods: {
                 appFetchResources(vm, orderAttr, orderToggle) {
@@ -92,17 +99,22 @@ const AppListScreenPlugin = {
                     let lastPage = _.ceil(vm.appPagination.total / vm.appPagination.per_page);
                     let trash = (typeof vm.trash === 'undefined') ? 0 : vm.trash;
                     let belongingTo = (typeof vm.belongingTo === 'undefined') ? 0 : vm.belongingTo;
-                    let by = (typeof vm.by === 'undefined') ? 0 : vm.by;
 
                     let params = {
                         perPage: vm.appPagination.per_page,
                         page: ( lastPage < vm.appPagination.last_page ) ? 1 : vm.appPagination.current_page,
                         orderBy: orderBy,
                         order: ( orderToggle2 === 1 ) ? 'asc' : 'desc',
-                        trash: trash,
-                        belongingTo: belongingTo,
-                        by: by
+                        trash: trash
                     };
+
+                    if ( typeof vm.screen !== 'undefined' && vm.screen === 'emails' ) {
+                        params.userId = vm.appBelongingToUser;
+                        params.drafts = vm.appIsDraftsPage;
+                        params.campaignId = vm.appBelongingToCampaign;
+                    }
+                    else
+                        params.belongingTo = belongingTo;
 
                     if ( vm.appSearchText.length )
                         params.search = vm.appSearchText;
@@ -156,6 +168,7 @@ const AppListScreenPlugin = {
 
                         if ( response.data.deletedNum )
                             vm.appDeletedNum = response.data.deletedNum;
+
                     }, function(error) {
                         if ( error.status && error.status === 403 && error.data )
                             vm.appCustomErrorAlert(error.data.error);

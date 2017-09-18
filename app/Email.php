@@ -10,15 +10,36 @@ class Email extends Model
 	use Searchable;
 
 	/**
+	 * Custom attributes
+	 * @var array
+	 */
+	protected $appends = ['friendly_status'];
+
+	/**
 	 * Validation rules
 	 * @var array
 	 */
 	public static $rules = [
+		'sender_name' => 'required|max:255',
+		'sender_email' => 'required|email|max:255',
+		'reply_to_email' => 'required|email|max:255',
 		'subscribers' => 'required_without:mailing_lists',
 		'mailing_lists' => 'required_without:subscribers',
 		'campaign' => 'required|exists:campaigns,id',
 		'subject' => 'required|max:255',
 		'content' => 'required|max:48000',
+	];
+
+	/**
+	 * All statuses defined
+	 * @var array
+	 */
+	public static $statuses = [
+		-2 => 'draft',
+		-1 => 'scheduled',
+		0 => 'failed',
+		1 => 'success',
+		2 => 'sent'
 	];
 
 	/**
@@ -37,6 +58,15 @@ class Email extends Model
 	public function campaign()
 	{
 		return $this->belongsTo(Campaign::class);
+	}
+
+	/**
+	 * 'friendly_status' accessor
+	 * @return false|int|string
+	 */
+	public function getFriendlyStatusAttribute()
+	{
+		return array_key_exists($this->status, self::$statuses) ? ucfirst(self::$statuses[$this->status]) : 'Unknown';
 	}
 
 	/**
@@ -92,7 +122,8 @@ class Email extends Model
 	 */
 	public function scopeStatus($query, $status)
 	{
-		return $query->where('status', (int) $status);
+		$status = (int) $status;
+		return $status === 2 ? $query->where('status', '<>', -3) : $query->where('status', $status);
 	}
 
 	/**
@@ -118,7 +149,7 @@ class Email extends Model
 	 *
 	 * @return mixed
 	 */
-	public static function getResources($userId = 0, $campaignId = 0, $status = 1, $selected = [], $deleted = 0, $orderBy = 'updated_at', $order = 'desc', $paginate = null)
+	public static function getResources($userId = 0, $campaignId = 0, $status = 2, $selected = [], $deleted = 0, $orderBy = 'updated_at', $order = 'desc', $paginate = null)
 	{
 		$query = static::with('user')->with('campaign')->status($status);
 
@@ -173,16 +204,20 @@ class Email extends Model
 	/**
 	 * Get count of resources - type specified
 	 * @param int $deleted
-	 * @return int
+	 * @param int $status
+	 *
+	 * @return mixed
 	 */
-	public static function getCount($deleted = 0)
+	public static function getCount($deleted = 0, $status = 2)
 	{
-		if ( (int) $deleted == 1 )
-			return static::isDeleted()->count();
-		elseif ( (int) $deleted == 0 )
-			return static::isNotDeleted()->count();
+		$query = static::status($status);
 
-		return static::count();
+		if ( (int) $deleted == 1 )
+			return $query->isDeleted()->count();
+		elseif ( (int) $deleted == 0 )
+			return $query->isNotDeleted()->count();
+
+		return $query->count();
 	}
 
 }
