@@ -69,7 +69,7 @@ class Template extends Model
 	 */
 	public static function findResource($id)
 	{
-		return static::find($id);
+		return static::isNotDeleted()->find($id);
 	}
 
 	/**

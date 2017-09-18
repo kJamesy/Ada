@@ -57693,7 +57693,7 @@ var AppCreatecreenPlugin = {
 
                         vm.appClearResource();
                         progress.finish();
-                        vm.$emit('successfulcreate');
+                        vm.$emit('successfulcreate', { response: response });
                         vm.fetchingData = false;
                     }, function (error) {
                         if (error.status && error.status === 422 && error.data) {
@@ -67077,6 +67077,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -67088,7 +67089,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             fetchingData: true,
-            resource: { id: '', name: '', description: '', created_at: '', updated_at: '', url: '' }
+            resource: { id: '', name: '', description: '', created_at: '', updated_at: '', url: '', pdf: '' }
         };
     },
 
@@ -67137,7 +67138,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "scope": "row"
     }
   }, [_c('a', {
-    staticClass: "btn btn-link",
+    staticClass: "btn btn-md",
     attrs: {
       "href": _vm.resource.url,
       "target": "_blank",
@@ -67146,6 +67147,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-external-link"
+  })]), _vm._v(" "), _c('a', {
+    staticClass: "btn btn-md",
+    attrs: {
+      "href": _vm.resource.pdf,
+      "target": "_blank",
+      "title": "Generate PDF",
+      "data-toggle": "tooltip"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-file-pdf-o"
   })])]), _vm._v(" "), _c('td', [_c('iframe', {
     staticStyle: {
       "width": "100%",
@@ -69430,6 +69441,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -69856,7 +69869,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "innerHTML": _vm._s(_vm.appGetSortMarkup('subject'))
     }
-  })]), _vm._v(" "), _c('th', {
+  })]), _vm._v(" "), (!_vm.appIsDraftsPage) ? _c('th', {
     on: {
       "click": function($event) {
         $event.preventDefault();
@@ -69867,7 +69880,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "innerHTML": _vm._s(_vm.appGetSortMarkup('sender'))
     }
-  })]), _vm._v(" "), _c('th', {
+  })]) : _vm._e(), _vm._v(" "), (!_vm.appIsDraftsPage) ? _c('th', {
     on: {
       "click": function($event) {
         $event.preventDefault();
@@ -69878,7 +69891,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "innerHTML": _vm._s(_vm.appGetSortMarkup('recipients_num'))
     }
-  })]), _vm._v(" "), _c('th', {
+  })]) : _vm._e(), _vm._v(" "), _c('th', {
     on: {
       "click": function($event) {
         $event.preventDefault();
@@ -69900,7 +69913,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "innerHTML": _vm._s(_vm.appGetSortMarkup('created_at'))
     }
-  })]), _vm._v(" "), _c('th', {
+  })]), _vm._v(" "), (_vm.appIsDraftsPage) ? _c('th', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.appChangeSort('updated_at')
+      }
+    }
+  }, [_vm._v("Updated "), _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.appGetSortMarkup('updated_at'))
+    }
+  })]) : _vm._e(), _vm._v(" "), (!_vm.appIsDraftsPage) ? _c('th', {
     on: {
       "click": function($event) {
         $event.preventDefault();
@@ -69911,7 +69935,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "innerHTML": _vm._s(_vm.appGetSortMarkup('sent_at'))
     }
-  })]), _vm._v(" "), (_vm.appUserHasPermission('update')) ? _c('th') : _vm._e()])]), _vm._v(" "), _c('tbody', _vm._l((_vm.orderedAppResources), function(resource) {
+  })]) : _vm._e(), _vm._v(" "), (_vm.appUserHasPermission('update')) ? _c('th') : _vm._e()])]), _vm._v(" "), _c('tbody', _vm._l((_vm.orderedAppResources), function(resource) {
     return _c('tr', [(_vm.appUserHasPermission('update')) ? _c('td', [_c('label', {
       staticClass: "custom-control custom-checkbox mr-0"
     }, [_c('input', {
@@ -69949,17 +69973,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }), _vm._v(" "), _c('span', {
       staticClass: "custom-control-indicator"
-    })])]) : _vm._e(), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.subject))]), _vm._v(" "), _c('td', [(resource.sender) ? _c('span', [_vm._v(_vm._s(resource.sender))]) : _c('span', [_c('em', [_vm._v("—")])])]), _vm._v(" "), _c('td', [(resource.recipients_num) ? _c('span', [_vm._v(_vm._s(resource.recipients_num))]) : _c('span', [_c('em', [_vm._v("—")])])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.friendly_status))]), _vm._v(" "), _c('td', [_c('span', {
+    })])]) : _vm._e(), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.subject))]), _vm._v(" "), (!_vm.appIsDraftsPage) ? _c('td', [(resource.sender) ? _c('span', [_vm._v(_vm._s(resource.sender))]) : _c('span', [_c('em', [_vm._v("—")])])]) : _vm._e(), _vm._v(" "), (!_vm.appIsDraftsPage) ? _c('td', [(resource.recipients_num) ? _c('span', [_vm._v(_vm._s(resource.recipients_num))]) : _c('span', [_c('em', [_vm._v("—")])])]) : _vm._e(), _vm._v(" "), _c('td', [_vm._v(_vm._s(resource.friendly_status))]), _vm._v(" "), _c('td', [_c('span', {
       attrs: {
         "title": resource.created_at,
         "data-toggle": "tooltip"
       }
-    }, [_vm._v(_vm._s(_vm._f("dateToTheDay")(resource.created_at)))])]), _vm._v(" "), _c('td', [(resource.sent_at) ? _c('span', {
+    }, [_vm._v(_vm._s(_vm._f("dateToTheDay")(resource.created_at)))])]), _vm._v(" "), (_vm.appIsDraftsPage) ? _c('td', [_c('span', {
+      attrs: {
+        "title": resource.updated_at,
+        "data-toggle": "tooltip"
+      }
+    }, [_vm._v(_vm._s(_vm._f("dateToTheDay")(resource.updated_at)))])]) : _vm._e(), _vm._v(" "), (!_vm.appIsDraftsPage) ? _c('td', [(resource.sent_at) ? _c('span', {
       attrs: {
         "title": resource.sent_at,
         "data-toggle": "tooltip"
       }
-    }, [_vm._v(_vm._s(_vm._f("dateToTheDay")(resource.sent_at)))]) : _c('span', [_c('em', [_vm._v("—")])])]), _vm._v(" "), (_vm.appUserHasPermission('read')) ? _c('td', [_c('router-link', {
+    }, [_vm._v(_vm._s(_vm._f("dateToTheDay")(resource.sent_at)))]) : _c('span', [_c('em', [_vm._v("—")])])]) : _vm._e(), _vm._v(" "), (_vm.appUserHasPermission('read')) ? _c('td', [_c('router-link', {
       staticClass: "btn btn-sm btn-outline-primary",
       attrs: {
         "to": {
@@ -70647,8 +70676,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             },
             selectedDate: { time: moment().format('YYYY-MM-DD HH:mm') },
-            submitBtnText: 'Save as Draft',
-            test: ''
+            submitBtnText: 'Save as Draft'
         };
     },
 
@@ -71312,30 +71340,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
         this.$nextTick(function () {
             this.showResource();
+            this.appInitialiseTooltip();
         });
     },
     data: function data() {
         return {
             fetchingData: true,
-            resource: { id: '', first_name: '', last_name: '', email: '', active: null, created_at: '', updated_at: '', mailing_lists: [] }
+            resource: { id: '', sender: '', reply_to_email: '', subject: '', content: '', recipients_num: 0,
+                status: '', friendly_status: '', created_at: '', updated_at: '', sent_at: '', user: {}, campaign: '', url: '', pdf: '' }
         };
     },
 
-    computed: {
-        flattenedMLists: function flattenedMLists() {
-            return this.resource.mailing_lists.length ? _.join(_.flatMapDeep(this.resource.mailing_lists, function (mList) {
-                return mList.name;
-            }), ', ') : '-';
-        }
-    },
     methods: {
         showResource: function showResource() {
             this.appShowResource();
+        },
+        resizeIframe: function resizeIframe(event) {
+            var iframe = event.target;
+            if (iframe) iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
         }
     }
 });
@@ -71357,31 +71405,80 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "scope": "row"
     }
-  }, [_vm._v("First Name")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.resource.first_name))])]), _vm._v(" "), _c('tr', [_c('th', {
+  }, [_vm._v("Subject")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.resource.subject))])]), _vm._v(" "), (_vm.resource.sender) ? _c('tr', [_c('th', {
     attrs: {
       "scope": "row"
     }
-  }, [_vm._v("Last Name")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.resource.last_name))])]), _vm._v(" "), _c('tr', [_c('th', {
+  }, [_vm._v("Sender")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.resource.sender))])]) : _vm._e(), _vm._v(" "), (_vm.resource.sender) ? _c('tr', [_c('th', {
     attrs: {
       "scope": "row"
     }
-  }, [_vm._v("Email")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.resource.email))])]), _vm._v(" "), _c('tr', [_c('th', {
+  }, [_vm._v("Reply-To")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.resource.reply_to_email))])]) : _vm._e(), _vm._v(" "), _c('tr', [_c('th', {
     attrs: {
       "scope": "row"
     }
-  }, [_vm._v("Active")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.resource.active ? 'Yes' : 'No'))])]), _vm._v(" "), _c('tr', [_c('th', {
+  }, [_vm._v("User")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.resource.user.name))])]), _vm._v(" "), _c('tr', [_c('th', {
     attrs: {
       "scope": "row"
     }
-  }, [_vm._v("Mailing Lists")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.flattenedMLists))])]), _vm._v(" "), _c('tr', [_c('th', {
+  }, [_vm._v("Campaign")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.resource.campaign.name))])]), _vm._v(" "), (_vm.resource.recipients_num) ? _c('tr', [_c('th', {
     attrs: {
       "scope": "row"
     }
-  }, [_vm._v("Created")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm._f("dateToTheMinute")(_vm.resource.created_at)))])]), _vm._v(" "), _c('tr', [_c('th', {
+  }, [_vm._v("Recipients")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.resource.recipients_num))])]) : _vm._e(), _vm._v(" "), _c('tr', [_c('th', {
     attrs: {
       "scope": "row"
     }
-  }, [_vm._v("Last Update")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm._f("dateToTheMinute")(_vm.resource.updated_at)))])])])])])]) : _c('div', [_c('i', {
+  }, [_vm._v("Status")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.resource.friendly_status))])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "scope": "row"
+    }
+  }, [_vm._v("Created")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm._f("dateToTheMinute")(_vm.resource.created_at)))])]), _vm._v(" "), (_vm.resource.sent_at) ? _c('tr', [_c('th', {
+    attrs: {
+      "scope": "row"
+    }
+  }, [_vm._v("Sent")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm._f("dateToTheMinute")(_vm.resource.sent_at)))])]) : _c('tr', [_c('th', {
+    attrs: {
+      "scope": "row"
+    }
+  }, [_vm._v("Last Update")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm._f("dateToTheMinute")(_vm.resource.updated_at)))])]), _vm._v(" "), _c('tr', [_c('th', {
+    attrs: {
+      "scope": "row"
+    }
+  }, [_c('a', {
+    staticClass: "btn btn-md",
+    attrs: {
+      "href": _vm.resource.url,
+      "target": "_blank",
+      "title": "Open",
+      "data-toggle": "tooltip"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-external-link"
+  })]), _vm._v(" "), _c('a', {
+    staticClass: "btn btn-md",
+    attrs: {
+      "href": _vm.resource.pdf,
+      "target": "_blank",
+      "title": "Generate PDF",
+      "data-toggle": "tooltip"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-file-pdf-o"
+  })])]), _vm._v(" "), _c('td', [_c('iframe', {
+    staticStyle: {
+      "width": "100%",
+      "border": "none"
+    },
+    attrs: {
+      "src": _vm.resource.url
+    },
+    on: {
+      "load": function($event) {
+        _vm.resizeIframe($event)
+      }
+    }
+  })])])])])])]) : _c('div', [_c('i', {
     staticClass: "fa fa-warning"
   }), _vm._v(" " + _vm._s(_vm.appUnauthorisedErrorMessage) + "\n        ")])] : _vm._e()], 2)
 },staticRenderFns: []}
@@ -71514,27 +71611,93 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
         this.$nextTick(function () {
-            this.getResource();
+            this.goTime();
+            this.incrementTime();
         });
     },
     data: function data() {
         return {
             fetchingData: true,
-            resource: { first_name: '', last_name: '', email: '', active: '', mailing_lists: [] },
-            validationErrors: { first_name: '', last_name: '', email: '' },
+            resource: { editing: true, id: '', sender_name: '', sender_email: '', reply_to_email: '', subscribers: [], mailing_lists: [], subject: '', campaign: '', content: '', is_draft: true, send_at: '' },
+            validationErrors: { sender_name: '', sender_email: '', reply_to_email: '', subscribers: '', mailing_lists: '', subject: '', campaign: '', content: '' },
+            subscribers: [],
+            selected_subscribers: [],
             mailing_lists: [],
             selected_mailing_lists: [],
-            listRoute: 'admin_subscribers.index',
-            moreOptions: [{ text: 'Select Option', value: '' }, { text: 'Delete Subscriber', value: 'delete' }],
-            moreOption: ''
+            campaigns: [],
+            templates: [],
+            editorReady: false,
+            showSenderDetails: true,
+            showToggleBtn: true,
+            sendOptions: [{ text: 'Save As Draft', value: '0' }, { text: 'Send', value: '1' }],
+            sendOption: '0',
+            datePickerOptions: {
+                type: 'min',
+                week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+                month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                format: 'YYYY-MM-DD HH:mm',
+                inputStyle: {
+                    'display': 'block',
+                    'padding': '0',
+                    'line-height': 'inherit',
+                    'font-size': 'inherit',
+                    'border': '0',
+                    'box-shadow': 'none',
+                    'border-radius': '0',
+                    'color': 'inherit',
+                    'width': '100%'
+                },
+                buttons: {
+                    ok: 'Insert'
+                }
+            },
+            selectedDate: { time: moment().format('YYYY-MM-DD HH:mm') },
+            submitBtnText: 'Update Draft',
+            moreOptions: [{ text: 'Select Option', value: '' }, { text: 'Delete Email', value: 'delete' }],
+            moreOption: '',
+            listRoute: 'admin_emails.index'
         };
     },
 
     computed: {
+        sortedSubscribers: function sortedSubscribers() {
+            return _.sortBy(this.subscribers, ['name']);
+        },
+        flattenedSubscribers: function flattenedSubscribers() {
+            return _.flatMapDeep(this.selected_subscribers, function (subscriber) {
+                return subscriber.id;
+            });
+        },
         sortedMailingLists: function sortedMailingLists() {
             return _.sortBy(this.mailing_lists, ['name']);
         },
@@ -71543,30 +71706,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return mList.id;
             });
         },
-        name: function name() {
-            return this.resource.first_name + ' ' + this.resource.last_name;
+        sortedCampaigns: function sortedCampaigns() {
+            return _.sortBy(this.campaigns, ['name']);
         }
     },
     methods: {
-        getResource: function getResource() {
+        goTime: function goTime() {
             var vm = this;
             var progress = vm.$Progress;
 
             progress.start();
-            vm.appClearValidationErrors();
 
             vm.$http.get(vm.appResourceUrl + '/' + vm.id + '/edit').then(function (response) {
-                if (response.data) {
-                    if (response.data.mailing_lists && response.data.mailing_lists.length) vm.mailing_lists = response.data.mailing_lists;
-                    vm.resource = response.data.resource;
+                if (response.data && response.data.resource) vm.setResourceProps(response.data.resource);
 
-                    if (vm.resource.mailing_lists) {
-                        _.forEach(vm.resource.mailing_lists, function (mailing_list) {
-                            vm.selected_mailing_lists.push({ id: mailing_list.id, name: mailing_list.name });
-                        });
-                    }
-                }
+                if (response.data && response.data.subscribers && response.data.subscribers.length) vm.subscribers = response.data.subscribers;
 
+                if (response.data && response.data.mailing_lists && response.data.mailing_lists.length) vm.mailing_lists = response.data.mailing_lists;
+
+                if (response.data && response.data.campaigns && response.data.campaigns.length) vm.campaigns = response.data.campaigns;
+
+                if (response.data && response.data.templates && response.data.templates.length) vm.templates = response.data.templates;
+
+                if (response.data && response.data.sender_name) vm.resource.sender_name = response.data.sender_name;
+
+                if (response.data && response.data.sender_email) vm.resource.sender_email = response.data.sender_email;
+
+                if (response.data && response.data.reply_to_email) vm.resource.reply_to_email = response.data.reply_to_email;
+
+                if (vm.resource.sender_name && vm.resource.sender_email && vm.resource.reply_to_email) vm.showSenderDetails = false;else vm.showToggleBtn = false;
+
+                vm.resource.send_at = moment(vm.selectedDate.time, vm.datePickerOptions.format).utc().format(vm.datePickerOptions.format);
+
+                vm.initTinyMce(10);
                 progress.finish();
                 vm.fetchingData = false;
             }, function (error) {
@@ -71576,14 +71748,184 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 vm.fetchingData = false;
             });
         },
+        setResourceProps: function setResourceProps(data) {
+            var vm = this;
+
+            if (data) {
+                var isDraft = _.lowerCase(data.friendly_status) === 'draft';
+
+                if (data.id) vm.resource.id = data.id;
+                if (data.subject && isDraft) vm.resource.subject = data.subject;
+                if (data.campaign_id && isDraft) vm.resource.campaign = data.campaign_id;
+                if (data.content) vm.resource.content = data.content;
+            }
+        },
         updateResource: function updateResource() {
-            this.appUpdateResource();
+            var vm = this;
+
+            if (vm.hasBasicValidation() && !vm.resource.is_draft) {
+                swal({
+                    title: 'Are you sure?',
+                    text: 'You are about to send a mass email. Have you confirmed everything is all right?',
+                    type: 'warning',
+                    animation: 'slide-from-top',
+                    showCancelButton: true,
+                    confirmButtonText: 'Let\'s do it!'
+                }, function () {
+                    vm.createUpdateResource();
+                });
+            } else vm.createUpdateResource();
+        },
+        createUpdateResource: function createUpdateResource() {
+            var vm = this;
+            var progress = vm.$Progress;
+
+            progress.start();
+            vm.fetchingData = true;
+            vm.appClearValidationErrors();
+
+            vm.$http.post(vm.appResourceUrl, vm.resource).then(function (response) {
+                vm.initTinyMce(50);
+
+                var message = 'Draft saved';
+
+                if (vm.resource.is_draft && response.data.resource.just_updated) message = 'Draft updated';else if (response.data.resource.status > -2) message = 'Email queued for sending';
+
+                swal({ title: 'Excellent!', text: message, type: 'success', animation: 'slide-from-bottom' }, function () {
+                    if (!_.includes(message, 'updated')) {
+                        vm.clearDefaults();
+
+                        if (_.includes(message, 'sending')) vm.$router.replace({ name: 'admin_emails.index' });else vm.$router.replace({ name: 'admin_emails.drafts' });
+                    }
+                });
+
+                progress.finish();
+                vm.fetchingData = false;
+            }, function (error) {
+                vm.initTinyMce(50);
+
+                if (error.status && error.status === 422 && error.data) {
+                    vm.appValidationErrorAlert();
+
+                    _.forEach(error.data, function (message, field) {
+                        vm.$set(vm.validationErrors, field, message[0]);
+                    });
+                } else if (error.status && error.status === 403 && error.data) vm.appCustomErrorAlert(error.data.error);else vm.appGeneralErrorAlert();
+
+                progress.fail();
+                vm.fetchingData = false;
+            });
+        },
+        initTinyMce: function initTinyMce(wait) {
+            var vm = this;
+            var defaultConfig = tinyMceConfig;
+
+            defaultConfig.plugins[0] += ' template'; //Extra plugin
+
+            var newCOnfig = {
+                selector: '#content',
+                setup: function setup(editor) {
+                    editor.on('init', function () {
+                        editor.setContent(vm.resource.content);
+                        vm.editorReady = true;
+                    });
+
+                    editor.on('change keyup blur', function () {
+                        vm.resource.content = editor.getContent();
+                    });
+                },
+                templates: vm.templates
+            };
+
+            _.delay(function () {
+                tinymce.remove();
+                tinymce.init(_.assign(defaultConfig, newCOnfig));
+            }, parseInt(wait));
+        },
+        checkEditor: function checkEditor() {
+            var vm = this;
+            if (!vm.editorReady) vm.initTinyMce(50);
+        },
+        clearDefaults: function clearDefaults() {
+            this.selected_subscribers = [];
+            this.selected_mailing_lists = [];
+        },
+        toggleSenderDetails: function toggleSenderDetails() {
+            var vm = this;
+            vm.showSenderDetails = !vm.showSenderDetails;
+        },
+        incrementTime: function incrementTime() {
+            var vm = this;
+
+            setInterval(function () {
+                if (moment(vm.selectedDate.time).isBefore(moment().format(vm.datePickerOptions.format))) vm.selectedDate = { time: moment().format(vm.datePickerOptions.format) };
+            }, 1000);
+        },
+        showHideToggleBtn: function showHideToggleBtn() {
+            var vm = this;
+            vm.showToggleBtn = vm.validationErrors.sender_name && vm.validationErrors.sender_email && vm.validationErrors.reply_to_email;
+        },
+        updateSubmitBtnText: function updateSubmitBtnText() {
+            var vm = this;
+            var now = moment().format(vm.datePickerOptions.format);
+            var schedule = moment(vm.selectedDate.time);
+            var whenText = 'now';
+            var output = {
+                nextWeek: '[on] dddd [at] h:mm A',
+                sameElse: '[on the] Do [of] MMM YYYY[,] [at] h:mm A'
+            };
+
+            if (schedule.isAfter(now) && vm.sendOption === '1') whenText = schedule.calendar(null, output);
+
+            if (vm.sendOption === '1') vm.submitBtnText = 'Send ' + whenText;
+        },
+        hasBasicValidation: function hasBasicValidation() {
+            var r = this.resource;
+            return r.sender_name && r.sender_email && r.reply_to_email && (r.subscribers || r.mailing_lists) && r.subject && r.campaign && r.content;
         },
         deleteResource: function deleteResource() {
             this.appDeleteResource();
         }
     },
     watch: {
+        'selected_subscribers': function selected_subscribers(newVal) {
+            this.resource.subscribers = this.flattenedSubscribers;
+        },
+        'selected_mailing_lists': function selected_mailing_lists(newVal) {
+            this.resource.mailing_lists = this.flattenedMLists;
+        },
+        'resource': {
+            handler: function handler(newVal) {
+                var vm = this;
+                vm.showToggleBtn = vm.resource.sender_name && vm.resource.sender_email && vm.resource.reply_to_email;
+            },
+            deep: true
+        },
+        'validationErrors': {
+            handler: function handler(newVal) {
+                var vm = this;
+                vm.showToggleBtn = !(vm.validationErrors.sender_name || vm.validationErrors.sender_email || vm.validationErrors.reply_to_email);
+            },
+            deep: true
+        },
+        'sendOption': function sendOption(newVal) {
+            var vm = this;
+            if (newVal === '0') {
+                vm.submitBtnText = 'Update Draft';
+                vm.resource.is_draft = true;
+            } else {
+                vm.updateSubmitBtnText();
+                vm.resource.is_draft = false;
+            }
+        },
+        'selectedDate': {
+            handler: function handler(newVal) {
+                var vm = this;
+                vm.resource.send_at = moment(vm.selectedDate.time, vm.datePickerOptions.format).utc().format(vm.datePickerOptions.format);
+                vm.updateSubmitBtnText();
+            },
+            deep: true
+        },
         moreOption: function moreOption(action) {
             var vm = this;
 
@@ -71594,10 +71936,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     });
                 }
             }
-        },
-
-        'selected_mailing_lists': function selected_mailing_lists(newVal) {
-            this.resource.mailing_lists = this.flattenedMLists;
         }
     }
 });
@@ -71611,187 +71949,169 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "mt-5"
   }, [(_vm.fetchingData) ? _c('i', {
     staticClass: "fa fa-spinner fa-spin"
-  }) : _vm._e(), _vm._v(" "), (!_vm.fetchingData) ? [(_vm.appUserHasPermission('update')) ? _c('div', [_c('h3', {
-    staticClass: "mb-5"
-  }, [_c('i', {
-    staticClass: "fa fa-edit"
-  }), _vm._v(" " + _vm._s(_vm.name) + "\n            ")]), _vm._v(" "), (!_vm.fetchingData) ? _c('form', {
+  }) : _vm._e(), _vm._v(" "), (!_vm.fetchingData) ? [(_vm.appUserHasPermission('create')) ? _c('div', [_c('form', {
     on: {
       "submit": function($event) {
         $event.preventDefault();
         _vm.updateResource($event)
       }
     }
+  }, [_c('a', {
+    staticClass: "pull-right btn btn-link btn-sm",
+    class: !_vm.showToggleBtn ? 'invisible' : '',
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.toggleSenderDetails($event)
+      }
+    }
+  }, [_vm._v("Toggle Sender Details")]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix"
+  }), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.showSenderDetails),
+      expression: "showSenderDetails"
+    }],
+    staticClass: "row"
   }, [_c('div', {
-    staticClass: "form-group row"
+    staticClass: "form-group col-md-4"
   }, [_c('label', {
-    staticClass: "col-md-4 form-control-label",
+    staticClass: "form-control-label",
     attrs: {
-      "for": "first_name"
+      "for": "sender_name"
     }
-  }, [_vm._v("First Name")]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-8"
-  }, [_c('input', {
+  }, [_vm._v("Sender Name "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.validationErrors.sender_name))])]), _vm._v(" "), _c('div', {}, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model.trim",
-      value: (_vm.resource.first_name),
-      expression: "resource.first_name",
+      value: (_vm.resource.sender_name),
+      expression: "resource.sender_name",
       modifiers: {
         "trim": true
       }
     }],
     staticClass: "form-control",
-    class: _vm.validationErrors.first_name ? 'is-invalid' : '',
     attrs: {
       "type": "text",
-      "id": "first_name"
+      "id": "sender_name"
     },
     domProps: {
-      "value": (_vm.resource.first_name)
+      "value": (_vm.resource.sender_name)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.resource.first_name = $event.target.value.trim()
+        _vm.resource.sender_name = $event.target.value.trim()
       },
       "blur": function($event) {
         _vm.$forceUpdate()
       }
     }
-  }), _vm._v(" "), _c('small', {
-    staticClass: "invalid-feedback"
-  }, [_vm._v("\n                            " + _vm._s(_vm.validationErrors.first_name) + "\n                        ")])])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group row"
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group col-md-4"
   }, [_c('label', {
-    staticClass: "col-md-4 form-control-label",
+    staticClass: "form-control-label",
     attrs: {
-      "for": "last_name"
+      "for": "sender_email"
     }
-  }, [_vm._v("Last Name")]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-8"
-  }, [_c('input', {
+  }, [_vm._v("Sender Email "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.validationErrors.sender_email))])]), _vm._v(" "), _c('div', {}, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model.trim",
-      value: (_vm.resource.last_name),
-      expression: "resource.last_name",
+      value: (_vm.resource.sender_email),
+      expression: "resource.sender_email",
       modifiers: {
         "trim": true
       }
     }],
     staticClass: "form-control",
-    class: _vm.validationErrors.last_name ? 'is-invalid' : '',
     attrs: {
       "type": "text",
-      "id": "last_name"
+      "id": "sender_email"
     },
     domProps: {
-      "value": (_vm.resource.last_name)
+      "value": (_vm.resource.sender_email)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.resource.last_name = $event.target.value.trim()
+        _vm.resource.sender_email = $event.target.value.trim()
       },
       "blur": function($event) {
         _vm.$forceUpdate()
       }
     }
-  }), _vm._v(" "), _c('small', {
-    staticClass: "invalid-feedback"
-  }, [_vm._v("\n                            " + _vm._s(_vm.validationErrors.last_name) + "\n                        ")])])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group row"
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group col-md-4"
   }, [_c('label', {
-    staticClass: "col-md-4 form-control-label",
+    staticClass: "form-control-label",
     attrs: {
-      "for": "email"
+      "for": "reply_to_email"
     }
-  }, [_vm._v("Email")]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-8"
-  }, [_c('input', {
+  }, [_vm._v("Reply-To Email "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.validationErrors.reply_to_email))])]), _vm._v(" "), _c('div', {}, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model.trim",
-      value: (_vm.resource.email),
-      expression: "resource.email",
+      value: (_vm.resource.reply_to_email),
+      expression: "resource.reply_to_email",
       modifiers: {
         "trim": true
       }
     }],
     staticClass: "form-control",
-    class: _vm.validationErrors.email ? 'is-invalid' : '',
     attrs: {
       "type": "text",
-      "id": "email"
+      "id": "reply_to_email"
     },
     domProps: {
-      "value": (_vm.resource.email)
+      "value": (_vm.resource.reply_to_email)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.resource.email = $event.target.value.trim()
+        _vm.resource.reply_to_email = $event.target.value.trim()
       },
       "blur": function($event) {
         _vm.$forceUpdate()
       }
     }
-  }), _vm._v(" "), _c('small', {
-    staticClass: "invalid-feedback"
-  }, [_vm._v("\n                            " + _vm._s(_vm.validationErrors.email) + "\n                        ")])])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group row checkbox"
-  }, [_c('div', {
-    staticClass: "col-md-8 ml-md-auto"
+  })])])]), _vm._v(" "), (_vm.subscribers.length) ? _c('div', {
+    staticClass: "form-group"
   }, [_c('label', {
-    staticClass: "custom-control custom-checkbox"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.resource.active),
-      expression: "resource.active"
-    }],
-    staticClass: "custom-control-input",
+    staticClass: "form-control-label"
+  }, [_vm._v("Recipient Subscribers "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.validationErrors.subscribers))])]), _vm._v(" "), _c('div', {}, [_c('v-select', {
     attrs: {
-      "type": "checkbox"
+      "options": _vm.sortedSubscribers,
+      "placeholder": "Select Subscribers",
+      "multiple": ""
     },
-    domProps: {
-      "checked": Array.isArray(_vm.resource.active) ? _vm._i(_vm.resource.active, null) > -1 : (_vm.resource.active)
-    },
-    on: {
-      "__c": function($event) {
-        var $$a = _vm.resource.active,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && (_vm.resource.active = $$a.concat($$v))
-          } else {
-            $$i > -1 && (_vm.resource.active = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.resource.active = $$c
-        }
-      }
+    model: {
+      value: (_vm.selected_subscribers),
+      callback: function($$v) {
+        _vm.selected_subscribers = $$v
+      },
+      expression: "selected_subscribers"
     }
-  }), _vm._v(" "), _c('span', {
-    staticClass: "custom-control-indicator"
-  }), _vm._v(" "), _c('span', {
-    staticClass: "custom-control-description"
-  }, [_vm._v("Active")])])])]), _vm._v(" "), (_vm.mailing_lists.length) ? _c('div', {
-    staticClass: "form-group row"
+  })], 1)]) : _vm._e(), _vm._v(" "), (_vm.mailing_lists.length) ? _c('div', {
+    staticClass: "form-group"
   }, [_c('label', {
-    staticClass: "col-md-4 form-control-label"
-  }, [_vm._v("Mailing Lists")]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-8"
-  }, [_c('v-select', {
+    staticClass: "form-control-label"
+  }, [_vm._v("Recipient Mailing Lists "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.validationErrors.mailing_lists))])]), _vm._v(" "), _c('div', {}, [_c('v-select', {
     attrs: {
       "options": _vm.sortedMailingLists,
-      "label": "name",
-      "placeholder": "No Mailing Lists",
+      "placeholder": "Select Mailing Lists",
       "multiple": ""
     },
     model: {
@@ -71802,15 +72122,184 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "selected_mailing_lists"
     }
   })], 1)]) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "form-group row"
+    staticClass: "row"
   }, [_c('div', {
-    staticClass: "col-md-8 ml-md-auto"
+    staticClass: "form-group col-md-6"
+  }, [_c('label', {
+    staticClass: "form-control-label",
+    attrs: {
+      "for": "subject"
+    }
+  }, [_vm._v("Subject "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.validationErrors.subject))])]), _vm._v(" "), _c('div', {}, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: (_vm.resource.subject),
+      expression: "resource.subject",
+      modifiers: {
+        "trim": true
+      }
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "id": "subject"
+    },
+    domProps: {
+      "value": (_vm.resource.subject)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.resource.subject = $event.target.value.trim()
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group col-md-6"
+  }, [_c('label', {
+    staticClass: "form-control-label",
+    attrs: {
+      "for": "email_campaign"
+    }
+  }, [_vm._v("Campaign "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.validationErrors.campaign))])]), _vm._v(" "), _c('div', {}, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.resource.campaign),
+      expression: "resource.campaign"
+    }],
+    staticClass: "custom-select form-control",
+    attrs: {
+      "id": "email_campaign"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.resource.campaign = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.sortedCampaigns), function(option) {
+    return _c('option', {
+      domProps: {
+        "value": option.id
+      }
+    }, [_vm._v("\n                                    " + _vm._s(option.name) + "\n                                ")])
+  }))])])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "form-group col-md-6"
+  }, [_c('label', {
+    staticClass: "form-control-label",
+    attrs: {
+      "for": "send_options"
+    }
+  }, [_vm._v("Option")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sendOption),
+      expression: "sendOption"
+    }],
+    staticClass: "custom-select form-control",
+    attrs: {
+      "id": "send_options"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.sendOption = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.sendOptions), function(option) {
+    return _c('option', {
+      domProps: {
+        "value": option.value
+      }
+    }, [_vm._v("\n                                " + _vm._s(option.text) + "\n                            ")])
+  }))]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.sendOption === '1'),
+      expression: "sendOption === '1'"
+    }],
+    staticClass: "form-group col-md-6"
+  }, [_c('label', {
+    staticClass: "form-control-label",
+    attrs: {
+      "for": "schedule"
+    }
+  }, [_vm._v("Schedule "), _c('small', [_c('em', [_vm._v("(" + _vm._s(_vm.datePickerOptions.format) + ")")])])]), _vm._v(" "), _c('datepicker', {
+    staticClass: "form-control",
+    attrs: {
+      "date": _vm.selectedDate,
+      "option": _vm.datePickerOptions,
+      "id": "schedule"
+    }
+  })], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "form-control-label",
+    attrs: {
+      "for": "content"
+    }
+  }, [_vm._v("Content "), _c('small', {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.validationErrors.content))])]), _vm._v(" "), _c('div', {}, [_c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: (_vm.resource.content),
+      expression: "resource.content",
+      modifiers: {
+        "trim": true
+      }
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "id": "content",
+      "rows": "4"
+    },
+    domProps: {
+      "value": (_vm.resource.content)
+    },
+    on: {
+      "click": _vm.checkEditor,
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.resource.content = $event.target.value.trim()
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('div', {
+    staticClass: "ml-md-auto"
   }, [_c('button', {
     staticClass: "btn btn-primary btn-outline-primary",
     attrs: {
       "type": "submit"
     }
-  }, [_vm._v("Update")]), _vm._v(" "), _c('form', {
+  }, [_vm._v(_vm._s(_vm.submitBtnText))]), _vm._v(" "), _c('form', {
     staticClass: "form-inline pull-right",
     attrs: {
       "action": ""
@@ -71848,9 +72337,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": option.value
       }
     }, [_vm._v("\n                                    " + _vm._s(option.text) + "\n                                ")]) : _vm._e()
-  }))])])])]) : _vm._e()]) : _c('div', [_c('i', {
+  }))])])])])]) : _vm._e(), _vm._v(" "), (!_vm.appUserHasPermission('create')) ? _c('div', [_c('i', {
     staticClass: "fa fa-warning"
-  }), _vm._v(" " + _vm._s(_vm.appUnauthorisedErrorMessage) + "\n        ")])] : _vm._e()], 2)
+  }), _vm._v(" " + _vm._s(_vm.appUnauthorisedErrorMessage) + "\n        ")]) : _vm._e()] : _vm._e()], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

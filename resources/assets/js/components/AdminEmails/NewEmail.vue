@@ -140,8 +140,7 @@
                     },
                 },
                 selectedDate: { time: moment().format('YYYY-MM-DD HH:mm') },
-                submitBtnText: 'Save as Draft',
-                test: ''
+                submitBtnText: 'Save as Draft'
             }
         },
         computed: {

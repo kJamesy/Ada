@@ -77,11 +77,12 @@
                                         </label>
                                     </th>
                                     <th v-on:click.prevent="appChangeSort('subject')">Subject <span v-html="appGetSortMarkup('subject')"></span></th>
-                                    <th v-on:click.prevent="appChangeSort('sender')">Sender <span v-html="appGetSortMarkup('sender')"></span></th>
-                                    <th v-on:click.prevent="appChangeSort('recipients_num')">Recipients <span v-html="appGetSortMarkup('recipients_num')"></span></th>
+                                    <th v-if="! appIsDraftsPage" v-on:click.prevent="appChangeSort('sender')">Sender <span v-html="appGetSortMarkup('sender')"></span></th>
+                                    <th v-if="! appIsDraftsPage" v-on:click.prevent="appChangeSort('recipients_num')">Recipients <span v-html="appGetSortMarkup('recipients_num')"></span></th>
                                     <th v-on:click.prevent="appChangeSort('status')">Status <span v-html="appGetSortMarkup('status')"></span></th>
                                     <th v-on:click.prevent="appChangeSort('created_at')" >Created <span v-html="appGetSortMarkup('created_at')"></span></th>
-                                    <th v-on:click.prevent="appChangeSort('sent_at')" >Sent <span v-html="appGetSortMarkup('sent_at')"></span></th>
+                                    <th v-if="appIsDraftsPage" v-on:click.prevent="appChangeSort('updated_at')" >Updated <span v-html="appGetSortMarkup('updated_at')"></span></th>
+                                    <th v-if="! appIsDraftsPage" v-on:click.prevent="appChangeSort('sent_at')" >Sent <span v-html="appGetSortMarkup('sent_at')"></span></th>
                                     <th v-if="appUserHasPermission('update')"></th>
                                 </tr>
                                 </thead>
@@ -94,17 +95,18 @@
                                         </label>
                                     </td>
                                     <td>{{ resource.subject }}</td>
-                                    <td>
+                                    <td v-if="! appIsDraftsPage">
                                         <span v-if="resource.sender">{{ resource.sender }}</span>
                                         <span v-else=""><em>&mdash;</em></span>
                                     </td>
-                                    <td>
+                                    <td v-if="! appIsDraftsPage">
                                         <span v-if="resource.recipients_num">{{ resource.recipients_num }}</span>
                                         <span v-else=""><em>&mdash;</em></span>
                                     </td>
                                     <td>{{ resource.friendly_status }}</td>
                                     <td><span v-bind:title="resource.created_at" data-toggle="tooltip">{{ resource.created_at | dateToTheDay }}</span></td>
-                                    <td>
+                                    <td v-if="appIsDraftsPage"><span v-bind:title="resource.updated_at" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
+                                    <td v-if="! appIsDraftsPage">
                                         <span v-if="resource.sent_at" v-bind:title="resource.sent_at" data-toggle="tooltip">{{ resource.sent_at | dateToTheDay }}</span>
                                         <span v-else=""><em>&mdash;</em></span>
                                     </td>

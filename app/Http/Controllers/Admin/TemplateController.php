@@ -23,6 +23,7 @@ class TemplateController extends Controller
 	protected $permissionsKey;
 	protected $friendlyName;
 	protected $friendlyNamePlural;
+	protected $pdfIt;
 
 	/**
 	 * TemplateController constructor.
@@ -40,6 +41,7 @@ class TemplateController extends Controller
 		$this->permissionsKey = UserPermissions::getModelShortName($this->policyOwnerClass);
 		$this->friendlyName = 'Template';
 		$this->friendlyNamePlural = 'Templates';
+		$this->pdfIt = 'http://pdf-it.dev.acw.website/please-and-thank-you';
 	}
 
 
@@ -141,6 +143,7 @@ class TemplateController extends Controller
 				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 
 			$resource->url = route('templates.display', ['id' => $resource->id]);
+			$resource->pdf = "{$this->pdfIt}?url={$resource->url}&pdfName=" . str_slug($resource->name);
 
 			return response()->json(compact('resource'));
 		}

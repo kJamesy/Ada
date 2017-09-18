@@ -132,7 +132,7 @@ class Subscriber extends Model
 	 */
 	public static function findResource($id)
 	{
-		return static::with('mailing_lists')->find($id);
+		return static::with('mailing_lists')->isNotDeleted()->find($id);
 	}
 
 	/**

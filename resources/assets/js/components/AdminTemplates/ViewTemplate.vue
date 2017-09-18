@@ -25,7 +25,8 @@
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <a class="btn btn-link" v-bind:href="resource.url" target="_blank" title="Open" data-toggle="tooltip"><i class="fa fa-external-link"></i></a>
+                                    <a class="btn btn-md" v-bind:href="resource.url" target="_blank" title="Open" data-toggle="tooltip"><i class="fa fa-external-link"></i></a>
+                                    <a class="btn btn-md" v-bind:href="resource.pdf" target="_blank" title="Generate PDF" data-toggle="tooltip"><i class="fa fa-file-pdf-o"></i></a>
                                 </th>
                                 <td>
                                     <iframe v-bind:src="resource.url" style="width: 100%; border:none;"  v-on:load="resizeIframe($event)"></iframe>
@@ -53,7 +54,7 @@
         data() {
             return {
                 fetchingData: true,
-                resource: {id: '', name: '', description: '', created_at: '', updated_at: '', url: ''}
+                resource: {id: '', name: '', description: '', created_at: '', updated_at: '', url: '', pdf: ''}
             }
         },
         methods: {

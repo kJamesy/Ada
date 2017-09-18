@@ -28,6 +28,7 @@ class EmailController extends Controller
 	protected $permissionsKey;
 	protected $friendlyName;
 	protected $friendlyNamePlural;
+	protected $pdfIt;
 
 	/**
 	 * EmailController constructor.
@@ -45,6 +46,7 @@ class EmailController extends Controller
 		$this->permissionsKey = UserPermissions::getModelShortName($this->policyOwnerClass);
 		$this->friendlyName = 'Email';
 		$this->friendlyNamePlural = 'Emails';
+		$this->pdfIt = 'http://pdf-it.dev.acw.website/please-and-thank-you';
 	}
 
 	/**
@@ -143,6 +145,17 @@ class EmailController extends Controller
 
 			$this->validate($request, $rules);
 
+			if ( $request->editing && $request->id ) { //Composing an email from an existing one
+				$oldEmail = Email::findResource( (int) $request->id );
+
+				if (  $oldEmail && $oldEmail->status === - 2 ) { //Old one was a draft
+					if ( $request->is_draft ) //Modifying the draft
+						return $this->update( $request, $request->id );
+					else //Sending the draft
+						$oldEmail->delete();
+				}
+			}
+
 			$send_at = Carbon::now();
 
 			if ( $rawTime = $request->send_at ) {
@@ -174,48 +187,127 @@ class EmailController extends Controller
 		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 	}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+	/**
+	 * Show specified resource.
+	 * @param $id
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function show($id, Request $request)
+	{
+		$resource = Email::findResource( (int) $id );
+		$currentUser = $request->user();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+		if ( $resource ) {
+			if ( ! $currentUser->can('read', $this->policyOwnerClass) )
+				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+			$resource->url = route('emails.display', ['id' => $resource->id]);
+			$resource->pdf = "{$this->pdfIt}?url={$resource->url}&pdfName=" . str_slug($resource->subject);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+			return response()->json(compact('resource'));
+		}
+
+		return response()->json(['error' => "$this->friendlyName does not exist"], 404);
+	}
+
+	/**
+	 * Display resource content
+	 * @param $id
+	 */
+	public function display($id)
+	{
+		if ( $resource = Email::findResource( (int) $id) )
+			echo $resource->content;
+		else
+			echo "No $this->friendlyName found";
+	}
+
+	/**
+	 * Show resource for editing
+	 * @param $id
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function edit($id, Request $request)
+	{
+		$resource = Email::findResource( (int) $id );
+		$currentUser = $request->user();
+
+		if ( $resource ) {
+			if ( ! $currentUser->can('update', $this->policyOwnerClass) )
+				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+
+			$subscribers = Subscriber::getAttachableResources();
+			$mailing_lists = MailingList::getAttachedResources();
+			$campaigns = Campaign::getAttachableResources();
+			$templates = Template::getAttachableResources();
+			$sender_email = EmailSetting::getSenderEmail();
+			$sender_name = EmailSetting::getSenderName();
+			$reply_to_email = EmailSetting::getReplyToEmail();
+
+			return response()->json(compact('resource', 'subscribers', 'mailing_lists', 'campaigns', 'templates', 'sender_email', 'sender_name', 'reply_to_email'));
+		}
+
+		return response()->json(['error' => "$this->friendlyName does not exist"], 404);
+	}
+
+	/**
+	 * Update the specified resource
+	 * @param Request $request
+	 * @param $id
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function update(Request $request, $id)
+	{
+		$resource = Email::findResource( (int) $id );
+
+		if ( $resource ) {
+			$user = $request->user();
+
+			$resource->user_id = $user->id;
+			$resource->campaign_id = (int) $request->campaign;
+			$resource->subject = trim($request->subject);
+			$resource->content = trim($request->get('content'));
+			$resource->save();
+
+			$resource->just_updated = true;
+
+			return response()->json(compact('resource'));
+		}
+
+		return response()->json(['error' => "$this->friendlyName does not exist"], 404);
+	}
+
+	/**
+	 * Delete/destroy the specified resource
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy($id, Request $request)
+	{
+		$resource = Email::findResource( (int) $id );
+		$currentUser = $request->user();
+
+		if ( $currentUser->can('delete', $this->policyOwnerClass) ) {
+			if ( ! $resource )
+				return response()->json(['error' => "$this->friendlyName does not exist"], 404);
+
+			$suffix = 'permanently deleted';
+
+			if ( $resource->status === -2 ) //Draft
+				$resource->delete();
+			else {
+				$resource->is_deleted = 1;
+				$resource->save();
+				$suffix = 'moved to trash';
+			}
+
+			return response()->json(['success' => "$this->friendlyName $suffix"]);
+		}
+
+		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+	}
+
+
 }

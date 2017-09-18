@@ -127,13 +127,35 @@ class Email extends Model
 	}
 
 	/**
+	 * Scope for email drafts
+	 * @param $query
+	 *
+	 * @return mixed
+	 */
+	public function scopeIsDraft($query)
+	{
+		return $query->where('status', -2);
+	}
+
+	/**
+	 * Scope for email drafts
+	 * @param $query
+	 *
+	 * @return mixed
+	 */
+	public function scopeIsNotDraft($query)
+	{
+		return $query->where('status', '<>', -2);
+	}
+
+	/**
 	 * Find resource by id
 	 * @param $id
 	 * @return mixed
 	 */
 	public static function findResource($id)
 	{
-		return static::with('user')->with('campaign')->find($id);
+		return static::with('user')->with('campaign')->isNotDeleted()->find($id);
 	}
 
 	/**
