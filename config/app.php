@@ -178,7 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         /*
-         * Epsilon
+         * Ada
          */
         \App\Providers\ComposerServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,

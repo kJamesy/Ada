@@ -15,7 +15,7 @@ Route::get('/', ['as' => 'guest.home', function () { return view('guest.home'); 
 Route::get('/home', function () { return redirect(route('guest.home')); });
 
 Route::get('lab', function() {
-	var_dump('We are here');
+
 });
 
 /**
