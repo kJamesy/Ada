@@ -15,7 +15,7 @@ Route::get('/', ['as' => 'guest.home', function () { return view('guest.home'); 
 Route::get('/home', function () { return redirect(route('guest.home')); });
 
 Route::get('lab', function() {
-//	dd(\App\MailingList::whereIn('id', [3])->update(['is_deleted' => 0, 'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]));
+	var_dump('We are here');
 });
 
 /**
