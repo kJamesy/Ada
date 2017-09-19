@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Campaign;
 use App\Email;
 use App\EmailSetting;
+use App\Exporters\ResourceExporter;
 use App\MailingList;
 use App\Permissions\UserPermissions;
 use App\Settings\UserSettings;
@@ -309,5 +310,86 @@ class EmailController extends Controller
 		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 	}
 
+	/**
+	 * Quickly update resources in bulk
+	 * @param Request $request
+	 * @param $update
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function quickUpdate(Request $request, $update)
+	{
+		$currentUser = $request->user();
+		$resourceIds = $request->resources;
 
+		if ( $currentUser->can('delete', $this->policyOwnerClass) ) {
+			$selectedNum = count($resourceIds);
+
+			if ( $selectedNum ) {
+				try {
+					$resources = Email::getResources(0, 0, 3, $resourceIds, -1)->pluck('id')->toArray();
+					$successNum = 0;
+
+					if ( $resources ) {
+						switch ($update) {
+							case 'delete':
+								$successNum = Email::doBulkActions($resources, 'delete');
+								break;
+							case 'restore':
+								$successNum = Email::doBulkActions($resources, 'restore');
+								break;
+							case 'destroy':
+								$successNum = Email::doBulkActions($resources, 'destroy');
+								break;
+						}
+
+						$append = ( $selectedNum == $successNum ) ? '' : "Please note you do not have sufficient permissions to $update some $this->friendlyNamePlural.";
+						$string = $successNum == 1 ? $this->friendlyName : $this->friendlyNamePlural;
+						$successNum = $successNum ?: 'No';
+
+						if ( $update == 'delete')
+							$update = 'moved to trash';
+						else if ( $update == 'destroy')
+							$update = 'permanently deleted';
+						else
+							$update = "{$update}d";
+
+						return response()->json(['success' => "$successNum $string $update. $append"]);
+					}
+					else
+						return response()->json(['error' => "$this->friendlyNamePlural do not exist"], 404);
+				}
+				catch (\Exception $e) {
+					return response()->json(['error' => 'A server error occurred.'], 500);
+				}
+			}
+			else
+				return response()->json(['error' => "No $this->friendlyNamePlural received"], 500);
+		}
+
+		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+	}
+
+	/**
+	 * Export resources to Excel
+	 * @param Request $request
+	 * @return \Illuminate\Http\RedirectResponse|mixed
+	 */
+	public function export(Request $request)
+	{
+		if ( $request->user()->can('read', $this->policyOwnerClass) ) {
+			$resourceIds = (array) $request->resourceIds;
+			$fileName = '';
+
+			$deleted = $request->has('trash') ? (int) $request->trash : -1;
+
+			$resources = Email::getResources(0, 0, 3, $resourceIds, $deleted);
+			$fileName .= count($resourceIds) ? 'Specified-Items-' : 'All-Items-';
+			$fileName .= Carbon::now()->toDateString();
+
+			$exporter = new ResourceExporter($resources, $fileName);
+			return $exporter->generateExcelExport('emails');
+		}
+		else
+			return redirect()->back();
+	}
 }

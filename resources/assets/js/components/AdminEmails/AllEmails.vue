@@ -51,7 +51,7 @@
                         <form class="form-inline pull-left" v-if="appSelectedResources.length">
                             <label class="form-control-label mr-sm-2" for="quick-edit">Options</label>
                             <select class="custom-select form-control mb-2 mb-sm-0 mr-sm-5" v-model="appQuickEditOption" id="quick-edit">
-                                <option v-for="option in quickEditOptions" v-bind:value="option.value" v-if="appUserHasPermission(option.value)">
+                                <option v-for="option in dynamicQuickEditOptions" v-bind:value="option.value" v-if="appUserHasPermission(option.value)">
                                     {{ option.text }}
                                 </option>
                             </select>
@@ -169,6 +169,25 @@
                 filterOption: '',
                 filters: [],
                 selectedFilter: ''
+            }
+        },
+        computed: {
+            dynamicQuickEditOptions() {
+                let vm = this;
+                if ( vm.appIsDraftsPage ) {
+                    return [
+                        { text: 'Select Option', value: '' },
+                        { text: 'Export', value: 'export' },
+                        { text: 'Destroy', value: 'destroy' }
+                    ]
+                }
+                else {
+                    return [
+                        { text: 'Select Option', value: '' },
+                        { text: 'Export', value: 'export' },
+                        { text: 'Delete', value: 'delete' }
+                    ]
+                }
             }
         },
         methods: {

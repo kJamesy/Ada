@@ -41,10 +41,11 @@
                                         <span class="custom-control-indicator"></span>
                                     </label>
                                 </th>
-                                <th v-on:click.prevent="appChangeSort('first_name')">First Name <span v-html="appGetSortMarkup('first_name')"></span></th>
-                                <th v-on:click.prevent="appChangeSort('last_name')">Last Name <span v-html="appGetSortMarkup('last_name')"></span></th>
-                                <th v-on:click.prevent="appChangeSort('email')">Email <span v-html="appGetSortMarkup('email')"></span></th>
-                                <th v-on:click.prevent="appChangeSort('active')">Active <span v-html="appGetSortMarkup('active')"></span></th>
+                                <th v-on:click.prevent="appChangeSort('subject')">Subject <span v-html="appGetSortMarkup('subject')"></span></th>
+                                <th v-on:click.prevent="appChangeSort('sender')">Sender <span v-html="appGetSortMarkup('sender')"></span></th>
+                                <th v-on:click.prevent="appChangeSort('recipients_num')">Recipients <span v-html="appGetSortMarkup('recipients_num')"></span></th>
+                                <th v-on:click.prevent="appChangeSort('status')">Status <span v-html="appGetSortMarkup('status')"></span></th>
+                                <th v-on:click.prevent="appChangeSort('created_at')" >Created <span v-html="appGetSortMarkup('created_at')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('updated_at')" >Deleted <span v-html="appGetSortMarkup('updated_at')"></span></th>
                             </tr>
                             </thead>
@@ -56,12 +57,18 @@
                                         <span class="custom-control-indicator"></span>
                                     </label>
                                 </td>
-                                <td>{{ resource.first_name }}</td>
-                                <td>{{ resource.last_name }}</td>
-                                <td>{{ resource.email }}</td>
-                                <td>{{ resource.active ? 'Yes' : 'No' }}</td>
+                                <td>{{ resource.subject }}</td>
+                                <td>
+                                    <span v-if="resource.sender">{{ resource.sender }}</span>
+                                    <span v-else=""><em>&mdash;</em></span>
+                                </td>
+                                <td>
+                                    <span v-if="resource.recipients_num">{{ resource.recipients_num }}</span>
+                                    <span v-else=""><em>&mdash;</em></span>
+                                </td>
+                                <td>{{ resource.friendly_status }}</td>
+                                <td><span v-bind:title="resource.created_at" data-toggle="tooltip">{{ resource.created_at | dateToTheDay }}</span></td>
                                 <td><span v-bind:title="resource.updated_at" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>

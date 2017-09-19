@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
@@ -122,8 +123,17 @@ class Email extends Model
 	 */
 	public function scopeStatus($query, $status)
 	{
-		$status = (int) $status;
-		return $status === 2 ? $query->where('status', '<>', -2) : $query->where('status', $status);
+		switch((int) $status) {
+			case 2:
+				return $query->isNotDraft();
+				break;
+			case 3:
+				return $query;
+				break;
+			default:
+				return $query->where('status', (int) $status);
+				break;
+		}
 	}
 
 	/**
@@ -184,9 +194,9 @@ class Email extends Model
 		if ( count($selected) )
 			$query->whereIn('id', $selected);
 
-		if ( (int) $deleted == 1 )
+		if ( (int) $deleted === 1 )
 			$query->isDeleted();
-		elseif ( (int) $deleted == 0 )
+		elseif ( (int) $deleted === 0 )
 			$query->isNotDeleted();
 
 		$query->orderBy($orderBy, $order);
@@ -240,6 +250,36 @@ class Email extends Model
 			return $query->isNotDeleted()->count();
 
 		return $query->count();
+	}
+
+	/**
+	 * Perform specified bulk action
+	 * @param $selected
+	 * @param $verb
+	 * @return int
+	 */
+	public static function doBulkActions($selected, $verb)
+	{
+		$count = 0;
+		if ( is_array($selected) && count($selected) ) {
+
+			switch( $verb ) {
+				case 'delete':
+					static::whereIn('id', $selected)->update(['is_deleted' => 1, 'updated_at' => Carbon::now()]);
+					$count = count($selected);
+					break;
+				case 'restore':
+					static::whereIn('id', $selected)->update(['is_deleted' => 0, 'updated_at' => Carbon::now()]);
+					$count = count($selected);
+					break;
+				case 'destroy':
+					static::whereIn('id', $selected)->delete();
+					$count = count($selected);
+					break;
+			}
+		}
+
+		return $count;
 	}
 
 }

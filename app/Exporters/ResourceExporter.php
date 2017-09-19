@@ -48,6 +48,9 @@ class ResourceExporter
 	        case 'email_settings':
 		        return static::generateEmailSettingsExport();
 		        break;
+	        case 'emails':
+		        return static::generateEmailsExport();
+		        break;
         }
 
         return null;
@@ -197,7 +200,7 @@ class ResourceExporter
 				}
 			}
 
-			$excel->sheet('Campaigns', function($sheet) use ($exportArr) {
+			$excel->sheet('Templates', function($sheet) use ($exportArr) {
 				$sheet->fromArray($exportArr);
 			});
 
@@ -234,4 +237,38 @@ class ResourceExporter
 		})->download('xls');
 	}
 
+	/**
+	 * Generate emails export
+	 * @return mixed
+	 */
+	public function generateEmailsExport()
+	{
+		return Excel::create($this->exportFileName, function($excel) {
+			$resources = $this->resources;
+			$exportArr = [];
+
+			if ( count($resources) ) {
+				foreach ($resources as $resource) {
+					$exportArr[] = [
+						'Subject' => $resource->subject,
+						'Sender' => $resource->sender ?: '—',
+						'Reply-To' => $resource->reply_to_email ?: '—',
+						'User' => $resource->user->name,
+						'Campaign' => $resource->campaign->name,
+						'Recipients' => $resource->recipients_num ?: '—',
+						'Status' => $resource->friendly_status,
+						'Created' => $resource->created_at->toDateTimeString(),
+						'Sent' => $resource->sent_at ? $resource->sent_at->toDateTimeString() : '—',
+						'Last Updated' => $resource->updated_at->toDateTimeString(),
+					];
+
+				}
+			}
+
+			$excel->sheet('Emails', function($sheet) use ($exportArr) {
+				$sheet->fromArray($exportArr);
+			});
+
+		})->download('xls');
+	}
 }
