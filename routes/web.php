@@ -21,8 +21,8 @@ Route::get('lab', function() {
 //	var_dump($command);
 //	var_dump($pid);
 
-	\Illuminate\Support\Facades\Storage::disk('local')->put('worker_pid.txt', 'Process');
-	
+	\Illuminate\Support\Facades\Storage::disk('local')->put('worker_pid.txt', 'Process Again');
+
 	$process = exec("ps -p 24662 -opid=,cmd=");
 	var_dump($process);
 });
