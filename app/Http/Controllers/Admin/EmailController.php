@@ -187,10 +187,10 @@ class EmailController extends Controller
 				$subscribers = new Collection();
 
 				if ( $request->subscribers )
-					$subscribers->merge(Subscriber::getSpecifiedAttachableResources($request->subscribers));
+					$subscribers = $subscribers->merge(Subscriber::getSpecifiedAttachableResources($request->subscribers));
 
 				if ( $request->mailing_lists )
-					$subscribers->merge(Subscriber::getAttachableResourcesBySpecifiedMLists($request->mailing_lists))->unique(); //unique just in case
+					$subscribers = $subscribers->merge(Subscriber::getAttachableResourcesBySpecifiedMLists($request->mailing_lists))->unique(); //unique just in case
 
 				$sender = ['name' => trim( $request->sender_name ), 'email' => trim( $request->sender_email )];
 				$subs_count = count($subscribers);

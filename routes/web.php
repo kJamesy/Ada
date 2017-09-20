@@ -17,21 +17,6 @@ Route::get('/home', function () { return redirect(route('guest.home')); });
 
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
-		$subscribers = new \Illuminate\Database\Eloquent\Collection();
-
-		$subscribers->merge(\App\Subscriber::getSpecifiedAttachableResources([2,1,11,47]));
-		
-		$subscribers->merge(\App\Subscriber::getAttachableResourcesBySpecifiedMLists([5]))->unique(); //unique just in case
-
-		$sender = ['name' => 'ADA', 'email' => 'ada@kjamesy.london'];
-		$subs_count = count($subscribers);
-
-//		if ( $subs_count ) {
-			$job = ( new \App\Jobs\SendNewsletter( \App\Email::findResource(7), $subscribers, $sender ) )->delay( \Carbon\Carbon::now()->addMinutes(2) );
-			dispatch( $job );
-//		}
-
-		return $subs_count;
 
 	});
 
