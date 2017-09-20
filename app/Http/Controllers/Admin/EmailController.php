@@ -197,12 +197,12 @@ class EmailController extends Controller
 
 				if ( $subs_count ) {
 					$resource->recipients_num = $subs_count;
+					$resource->save();
 
 					$job = ( new SendNewsletter( $resource, $subscribers, $sender ) )->delay( $send_at );
 					dispatch( $job );
 				}
 			}
-
 			$resource->save();
 
 			return $resource;
