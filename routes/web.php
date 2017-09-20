@@ -15,7 +15,14 @@ Route::get('/', ['as' => 'guest.home', function () { return view('guest.home'); 
 Route::get('/home', function () { return redirect(route('guest.home')); });
 
 Route::get('lab', function() {
+	$subs = \App\Subscriber::getSpecifiedAttachableResources([1,9,3,2,10]);
+	$mSubs = \App\Subscriber::getAttachableResourcesBySpecifiedMLists([2,4,5,6]);
+	$coll = new \Illuminate\Database\Eloquent\Collection();
 
+	var_dump($subs->toArray());
+//	var_dump($mSubs->toArray());
+//	var_dump($subs->merge($mSubs)->unique()->toArray());
+	var_dump($subs->merge($coll)->unique()->toArray());
 });
 
 /**
@@ -83,4 +90,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 Route::group(['prefix' => 'guest'], function() {
 	Route::get('templates/{id}/display', ['as' => 'templates.display', 'uses' => 'Admin\\TemplateController@display']);
 	Route::get('emails/{id}/display', ['as' => 'emails.display', 'uses' => 'Admin\\EmailController@display']);
+});
+
+Route::group(['prefix' => 'subscriber'], function() {
+	Route::get('unsubscribe', ['as' => 'unsubscribe', function() {
+		return 'Unsubscribed';
+	}]);
 });

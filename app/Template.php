@@ -30,7 +30,7 @@ class Template extends Model
 	public static $rules = [
 		'name' => 'required|unique:templates|max:255',
 		'description' => 'required|max:512',
-		'content' => 'required|max:48000',
+		'content' => 'required|max:128000',
 	];
 
 	/**

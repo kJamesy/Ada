@@ -17,6 +17,16 @@ class Email extends Model
 	protected $appends = ['friendly_status'];
 
 	/**
+	 * The attributes that should be mutated to dates.
+	 * @var array
+	 */
+	protected $dates = [
+		'created_at',
+		'updated_at',
+		'sent_at'
+	];
+
+	/**
 	 * Validation rules
 	 * @var array
 	 */
@@ -28,7 +38,7 @@ class Email extends Model
 		'mailing_lists' => 'required_without:subscribers',
 		'campaign' => 'required|exists:campaigns,id',
 		'subject' => 'required|max:255',
-		'content' => 'required|max:48000',
+		'content' => 'required|max:128000',
 	];
 
 	/**

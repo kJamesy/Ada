@@ -103,15 +103,15 @@ class Subscriber extends Model
 	}
 
 	/**
-	 * Scope for subscribers in a given mailing list
+	 * Scope for subscribers in given mailing lists
 	 * @param $query
-	 * @param $mListId
+	 * @param $mListIds
 	 * @return mixed
 	 */
-	public function scopeInMailingList($query, $mListId)
+	public function scopeInMailingLists($query, $mListIds)
 	{
-		return $query->whereHas('mailing_lists', function($query) use ($mListId) {
-			$query->where('id', $mListId);
+		return $query->whereHas('mailing_lists', function($query) use ($mListIds) {
+			$query->whereIn('id', (array) $mListIds);
 		});
 	}
 
@@ -164,7 +164,7 @@ class Subscriber extends Model
 		if ( $mListId === -1 )
 			$query->isUnattached();
 		elseif ( $mListId )
-			$query->inMailingList($mListId);
+			$query->inMailingLists([$mListId]);
 
 		if ( count($selected) )
 			$query->whereIn('id', $selected);
@@ -195,7 +195,7 @@ class Subscriber extends Model
 		$query = static::whereIn('id', static::search($search)->get()->pluck('id'));
 
 		if ( $mListId )
-			$query->inMailingList($mListId);
+			$query->inMailingLists([$mListId]);
 
 		if ( (int) $deleted == 1 )
 			$query->isDeleted();
@@ -259,12 +259,32 @@ class Subscriber extends Model
 	}
 
 	/**
-	 * Get resources that are attached to subscribers
+	 * Get resources that are attachable
 	 * @return \Illuminate\Database\Eloquent\Collection|static[]
 	 */
 	public static function getAttachableResources()
 	{
-		return static::isActive()->isNotDeleted()->orderBy('first_name')->get(['id', 'first_name', 'last_name', 'email']);
+		return static::isActive()->isNotDeleted()->orderBy('first_name')->get();
+	}
+
+	/**
+	 * Get specified resources that are attachable
+	 * @param array $selected
+	 * @return mixed
+	 */
+	public static function getSpecifiedAttachableResources($selected=[])
+	{
+		return static::isActive()->isNotDeleted()->whereIn('id', $selected)->get();
+	}
+
+	/**
+	 * Get attachable resources by specified mailing list ids
+	 * @param array $mLists
+	 * @return mixed
+	 */
+	public static function getAttachableResourcesBySpecifiedMLists($mLists = [])
+	{
+		return static::isActive()->isNotDeleted()->inMailingLists($mLists)->get();
 	}
 
 }

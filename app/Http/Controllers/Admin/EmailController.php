@@ -6,6 +6,7 @@ use App\Campaign;
 use App\Email;
 use App\EmailSetting;
 use App\Exporters\ResourceExporter;
+use App\Jobs\SendNewsletter;
 use App\MailingList;
 use App\Permissions\UserPermissions;
 use App\Settings\UserSettings;
@@ -13,6 +14,7 @@ use App\Subscriber;
 use App\Template;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -157,7 +159,7 @@ class EmailController extends Controller
 				}
 			}
 
-			$send_at = Carbon::now();
+			$send_at = Carbon::now()->addMinutes(5);
 
 			if ( $rawTime = $request->send_at ) {
 				$userInputDt = Carbon::createFromFormat( 'Y-m-d H:i', $rawTime, 'UTC');
@@ -171,16 +173,34 @@ class EmailController extends Controller
 			$resource = new Email();
 			$resource->user_id = $user->id;
 			$resource->campaign_id = (int) $request->campaign;
-
-			if ( ! $request->is_draft ) {
-				$resource->sender         = trim( $request->sender_name ) . "<" . trim( $request->sender_email ) . ">";
-				$resource->reply_to_email = trim( $request->reply_to_email );
-			}
-
 			$resource->subject = trim($request->subject);
 			$resource->content = trim($request->get('content'));
-			$resource->status = $request->is_draft ? -2 : -1;
+
+			if ( ! $request->is_draft ) {
+				$resource->sender = trim( $request->sender_name ) . "<" . trim( $request->sender_email ) . ">";
+				$resource->reply_to_email = trim( $request->reply_to_email );
+				$resource->sent_at = $send_at;
+				$resource->status = -1;
+			}
+
 			$resource->save();
+
+			if ( ! $request->is_draft ) {
+				$subscribers = new Collection();
+
+				if ( $request->subscribers )
+					$subscribers->merge(Subscriber::getSpecifiedAttachableResources($request->subscribers));
+
+				if ( $request->mailing_lists )
+					$subscribers->merge(Subscriber::getAttachableResourcesBySpecifiedMLists($request->mailing_lists))->unique(); //unique just in case
+
+				$sender = ['name' => trim( $request->sender_name ), 'email' => trim( $request->sender_email )];
+
+				if ( $subscribers->count() ) {
+					$job = ( new SendNewsletter( $resource, $subscribers, $sender ) )->delay( $send_at );
+					dispatch( $job );
+				}
+			}
 
 			return $resource;
 		}
