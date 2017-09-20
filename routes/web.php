@@ -15,14 +15,11 @@ Route::get('/', ['as' => 'guest.home', function () { return view('guest.home'); 
 Route::get('/home', function () { return redirect(route('guest.home')); });
 
 Route::get('lab', function() {
-	$subs = \App\Subscriber::getSpecifiedAttachableResources([1,9,3,2,10]);
-	$mSubs = \App\Subscriber::getAttachableResourcesBySpecifiedMLists([2,4,5,6]);
-	$coll = new \Illuminate\Database\Eloquent\Collection();
-
-	var_dump($subs->toArray());
-//	var_dump($mSubs->toArray());
-//	var_dump($subs->merge($mSubs)->unique()->toArray());
-	var_dump($subs->merge($coll)->unique()->toArray());
+//	$command = 'php-cli ' . base_path() . '/artisan queue:listen --timeout=60 --sleep=5 --tries=3 > /dev/null & echo $!';
+	$command = "php " . base_path() . "/artisan queue:work > /dev/null & echo $!";
+	$pid = exec($command);
+	var_dump($command);
+	var_dump($pid);
 });
 
 /**

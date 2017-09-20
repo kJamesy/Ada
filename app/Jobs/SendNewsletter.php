@@ -15,6 +15,18 @@ class SendNewsletter implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+	/**
+	 * The number of times the job may be attempted.
+	 * @var int
+	 */
+	public $tries = 5;
+
+	/**
+	 * The number of seconds the job can run before timing out.
+	 * @var int
+	 */
+	public $timeout = 180;
+
     protected $email;
     protected $recipients;
     protected $sender;
@@ -51,5 +63,17 @@ class SendNewsletter implements ShouldQueue
         	$this->email->save();
         }
     }
+
+	/**
+	 * The job failed to process.
+	 *
+	 * @param  \Exception  $exception
+	 * @return void
+	 */
+	public function failed(\Exception $exception)
+	{
+		$this->email->status = 0;
+		$this->email->save();
+	}
 
 }
