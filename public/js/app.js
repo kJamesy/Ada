@@ -71585,7 +71585,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 var message = 'Draft saved';
 
-                if (vm.resource.is_draft && response.data.resource.just_updated) message = 'Draft updated';else if (response.resource.status > -2) message = 'Email queued for sending';
+                if (vm.resource.is_draft && response.data.resource.just_updated) message = 'Draft updated';else if (response['status'] > -2) message = 'Email queued for sending';
 
                 swal({ title: 'Excellent!', text: message, type: 'success', animation: 'slide-from-bottom' }, function () {
                     if (!_.includes(message, 'updated')) {
