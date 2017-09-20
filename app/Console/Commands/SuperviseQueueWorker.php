@@ -33,14 +33,14 @@ class SuperviseQueueWorker extends Command
 
 	/**
 	 * Execute the console command.
-	 * @return bool
+	 * @return bool|string
 	 */
     public function handle()
     {
 	    if ( ! $this->isWorkerRunning() )
 		    $this->recordWorkerPID($this->startWorker());
 
-	    return $this->isWorkerRunning();
+	    return $this->getLastRecordedPID();
     }
 
 	/**
