@@ -17,9 +17,13 @@ Route::get('/home', function () { return redirect(route('guest.home')); });
 Route::get('lab', function() {
 //	$command = 'php-cli ' . base_path() . '/artisan queue:listen --timeout=60 --sleep=5 --tries=3 > /dev/null & echo $!';
 	$command = "php " . base_path() . "/artisan queue:work > /dev/null & echo $!";
-	$pid = exec($command);
-	var_dump($command);
-	var_dump($pid);
+//	$pid = exec($command);
+//	var_dump($command);
+//	var_dump($pid);
+
+	file_put_contents(storage_path('app/worker/pid.txt'), 'Process');
+	$process = exec("ps -p 24662 -opid=,cmd=");
+	var_dump($process);
 });
 
 /**
