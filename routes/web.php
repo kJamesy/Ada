@@ -15,7 +15,8 @@ Route::get('/', ['as' => 'guest.home', function () { return view('guest.home'); 
 Route::get('/home', function () { return redirect(route('guest.home')); });
 
 Route::get('lab', function() {
-	$command = "php " . base_path() . "/artisan supervise:queue-worker";
+//	$command = "php " . base_path() . "/artisan supervise:queue-worker";
+	$command = "php " . base_path() . "/artisan queue:work > /dev/null & echo $!";
 	$workerIsRunning = exec($command);
 	var_dump($workerIsRunning);
 });
