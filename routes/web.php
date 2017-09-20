@@ -19,11 +19,9 @@ Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
 		$subscribers = new \Illuminate\Database\Eloquent\Collection();
 
-		if ( $request->subscribers )
-			$subscribers->merge(\App\Subscriber::getSpecifiedAttachableResources([2,1,11,47]));
-
-		if ( $request->mailing_lists )
-			$subscribers->merge(\App\Subscriber::getAttachableResourcesBySpecifiedMLists([5]))->unique(); //unique just in case
+		$subscribers->merge(\App\Subscriber::getSpecifiedAttachableResources([2,1,11,47]));
+		
+		$subscribers->merge(\App\Subscriber::getAttachableResourcesBySpecifiedMLists([5]))->unique(); //unique just in case
 
 		$sender = ['name' => 'ADA', 'email' => 'ada@kjamesy.london'];
 		$subs_count = count($subscribers);
