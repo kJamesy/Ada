@@ -21,6 +21,8 @@ class SuperviseQueueWorker extends Command
      */
     protected $description = 'Keep an eye on the queue worker. If it\'s dead, start it.';
 
+    protected $fileName;
+
     /**
      * Create a new command instance.
      *
@@ -29,18 +31,19 @@ class SuperviseQueueWorker extends Command
     public function __construct()
     {
         parent::__construct();
+        $this->fileName = 'worker_pid.txt';
     }
 
 	/**
 	 * Execute the console command.
-	 * @return bool|string
+	 * @return void
 	 */
     public function handle()
     {
 	    if ( ! $this->isWorkerRunning() )
 		    $this->recordWorkerPID($this->startWorker());
 
-	    return $this->getLastRecordedPID();
+	    $this->info($this->getLastRecordedPID());
     }
 
 	/**
@@ -73,7 +76,7 @@ class SuperviseQueueWorker extends Command
 	 */
     protected function recordWorkerPID($PID)
     {
-	    Storage::disk('local')->put($this->getFileName(), $PID);
+	    Storage::disk('local')->put($this->fileName, $PID);
     }
 
 	/**
@@ -86,21 +89,12 @@ class SuperviseQueueWorker extends Command
     }
 
 	/**
-	 * Get the PID file name
-	 * @return string
-	 */
-    protected function getFileName()
-    {
-    	return 'worker_pid.txt';
-    }
-
-	/**
 	 * Get the storage path for the PID file
 	 * @return string
 	 */
     protected function getFilePath()
     {
-    	return storage_path('app' . '/' . $this->getFileName());
+    	return storage_path('app' . '/' . $this->fileName);
     }
 
 
