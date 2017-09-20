@@ -183,8 +183,6 @@ class EmailController extends Controller
 				$resource->status = -1;
 			}
 
-			$resource->save();
-
 			if ( ! $request->is_draft ) {
 				$subscribers = new Collection();
 
@@ -195,12 +193,17 @@ class EmailController extends Controller
 					$subscribers->merge(Subscriber::getAttachableResourcesBySpecifiedMLists($request->mailing_lists))->unique(); //unique just in case
 
 				$sender = ['name' => trim( $request->sender_name ), 'email' => trim( $request->sender_email )];
+				$subs_count = count($subscribers);
 
-				if ( $subscribers->count() ) {
+				if ( $subs_count ) {
+					$resource->recipients_num = $subs_count;
+
 					$job = ( new SendNewsletter( $resource, $subscribers, $sender ) )->delay( $send_at );
 					dispatch( $job );
 				}
 			}
+
+			$resource->save();
 
 			return $resource;
 		}

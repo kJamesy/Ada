@@ -51,7 +51,7 @@ class SendNewsletter implements ShouldQueue
      */
     public function handle()
     {
-        if ( $this->email && $this->recipients->count() && $this->sender ) {
+        if ( $this->email && $this->recipients && $this->sender ) {
         	$sparkyNewsletter = new SparkyNewsletter($this->email, $this->recipients, $this->sender);
         	$feedback = $sparkyNewsletter->send();
 

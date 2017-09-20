@@ -15,12 +15,11 @@ Route::get('/', ['as' => 'guest.home', function () { return view('guest.home'); 
 Route::get('/home', function () { return redirect(route('guest.home')); });
 
 
-
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
 
 	});
-	
+
 	Route::get('worker', function() {
 		return exec("php " . base_path() . "/artisan supervise:queue-worker");
 	});
