@@ -15,16 +15,9 @@ Route::get('/', ['as' => 'guest.home', function () { return view('guest.home'); 
 Route::get('/home', function () { return redirect(route('guest.home')); });
 
 Route::get('lab', function() {
-//	$command = 'php-cli ' . base_path() . '/artisan queue:listen --timeout=60 --sleep=5 --tries=3 > /dev/null & echo $!';
-	$command = "php " . base_path() . "/artisan queue:work > /dev/null & echo $!";
-//	$pid = exec($command);
-//	var_dump($command);
-//	var_dump($pid);
-
-//	\Illuminate\Support\Facades\Storage::disk('local')->put('worker_pid.txt', 'Process Again');
-
-	$process = exec("ps -p 24662 -opid=,cmd=");
-	var_dump($process);
+	$command = "php " . base_path() . "/artisan supervise:queue-worker";
+	$workerIsRunning = exec($command);
+	var_dump($workerIsRunning);
 });
 
 /**
