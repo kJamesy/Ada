@@ -43,6 +43,33 @@ class Subscriber extends Model
 	}
 
 	/**
+	 * A Subscriber has many Deliveries
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function deliveries()
+	{
+		return $this->hasMany(Delivery::class);
+	}
+
+	/**
+	 * A Subscriber has many Opens
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function opens()
+	{
+		return $this->hasMany(Open::class);
+	}
+
+	/**
+	 * A Subscriber has many Clicks
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function clicks()
+	{
+		return $this->hasMany(Click::class);
+	}
+
+	/**
 	 * 'name' accessor
 	 * @return string
 	 */

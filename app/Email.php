@@ -72,6 +72,33 @@ class Email extends Model
 	}
 
 	/**
+	 * An Email has many Deliveries
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function deliveries()
+	{
+		return $this->hasMany(Delivery::class);
+	}
+
+	/**
+	 * An Email has many Opens
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function opens()
+	{
+		return $this->hasMany(Open::class);
+	}
+
+	/**
+	 * An Email has many Clicks
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function clicks()
+	{
+		return $this->hasMany(Click::class);
+	}
+
+	/**
 	 * 'friendly_status' accessor
 	 * @return false|int|string
 	 */
