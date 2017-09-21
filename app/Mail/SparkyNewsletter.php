@@ -71,6 +71,7 @@ class SparkyNewsletter
 			    'html' => $html,
 			    'text' => $text
 		    ],
+		    'return_path' => $this->sender['email'],
 		    'recipients' => $preparedRecipients,
 	    ];
     }
@@ -160,7 +161,11 @@ class SparkyNewsletter
     		foreach ( $subscribers as $subscriber ) {
     			$recipients[] = [
     				'address' => $this->getRecipientAddress($subscriber),
-				    'substitution_data' => $this->getSubstitutionData($subscriber)
+				    'substitution_data' => $this->getSubstitutionData($subscriber),
+				    'metadata' => [
+				    	'id' => $subscriber->id,
+					    'email_id' => $this->email->id
+				    ]
 			    ];
 		    }
 	    }

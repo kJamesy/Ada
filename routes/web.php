@@ -17,7 +17,11 @@ Route::get('/home', function () { return redirect(route('guest.home')); });
 
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
+		$email = \App\Email::first();
+		$html2Text = new \Html2Text\Html2Text($email->content);
+		$text = $html2Text->getText();
 
+		echo $text;
 	});
 
 	Route::get('worker', function() {
