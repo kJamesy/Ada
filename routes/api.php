@@ -23,7 +23,7 @@ Route::post('sparkpost/webhooks', function (Request $request) {
 	$sparky->body = json_encode($request->all());
 	$sparky->save();
 
-//	dispatch(new \App\Jobs\HandleSparkPostResponse($sparky));
+	dispatch(new \App\Jobs\HandleSparkyResponse($sparky));
 
 	return response()->json(['message' => 'We\'ll take it from here, thank you.'], 200);
 });

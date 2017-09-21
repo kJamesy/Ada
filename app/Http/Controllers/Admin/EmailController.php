@@ -159,7 +159,7 @@ class EmailController extends Controller
 				}
 			}
 
-			$send_at = Carbon::now()->addMinutes(5);
+			$send_at = Carbon::now()->addMinute();
 
 			if ( $rawTime = $request->send_at ) {
 				$userInputDt = Carbon::createFromFormat( 'Y-m-d H:i', $rawTime, 'UTC');

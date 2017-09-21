@@ -17,11 +17,47 @@ Route::get('/home', function () { return redirect(route('guest.home')); });
 
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
-		$email = \App\Email::first();
-		$html2Text = new \Html2Text\Html2Text($email->content);
-		$text = $html2Text->getText();
 
-		echo $text;
+		try {
+			$data = (new League\ISO3166\ISO3166)->alpha2('GB');
+
+			var_dump($data['name']);
+
+		}
+		catch (\Exception $e) {
+			var_dump($e);
+		}
+
+
+		$ua = 'Mozilla/5.0 (Linux; Android 8.0.0; Pixel Build/OPR3.170623.007; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/60.0.3112.116 Mobile 
+		Safari/537.36';
+
+		$ua2 = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; Microsoft Outlook 16.0.7369; ms-office; MSOffice 16)';
+
+		$dd = new \DeviceDetector\DeviceDetector($ua2);
+
+		$dd->parse();
+		$osName = $dd->getOs('name');
+		$osVersion = $dd->getOs('version');
+		$deviceName = $dd->getDeviceName();
+		$browser = $dd->isBrowser();
+
+
+		var_dump($dd->isMobile());
+		echo "<br />";
+		var_dump($deviceName);
+		echo "<br />";
+		var_dump($osName);
+		echo "<br />";
+		var_dump($osVersion);
+		echo "<br />";
+//
+		$uaParser = \UAParser\Parser::create();
+		$result = $uaParser->parse($ua2);
+
+		var_dump($result->ua->family);
+		echo "<br />";
+		var_dump($result->ua->major);
 	});
 
 	Route::get('worker', function() {
