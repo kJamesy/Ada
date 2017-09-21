@@ -164,7 +164,7 @@ class SparkyNewsletter
     				'address' => $this->getRecipientAddress($subscriber),
 				    'substitution_data' => $this->getSubstitutionData($subscriber),
 				    'metadata' => [
-				    	'id' => $subscriber->id,
+				    	'subscriber_id' => $subscriber->id,
 					    'email_id' => $this->email->id
 				    ]
 			    ];
