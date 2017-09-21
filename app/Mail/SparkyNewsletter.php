@@ -88,6 +88,7 @@ class SparkyNewsletter
 		    'id' => '%id%',
 		    'first_name' => '%first_name%',
 		    'last_name' => '%last_name%',
+		    'name' => '%name%',
 		    'email' => '%email%',
 		    'unsubscribe_link' => '%unsubscribe_link%'
 	    ];
