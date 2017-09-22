@@ -71,7 +71,7 @@ class SparkyNewsletter
 			    'html' => $html,
 			    'text' => $text
 		    ],
-		    'return_path' => $this->sender['email'],
+//		    'return_path' => $this->sender['email'], // For bounces
 		    'recipients' => $preparedRecipients,
 	    ];
     }
