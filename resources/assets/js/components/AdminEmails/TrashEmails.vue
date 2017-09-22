@@ -69,6 +69,7 @@
                                 <td>{{ resource.friendly_status }}</td>
                                 <td><span v-bind:title="resource.created_at" data-toggle="tooltip">{{ resource.created_at | dateToTheDay }}</span></td>
                                 <td><span v-bind:title="resource.updated_at" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
