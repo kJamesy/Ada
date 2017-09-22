@@ -90,7 +90,8 @@ class SparkyNewsletter
 		    'last_name' => '%last_name%',
 		    'name' => '%name%',
 		    'email' => '%email%',
-		    'unsubscribe_link' => '%unsubscribe_link%'
+		    'unsubscribe' => '%unsubscribe%',
+		    'unsubscribe_link' => '%unsubscribe_link%',
 	    ];
     }
 
@@ -106,7 +107,7 @@ class SparkyNewsletter
 
     	if ( $substitutionVariables ) {
     		foreach ( $substitutionVariables as $key => $variable ) {
-			    $content = ( $key === 'unsubscribe_link' )
+			    $content = ( $key === 'unsubscribe' )
 				    ? str_ireplace($variable, "{{{ $key }}}", $content)
 				    : str_ireplace($variable, "{{ $key }}", $content);
 		    }
@@ -127,9 +128,10 @@ class SparkyNewsletter
 
 	    if ( $substitutionVariables ) {
 	    	foreach ( $substitutionVariables as $key => $variable ) {
-	    		$data[$key] = ( $key === 'unsubscribe_link' )
-				    ? "<a href='" . route('unsubscribe') . "?email={$subscriber->email}' data-msys-unsubscribe='1'>unsubscribe</a>"
-				    : $subscriber->{$key};
+	    		if ( $key === 'unsubscribe' )
+	    			$data[$key] = "<a href='" . route('unsubscribe') . "?email={$subscriber->email}' data-msys-unsubscribe='1'>unsubscribe</a>";
+	    		else
+				    $data[$key] = $subscriber->{$key};
 		    }
 	    }
 
