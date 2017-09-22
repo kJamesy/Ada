@@ -15,10 +15,10 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Using class based composers...
-        View::composer(
-            ['admin.*'], AdminComposer::class
-        );
+	    // Using class based composers...
+	    View::composer(
+		    ['admin.*'], AdminComposer::class
+	    );
     }
 
     /**

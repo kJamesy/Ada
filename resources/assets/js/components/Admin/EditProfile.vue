@@ -91,10 +91,10 @@
                     progress.finish();
                     vm.fetchingData = false;
                 }, function(error) {
-                    if ( error.status && error.status === 422 && error.data ) {
+                    if ( error.status && error.status === 422 && error.data && error.data.errors ) {
                         vm.appValidationErrorAlert();
 
-                        _.forEach(error.data, function(message, field) {
+                        _.forEach(error.data.errors, function(message, field) {
                             vm.$set(vm.validationErrors, field, message[0]);
                         });
                     }

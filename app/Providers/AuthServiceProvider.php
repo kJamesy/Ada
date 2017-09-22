@@ -24,8 +24,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        User::class => UserPolicy::class,
-        MailingList::class => MailingListPolicy::class,
+	    User::class => UserPolicy::class,
+	    MailingList::class => MailingListPolicy::class,
 	    Subscriber::class => SubscriberPolicy::class,
 	    Campaign::class => CampaignPolicy::class,
 	    Template::class => TemplatePolicy::class,
@@ -42,22 +42,22 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
     }
 
-    /**
-     * Bind into the container
-     */
-    public function register()
-    {
-        $this->app->singleton('AuthService', function($app) {
-            return new $this($app);
-        });
-    }
+	/**
+	 * Bind into the container
+	 */
+	public function register()
+	{
+		$this->app->singleton('AuthService', function($app) {
+			return new $this($app);
+		});
+	}
 
-    /**
-     * For accessing all the policies later in the app
-     * @return array
-     */
-    public function getPolicies()
-    {
-        return $this->policies;
-    }
+	/**
+	 * For accessing all the policies later in the app
+	 * @return array
+	 */
+	public function getPolicies()
+	{
+		return $this->policies;
+	}
 }
