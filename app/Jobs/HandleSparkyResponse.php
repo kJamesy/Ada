@@ -38,6 +38,8 @@ class HandleSparkyResponse implements ShouldQueue
 		    if ( $request = json_decode($this->sparky_response->body) ) {
 		    	$sparky_tracking = new SparkyTracking($request);
 		    	$sparky_tracking->handleEvents();
+
+		    	$this->sparky_response->delete();
 		    }
 
 	    }
