@@ -125,7 +125,7 @@ class SparkyNewsletter
 		if ( $substitutionVariables ) {
 			foreach ( $substitutionVariables as $key => $variable ) {
 				if ( $key === 'unsubscribe' )
-					$data[$key] = "<a href='{$this->unsubscribeUrl}' data-msys-unsubscribe='1'>unsubscribe</a>";
+					$data[$key] = "<a href='{$this->unsubscribeUrl}?sub={$subscriber->name}' data-msys-unsubscribe='1'>unsubscribe</a>";
 				else
 					$data[$key] = $subscriber->{$key};
 			}
