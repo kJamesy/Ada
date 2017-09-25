@@ -39,7 +39,7 @@ class HandleSparkyResponse implements ShouldQueue
 		    	$sparky_tracking = new SparkyTracking($request);
 		    	$sparky_tracking->handleEvents();
 
-		    	$this->sparky_response->delete();
+//		    	$this->sparky_response->delete();
 		    }
 
 	    }
