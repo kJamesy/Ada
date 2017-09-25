@@ -17,7 +17,23 @@ Route::redirect('/home', route('guest.home'));
 
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
+		$event_types = [
+			'bounce',
+			'spam_complaint',
+			'out_of_band',
+			'policy_rejection',
+			'delay',
+			'generation_failure',
+			'generation_rejection',
+			'list_unsubscribe',
+			'link_unsubscribe',
+		];
 
+		foreach( $event_types as $event_type ) {
+			$failure_type = ucfirst(str_replace('_', ' ', $event_type));
+			echo $failure_type;
+			echo "<br />";
+		}
 	});
 
 	Route::get('worker', function() {

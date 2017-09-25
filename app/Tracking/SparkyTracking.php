@@ -4,6 +4,7 @@ namespace App\Tracking;
 
 use App\Tracking\Traits\ClickTracking;
 use App\Tracking\Traits\DeliveryTracking;
+use App\Tracking\Traits\FailureTracking;
 use App\Tracking\Traits\OpenTracking;
 use Carbon\Carbon;
 
@@ -12,6 +13,7 @@ class SparkyTracking
 	use DeliveryTracking;
 	use OpenTracking;
 	use ClickTracking;
+	use FailureTracking;
 
 	protected $event_body;
 
@@ -57,10 +59,27 @@ class SparkyTracking
 							break;
 						case 'click':
 							$link = $this->getEventTargetLink($event);
-							if ( $link )
-								$feedback = self::recordClick($email_id, $subscriber_id, $link, $event_time);
-							break;
+							$ip_address = $this->getEventIpAddress($event);
+							$country_code = $this->getEventCountryCode($event);
+							$user_agent = $this->getEventUserAgent($event);
 
+							if ( $link && $ip_address && $country_code && $user_agent )
+								$feedback = self::recordClick($email_id, $subscriber_id, $user_agent, $ip_address, $country_code, $link, $event_time);
+							break;
+						case 'bounce':
+						case 'spam_complaint':
+						case 'out_of_band':
+						case 'policy_rejection':
+						case 'delay':
+						case 'generation_failure':
+						case 'generation_rejection':
+						case 'list_unsubscribe':
+						case 'link_unsubscribe':
+							$failure_type = ucfirst(str_replace('_', ' ', $event_type));
+							$reason = $this->getEventRawReason($event, $event_type);
+							if ( $reason )
+								$feedback = self::recordFailure($email_id, $subscriber_id, $failure_type, $reason, $event_time);
+							break;
 					}
 				}
 
@@ -69,6 +88,31 @@ class SparkyTracking
 		}
 
 		return $feedback;
+	}
+
+	/**
+	 * Get reason for specified event type (failures)
+	 * @param $event
+	 * @param $event_type
+	 *
+	 * @return string|null
+	 */
+	public function getEventRawReason($event, $event_type)
+	{
+		$reason = null;
+
+		switch ($event_type) {
+			case 'bounce':
+			case 'out_of_band':
+			case 'policy_rejection':
+			case 'delay':
+			case 'generation_failure':
+			case 'generation_rejection':
+				$reason = $this->getObjPropValue($event, 'raw_reason');
+				break;
+		}
+
+		return $reason;
 	}
 
 	/**
@@ -164,7 +208,7 @@ class SparkyTracking
 	}
 
 	/**
-	 * Get the track/message event
+	 * Get the track/message/gen/unsubscribe event
 	 * @param $event_body
 	 *
 	 * @return null
@@ -172,8 +216,21 @@ class SparkyTracking
 	protected function getTheEvent($event_body)
 	{
 		$event_body = $this->getObjPropValue($event_body, 'msys');
-		$event = $event_body ? $this->getObjPropValue($event_body, 'message_event') : null;
-		return $event ?: $this->getObjPropValue($event_body, 'track_event');
+
+		$event = null;
+
+		if ( $event_body ) {
+			$event = $this->getObjPropValue( $event_body, 'message_event' );
+
+			if ( ! $event )
+				$event = $this->getObjPropValue( $event_body, 'track_event' );
+			if ( ! $event )
+				$event = $this->getObjPropValue( $event_body, 'gen_event' );
+			if ( ! $event )
+				$event = $this->getObjPropValue( $event_body, 'unsubscribe_event' );
+		}
+
+		return $event;
 	}
 
 	/**

@@ -70,6 +70,15 @@ class Subscriber extends Model
 	}
 
 	/**
+	 * A Subscriber has many Failures
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function failures()
+	{
+		return $this->hasMany(Failure::class);
+	}
+
+	/**
 	 * 'name' accessor
 	 * @return string
 	 */

@@ -99,6 +99,15 @@ class Email extends Model
 	}
 
 	/**
+	 * An Email has many Failures
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function failures()
+	{
+		return $this->hasMany(Failure::class);
+	}
+
+	/**
 	 * 'friendly_status' accessor
 	 * @return false|int|string
 	 */
