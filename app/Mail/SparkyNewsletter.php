@@ -16,15 +16,15 @@ class SparkyNewsletter
 	protected $email;
 	protected $recipients;
 	protected $sender;
-	protected $homeUrl;
+	protected $unsubscribeUrl;
 
-	public function __construct(Email $email, Collection $subscribers, $sender, $homeUrl)
+	public function __construct(Email $email, Collection $subscribers, $sender, $unsubscribeUrl)
 	{
 		$this->apiKey = env('SPARKPOST_SECRET');
 		$this->email = $email;
 		$this->recipients = $subscribers;
 		$this->sender = $sender;
-		$this->homeUrl = $homeUrl;
+		$this->unsubscribeUrl = $unsubscribeUrl;
 	}
 
 	/**
@@ -52,7 +52,7 @@ class SparkyNewsletter
 	 */
 	protected function getSparkyContent()
 	{
-		$preparedContent = $this->replaceSubstitutionVariables($this->email->content) . $this->homeUrl;
+		$preparedContent = $this->replaceSubstitutionVariables($this->email->content);
 		$html = "<html><body>$preparedContent</body></html>";
 		$html2Text = new Html2Text($html);
 		$text = $html2Text->getText();
@@ -104,7 +104,7 @@ class SparkyNewsletter
 		if ( $substitutionVariables ) {
 			foreach ( $substitutionVariables as $key => $variable ) {
 				$content = ( $key === 'unsubscribe' )
-					? str_ireplace($variable, "<a href='{$this->homeUrl}/subscriber/unsubscribe?email={{{ $key }}}' data-msys-unsubscribe='1'>unsubscribe</a>", $content)
+					? str_ireplace($variable, "{{{ $key }}}", $content)
 					: str_ireplace($variable, "{{ $key }}", $content);
 			}
 		}
@@ -125,7 +125,7 @@ class SparkyNewsletter
 		if ( $substitutionVariables ) {
 			foreach ( $substitutionVariables as $key => $variable ) {
 				if ( $key === 'unsubscribe' )
-					$data[$key] = $subscriber->email;
+					$data[$key] = "<a href='{$this->unsubscribeUrl}' data-msys-unsubscribe='1'>unsubscribe</a>";
 				else
 					$data[$key] = $subscriber->{$key};
 			}
