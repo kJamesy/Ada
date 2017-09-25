@@ -30,6 +30,7 @@ class SendNewsletter implements ShouldQueue
     protected $email;
     protected $recipients;
     protected $sender;
+    protected $homeUrl;
 
 	/**
 	 * Create a new job instance
@@ -42,6 +43,7 @@ class SendNewsletter implements ShouldQueue
 		$this->email = $email;
 		$this->recipients = $recipients;
 		$this->sender = $sender;
+		$this->homeUrl = route('guest.home');
 	}
 
     /**
@@ -52,7 +54,7 @@ class SendNewsletter implements ShouldQueue
     public function handle()
     {
         if ( $this->email && $this->recipients && $this->sender ) {
-        	$sparkyNewsletter = new SparkyNewsletter($this->email, $this->recipients, $this->sender);
+        	$sparkyNewsletter = new SparkyNewsletter($this->email, $this->recipients, $this->sender, $this->homeUrl);
         	$feedback = $sparkyNewsletter->send();
 
         	if ( is_array($feedback) && array_key_exists('success', $feedback) )
