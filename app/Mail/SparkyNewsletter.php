@@ -104,7 +104,7 @@ class SparkyNewsletter
 		if ( $substitutionVariables ) {
 			foreach ( $substitutionVariables as $key => $variable ) {
 				$content = ( $key === 'unsubscribe' )
-					? str_ireplace($variable, "{{{ $key }}}", $content)
+					? str_ireplace($variable, "<a href='{$this->unsubscribeUrl}?sub={{ $key }}' data-msys-unsubscribe='1'>unsubscribe</a>", $content)
 					: str_ireplace($variable, "{{ $key }}", $content);
 			}
 		}
@@ -125,7 +125,7 @@ class SparkyNewsletter
 		if ( $substitutionVariables ) {
 			foreach ( $substitutionVariables as $key => $variable ) {
 				if ( $key === 'unsubscribe' )
-					$data[$key] = "<a href='{$this->unsubscribeUrl}?sub={$subscriber->name}' data-msys-unsubscribe='1'>unsubscribe</a>";
+					$data[$key] = $subscriber->name;
 				else
 					$data[$key] = $subscriber->{$key};
 			}
