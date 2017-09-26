@@ -57568,6 +57568,9 @@ var AppListScreenPlugin = {
                 dateToTheMinute: function dateToTheMinute(date) {
                     return moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('D MMM YYYY HH:mm');
                 },
+                dateToTheMinWithDayOfWeek: function dateToTheMinWithDayOfWeek(date) {
+                    return moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('llll');
+                },
                 dateToTheDay: function dateToTheDay(date) {
                     return moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('D MMM YYYY');
                 }
@@ -60158,7 +60161,9 @@ var render = function() {
                                 "span",
                                 {
                                   attrs: {
-                                    title: resource.updated_at,
+                                    title: _vm._f("dateToTheMinWithDayOfWeek")(
+                                      resource.updated_at
+                                    ),
                                     "data-toggle": "tooltip"
                                   }
                                 },
@@ -60862,7 +60867,9 @@ var render = function() {
                                 "span",
                                 {
                                   attrs: {
-                                    title: resource.updated_at,
+                                    title: _vm._f("dateToTheMinWithDayOfWeek")(
+                                      resource.updated_at
+                                    ),
                                     "data-toggle": "tooltip"
                                   }
                                 },
@@ -62981,7 +62988,9 @@ var render = function() {
                                 "span",
                                 {
                                   attrs: {
-                                    title: resource.updated_at,
+                                    title: _vm._f("dateToTheMinWithDayOfWeek")(
+                                      resource.updated_at
+                                    ),
                                     "data-toggle": "tooltip"
                                   }
                                 },
@@ -63874,7 +63883,9 @@ var render = function() {
                                 "span",
                                 {
                                   attrs: {
-                                    title: resource.updated_at,
+                                    title: _vm._f("dateToTheMinWithDayOfWeek")(
+                                      resource.updated_at
+                                    ),
                                     "data-toggle": "tooltip"
                                   }
                                 },
@@ -67045,7 +67056,9 @@ var render = function() {
                                 "span",
                                 {
                                   attrs: {
-                                    title: resource.updated_at,
+                                    title: _vm._f("dateToTheMinWithDayOfWeek")(
+                                      resource.updated_at
+                                    ),
                                     "data-toggle": "tooltip"
                                   }
                                 },
@@ -67723,7 +67736,9 @@ var render = function() {
                                 "span",
                                 {
                                   attrs: {
-                                    title: resource.updated_at,
+                                    title: _vm._f("dateToTheMinWithDayOfWeek")(
+                                      resource.updated_at
+                                    ),
                                     "data-toggle": "tooltip"
                                   }
                                 },
@@ -69585,7 +69600,9 @@ var render = function() {
                                 "span",
                                 {
                                   attrs: {
-                                    title: resource.updated_at,
+                                    title: _vm._f("dateToTheMinWithDayOfWeek")(
+                                      resource.updated_at
+                                    ),
                                     "data-toggle": "tooltip"
                                   }
                                 },
@@ -70263,7 +70280,9 @@ var render = function() {
                                 "span",
                                 {
                                   attrs: {
-                                    title: resource.updated_at,
+                                    title: _vm._f("dateToTheMinWithDayOfWeek")(
+                                      resource.updated_at
+                                    ),
                                     "data-toggle": "tooltip"
                                   }
                                 },
@@ -72353,7 +72372,9 @@ var render = function() {
                                 "span",
                                 {
                                   attrs: {
-                                    title: resource.updated_at,
+                                    title: _vm._f("dateToTheMinWithDayOfWeek")(
+                                      resource.updated_at
+                                    ),
                                     "data-toggle": "tooltip"
                                   }
                                 },
@@ -75148,7 +75169,9 @@ var render = function() {
                                       "span",
                                       {
                                         attrs: {
-                                          title: resource.created_at,
+                                          title: _vm._f(
+                                            "dateToTheMinWithDayOfWeek"
+                                          )(resource.created_at),
                                           "data-toggle": "tooltip"
                                         }
                                       },
@@ -75170,7 +75193,9 @@ var render = function() {
                                           "span",
                                           {
                                             attrs: {
-                                              title: resource.updated_at,
+                                              title: _vm._f(
+                                                "dateToTheMinWithDayOfWeek"
+                                              )(resource.updated_at),
                                               "data-toggle": "tooltip"
                                             }
                                           },
@@ -75194,7 +75219,9 @@ var render = function() {
                                               "span",
                                               {
                                                 attrs: {
-                                                  title: resource.sent_at,
+                                                  title: _vm._f(
+                                                    "dateToTheMinWithDayOfWeek"
+                                                  )(resource.sent_at),
                                                   "data-toggle": "tooltip"
                                                 }
                                               },
@@ -76015,7 +76042,9 @@ var render = function() {
                                 "span",
                                 {
                                   attrs: {
-                                    title: resource.created_at,
+                                    title: _vm._f("dateToTheMinWithDayOfWeek")(
+                                      resource.created_at
+                                    ),
                                     "data-toggle": "tooltip"
                                   }
                                 },
@@ -76036,7 +76065,9 @@ var render = function() {
                                 "span",
                                 {
                                   attrs: {
-                                    title: resource.updated_at,
+                                    title: _vm._f("dateToTheMinWithDayOfWeek")(
+                                      resource.updated_at
+                                    ),
                                     "data-toggle": "tooltip"
                                   }
                                 },
@@ -79515,11 +79546,24 @@ var render = function() {
                               }
                             }),
                             _vm._v(" "),
-                            _c("td", [
-                              _vm._v(
-                                _vm._s(_vm._f("dateToTheDay")(user.updated_at))
-                              )
-                            ]),
+                            _c(
+                              "td",
+                              {
+                                attrs: {
+                                  title: _vm._f("dateToTheMinWithDayOfWeek")(
+                                    user.updated_at
+                                  ),
+                                  "data-toggle": "tooltip"
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("dateToTheDay")(user.updated_at)
+                                  )
+                                )
+                              ]
+                            ),
                             _vm._v(" "),
                             _c(
                               "td",

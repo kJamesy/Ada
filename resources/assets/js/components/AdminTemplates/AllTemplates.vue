@@ -57,7 +57,7 @@
                                 </td>
                                 <td v-bind:title="resource.description" data-toggle="tooltip">{{ resource.name }}</td>
                                 <td>{{ resource.last_editor }}</td>
-                                <td><span v-bind:title="resource.updated_at" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
+                                <td><span v-bind:title="resource.updated_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
                                 <td v-if="appUserHasPermission('read')">
                                     <router-link v-bind:to="{ name: 'admin_templates.view', params: { id: resource.id }}" class="btn btn-sm btn-outline-primary"><i class="fa fa-eye"></i></router-link>
                                 </td>

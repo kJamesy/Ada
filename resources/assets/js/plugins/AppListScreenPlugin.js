@@ -480,6 +480,9 @@ const AppListScreenPlugin = {
                 dateToTheMinute(date) {
                     return moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('D MMM YYYY HH:mm');
                 },
+                dateToTheMinWithDayOfWeek(date) {
+                    return moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('llll');
+                },
                 dateToTheDay(date) {
                     return moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('D MMM YYYY');
                 }

@@ -56,7 +56,7 @@
                                 </td>
                                 <td v-bind:title="resource.description" data-toggle="tooltip">{{ resource.name }}</td>
                                 <td>{{ resource.subscribers_count }}</td>
-                                <td><span v-bind:title="resource.updated_at" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
+                                <td><span v-bind:title="resource.updated_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
                             </tr>
                         </tbody>
                     </table>

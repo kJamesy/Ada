@@ -63,7 +63,7 @@
                                 <td>{{ user.email }}</td>
                                 <td> {{ user.username }}</td>
                                 <td v-html="appActiveMarkup(user.active)"></td>
-                                <td>{{ user.updated_at | dateToTheDay }}</td>
+                                <td v-bind:title="user.updated_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ user.updated_at | dateToTheDay }}</td>
                                 <td>
                                     <template v-if="appUserHasPermissionOnUser('read', user)">
                                         <router-link v-bind:to="{ name: 'admin_users.view', params: { id: user.id }}" class="btn btn-sm btn-outline-primary"><i class="fa fa-user-o"></i></router-link>
