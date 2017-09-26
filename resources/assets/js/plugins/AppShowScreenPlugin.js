@@ -29,6 +29,8 @@ const AppShowScreenPlugin = {
                                 });
                             }
 
+                            vm.$emit('successfulfetch');
+
                             progress.finish();
                         }
                         else {
@@ -56,6 +58,9 @@ const AppShowScreenPlugin = {
                         vm.fetchingData = false;
                     });
                 },
+                appIsShowScreen() {
+                    return _.includes(this.$route.path, 'view') ? 1 : 0;
+                }
             }
         });
 

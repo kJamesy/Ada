@@ -57706,6 +57706,8 @@ var AppShowScreenPlugin = {
                                 });
                             }
 
+                            vm.$emit('successfulfetch');
+
                             progress.finish();
                         } else {
                             vm.appGeneralErrorAlert();
@@ -57727,6 +57729,9 @@ var AppShowScreenPlugin = {
                         progress.fail();
                         vm.fetchingData = false;
                     });
+                },
+                appIsShowScreen: function appIsShowScreen() {
+                    return _.includes(this.$route.path, 'view') ? 1 : 0;
                 }
             }
         });
@@ -57849,6 +57854,9 @@ var AppEditcreenPlugin = {
                         progress.fail();
                         vm.fetchingData = false;
                     });
+                },
+                appIsEditScreen: function appIsEditScreen() {
+                    return _.includes(this.$route.path, 'edit') ? 1 : 0;
                 }
             }
         });
@@ -73646,13 +73654,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             vm.rootEventsHub.$on('show-deleted-tab', function (data) {
                 if (data.deletedNum) vm.deletedNum = data.deletedNum;
             });
+
+            vm.rootEventsHub.$on('show-edit-tab', function (data) {
+                if (data.resource) vm.readyResource = data.resource;
+            });
         });
     },
     data: function data() {
         return {
             draftsNum: 0,
-            deletedNum: 0
+            deletedNum: 0,
+            readyResource: { is_draft: false, status: -2 }
         };
+    },
+
+    computed: {
+        isLookingAtDraft: function isLookingAtDraft() {
+            var vm = this;
+
+            return vm.readyResource && vm.readyResource.is_draft || vm.readyResource && vm.readyResource.status === -2;
+        },
+        isLookingAtNonDraft: function isLookingAtNonDraft() {
+            var vm = this;
+            return vm.readyResource && vm.readyResource.status !== -2;
+        }
+    },
+    methods: {
+        viewTabText: function viewTabText() {
+            var vm = this;
+            var text = 'View Email';
+
+            if (vm.isLookingAtDraft) text = 'View Draft';
+
+            return text;
+        },
+        editTabText: function editTabText() {
+            var vm = this;
+            var text = 'Edit Email';
+
+            if (vm.isLookingAtDraft) text = 'Edit Draft';else if (vm.isLookingAtNonDraft) text = 'Forward Email';
+
+            return text;
+        }
     }
 });
 
@@ -73844,7 +73887,7 @@ var render = function() {
               },
               [
                 _c("i", { staticClass: "fa fa-eye" }),
-                _vm._v("\n            View Email")
+                _vm._v("\n            " + _vm._s(_vm.viewTabText()))
               ]
             )
           ],
@@ -73871,7 +73914,7 @@ var render = function() {
               },
               [
                 _c("i", { staticClass: "fa fa-edit" }),
-                _vm._v("\n            Edit Email")
+                _vm._v("\n             " + _vm._s(_vm.editTabText()))
               ]
             )
           ],
@@ -77155,6 +77198,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$nextTick(function () {
             this.showResource();
             this.appInitialiseTooltip();
+            this.applyListeners();
         });
     },
     data: function data() {
@@ -77168,6 +77212,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         showResource: function showResource() {
             this.appShowResource();
+        },
+        applyListeners: function applyListeners() {
+            var vm = this;
+
+            vm.$on('successfulfetch', function () {
+                vm.rootEventsHub.$emit('show-edit-tab', { resource: vm.resource });
+            });
         },
         resizeIframe: function resizeIframe(event) {
             var iframe = event.target;
@@ -77658,6 +77709,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (data.subject && isDraft) vm.resource.subject = data.subject;
                 if (data.campaign_id && isDraft) vm.resource.campaign = data.campaign_id;
                 if (data.content) vm.resource.content = data.content;
+
+                vm.rootEventsHub.$emit('show-edit-tab', { resource: data });
             }
         },
         updateResource: function updateResource() {

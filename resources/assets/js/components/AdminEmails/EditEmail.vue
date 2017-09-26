@@ -245,6 +245,7 @@
                     if ( data.content )
                         vm.resource.content = data.content;
 
+                    vm.rootEventsHub.$emit('show-edit-tab', { resource: data });
                 }
             },
             updateResource() {

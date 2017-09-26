@@ -125,6 +125,9 @@ const AppEditcreenPlugin = {
                     });
 
                 },
+                appIsEditScreen() {
+                    return _.includes(this.$route.path, 'edit') ? 1 : 0;
+                }
             },
         });
 

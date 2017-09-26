@@ -26,11 +26,11 @@
         </li>
         <li class="nav-item" v-if="appCurrentRouteIdParam && appUserHasPermission('read')">
             <router-link v-bind:to="{ name: 'admin_emails.view', params: { id: appCurrentRouteIdParam }}" class="nav-link" exact><i class="fa fa-eye"></i>
-                View Email</router-link>
+                {{ viewTabText() }}</router-link>
         </li>
         <li class="nav-item" v-if="appCurrentRouteIdParam && appUserHasPermission('update')">
             <router-link v-bind:to="{ name: 'admin_emails.edit', params: { id: appCurrentRouteIdParam }}" class="nav-link" exact><i class="fa fa-edit"></i>
-                Edit Email</router-link>
+                 {{ editTabText() }}</router-link>
         </li>
     </ul>
 </template>
@@ -51,13 +51,52 @@
                         vm.deletedNum = data.deletedNum;
                 });
 
+                vm.rootEventsHub.$on('show-edit-tab', function(data) {
+                    if ( data.resource )
+                        vm.readyResource = data.resource;
+                });
+
             });
         },
         data() {
             return {
                 draftsNum: 0,
-                deletedNum: 0
+                deletedNum: 0,
+                readyResource: {is_draft: false, status: -2}
             }
+        },
+        computed: {
+            isLookingAtDraft() {
+                let vm = this;
+
+                return (vm.readyResource && vm.readyResource.is_draft) || (vm.readyResource && vm.readyResource.status === -2);
+            },
+            isLookingAtNonDraft() {
+                let vm = this;
+                return (vm.readyResource && vm.readyResource.status !== -2 );
+            }
+        },
+        methods: {
+            viewTabText() {
+                let vm = this;
+                let text = 'View Email';
+
+                if ( vm.isLookingAtDraft )
+                    text = 'View Draft';
+
+                return text;
+            },
+            editTabText() {
+                let vm = this;
+                let text = 'Edit Email';
+
+                if ( vm.isLookingAtDraft )
+                    text = 'Edit Draft';
+                else if ( vm.isLookingAtNonDraft)
+                    text = 'Forward Email';
+
+                return text;
+            },
         }
     }
 </script>

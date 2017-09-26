@@ -73,6 +73,7 @@
             this.$nextTick(function() {
                 this.showResource();
                 this.appInitialiseTooltip();
+                this.applyListeners();
             });
         },
         data() {
@@ -85,6 +86,13 @@
         methods: {
             showResource() {
                 this.appShowResource();
+            },
+            applyListeners() {
+                let vm = this;
+
+                vm.$on('successfulfetch', function () {
+                    vm.rootEventsHub.$emit('show-edit-tab', { resource: vm.resource });
+                });
             },
             resizeIframe(event) {
                 let iframe = event.target;
