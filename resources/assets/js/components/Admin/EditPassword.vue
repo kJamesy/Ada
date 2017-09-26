@@ -57,11 +57,9 @@
             goTime() {
                 let vm = this;
                 vm.$Progress.start();
-
-                _.delay(function() {
-                    vm.$Progress.finish();
-                    vm.fetchingData = false;
-                }, 600);
+                
+                vm.$Progress.finish();
+                vm.fetchingData = false;
             },
             updatePassword() {
                 let vm = this;
