@@ -16431,8 +16431,6 @@ if ($('#admin-mailing-lists-app').length) {
 
 
 
-
-
 if ($('#admin-subscribers-app').length) {
     var _router2 = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
         mode: 'history',
