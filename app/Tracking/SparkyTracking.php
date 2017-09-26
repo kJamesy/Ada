@@ -77,8 +77,7 @@ class SparkyTracking
 						case 'link_unsubscribe':
 							$failure_type = ucfirst(str_replace('_', ' ', $event_type));
 							$reason = $this->getEventRawReason($event, $event_type);
-							if ( $reason )
-								$feedback = self::recordFailure($email_id, $subscriber_id, $failure_type, $reason, $event_time);
+							$feedback = self::recordFailure($email_id, $subscriber_id, $failure_type, $reason, $event_time);
 							break;
 					}
 				}

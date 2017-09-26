@@ -17,27 +17,15 @@ Route::redirect('/home', route('guest.home'));
 
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
-		$event_types = [
-			'bounce',
-			'spam_complaint',
-			'out_of_band',
-			'policy_rejection',
-			'delay',
-			'generation_failure',
-			'generation_rejection',
-			'list_unsubscribe',
-			'link_unsubscribe',
-		];
+		$response = json_decode(\App\SparkyResponse::first()->body);
+		$sparky_tracking = new \App\Tracking\SparkyTracking($response);
+		$sparky_tracking->handleEvents();
 
-		foreach( $event_types as $event_type ) {
-			$failure_type = ucfirst(str_replace('_', ' ', $event_type));
-			echo $failure_type;
-			echo "<br />";
-		}
 	});
 
 	Route::get('worker', function() {
-		return exec("php " . base_path() . "/artisan supervise:queue-worker");
+//		return exec("php " . base_path() . "/artisan supervise:queue-worker");
+		\Illuminate\Support\Facades\Artisan::call('supervise:queue-worker');
 	});
 });
 
