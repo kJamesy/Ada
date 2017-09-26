@@ -74113,6 +74113,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -75062,9 +75067,40 @@ var render = function() {
                                       ])
                                     : _vm._e(),
                                   _vm._v(" "),
-                                  _c("td", [
-                                    _vm._v(_vm._s(resource.friendly_status))
-                                  ]),
+                                  _c(
+                                    "td",
+                                    {
+                                      attrs: {
+                                        title: resource.friendly_status,
+                                        "data-toggle": "tooltip"
+                                      }
+                                    },
+                                    [
+                                      resource.status === -2
+                                        ? _c("i", {
+                                            staticClass: "fa fa-spinner"
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      resource.status === -1
+                                        ? _c("i", {
+                                            staticClass: "fa fa-clock-o"
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      resource.status === 0
+                                        ? _c("i", {
+                                            staticClass: "fa fa-times"
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      resource.status === 1
+                                        ? _c("i", {
+                                            staticClass: "fa fa-check"
+                                          })
+                                        : _vm._e()
+                                    ]
+                                  ),
                                   _vm._v(" "),
                                   _c("td", [
                                     _c(
@@ -75292,6 +75328,11 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
 //
 //
 //
@@ -75901,9 +75942,32 @@ var render = function() {
                                 : _c("span", [_c("em", [_vm._v("—")])])
                             ]),
                             _vm._v(" "),
-                            _c("td", [
-                              _vm._v(_vm._s(resource.friendly_status))
-                            ]),
+                            _c(
+                              "td",
+                              {
+                                attrs: {
+                                  title: resource.friendly_status,
+                                  "data-toggle": "tooltip"
+                                }
+                              },
+                              [
+                                resource.status === -2
+                                  ? _c("i", { staticClass: "fa fa-spinner" })
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                resource.status === -1
+                                  ? _c("i", { staticClass: "fa fa-clock-o" })
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                resource.status === 0
+                                  ? _c("i", { staticClass: "fa fa-times" })
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                resource.status === 1
+                                  ? _c("i", { staticClass: "fa fa-check" })
+                                  : _vm._e()
+                              ]
+                            ),
                             _vm._v(" "),
                             _c("td", [
                               _c(

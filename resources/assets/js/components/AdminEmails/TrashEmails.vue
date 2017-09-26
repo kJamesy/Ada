@@ -66,7 +66,12 @@
                                     <span v-if="resource.recipients_num">{{ resource.recipients_num }}</span>
                                     <span v-else=""><em>&mdash;</em></span>
                                 </td>
-                                <td>{{ resource.friendly_status }}</td>
+                                <td v-bind:title="resource.friendly_status" data-toggle="tooltip">
+                                    <i v-if="resource.status === -2" class="fa fa-spinner"></i>
+                                    <i v-if="resource.status === -1" class="fa fa-clock-o"></i>
+                                    <i v-if="resource.status === 0" class="fa fa-times"></i>
+                                    <i v-if="resource.status === 1" class="fa fa-check"></i>
+                                </td>
                                 <td><span v-bind:title="resource.created_at" data-toggle="tooltip">{{ resource.created_at | dateToTheDay }}</span></td>
                                 <td><span v-bind:title="resource.updated_at" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
                             </tr>
