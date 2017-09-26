@@ -25,7 +25,7 @@ Route::group(['prefix' => 'lab'], function() {
 
 	Route::get('worker', function() {
 //		return exec("php " . base_path() . "/artisan supervise:queue-worker");
-		\Illuminate\Support\Facades\Artisan::call('supervise:queue-worker');
+		return \Illuminate\Support\Facades\Artisan::call('supervise:queue-worker');
 	});
 });
 
