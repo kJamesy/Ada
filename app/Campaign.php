@@ -171,7 +171,9 @@ class Campaign extends Model
 	 */
 	public static function getAttachedResources()
 	{
-		return static::has('emails')->isNotDeleted()->orderBy('name')->get(['id', 'name']);
+		return static::whereHas('emails', function($q) {
+			$q->isNotDeleted()->isNotDraft();
+		})->isNotDeleted()->orderBy('name')->get(['id', 'name']);
 	}
 
 }

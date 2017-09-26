@@ -62358,6 +62358,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             quickEditOptions: [{ text: 'Select Option', value: '' }, { text: 'Activate', value: 'activate' }, { text: 'Deactivate', value: 'deactivate' }, { text: 'Attach to Mailing List', value: 'attach' }, { text: 'Detach from All Mailing Lists', value: 'detach' }, { text: 'Export', value: 'export' }, { text: 'Delete', value: 'delete' }],
             mailingList: 0,
             mailingLists: [],
+            attachableMailingLists: [],
             attachTo: 0
         };
     },
@@ -62378,6 +62379,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var response = vm.appFetchResponse;
 
                 if (response.data.mailingLists) vm.mailingLists = response.data.mailingLists;
+                if (response.data.attachableMailingLists) vm.attachableMailingLists = response.data.attachableMailingLists;
                 if (response.data.mailingList) vm.mailingList = response.data.mailingList.id;else if (vm.appUnattached) vm.mailingList = -1;
             }
         },
@@ -63115,24 +63117,29 @@ var render = function() {
                                       _c(
                                         "option",
                                         { attrs: { value: "0", disabled: "" } },
-                                        [_vm._v("(None)")]
+                                        [_vm._v("(Select)")]
                                       ),
                                       _vm._v(" "),
-                                      _vm._l(_vm.mailingLists, function(mList) {
-                                        return mList.id !== _vm.mailingList
-                                          ? _c(
-                                              "option",
-                                              { domProps: { value: mList.id } },
-                                              [
-                                                _vm._v(
-                                                  "\n                                        " +
-                                                    _vm._s(mList.name) +
-                                                    "\n                                    "
-                                                )
-                                              ]
-                                            )
-                                          : _vm._e()
-                                      })
+                                      _vm._l(
+                                        _vm.attachableMailingLists,
+                                        function(mList) {
+                                          return mList.id !== _vm.mailingList
+                                            ? _c(
+                                                "option",
+                                                {
+                                                  domProps: { value: mList.id }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                        " +
+                                                      _vm._s(mList.name) +
+                                                      "\n                                    "
+                                                  )
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        }
+                                      )
                                     ],
                                     2
                                   ),
@@ -75201,7 +75208,7 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.fetchingData && _vm.appDeletedNum && !_vm.isLandingPage()
+    !_vm.fetchingData && _vm.appDeletedNum && _vm.isLandingPage()
       ? _c(
           "div",
           { staticClass: "mt-3 mb-3 font-italic text-right" },

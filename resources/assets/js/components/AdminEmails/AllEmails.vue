@@ -131,7 +131,7 @@
                 <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </div>
-        <div class="mt-3 mb-3 font-italic text-right" v-if="! fetchingData && appDeletedNum && ! isLandingPage()">
+        <div class="mt-3 mb-3 font-italic text-right" v-if="! fetchingData && appDeletedNum && isLandingPage()">
             <router-link v-bind:to="{ name: 'admin_emails.trash'}" class="btn btn-link"><i class="fa fa-trash"></i> Deleted Items ({{ appDeletedNum }})</router-link>
         </div>
 

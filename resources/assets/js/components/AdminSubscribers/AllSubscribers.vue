@@ -108,8 +108,8 @@
                                         Select Mailing List
                                     </label>
                                     <select class="custom-select form-control" v-model="attachTo" id="attach_to_mailing_list">
-                                        <option value="0" disabled>(None)</option>
-                                        <option v-for="mList in mailingLists" v-bind:value="mList.id" v-if="mList.id !== mailingList">
+                                        <option value="0" disabled>(Select)</option>
+                                        <option v-for="mList in attachableMailingLists" v-bind:value="mList.id" v-if="mList.id !== mailingList">
                                             {{ mList.name }}
                                         </option>
                                     </select>
@@ -159,6 +159,7 @@
                 ],
                 mailingList: 0,
                 mailingLists: [],
+                attachableMailingLists: [],
                 attachTo: 0
             }
         },
@@ -179,6 +180,8 @@
 
                     if ( response.data.mailingLists )
                         vm.mailingLists = response.data.mailingLists;
+                    if ( response.data.attachableMailingLists )
+                        vm.attachableMailingLists = response.data.attachableMailingLists;
                     if ( response.data.mailingList )
                         vm.mailingList = response.data.mailingList.id;
                     else if ( vm.appUnattached )

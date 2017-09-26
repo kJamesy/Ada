@@ -89,7 +89,7 @@ class EmailController extends Controller
 				$campaigns = Campaign::getAttachedResources();
 
 				$user = $userId ? User::findResource($userId) : null;
-				$users = User::getAttachedResources();
+				$users = User::getEmailAttachedResources();
 
 				if ( $resources->count() )
 					return response()->json(compact('resources', 'deletedNum', 'draftsNum', 'campaign', 'campaigns', 'user', 'users'));

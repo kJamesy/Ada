@@ -80,9 +80,10 @@ class SubscriberController extends Controller
 				$deletedNum = Subscriber::getCount(1);
 				$mailingList = $belongingTo ? MailingList::findResource($belongingTo) : null;
 				$mailingLists = MailingList::getAttachedResources();
+				$attachableMailingLists = MailingList::getAttachableResources();
 
 				if ( $resources->count() )
-					return response()->json(compact('resources', 'deletedNum', 'mailingList', 'mailingLists'));
+					return response()->json(compact('resources', 'deletedNum', 'mailingList', 'mailingLists', 'attachableMailingLists'));
 				else
 					return response()->json(['error' => "No $this->friendlyNamePlural found", 'deletedNum' => $deletedNum], 404);
 			}

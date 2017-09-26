@@ -172,9 +172,11 @@ class User extends Authenticatable
 	 * Get resources that are attached to emails
 	 * @return \Illuminate\Database\Eloquent\Collection|static[]
 	 */
-	public static function getAttachedResources()
+	public static function getEmailAttachedResources()
 	{
-		return static::has('emails')->orderBy('first_name')->get(['id', 'first_name', 'last_name']);
+		return static::whereHas('emails', function($q){
+			$q->isNotDeleted()->isNotDraft();
+		})->orderBy('first_name')->get(['id', 'first_name', 'last_name']);
 	}
 
 }
