@@ -99,7 +99,7 @@ Route::group(['prefix' => 'guest'], function() {
 Route::group(['prefix' => 'subscriber'], function() {
 	Route::get('unsubscribe', ['as' => 'unsubscribe', function() {
 
-		if ( $name = $request->get('name') )
+		if ( $name = request()->get('name') )
 			return "Sorry to see you go, $name";
 
 		return 'Unsubscribed';
