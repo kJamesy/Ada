@@ -18,10 +18,10 @@ class SubscribersTableSeeder extends Seeder
 	    });
 
 	    if ( $count = $mLists->count() ) {
-		    $num = $count > 5 ? 5 : $count;
-	    	$randomMLists = $mLists->random(rand(1, $num))->pluck('id')->toArray();
+	    	$subscribers->each(function($subscriber) use ($mLists, $count) {
+			    $num = $count > 5 ? 5 : $count;
+			    $randomMLists = $mLists->random(rand(0, $num))->pluck('id')->toArray();
 
-	    	$subscribers->each(function($subscriber) use ($randomMLists) {
 	    		$subscriber->mailing_lists()->attach($randomMLists);
 		    });
 	    }
