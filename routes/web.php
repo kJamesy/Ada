@@ -17,9 +17,8 @@ Route::redirect('/home', route('guest.home'));
 
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
-		$response = json_decode(\App\SparkyResponse::first()->body);
-		$sparky_tracking = new \App\Tracking\SparkyTracking($response);
-		$sparky_tracking->handleEvents();
+		$faker = \Faker\Factory::create();
+
 
 	});
 
