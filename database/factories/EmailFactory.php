@@ -16,11 +16,11 @@ $factory->define(\App\Email::class, function (Faker $faker) {
 			break;
 	endswitch;
 
-	$campaigns = cache()->remember('seed-campaigns', 15, function() {
+	$campaigns = cache()->remember('seed-campaigns', 120, function() {
 		return \App\Campaign::where('is_deleted', 0)->get();
 	});
 
-	$users = cache()->remember('seed-users', 15, function() {
+	$users = cache()->remember('seed-users', 120, function() {
 		return \App\User::where('active', 1)->get();
 	});
 

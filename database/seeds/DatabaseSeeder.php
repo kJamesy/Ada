@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
     {
     	Artisan::call('db:truncate-seeded');
 
-//         $this->call(UsersTableSeeder::class);
+         $this->call(UsersTableSeeder::class);
          $this->call(TemplatesTableSeeder::class);
          $this->call(MailingListsTableSeeder::class);
          $this->call(SubscribersTableSeeder::class);

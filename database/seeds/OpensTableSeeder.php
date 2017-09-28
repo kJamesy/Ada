@@ -11,6 +11,6 @@ class OpensTableSeeder extends Seeder
      */
     public function run()
     {
-	    $opens = factory(\App\Open::class, 30000)->create();
+	    $opens = factory(\App\Open::class, 15000)->create();
     }
 }

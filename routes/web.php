@@ -18,6 +18,7 @@ Route::redirect('/home', route('guest.home'));
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
 		$faker = \Faker\Factory::create();
+//		$emails = \App\Email::search('acw2')->paginate(1);
 
 
 	});

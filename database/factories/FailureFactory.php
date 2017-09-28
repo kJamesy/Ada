@@ -21,16 +21,16 @@ $factory->define(\App\Failure::class, function (Faker $faker) {
 
 	switch( $failure_type ) :
 		case 'spam_complaint':
-			$related = \App\Open::inRandomOrder()->first();
-			$email = $related->email();
+			$related = \App\Open::with('email')->inRandomOrder()->first();
+			$email = $related->email;
 			break;
 		case 'list_unsubscribe':
 		case 'link_unsubscribe':
-			$related = \App\Click::inRandomOrder()->first();
-			$email = $related->email();
+			$related = \App\Click::with('email')->inRandomOrder()->first();
+			$email = $related->email;
 			break;
 		default:
-			$email = \App\Email::whereDoesntHave('deliveries')->inRandomOrder()->first();
+			$email = \App\Email::where('status', 0)->whereDoesntHave('deliveries')->inRandomOrder()->first();
 			break;
 	endswitch;
 
@@ -55,12 +55,10 @@ $factory->define(\App\Failure::class, function (Faker $faker) {
 		}
 
 		else {
-			$subscribers = cache()->remember('seed-subscribers', 15, function() {
-				return \App\Subscriber::where('is_deleted', 0)->where('active', 1)->get();
-			});
 
-			if ( $subscribers->count() ) {
-				$subscriber = $subscribers->random();
+			$subscriber = \App\Subscriber::where('is_deleted', 0)->where('active', 1)->inRandomOrder()->first();
+
+			if ( $subscriber ) {
 				$reasons = [
 					"Ut est neque sint saepe dolorem nesciunt.",
 					"Iusto nihil voluptatum nostrum porro temporibus.",

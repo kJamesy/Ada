@@ -3,7 +3,7 @@
 use Faker\Generator as Faker;
 
 $factory->define(\App\Click::class, function (Faker $faker) {
-	$opens = cache()->remember('seed-opens', 15, function() {
+	$opens = cache()->remember('seed-opens', 120, function() {
 		return \App\Open::get();
 	});
 

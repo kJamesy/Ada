@@ -13,7 +13,7 @@ class SubscribersTableSeeder extends Seeder
     {
 	    $subscribers = factory(\App\Subscriber::class, 15000)->create();
 
-	    $mLists = cache()->remember('seed-mailing-lists', 15, function() {
+	    $mLists = cache()->remember('seed-mailing-lists', 120, function() {
 		    return \App\MailingList::get();
 	    });
 

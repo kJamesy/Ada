@@ -3,13 +3,10 @@
 use Faker\Generator as Faker;
 
 $factory->define(\App\Open::class, function (Faker $faker) {
-	$deliveries = cache()->remember('seed-deliveries', 15, function() {
-		return \App\Delivery::get();
-	});
 
-	if (  $deliveries->count() ) {
-		$delivery = $deliveries->random();
+	$delivery = \App\Delivery::inRandomOrder()->first();
 
+	if ( $delivery ) {
 		$first_opened_at = $delivery->delivered_at->addMinutes(rand(1,10));
 		$last_opened_at = $first_opened_at;
 		$opens = rand(1,5);

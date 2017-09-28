@@ -11,6 +11,6 @@ class FailuresTableSeeder extends Seeder
      */
     public function run()
     {
-	    $failures = factory(\App\Failure::class, 100)->create();
+	    $failures = factory(\App\Failure::class, 500)->create();
     }
 }
