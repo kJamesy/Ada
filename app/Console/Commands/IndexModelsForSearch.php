@@ -14,6 +14,7 @@ use App\Subscriber;
 use App\Template;
 use App\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 
 class IndexModelsForSearch extends Command
 {
@@ -68,8 +69,9 @@ class IndexModelsForSearch extends Command
     public function handle()
     {
         foreach( $this->models as $modelString ) {
-	        $model = new $modelString;
-	        $model->get()->searchable();
+	        exec('php artisan scout:import "' . $modelString . '"');
+//	        $model = new $modelString;
+//	        $model->get()->searchable();
         }
 
 	    $this->info('All done');

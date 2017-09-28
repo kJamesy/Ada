@@ -228,7 +228,11 @@ class Subscriber extends Model
 	 */
 	public static function getSearchResults($search, $mListId = 0, $deleted = 0, $paginate = 25)
 	{
-		$query = static::whereIn('id', static::search($search)->get()->pluck('id'));
+		$searchQuery = static::search($search);
+		$searchQuery->limit = 500;
+		$results = $searchQuery->get()->pluck('id');
+
+		$query = static::whereIn('id', $results);
 
 		if ( $mListId )
 			$query->inMailingLists([$mListId]);

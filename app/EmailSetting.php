@@ -65,7 +65,11 @@ class EmailSetting extends Model
 	 */
 	public static function getSearchResults($search, $paginate = 25)
 	{
-		return static::whereIn('id', static::search($search)->get()->pluck('id'))->paginate($paginate);
+		$searchQuery = static::search($search);
+		$searchQuery->limit = 500;
+		$results = $searchQuery->get()->pluck('id');
+
+		return static::whereIn('id', $results)->paginate($paginate);
 	}
 
 	/**
