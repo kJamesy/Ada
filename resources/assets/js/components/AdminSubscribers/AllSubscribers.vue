@@ -8,16 +8,15 @@
                 <div class="row">
                     <div class="col-md-6">
                         <form v-on:submit.prevent="appDoSearch">
+                            <label class="form-control-label">&nbsp;</label>
                             <div class="form-group">
                                 <input type="text" v-model.trim="appSearchText" placeholder="Search" class="form-control" />
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-6 mt-4 mt-md-0">
-                        <form class="form-inline pull-right">
-                            <label class="form-control-label mr-sm-2" for="mailing_lists">
-                                Mailing List
-                            </label>
+                    <div class="col-md-6">
+                        <form>
+                            <label class="form-control-label" for="mailing_lists">Mailing List</label>
                             <select class="custom-select form-control" v-model="mailingList" id="mailing_lists">
                                 <option value="0">(All)</option>
                                 <option v-for="mList in mailingLists" v-bind:value="mList.id">

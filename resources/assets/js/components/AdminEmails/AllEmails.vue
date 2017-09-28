@@ -10,13 +10,14 @@
                         <div class="col-md-6">
                             <form v-on:submit.prevent="appDoSearch">
                                 <div class="form-group">
+                                    <label class="form-control-label">&nbsp;</label>
                                     <input type="text" v-model.trim="appSearchText" placeholder="Search" class="form-control" />
                                 </div>
                             </form>
                         </div>
-                        <div class="col-md-6 mt-4 mt-md-0">
-                            <form class="form-inline pull-right" v-if="isLandingPage()">
-                                <label class="form-control-label mr-sm-2" for="filter_options">Filter By</label>
+                        <div class="col-md-6">
+                            <form v-if="isLandingPage()">
+                                <label class="form-control-label" for="filter_options">Filter By</label>
                                 <select class="custom-select form-control" v-model="filterOption" id="filter_options">
                                     <option value="">Select Filter</option>
                                     <option v-for="option in filterOptions" v-bind:value="option.filter">
@@ -24,27 +25,24 @@
                                     </option>
                                 </select>
                             </form>
-                            <form class="form-inline pull-right" v-if="! isLandingPage() && filterOption">
-                                <label class="form-control-label mr-sm-2" for="filter_options_group_2">{{ filterOption }}</label>
+                            <form v-if="isLandingPage() && filterOption" class="mt-4">
+                                <select class="custom-select form-control" v-model="selectedFilter" id="filter_options_group">
+                                    <option value="">Select {{ filterOption }}</option>
+                                    <option v-for="option in filters" v-bind:value="option.id">
+                                        {{ option.name }}
+                                    </option>
+                                </select>
+                            </form>
+                            <form v-if="! isLandingPage() && filterOption">
+                                <label class="form-control-label" for="filter_options_group_2">Filter By {{ filterOption }}</label>
                                 <select class="custom-select form-control" v-model="selectedFilter" id="filter_options_group_2">
-                                    <option value="">Select</option>
+                                    <option value="">Select {{ filterOption }}</option>
                                     <option v-for="option in filters" v-bind:value="option.id">
                                         {{ option.name }}
                                     </option>
                                 </select>
                             </form>
                         </div>
-                    </div>
-                    <div class="mt-4 mb-4" v-if="isLandingPage() && filterOption">
-                        <form class="form-inline pull-right">
-                            <label class="form-control-label mr-sm-2" for="filter_options_group">{{ filterOption }}</label>
-                            <select class="custom-select form-control" v-model="selectedFilter" id="filter_options_group">
-                                <option value="">Select</option>
-                                <option v-for="option in filters" v-bind:value="option.id">
-                                    {{ option.name }}
-                                </option>
-                            </select>
-                        </form>
                     </div>
                     <div class="clearfix"></div>
                     <div class="mt-4 mb-4">

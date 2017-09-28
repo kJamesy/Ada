@@ -62353,7 +62353,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -62495,6 +62494,10 @@ var render = function() {
                           }
                         },
                         [
+                          _c("label", { staticClass: "form-control-label" }, [
+                            _vm._v(" ")
+                          ]),
+                          _vm._v(" "),
                           _c("div", { staticClass: "form-group" }, [
                             _c("input", {
                               directives: [
@@ -62526,19 +62529,15 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-md-6 mt-4 mt-md-0" }, [
-                      _c("form", { staticClass: "form-inline pull-right" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("form", [
                         _c(
                           "label",
                           {
-                            staticClass: "form-control-label mr-sm-2",
+                            staticClass: "form-control-label",
                             attrs: { for: "mailing_lists" }
                           },
-                          [
-                            _vm._v(
-                              "\n                            Mailing List\n                        "
-                            )
-                          ]
+                          [_vm._v("Mailing List")]
                         ),
                         _vm._v(" "),
                         _c(
@@ -74178,8 +74177,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -74358,6 +74355,12 @@ var render = function() {
                               },
                               [
                                 _c("div", { staticClass: "form-group" }, [
+                                  _c(
+                                    "label",
+                                    { staticClass: "form-control-label" },
+                                    [_vm._v(" ")]
+                                  ),
+                                  _vm._v(" "),
                                   _c("input", {
                                     directives: [
                                       {
@@ -74391,182 +74394,84 @@ var render = function() {
                             )
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "col-md-6 mt-4 mt-md-0" }, [
+                          _c("div", { staticClass: "col-md-6" }, [
                             _vm.isLandingPage()
-                              ? _c(
-                                  "form",
-                                  { staticClass: "form-inline pull-right" },
-                                  [
-                                    _c(
-                                      "label",
-                                      {
-                                        staticClass:
-                                          "form-control-label mr-sm-2",
-                                        attrs: { for: "filter_options" }
-                                      },
-                                      [_vm._v("Filter By")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "select",
-                                      {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.filterOption,
-                                            expression: "filterOption"
-                                          }
-                                        ],
-                                        staticClass:
-                                          "custom-select form-control",
-                                        attrs: { id: "filter_options" },
-                                        on: {
-                                          change: function($event) {
-                                            var $$selectedVal = Array.prototype.filter
-                                              .call(
-                                                $event.target.options,
-                                                function(o) {
-                                                  return o.selected
-                                                }
-                                              )
-                                              .map(function(o) {
-                                                var val =
-                                                  "_value" in o
-                                                    ? o._value
-                                                    : o.value
-                                                return val
-                                              })
-                                            _vm.filterOption = $event.target
-                                              .multiple
-                                              ? $$selectedVal
-                                              : $$selectedVal[0]
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("option", { attrs: { value: "" } }, [
-                                          _vm._v("Select Filter")
-                                        ]),
-                                        _vm._v(" "),
-                                        _vm._l(_vm.filterOptions, function(
-                                          option
-                                        ) {
-                                          return _c(
-                                            "option",
-                                            {
-                                              domProps: { value: option.filter }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n                                    " +
-                                                  _vm._s(option.filter) +
-                                                  "\n                                "
-                                              )
-                                            ]
-                                          )
-                                        })
-                                      ],
-                                      2
-                                    )
-                                  ]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            !_vm.isLandingPage() && _vm.filterOption
-                              ? _c(
-                                  "form",
-                                  { staticClass: "form-inline pull-right" },
-                                  [
-                                    _c(
-                                      "label",
-                                      {
-                                        staticClass:
-                                          "form-control-label mr-sm-2",
-                                        attrs: { for: "filter_options_group_2" }
-                                      },
-                                      [_vm._v(_vm._s(_vm.filterOption))]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "select",
-                                      {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.selectedFilter,
-                                            expression: "selectedFilter"
-                                          }
-                                        ],
-                                        staticClass:
-                                          "custom-select form-control",
-                                        attrs: { id: "filter_options_group_2" },
-                                        on: {
-                                          change: function($event) {
-                                            var $$selectedVal = Array.prototype.filter
-                                              .call(
-                                                $event.target.options,
-                                                function(o) {
-                                                  return o.selected
-                                                }
-                                              )
-                                              .map(function(o) {
-                                                var val =
-                                                  "_value" in o
-                                                    ? o._value
-                                                    : o.value
-                                                return val
-                                              })
-                                            _vm.selectedFilter = $event.target
-                                              .multiple
-                                              ? $$selectedVal
-                                              : $$selectedVal[0]
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("option", { attrs: { value: "" } }, [
-                                          _vm._v("Select")
-                                        ]),
-                                        _vm._v(" "),
-                                        _vm._l(_vm.filters, function(option) {
-                                          return _c(
-                                            "option",
-                                            { domProps: { value: option.id } },
-                                            [
-                                              _vm._v(
-                                                "\n                                    " +
-                                                  _vm._s(option.name) +
-                                                  "\n                                "
-                                              )
-                                            ]
-                                          )
-                                        })
-                                      ],
-                                      2
-                                    )
-                                  ]
-                                )
-                              : _vm._e()
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _vm.isLandingPage() && _vm.filterOption
-                          ? _c("div", { staticClass: "mt-4 mb-4" }, [
-                              _c(
-                                "form",
-                                { staticClass: "form-inline pull-right" },
-                                [
+                              ? _c("form", [
                                   _c(
                                     "label",
                                     {
-                                      staticClass: "form-control-label mr-sm-2",
-                                      attrs: { for: "filter_options_group" }
+                                      staticClass: "form-control-label",
+                                      attrs: { for: "filter_options" }
                                     },
-                                    [_vm._v(_vm._s(_vm.filterOption))]
+                                    [_vm._v("Filter By")]
                                   ),
                                   _vm._v(" "),
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.filterOption,
+                                          expression: "filterOption"
+                                        }
+                                      ],
+                                      staticClass: "custom-select form-control",
+                                      attrs: { id: "filter_options" },
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.filterOption = $event.target
+                                            .multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("option", { attrs: { value: "" } }, [
+                                        _vm._v("Select Filter")
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm._l(_vm.filterOptions, function(
+                                        option
+                                      ) {
+                                        return _c(
+                                          "option",
+                                          {
+                                            domProps: { value: option.filter }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                    " +
+                                                _vm._s(option.filter) +
+                                                "\n                                "
+                                            )
+                                          ]
+                                        )
+                                      })
+                                    ],
+                                    2
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.isLandingPage() && _vm.filterOption
+                              ? _c("form", { staticClass: "mt-4" }, [
                                   _c(
                                     "select",
                                     {
@@ -74605,7 +74510,9 @@ var render = function() {
                                     },
                                     [
                                       _c("option", { attrs: { value: "" } }, [
-                                        _vm._v("Select")
+                                        _vm._v(
+                                          "Select " + _vm._s(_vm.filterOption)
+                                        )
                                       ]),
                                       _vm._v(" "),
                                       _vm._l(_vm.filters, function(option) {
@@ -74614,9 +74521,9 @@ var render = function() {
                                           { domProps: { value: option.id } },
                                           [
                                             _vm._v(
-                                              "\n                                " +
+                                              "\n                                    " +
                                                 _vm._s(option.name) +
-                                                "\n                            "
+                                                "\n                                "
                                             )
                                           ]
                                         )
@@ -74624,10 +74531,87 @@ var render = function() {
                                     ],
                                     2
                                   )
-                                ]
-                              )
-                            ])
-                          : _vm._e(),
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.isLandingPage() && _vm.filterOption
+                              ? _c("form", [
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass: "form-control-label",
+                                      attrs: { for: "filter_options_group_2" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Filter By " + _vm._s(_vm.filterOption)
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.selectedFilter,
+                                          expression: "selectedFilter"
+                                        }
+                                      ],
+                                      staticClass: "custom-select form-control",
+                                      attrs: { id: "filter_options_group_2" },
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.selectedFilter = $event.target
+                                            .multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("option", { attrs: { value: "" } }, [
+                                        _vm._v(
+                                          "Select " + _vm._s(_vm.filterOption)
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm._l(_vm.filters, function(option) {
+                                        return _c(
+                                          "option",
+                                          { domProps: { value: option.id } },
+                                          [
+                                            _vm._v(
+                                              "\n                                    " +
+                                                _vm._s(option.name) +
+                                                "\n                                "
+                                            )
+                                          ]
+                                        )
+                                      })
+                                    ],
+                                    2
+                                  )
+                                ])
+                              : _vm._e()
+                          ])
+                        ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "clearfix" }),
                         _vm._v(" "),
