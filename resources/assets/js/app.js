@@ -250,6 +250,7 @@ import AdminEmailsAll from './components/AdminEmails/AllEmails.vue';
 import AdminEmailsTrash from './components/AdminEmails/TrashEmails.vue';
 import AdminEmailsNew from './components/AdminEmails/NewEmail.vue';
 import AdminEmailsView from './components/AdminEmails/ViewEmail.vue';
+import AdminEmailsStats from './components/AdminEmails/ViewEmailStats.vue';
 import AdminEmailsEdit from './components/AdminEmails/EditEmail.vue';
 
 if ( $('#admin-emails-app').length ) {
@@ -265,6 +266,7 @@ if ( $('#admin-emails-app').length ) {
             { path: '/trash', name: 'admin_emails.trash', component: AdminEmailsTrash },
             { path: '/create', name: 'admin_emails.create', component: AdminEmailsNew },
             { path: '/:id(\\d+)/view', name: 'admin_emails.view', component: AdminEmailsView },
+            { path: '/:id(\\d+)/stats', name: 'admin_emails.stats', component: AdminEmailsStats },
             { path: '/:id(\\d+)/edit', name: 'admin_emails.edit', component: AdminEmailsEdit },
             { path: '*', redirect: { name: 'admin_emails.index' } }
         ]

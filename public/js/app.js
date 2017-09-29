@@ -16268,20 +16268,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__components_AdminEmails_NewEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_47__components_AdminEmails_NewEmail_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__components_AdminEmails_ViewEmail_vue__ = __webpack_require__(288);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__components_AdminEmails_ViewEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_48__components_AdminEmails_ViewEmail_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_EditEmail_vue__ = __webpack_require__(291);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_EditEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_EditEmail_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__components_AdminUsers_AdminUsers_vue__ = __webpack_require__(294);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__components_AdminUsers_AdminUsers_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_50__components_AdminUsers_AdminUsers_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__components_AdminUsers_AllUsers_vue__ = __webpack_require__(299);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__components_AdminUsers_AllUsers_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_51__components_AdminUsers_AllUsers_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__components_AdminUsers_NewUser_vue__ = __webpack_require__(302);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__components_AdminUsers_NewUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_52__components_AdminUsers_NewUser_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_ViewUser_vue__ = __webpack_require__(305);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_ViewUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_ViewUser_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_EditUser_vue__ = __webpack_require__(308);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_EditUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_EditUser_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_EditUserPermissions_vue__ = __webpack_require__(311);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_EditUserPermissions_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_EditUserPermissions_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_ViewEmailStats_vue__ = __webpack_require__(319);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_ViewEmailStats_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_ViewEmailStats_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_EditEmail_vue__ = __webpack_require__(291);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_EditEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_EditEmail_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__components_AdminUsers_AdminUsers_vue__ = __webpack_require__(294);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__components_AdminUsers_AdminUsers_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_51__components_AdminUsers_AdminUsers_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__components_AdminUsers_AllUsers_vue__ = __webpack_require__(299);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__components_AdminUsers_AllUsers_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_52__components_AdminUsers_AllUsers_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_NewUser_vue__ = __webpack_require__(302);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_NewUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_NewUser_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_ViewUser_vue__ = __webpack_require__(305);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_ViewUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_ViewUser_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_EditUser_vue__ = __webpack_require__(308);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_EditUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_EditUser_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_EditUserPermissions_vue__ = __webpack_require__(311);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_EditUserPermissions_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_EditUserPermissions_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -16492,12 +16494,13 @@ if ($('#admin-email-settings-app').length) {
 
 
 
+
 if ($('#admin-emails-app').length) {
     var _router6 = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
         mode: 'history',
         base: links.base,
         linkActiveClass: 'active',
-        routes: [{ path: '/', name: 'admin_emails.index', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/drafts', name: 'admin_emails.drafts', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/:campaignId(\\d+)/in-campaign', name: 'admin_emails.campaign', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/:userId(\\d+)/by-user', name: 'admin_emails.user', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/trash', name: 'admin_emails.trash', component: __WEBPACK_IMPORTED_MODULE_46__components_AdminEmails_TrashEmails_vue___default.a }, { path: '/create', name: 'admin_emails.create', component: __WEBPACK_IMPORTED_MODULE_47__components_AdminEmails_NewEmail_vue___default.a }, { path: '/:id(\\d+)/view', name: 'admin_emails.view', component: __WEBPACK_IMPORTED_MODULE_48__components_AdminEmails_ViewEmail_vue___default.a }, { path: '/:id(\\d+)/edit', name: 'admin_emails.edit', component: __WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_EditEmail_vue___default.a }, { path: '*', redirect: { name: 'admin_emails.index' } }]
+        routes: [{ path: '/', name: 'admin_emails.index', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/drafts', name: 'admin_emails.drafts', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/:campaignId(\\d+)/in-campaign', name: 'admin_emails.campaign', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/:userId(\\d+)/by-user', name: 'admin_emails.user', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/trash', name: 'admin_emails.trash', component: __WEBPACK_IMPORTED_MODULE_46__components_AdminEmails_TrashEmails_vue___default.a }, { path: '/create', name: 'admin_emails.create', component: __WEBPACK_IMPORTED_MODULE_47__components_AdminEmails_NewEmail_vue___default.a }, { path: '/:id(\\d+)/view', name: 'admin_emails.view', component: __WEBPACK_IMPORTED_MODULE_48__components_AdminEmails_ViewEmail_vue___default.a }, { path: '/:id(\\d+)/stats', name: 'admin_emails.stats', component: __WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_ViewEmailStats_vue___default.a }, { path: '/:id(\\d+)/edit', name: 'admin_emails.edit', component: __WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_EditEmail_vue___default.a }, { path: '*', redirect: { name: 'admin_emails.index' } }]
     });
 
     new Vue({
@@ -16524,13 +16527,13 @@ if ($('#admin-users-app').length) {
         mode: 'history',
         base: links.base,
         linkActiveClass: 'active',
-        routes: [{ path: '/', name: 'admin_users.index', component: __WEBPACK_IMPORTED_MODULE_51__components_AdminUsers_AllUsers_vue___default.a }, { path: '/create', name: 'admin_users.create', component: __WEBPACK_IMPORTED_MODULE_52__components_AdminUsers_NewUser_vue___default.a }, { path: '/:id(\\d+)/view', name: 'admin_users.view', component: __WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_ViewUser_vue___default.a }, { path: '/:id(\\d+)/edit', name: 'admin_users.edit', component: __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_EditUser_vue___default.a }, { path: '/:id(\\d+)/permissions', name: 'admin_users.edit_permissions', component: __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_EditUserPermissions_vue___default.a }, { path: '*', redirect: { name: 'admin_users.index' } }]
+        routes: [{ path: '/', name: 'admin_users.index', component: __WEBPACK_IMPORTED_MODULE_52__components_AdminUsers_AllUsers_vue___default.a }, { path: '/create', name: 'admin_users.create', component: __WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_NewUser_vue___default.a }, { path: '/:id(\\d+)/view', name: 'admin_users.view', component: __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_ViewUser_vue___default.a }, { path: '/:id(\\d+)/edit', name: 'admin_users.edit', component: __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_EditUser_vue___default.a }, { path: '/:id(\\d+)/permissions', name: 'admin_users.edit_permissions', component: __WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_EditUserPermissions_vue___default.a }, { path: '*', redirect: { name: 'admin_users.index' } }]
     });
 
     new Vue({
         el: '#admin-users-app',
         components: {
-            AdminUsers: __WEBPACK_IMPORTED_MODULE_50__components_AdminUsers_AdminUsers_vue___default.a
+            AdminUsers: __WEBPACK_IMPORTED_MODULE_51__components_AdminUsers_AdminUsers_vue___default.a
         },
         router: _router7
     });
@@ -74157,6 +74160,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -74997,6 +75007,10 @@ var render = function() {
                                 _vm._v(" "),
                                 _vm.appUserHasPermission("update")
                                   ? _c("th")
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _vm.appUserHasPermission("update")
+                                  ? _c("th")
                                   : _vm._e()
                               ])
                             ]),
@@ -75240,6 +75254,37 @@ var render = function() {
                                             [
                                               _c("i", {
                                                 staticClass: "fa fa-eye"
+                                              })
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.appUserHasPermission("read")
+                                    ? _c(
+                                        "td",
+                                        [
+                                          _c(
+                                            "router-link",
+                                            {
+                                              staticClass:
+                                                "btn btn-sm btn-outline-primary",
+                                              class:
+                                                resource.status < 0
+                                                  ? "disabled"
+                                                  : "",
+                                              attrs: {
+                                                to: {
+                                                  name: "admin_emails.stats",
+                                                  params: { id: resource.id }
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("i", {
+                                                staticClass: "fa fa-line-chart"
                                               })
                                             ]
                                           )
@@ -81799,6 +81844,374 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(320)
+/* template */
+var __vue_template__ = __webpack_require__(321)
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\AdminEmails\\ViewEmailStats.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ViewEmailStats.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-32d697f7", Component.options)
+  } else {
+    hotAPI.reload("data-v-32d697f7", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 320 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        this.$nextTick(function () {
+            this.showResource();
+            this.appInitialiseTooltip();
+            this.applyListeners();
+        });
+    },
+    data: function data() {
+        return {
+            fetchingData: true,
+            resource: { id: '', sender: '', reply_to_email: '', subject: '', content: '', recipients_num: 0,
+                status: '', friendly_status: '', created_at: '', updated_at: '', sent_at: '', user: {}, campaign: '', url: '', pdf: '' }
+        };
+    },
+
+    methods: {
+        showResource: function showResource() {
+            this.appShowResource();
+        },
+        applyListeners: function applyListeners() {
+            var vm = this;
+
+            vm.$on('successfulfetch', function () {
+                vm.rootEventsHub.$emit('show-edit-tab', { resource: vm.resource });
+            });
+        },
+        resizeIframe: function resizeIframe(event) {
+            var iframe = event.target;
+            if (iframe) iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
+        }
+    }
+});
+
+/***/ }),
+/* 321 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "mt-5" },
+    [
+      _vm.fetchingData
+        ? _c("i", { staticClass: "fa fa-spinner fa-spin" })
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.fetchingData
+        ? [
+            _vm.appUserHasPermission("read")
+              ? _c("div", [
+                  _c("div", { staticClass: "table-responsive" }, [
+                    _c("table", { staticClass: "table table-striped" }, [
+                      _c("tbody", [
+                        _c("tr", [
+                          _c("th", { attrs: { scope: "row" } }, [
+                            _vm._v("Subject")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(_vm.resource.subject))])
+                        ]),
+                        _vm._v(" "),
+                        _vm.resource.sender
+                          ? _c("tr", [
+                              _c("th", { attrs: { scope: "row" } }, [
+                                _vm._v("Sender")
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(_vm.resource.sender))])
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.resource.sender
+                          ? _c("tr", [
+                              _c("th", { attrs: { scope: "row" } }, [
+                                _vm._v("Reply-To")
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(_vm.resource.reply_to_email))
+                              ])
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("th", { attrs: { scope: "row" } }, [
+                            _vm._v("User")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(_vm.resource.user.name))])
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("th", { attrs: { scope: "row" } }, [
+                            _vm._v("Campaign")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(_vm.resource.campaign.name))])
+                        ]),
+                        _vm._v(" "),
+                        _vm.resource.recipients_num
+                          ? _c("tr", [
+                              _c("th", { attrs: { scope: "row" } }, [
+                                _vm._v("Recipients")
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(_vm.resource.recipients_num))
+                              ])
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("th", { attrs: { scope: "row" } }, [
+                            _vm._v("Status")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(_vm._s(_vm.resource.friendly_status))
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("th", { attrs: { scope: "row" } }, [
+                            _vm._v("Created")
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("dateToTheMinute")(
+                                  _vm.resource.created_at
+                                )
+                              )
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _vm.resource.sent_at
+                          ? _c("tr", [
+                              _c("th", { attrs: { scope: "row" } }, [
+                                _vm._v("Sent")
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("dateToTheMinute")(
+                                      _vm.resource.sent_at
+                                    )
+                                  )
+                                )
+                              ])
+                            ])
+                          : _c("tr", [
+                              _c("th", { attrs: { scope: "row" } }, [
+                                _vm._v("Last Update")
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("dateToTheMinute")(
+                                      _vm.resource.updated_at
+                                    )
+                                  )
+                                )
+                              ])
+                            ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("th", { attrs: { scope: "row" } }, [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-md",
+                                attrs: {
+                                  href: _vm.resource.url,
+                                  target: "_blank",
+                                  title: "Open",
+                                  "data-toggle": "tooltip"
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-external-link" })]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-md",
+                                attrs: {
+                                  href: _vm.resource.pdf,
+                                  target: "_blank",
+                                  title: "Generate PDF",
+                                  "data-toggle": "tooltip"
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-file-pdf-o" })]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("iframe", {
+                              staticStyle: { width: "100%", border: "none" },
+                              attrs: { src: _vm.resource.url },
+                              on: {
+                                load: function($event) {
+                                  _vm.resizeIframe($event)
+                                }
+                              }
+                            })
+                          ])
+                        ])
+                      ])
+                    ])
+                  ])
+                ])
+              : _c("div", [
+                  _c("i", { staticClass: "fa fa-warning" }),
+                  _vm._v(
+                    " " + _vm._s(_vm.appUnauthorisedErrorMessage) + "\n        "
+                  )
+                ])
+          ]
+        : _vm._e()
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-32d697f7", module.exports)
+  }
+}
 
 /***/ })
 ],[124]);

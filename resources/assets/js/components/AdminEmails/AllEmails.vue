@@ -83,6 +83,7 @@
                                     <th v-if="appIsDraftsPage" v-on:click.prevent="appChangeSort('updated_at')" >Updated <span v-html="appGetSortMarkup('updated_at')"></span></th>
                                     <th v-if="! appIsDraftsPage" v-on:click.prevent="appChangeSort('sent_at')" >Sent <span v-html="appGetSortMarkup('sent_at')"></span></th>
                                     <th v-if="appUserHasPermission('update')"></th>
+                                    <th v-if="appUserHasPermission('update')"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -116,6 +117,12 @@
                                     </td>
                                     <td v-if="appUserHasPermission('read')">
                                         <router-link v-bind:to="{ name: 'admin_emails.view', params: { id: resource.id }}" class="btn btn-sm btn-outline-primary"><i class="fa fa-eye"></i></router-link>
+                                    </td>
+                                    <td v-if="appUserHasPermission('read')">
+                                        <router-link v-bind:to="{ name: 'admin_emails.stats', params: { id: resource.id }}" class="btn btn-sm btn-outline-primary"
+                                                     v-bind:class="resource.status < 0 ? 'disabled' : ''">
+                                            <i class="fa fa-line-chart"></i>
+                                        </router-link>
                                     </td>
                                 </tr>
                             </tbody>
