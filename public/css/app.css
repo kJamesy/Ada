@@ -10198,3 +10198,58 @@ label.custom-control {
   margin-bottom: 0;
 }
 
+.pagination li a {
+  position: relative;
+  display: block;
+  padding: .5rem .75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: #495057;
+  background-color: #4ECDC4;
+  border: 1px solid #fff;
+  border-top-color: #4ECDC4;
+  border-bottom-color: #4ECDC4;
+}
+
+.pagination li a:hover {
+  text-decoration: none;
+  background: #034F84;
+  color: #fff;
+  border-top-color: #034F84;
+  border-bottom-color: #034F84;
+}
+
+.pagination li:first-child a {
+  margin-left: 0;
+  border-left: 0;
+}
+
+.pagination li:last-child a {
+  margin-left: 0;
+  border-right: 0;
+}
+
+.pagination li.active a {
+  pointer-events: none;
+  background: #034F84;
+  color: #fff;
+  border-top-color: #034F84;
+  border-bottom-color: #034F84;
+}
+
+.pagination li.disabled span {
+  background-color: #FFF;
+  border: 1px solid #DDD;
+  display: block;
+  padding: .5rem .75rem;
+  line-height: 1.25;
+}
+
+.pagination li.disabled span span {
+  border: none;
+  line-height: 1;
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
