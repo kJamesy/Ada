@@ -166,7 +166,7 @@ class User extends Authenticatable
     public static function getSearchResults($search, $paginate = 25, $except = [])
     {
 	    $searchQuery = static::search($search);
-	    $searchQuery->limit = 500;
+	    $searchQuery->limit = 5000;
 	    $results = $searchQuery->get()->pluck('id');
 
         return static::whereIn('id', $results)->whereNotIn('id', $except)->paginate($paginate);

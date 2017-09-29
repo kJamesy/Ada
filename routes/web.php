@@ -18,10 +18,6 @@ Route::redirect('/home', route('guest.home'));
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
 		$faker = \Faker\Factory::create();
-		$emails = \App\Subscriber::getSearchResults('example');
-
-		var_dump($emails);
-
 	});
 
 	Route::get('worker', function() {

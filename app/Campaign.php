@@ -102,7 +102,7 @@ class Campaign extends Model
 	public static function getSearchResults($search, $deleted = 0, $paginate = 25)
 	{
 		$searchQuery = static::search($search);
-		$searchQuery->limit = 500;
+		$searchQuery->limit = 5000;
 		$results = $searchQuery->get()->pluck('id');
 
 		$query = static::whereIn('id', $results);

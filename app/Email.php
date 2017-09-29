@@ -264,7 +264,7 @@ class Email extends Model
 	public static function getSearchResults($search, $userId = 0, $campaignId = 0, $status = 1, $deleted = 0, $paginate = 25)
 	{
 		$searchQuery = static::search($search);
-		$searchQuery->limit = 500;
+		$searchQuery->limit = 5000;
 		$results = $searchQuery->get()->pluck('id');
 
 		$query = static::with('user')->with('campaign')->status($status)->whereIn('id', $results);
