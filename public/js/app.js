@@ -59628,9 +59628,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -59809,17 +59806,27 @@ var render = function() {
                       : _vm._e(),
                     _vm._v(" "),
                     _c("form", { staticClass: "form-inline pull-right" }, [
+                      _c("span", { staticClass: "mr-3" }, [
+                        _vm._v(
+                          "Page " +
+                            _vm._s(_vm.appPagination.current_page) +
+                            " of " +
+                            _vm._s(_vm.appPagination.last_page) +
+                            " ["
+                        ),
+                        _c("b", [
+                          _vm._v(_vm._s(_vm.appPagination.total) + " items")
+                        ]),
+                        _vm._v("]")
+                      ]),
+                      _vm._v(" "),
                       _c(
                         "label",
                         {
                           staticClass: "form-control-label mr-sm-2",
                           attrs: { for: "records_per_page" }
                         },
-                        [
-                          _vm._v(
-                            "\n                        Per Page\n                    "
-                          )
-                        ]
+                        [_vm._v("Per Page")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -60162,24 +60169,13 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("pagination", {
+                    staticClass: "mt-5 mb-3",
                     attrs: {
                       pagination: _vm.appPagination,
                       callback: _vm.fetchResources,
                       options: _vm.appPaginationOptions
                     }
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "mt-3 mb-3" }, [
-                    _vm._v(
-                      "\n                Page " +
-                        _vm._s(_vm.appPagination.current_page) +
-                        " of " +
-                        _vm._s(_vm.appPagination.last_page) +
-                        " [" +
-                        _vm._s(_vm.appPagination.total) +
-                        " items]\n            "
-                    )
-                  ])
+                  })
                 ],
                 1
               )
@@ -60286,7 +60282,6 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
 //
 //
 //
@@ -60539,17 +60534,27 @@ var render = function() {
                       : _vm._e(),
                     _vm._v(" "),
                     _c("form", { staticClass: "form-inline pull-right" }, [
+                      _c("span", { staticClass: "mr-3" }, [
+                        _vm._v(
+                          "Page " +
+                            _vm._s(_vm.appPagination.current_page) +
+                            " of " +
+                            _vm._s(_vm.appPagination.last_page) +
+                            " ["
+                        ),
+                        _c("b", [
+                          _vm._v(_vm._s(_vm.appPagination.total) + " items")
+                        ]),
+                        _vm._v("]")
+                      ]),
+                      _vm._v(" "),
                       _c(
                         "label",
                         {
                           staticClass: "form-control-label mr-sm-2",
                           attrs: { for: "records_per_page" }
                         },
-                        [
-                          _vm._v(
-                            "\n                        Per Page\n                    "
-                          )
-                        ]
+                        [_vm._v("Per Page")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -60845,21 +60850,13 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("pagination", {
+                    staticClass: "mt-5 mb-5",
                     attrs: {
                       pagination: _vm.appPagination,
                       callback: _vm.fetchResources,
                       options: _vm.appPaginationOptions
                     }
-                  }),
-                  _vm._v(
-                    "\n            Page " +
-                      _vm._s(_vm.appPagination.current_page) +
-                      " of " +
-                      _vm._s(_vm.appPagination.last_page) +
-                      " [" +
-                      _vm._s(_vm.appPagination.total) +
-                      " items]\n        "
-                  )
+                  })
                 ],
                 1
               )
@@ -62349,10 +62346,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -62662,17 +62655,27 @@ var render = function() {
                       : _vm._e(),
                     _vm._v(" "),
                     _c("form", { staticClass: "form-inline pull-right" }, [
+                      _c("span", { staticClass: "mr-3" }, [
+                        _vm._v(
+                          "Page " +
+                            _vm._s(_vm.appPagination.current_page) +
+                            " of " +
+                            _vm._s(_vm.appPagination.last_page) +
+                            " ["
+                        ),
+                        _c("b", [
+                          _vm._v(_vm._s(_vm.appPagination.total) + " items")
+                        ]),
+                        _vm._v("]")
+                      ]),
+                      _vm._v(" "),
                       _c(
                         "label",
                         {
                           staticClass: "form-control-label mr-sm-2",
                           attrs: { for: "records_per_page" }
                         },
-                        [
-                          _vm._v(
-                            "\n                        Per Page\n                    "
-                          )
-                        ]
+                        [_vm._v("Per Page")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -63034,24 +63037,13 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("pagination", {
+                    staticClass: "mt-5 mb-3",
                     attrs: {
                       pagination: _vm.appPagination,
                       callback: _vm.fetchResources,
                       options: _vm.appPaginationOptions
                     }
                   }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "mt-3 mb-3" }, [
-                    _vm._v(
-                      "\n                Page " +
-                        _vm._s(_vm.appPagination.current_page) +
-                        " of " +
-                        _vm._s(_vm.appPagination.last_page) +
-                        " [" +
-                        _vm._s(_vm.appPagination.total) +
-                        " items]\n            "
-                    )
-                  ]),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -63383,8 +63375,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -63561,17 +63551,27 @@ var render = function() {
                       : _vm._e(),
                     _vm._v(" "),
                     _c("form", { staticClass: "form-inline pull-right" }, [
+                      _c("span", { staticClass: "mr-3" }, [
+                        _vm._v(
+                          "Page " +
+                            _vm._s(_vm.appPagination.current_page) +
+                            " of " +
+                            _vm._s(_vm.appPagination.last_page) +
+                            " ["
+                        ),
+                        _c("b", [
+                          _vm._v(_vm._s(_vm.appPagination.total) + " items")
+                        ]),
+                        _vm._v("]")
+                      ]),
+                      _vm._v(" "),
                       _c(
                         "label",
                         {
                           staticClass: "form-control-label mr-sm-2",
                           attrs: { for: "records_per_page" }
                         },
-                        [
-                          _vm._v(
-                            "\n                        Per Page\n                    "
-                          )
-                        ]
+                        [_vm._v("Per Page")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -63906,21 +63906,13 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("pagination", {
+                    staticClass: "mt-5 mb-5",
                     attrs: {
                       pagination: _vm.appPagination,
                       callback: _vm.fetchResources,
                       options: _vm.appPaginationOptions
                     }
-                  }),
-                  _vm._v(
-                    "\n            Page " +
-                      _vm._s(_vm.appPagination.current_page) +
-                      " of " +
-                      _vm._s(_vm.appPagination.last_page) +
-                      " [" +
-                      _vm._s(_vm.appPagination.total) +
-                      " items]\n        "
-                  )
+                  })
                 ],
                 1
               )
@@ -66613,10 +66605,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -66795,17 +66783,27 @@ var render = function() {
                       : _vm._e(),
                     _vm._v(" "),
                     _c("form", { staticClass: "form-inline pull-right" }, [
+                      _c("span", { staticClass: "mr-3" }, [
+                        _vm._v(
+                          "Page " +
+                            _vm._s(_vm.appPagination.current_page) +
+                            " of " +
+                            _vm._s(_vm.appPagination.last_page) +
+                            " ["
+                        ),
+                        _c("b", [
+                          _vm._v(_vm._s(_vm.appPagination.total) + " items")
+                        ]),
+                        _vm._v("]")
+                      ]),
+                      _vm._v(" "),
                       _c(
                         "label",
                         {
                           staticClass: "form-control-label mr-sm-2",
                           attrs: { for: "records_per_page" }
                         },
-                        [
-                          _vm._v(
-                            "\n                        Per Page\n                    "
-                          )
-                        ]
+                        [_vm._v("Per Page")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -67102,24 +67100,13 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("pagination", {
+                    staticClass: "mt-5 mb-3",
                     attrs: {
                       pagination: _vm.appPagination,
                       callback: _vm.fetchResources,
                       options: _vm.appPaginationOptions
                     }
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "mt-3 mb-3" }, [
-                    _vm._v(
-                      "\n                Page " +
-                        _vm._s(_vm.appPagination.current_page) +
-                        " of " +
-                        _vm._s(_vm.appPagination.last_page) +
-                        " [" +
-                        _vm._s(_vm.appPagination.total) +
-                        " items]\n            "
-                    )
-                  ])
+                  })
                 ],
                 1
               )
@@ -67226,7 +67213,6 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
 //
 //
 //
@@ -67479,17 +67465,27 @@ var render = function() {
                       : _vm._e(),
                     _vm._v(" "),
                     _c("form", { staticClass: "form-inline pull-right" }, [
+                      _c("span", { staticClass: "mr-3" }, [
+                        _vm._v(
+                          "Page " +
+                            _vm._s(_vm.appPagination.current_page) +
+                            " of " +
+                            _vm._s(_vm.appPagination.last_page) +
+                            " ["
+                        ),
+                        _c("b", [
+                          _vm._v(_vm._s(_vm.appPagination.total) + " items")
+                        ]),
+                        _vm._v("]")
+                      ]),
+                      _vm._v(" "),
                       _c(
                         "label",
                         {
                           staticClass: "form-control-label mr-sm-2",
                           attrs: { for: "records_per_page" }
                         },
-                        [
-                          _vm._v(
-                            "\n                        Per Page\n                    "
-                          )
-                        ]
+                        [_vm._v("Per Page")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -67759,21 +67755,13 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("pagination", {
+                    staticClass: "mt-5 mb-5",
                     attrs: {
                       pagination: _vm.appPagination,
                       callback: _vm.fetchResources,
                       options: _vm.appPaginationOptions
                     }
-                  }),
-                  _vm._v(
-                    "\n            Page " +
-                      _vm._s(_vm.appPagination.current_page) +
-                      " of " +
-                      _vm._s(_vm.appPagination.last_page) +
-                      " [" +
-                      _vm._s(_vm.appPagination.total) +
-                      " items]\n        "
-                  )
+                  })
                 ],
                 1
               )
@@ -69137,9 +69125,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -69315,17 +69300,27 @@ var render = function() {
                       : _vm._e(),
                     _vm._v(" "),
                     _c("form", { staticClass: "form-inline pull-right" }, [
+                      _c("span", { staticClass: "mr-3" }, [
+                        _vm._v(
+                          "Page " +
+                            _vm._s(_vm.appPagination.current_page) +
+                            " of " +
+                            _vm._s(_vm.appPagination.last_page) +
+                            " ["
+                        ),
+                        _c("b", [
+                          _vm._v(_vm._s(_vm.appPagination.total) + " items")
+                        ]),
+                        _vm._v("]")
+                      ]),
+                      _vm._v(" "),
                       _c(
                         "label",
                         {
                           staticClass: "form-control-label mr-sm-2",
                           attrs: { for: "records_per_page" }
                         },
-                        [
-                          _vm._v(
-                            "\n                        Per Page\n                    "
-                          )
-                        ]
+                        [_vm._v("Per Page")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -69646,24 +69641,13 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("pagination", {
+                    staticClass: "mt-5 mb-3",
                     attrs: {
                       pagination: _vm.appPagination,
                       callback: _vm.fetchResources,
                       options: _vm.appPaginationOptions
                     }
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "mt-3 mb-3" }, [
-                    _vm._v(
-                      "\n                Page " +
-                        _vm._s(_vm.appPagination.current_page) +
-                        " of " +
-                        _vm._s(_vm.appPagination.last_page) +
-                        " [" +
-                        _vm._s(_vm.appPagination.total) +
-                        " items]\n            "
-                    )
-                  ])
+                  })
                 ],
                 1
               )
@@ -69770,7 +69754,6 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
 //
 //
 //
@@ -70023,17 +70006,27 @@ var render = function() {
                       : _vm._e(),
                     _vm._v(" "),
                     _c("form", { staticClass: "form-inline pull-right" }, [
+                      _c("span", { staticClass: "mr-3" }, [
+                        _vm._v(
+                          "Page " +
+                            _vm._s(_vm.appPagination.current_page) +
+                            " of " +
+                            _vm._s(_vm.appPagination.last_page) +
+                            " ["
+                        ),
+                        _c("b", [
+                          _vm._v(_vm._s(_vm.appPagination.total) + " items")
+                        ]),
+                        _vm._v("]")
+                      ]),
+                      _vm._v(" "),
                       _c(
                         "label",
                         {
                           staticClass: "form-control-label mr-sm-2",
                           attrs: { for: "records_per_page" }
                         },
-                        [
-                          _vm._v(
-                            "\n                        Per Page\n                    "
-                          )
-                        ]
+                        [_vm._v("Per Page")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -70303,21 +70296,13 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("pagination", {
+                    staticClass: "mt-5 mb-5",
                     attrs: {
                       pagination: _vm.appPagination,
                       callback: _vm.fetchResources,
                       options: _vm.appPaginationOptions
                     }
-                  }),
-                  _vm._v(
-                    "\n            Page " +
-                      _vm._s(_vm.appPagination.current_page) +
-                      " of " +
-                      _vm._s(_vm.appPagination.last_page) +
-                      " [" +
-                      _vm._s(_vm.appPagination.total) +
-                      " items]\n        "
-                  )
+                  })
                 ],
                 1
               )
@@ -71909,9 +71894,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -72087,17 +72069,27 @@ var render = function() {
                       : _vm._e(),
                     _vm._v(" "),
                     _c("form", { staticClass: "form-inline pull-right" }, [
+                      _c("span", { staticClass: "mr-3" }, [
+                        _vm._v(
+                          "Page " +
+                            _vm._s(_vm.appPagination.current_page) +
+                            " of " +
+                            _vm._s(_vm.appPagination.last_page) +
+                            " ["
+                        ),
+                        _c("b", [
+                          _vm._v(_vm._s(_vm.appPagination.total) + " items")
+                        ]),
+                        _vm._v("]")
+                      ]),
+                      _vm._v(" "),
                       _c(
                         "label",
                         {
                           staticClass: "form-control-label mr-sm-2",
                           attrs: { for: "records_per_page" }
                         },
-                        [
-                          _vm._v(
-                            "\n                        Per Page\n                    "
-                          )
-                        ]
+                        [_vm._v("Per Page")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -72418,24 +72410,13 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("pagination", {
+                    staticClass: "mt-5 mb-3",
                     attrs: {
                       pagination: _vm.appPagination,
                       callback: _vm.fetchResources,
                       options: _vm.appPaginationOptions
                     }
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "mt-3 mb-3" }, [
-                    _vm._v(
-                      "\n                Page " +
-                        _vm._s(_vm.appPagination.current_page) +
-                        " of " +
-                        _vm._s(_vm.appPagination.last_page) +
-                        " [" +
-                        _vm._s(_vm.appPagination.total) +
-                        " items]\n            "
-                    )
-                  ])
+                  })
                 ],
                 1
               )
@@ -74176,7 +74157,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -74700,6 +74680,22 @@ var render = function() {
                             "form",
                             { staticClass: "form-inline pull-right" },
                             [
+                              _c("span", { staticClass: "mr-3" }, [
+                                _vm._v(
+                                  "Page " +
+                                    _vm._s(_vm.appPagination.current_page) +
+                                    " of " +
+                                    _vm._s(_vm.appPagination.last_page) +
+                                    " ["
+                                ),
+                                _c("b", [
+                                  _vm._v(
+                                    _vm._s(_vm.appPagination.total) + " items"
+                                  )
+                                ]),
+                                _vm._v("]")
+                              ]),
+                              _vm._v(" "),
                               _c(
                                 "label",
                                 {
@@ -75258,24 +75254,13 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("pagination", {
+                          staticClass: "mt-5 mb-3",
                           attrs: {
                             pagination: _vm.appPagination,
                             callback: _vm.fetchResources,
                             options: _vm.appPaginationOptions
                           }
-                        }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "mt-3 mb-3" }, [
-                          _vm._v(
-                            "\n                    Page " +
-                              _vm._s(_vm.appPagination.current_page) +
-                              " of " +
-                              _vm._s(_vm.appPagination.last_page) +
-                              " [" +
-                              _vm._s(_vm.appPagination.total) +
-                              " items]\n                "
-                          )
-                        ])
+                        })
                       ]
                     : _c("div", { staticClass: "mt-5" }, [
                         _vm._v("\n                No items found\n            ")
@@ -75380,8 +75365,6 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
 //
 //
 //
@@ -75650,17 +75633,27 @@ var render = function() {
                       : _vm._e(),
                     _vm._v(" "),
                     _c("form", { staticClass: "form-inline pull-right" }, [
+                      _c("span", { staticClass: "mr-3" }, [
+                        _vm._v(
+                          "Page " +
+                            _vm._s(_vm.appPagination.current_page) +
+                            " of " +
+                            _vm._s(_vm.appPagination.last_page) +
+                            " ["
+                        ),
+                        _c("b", [
+                          _vm._v(_vm._s(_vm.appPagination.total) + " items")
+                        ]),
+                        _vm._v("]")
+                      ]),
+                      _vm._v(" "),
                       _c(
                         "label",
                         {
                           staticClass: "form-control-label mr-sm-2",
                           attrs: { for: "records_per_page" }
                         },
-                        [
-                          _vm._v(
-                            "\n                        Per Page\n                    "
-                          )
-                        ]
+                        [_vm._v("Per Page")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -76073,21 +76066,13 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("pagination", {
+                    staticClass: "mt-5 mb-5",
                     attrs: {
                       pagination: _vm.appPagination,
                       callback: _vm.fetchResources,
                       options: _vm.appPaginationOptions
                     }
-                  }),
-                  _vm._v(
-                    "\n            Page " +
-                      _vm._s(_vm.appPagination.current_page) +
-                      " of " +
-                      _vm._s(_vm.appPagination.last_page) +
-                      " [" +
-                      _vm._s(_vm.appPagination.total) +
-                      " items]\n        "
-                  )
+                  })
                 ],
                 1
               )
@@ -78977,8 +78962,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -79169,17 +79152,27 @@ var render = function() {
                       : _vm._e(),
                     _vm._v(" "),
                     _c("form", { staticClass: "form-inline pull-right" }, [
+                      _c("span", { staticClass: "mr-3" }, [
+                        _vm._v(
+                          "Page " +
+                            _vm._s(_vm.appPagination.current_page) +
+                            " of " +
+                            _vm._s(_vm.appPagination.last_page) +
+                            " ["
+                        ),
+                        _c("b", [
+                          _vm._v(_vm._s(_vm.appPagination.total) + " items")
+                        ]),
+                        _vm._v("]")
+                      ]),
+                      _vm._v(" "),
                       _c(
                         "label",
                         {
                           staticClass: " mr-sm-2",
                           attrs: { for: "records_per_page" }
                         },
-                        [
-                          _vm._v(
-                            "\n                        Per Page\n                    "
-                          )
-                        ]
+                        [_vm._v("Per Page")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -79606,21 +79599,13 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("pagination", {
+                    staticClass: "mt-5 mb-3",
                     attrs: {
                       pagination: _vm.appPagination,
                       callback: _vm.fetchResources,
                       options: _vm.appPaginationOptions
                     }
-                  }),
-                  _vm._v(
-                    "\n            Page " +
-                      _vm._s(_vm.appPagination.current_page) +
-                      " of " +
-                      _vm._s(_vm.appPagination.last_page) +
-                      " [" +
-                      _vm._s(_vm.appPagination.total) +
-                      " records]\n\n        "
-                  )
+                  })
                 ],
                 1
               )

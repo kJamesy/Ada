@@ -55,6 +55,7 @@
                             </select>
                         </form>
                         <form class="form-inline pull-right">
+                            <span class="mr-3">Page {{ appPagination.current_page }} of {{ appPagination.last_page }} [<b>{{ appPagination.total }} items</b>]</span>
                             <label class="form-control-label mr-sm-2" for="records_per_page">Per Page</label>
                             <select class="custom-select form-control mb-2 mb-sm-0" v-model="appPerPage" id="records_per_page">
                                 <option v-for="option in appPerPageOptions" v-bind:value="option.value">
@@ -121,10 +122,8 @@
                         </table>
                     </div>
 
-                    <pagination :pagination="appPagination" :callback="fetchResources" :options="appPaginationOptions"></pagination>
-                    <div class="mt-3 mb-3">
-                        Page {{ appPagination.current_page }} of {{ appPagination.last_page }} [{{ appPagination.total }} items]
-                    </div>
+                    <pagination :pagination="appPagination" :callback="fetchResources" :options="appPaginationOptions" class="mt-5 mb-3"></pagination>
+
                 </template>
                 <div v-else="" class="mt-5">
                     No items found

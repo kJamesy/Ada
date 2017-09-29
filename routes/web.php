@@ -17,7 +17,7 @@ Route::redirect('/home', route('guest.home'));
 
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
-		$faker = \Faker\Factory::create();
+//		$faker = \Faker\Factory::create();
 	});
 
 	Route::get('worker', function() {
