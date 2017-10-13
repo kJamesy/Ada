@@ -24,7 +24,7 @@ const AppEditcreenPlugin = {
                         if ( response.data && response.data.resource ) {
                             if ( typeof vm.resource === 'object' ) {
                                 _.forEach(vm.resource, function (val, idx) {
-                                    if ( response.data.resource[idx] )
+                                    if ( response.data.resource.hasOwnProperty(idx) )
                                         vm.$set(vm.resource, idx, response.data.resource[idx]);
                                 });
 

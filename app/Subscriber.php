@@ -43,6 +43,15 @@ class Subscriber extends Model
 	}
 
 	/**
+	 * A Subscriber has many Injections
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function injections()
+	{
+		return $this->hasMany(Injection::class);
+	}
+
+	/**
 	 * A Subscriber has many Deliveries
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */

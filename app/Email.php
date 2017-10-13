@@ -72,6 +72,15 @@ class Email extends Model
 	}
 
 	/**
+	 * An Email has many Injections
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function injections()
+	{
+		return $this->hasMany(Injection::class);
+	}
+
+	/**
 	 * An Email has many Deliveries
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */

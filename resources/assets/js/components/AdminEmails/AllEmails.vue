@@ -106,7 +106,7 @@
                                     <td v-bind:title="resource.friendly_status" data-toggle="tooltip">
                                         <i v-if="resource.status === -2" class="fa fa-spinner"></i>
                                         <i v-if="resource.status === -1" class="fa fa-clock-o"></i>
-                                        <i v-if="resource.status === 0" class="fa fa-times"></i>
+                                        <i v-if="resource.status === 0" class="fa fa-exclamation-triangle text-danger"></i>
                                         <i v-if="resource.status === 1" class="fa fa-check"></i>
                                     </td>
                                     <td><span v-bind:title="resource.created_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.created_at | dateToTheDay }}</span></td>

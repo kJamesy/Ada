@@ -5,11 +5,13 @@ namespace App\Tracking;
 use App\Tracking\Traits\ClickTracking;
 use App\Tracking\Traits\DeliveryTracking;
 use App\Tracking\Traits\FailureTracking;
+use App\Tracking\Traits\InjectionTracking;
 use App\Tracking\Traits\OpenTracking;
 use Carbon\Carbon;
 
 class SparkyTracking
 {
+	use InjectionTracking;
 	use DeliveryTracking;
 	use OpenTracking;
 	use ClickTracking;
@@ -46,6 +48,9 @@ class SparkyTracking
 
 				if ( $event_type && $email_id && $subscriber_id && $event_time ) {
 					switch ( $event_type ) {
+						case 'injection':
+							$feedback = self::recordInjection($email_id, $subscriber_id, $event_time);
+							break;
 						case 'delivery' :
 							$feedback = self::recordDelivery($email_id, $subscriber_id, $event_time);
 							break;
