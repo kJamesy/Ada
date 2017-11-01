@@ -40,6 +40,7 @@ class TruncateSeededTables extends Command
 	        'clicks',
 	        'opens',
 	        'deliveries',
+	        'injections',
 	        'emails',
 	        'campaigns',
 	        'subscribers',

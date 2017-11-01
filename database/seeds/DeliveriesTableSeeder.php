@@ -11,6 +11,6 @@ class DeliveriesTableSeeder extends Seeder
      */
     public function run()
     {
-	    $deliveries = factory(\App\Delivery::class, 20000)->create();
+	    $deliveries = factory(\App\Delivery::class, 32000)->create();
     }
 }

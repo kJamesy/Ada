@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class EmailsTableSeeder extends Seeder
+class InjectionsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class EmailsTableSeeder extends Seeder
      */
     public function run()
     {
-	    $emails = factory(\App\Email::class, 210)->create();
+	    $injections = factory(\App\Injection::class, 35000)->create();
     }
 }

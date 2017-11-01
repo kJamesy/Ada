@@ -3,13 +3,10 @@
 use Faker\Generator as Faker;
 
 $factory->define(\App\Click::class, function (Faker $faker) {
-	$opens = cache()->remember('seed-opens', 120, function() {
-		return \App\Open::get();
-	});
 
-	if (  $opens->count() ) {
-		$open = $opens->random();
+	$open = \App\Open::inRandomOrder()->first();
 
+	if ( $open ) {
 		$first_clicked_at = $open->first_opened_at->addMinutes(rand(1,3));
 		$last_clicked_at = $first_clicked_at;
 		$clicks = rand(1,5);

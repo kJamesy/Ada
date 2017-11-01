@@ -220,7 +220,9 @@ class Email extends Model
 	 */
 	public static function findResource($id)
 	{
-		return static::with('user')->with('campaign')->isNotDeleted()->find($id);
+		return static::with('user')
+		             ->with('campaign')
+		             ->isNotDeleted()->find($id);
 	}
 
 	/**

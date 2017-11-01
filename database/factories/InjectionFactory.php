@@ -2,9 +2,10 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(\App\Delivery::class, function (Faker $faker) {
+$factory->define(\App\Injection::class, function (Faker $faker) {
 
-	$vars = findEligibleDelivery();
+	$vars = findEligibleInjection();
+
 	$email = $vars['email'];
 	$subscriber = $vars['subscriber'];
 
@@ -12,7 +13,7 @@ $factory->define(\App\Delivery::class, function (Faker $faker) {
 		return [
 			'email_id' => $email->id,
 			'subscriber_id' => $subscriber->id,
-			'delivered_at' => $email->sent_at->addMinutes(rand(5,10)),
+			'injected_at' => $email->sent_at->addMinutes(rand(1,5)),
 		];
 	}
 
@@ -21,10 +22,10 @@ $factory->define(\App\Delivery::class, function (Faker $faker) {
 });
 
 /**
- * Find an eligible delivery (one that has an injection and does not already exist)
+ * Find an eligible injection (one that does not already exist)
  * @return array
  */
-function findEligibleDelivery()
+function findEligibleInjection()
 {
 	$subscriber = cache()->remember('seed-subscribers', 120, function() {
 		return \App\Subscriber::where('is_deleted', 0)->where('active', 1)->get();
@@ -35,11 +36,7 @@ function findEligibleDelivery()
 	})->random();
 
 	if (  $email && $subscriber ) {
-		if ( $injectionExists = \App\Injection::findResourceBelongingTo( $email->id, $subscriber->id ) ) {
-			if ( $exists = \App\Delivery::findResourceBelongingTo( $email->id, $subscriber->id ) )
-				return findEligibleInjection();
-		}
-		else
+		if ( $exists = \App\Injection::findResourceBelongingTo( $email->id, $subscriber->id ) )
 			return findEligibleInjection();
 	}
 

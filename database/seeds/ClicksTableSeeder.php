@@ -11,6 +11,6 @@ class ClicksTableSeeder extends Seeder
      */
     public function run()
     {
-	    $clicks = factory(\App\Click::class, 8000)->create();
+	    $clicks = factory(\App\Click::class, 10000)->create();
     }
 }

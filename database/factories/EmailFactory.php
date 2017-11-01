@@ -16,18 +16,10 @@ $factory->define(\App\Email::class, function (Faker $faker) {
 			break;
 	endswitch;
 
-	$campaigns = cache()->remember('seed-campaigns', 120, function() {
-		return \App\Campaign::where('is_deleted', 0)->get();
-	});
+	$campaign = \App\Campaign::where('is_deleted', 0)->inRandomOrder()->first();
+	$user = \App\User::where('active', 1)->inRandomOrder()->first();
 
-	$users = cache()->remember('seed-users', 120, function() {
-		return \App\User::where('active', 1)->get();
-	});
-
-	if (  $campaigns->count() && $users->count() ) {
-		$campaign = $campaigns->random();
-		$user = $users->random();
-
+	if (  $campaign && $user ) {
 		return [
 			'user_id'        => $user->id,
 			'campaign_id'    => $campaign->id,

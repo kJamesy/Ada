@@ -77237,6 +77237,58 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -77251,10 +77303,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             fetchingData: true,
             resource: { id: '', sender: '', reply_to_email: '', subject: '', content: '', recipients_num: 0,
                 status: '', friendly_status: '', created_at: '', updated_at: '', sent_at: '', user: {}, campaign: '', url: '', pdf: '' },
-            recipientsViewOptions: [{ text: 'Select Recipients To View', value: '' }, { text: 'All', value: 'injections' }, { text: 'Delivered', value: 'deliveries' }, { text: 'Read Confirmed', value: 'opens' }, { text: 'Clicked', value: 'clicks' }, { text: 'Failed', value: 'failures' }]
+            recipientsViewOptions: [{ text: 'Select Recipients To View', value: '' }, { text: 'All', value: 'injections' }, { text: 'Delivered', value: 'deliveries' }, { text: 'Confirmed Open', value: 'opens' }, { text: 'Clicked', value: 'clicks' }, { text: 'Failed', value: 'failures' }],
+            recipientsViewOption: '',
+            viewingRecipients: false,
+            fetchingRecipients: true,
+            recipients: [],
+            pagination: {},
+            paginationOptions: {
+                offset: 5,
+                alwaysShowPrevNext: true
+            },
+            perPageOptions: [{ text: '25', value: 25 }, { text: '50', value: 50 }, { text: '100', value: 100 }, { text: '500', value: 500 }],
+            orderAttr: 'updated_at',
+            order: 'desc',
+            orderToggle: -1,
+            perPage: 25,
+            searchText: '',
+            searching: false
         };
     },
 
+    computed: {
+        orderedRecipients: function orderedRecipients() {
+            return _.orderBy(this.recipients, ['first_name', 'last_name'], ['asc']);
+        }
+    },
     methods: {
         showResource: function showResource() {
             this.appShowResource();
@@ -77269,6 +77342,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         resizeIframe: function resizeIframe(event) {
             var iframe = event.target;
             if (iframe) iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
+        },
+        fetchRecipients: function fetchRecipients() {
+            var vm = this;
+            vm.fetchingRecipients = true;
+
+            vm.viewingRecipients = true;
+            vm.fetchingRecipients = false;
+        },
+        doRecipientsSearch: function doRecipientsSearch() {
+            var vm = this;
+
+            if (vm.searchText.length) {
+                //                    vm.appResources = [];
+                //                    vm.appPagination = vm.appGetInitialPagination();
+                //                    vm.appSearching = true;
+                //                    if ( typeof vm.fetchResources === 'function' )
+                //                        vm.fetchResources();
+            }
+        },
+        getInitialPagination: function getInitialPagination() {
+            return {
+                total: 0,
+                per_page: 100,
+                current_page: 1,
+                last_page: 0,
+                from: 1,
+                to: 100
+            };
+        }
+    },
+    watch: {
+        'recipientsViewOption': function recipientsViewOption(newVal) {
+            var vm = this;
+            if (newVal.length) {
+                vm.pagination = vm.getInitialPagination();
+                vm.fetchRecipients();
+            } else vm.viewingRecipients = false;
         }
     }
 });
@@ -77500,7 +77610,51 @@ var render = function() {
                         ),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-sm-9" }, [
-                          _vm._v(_vm._s(_vm.resource.recipients_num))
+                          _c("label", { attrs: { for: "viewRecipients" } }),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.recipientsViewOption,
+                                  expression: "recipientsViewOption"
+                                }
+                              ],
+                              attrs: { id: "viewRecipients" },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.recipientsViewOption = $event.target
+                                    .multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                }
+                              }
+                            },
+                            _vm._l(_vm.recipientsViewOptions, function(option) {
+                              return _c(
+                                "option",
+                                { domProps: { value: option.value } },
+                                [
+                                  _vm._v(
+                                    "\n                            " +
+                                      _vm._s(option.text) +
+                                      "\n                    "
+                                  )
+                                ]
+                              )
+                            })
+                          )
                         ])
                       ])
                     : _vm._e(),
@@ -77509,15 +77663,243 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-12" }, [
-                      _c("iframe", {
-                        staticStyle: { width: "100%", border: "none" },
-                        attrs: { src: _vm.resource.url },
-                        on: {
-                          load: function($event) {
-                            _vm.resizeIframe($event)
-                          }
-                        }
-                      })
+                      !_vm.viewingRecipients
+                        ? _c("div", [
+                            _c("iframe", {
+                              staticStyle: { width: "100%", border: "none" },
+                              attrs: { src: _vm.resource.url },
+                              on: {
+                                load: function($event) {
+                                  _vm.resizeIframe($event)
+                                }
+                              }
+                            })
+                          ])
+                        : _c("div", [
+                            _vm.fetchingRecipients
+                              ? _c("div", [
+                                  _c("i", {
+                                    staticClass: "fa fa-spinner fa-spin"
+                                  })
+                                ])
+                              : _c(
+                                  "div",
+                                  [
+                                    _c("div", { staticClass: "row" }, [
+                                      _c("div", { staticClass: "col-md-6" }, [
+                                        _c(
+                                          "form",
+                                          {
+                                            staticClass: "form-inline",
+                                            on: {
+                                              submit: function($event) {
+                                                $event.preventDefault()
+                                                _vm.doRecipientsSearch($event)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              { staticClass: "form-group" },
+                                              [
+                                                _c(
+                                                  "label",
+                                                  {
+                                                    staticClass:
+                                                      "form-control-label"
+                                                  },
+                                                  [_vm._v(" ")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model.trim",
+                                                      value: _vm.searchText,
+                                                      expression: "searchText",
+                                                      modifiers: { trim: true }
+                                                    }
+                                                  ],
+                                                  staticClass: "form-control",
+                                                  attrs: {
+                                                    type: "text",
+                                                    placeholder: "Search"
+                                                  },
+                                                  domProps: {
+                                                    value: _vm.searchText
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.searchText = $event.target.value.trim()
+                                                    },
+                                                    blur: function($event) {
+                                                      _vm.$forceUpdate()
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "col-md-6" }, [
+                                        _c(
+                                          "form",
+                                          {
+                                            staticClass:
+                                              "form-inline pull-right"
+                                          },
+                                          [
+                                            _c(
+                                              "span",
+                                              { staticClass: "mr-3" },
+                                              [
+                                                _vm._v(
+                                                  "Page " +
+                                                    _vm._s(
+                                                      _vm.pagination
+                                                        .current_page
+                                                    ) +
+                                                    " of " +
+                                                    _vm._s(
+                                                      _vm.pagination.last_page
+                                                    ) +
+                                                    " ["
+                                                ),
+                                                _c("b", [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.pagination.total
+                                                    ) + " items"
+                                                  )
+                                                ]),
+                                                _vm._v("]")
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "label",
+                                              {
+                                                staticClass:
+                                                  "form-control-label mr-sm-2",
+                                                attrs: {
+                                                  for: "records_per_page"
+                                                }
+                                              },
+                                              [_vm._v("Per Page")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "select",
+                                              {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.perPage,
+                                                    expression: "perPage"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "custom-select form-control mb-2 mb-sm-0",
+                                                attrs: {
+                                                  id: "records_per_page"
+                                                },
+                                                on: {
+                                                  change: function($event) {
+                                                    var $$selectedVal = Array.prototype.filter
+                                                      .call(
+                                                        $event.target.options,
+                                                        function(o) {
+                                                          return o.selected
+                                                        }
+                                                      )
+                                                      .map(function(o) {
+                                                        var val =
+                                                          "_value" in o
+                                                            ? o._value
+                                                            : o.value
+                                                        return val
+                                                      })
+                                                    _vm.perPage = $event.target
+                                                      .multiple
+                                                      ? $$selectedVal
+                                                      : $$selectedVal[0]
+                                                  }
+                                                }
+                                              },
+                                              _vm._l(
+                                                _vm.perPageOptions,
+                                                function(option) {
+                                                  return _c(
+                                                    "option",
+                                                    {
+                                                      domProps: {
+                                                        value: option.value
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                                " +
+                                                          _vm._s(option.text) +
+                                                          "\n                                            "
+                                                      )
+                                                    ]
+                                                  )
+                                                }
+                                              )
+                                            )
+                                          ]
+                                        )
+                                      ])
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "table-responsive" },
+                                      [
+                                        _c(
+                                          "table",
+                                          {
+                                            staticClass: "table table-striped"
+                                          },
+                                          [
+                                            _vm._m(0),
+                                            _vm._v(" "),
+                                            _c(
+                                              "tbody",
+                                              _vm._l(
+                                                _vm.orderedRecipients,
+                                                function(recipient) {
+                                                  return _c("tr")
+                                                }
+                                              )
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("pagination", {
+                                      staticClass: "mt-5 mb-3",
+                                      attrs: {
+                                        pagination: _vm.pagination,
+                                        callback: _vm.fetchRecipients,
+                                        options: _vm.paginationOptions
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                          ])
                     ])
                   ])
                 ])
@@ -77533,7 +77915,14 @@ var render = function() {
     2
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [_c("tr", { staticClass: "pointer-cursor" })])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

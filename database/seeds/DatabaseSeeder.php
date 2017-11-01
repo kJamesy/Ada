@@ -12,17 +12,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-    	Artisan::call('db:truncate-seeded');
+//    	Artisan::call('db:truncate-seeded');
 
-         $this->call(UsersTableSeeder::class);
-         $this->call(TemplatesTableSeeder::class);
-         $this->call(MailingListsTableSeeder::class);
-         $this->call(SubscribersTableSeeder::class);
-         $this->call(CampaignsTableSeeder::class);
-         $this->call(EmailsTableSeeder::class);
-         $this->call(DeliveriesTableSeeder::class);
-         $this->call(OpensTableSeeder::class);
-         $this->call(ClicksTableSeeder::class);
-         $this->call(FailuresTableSeeder::class);
+//		$this->call(UsersTableSeeder::class);
+		$this->call(TemplatesTableSeeder::class);
+		$this->call(MailingListsTableSeeder::class);
+		$this->call(SubscribersTableSeeder::class);
+		$this->call(CampaignsTableSeeder::class);
+		$this->call(EmailsTableSeeder::class);
+        $this->call(InjectionsTableSeeder::class);
+        $this->call(DeliveriesTableSeeder::class);
+		$this->call(OpensTableSeeder::class);
+		$this->call(ClicksTableSeeder::class);
+		$this->call(FailuresTableSeeder::class);
     }
 }
