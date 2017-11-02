@@ -17,8 +17,10 @@ Route::redirect('/home', route('guest.home'));
 
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
-//		$faker = \Faker\Factory::create();
-
+		$results = \App\Email::getRecipients(146, 'clicks', [], 'injected_at', 'asc', 5);
+		foreach(  $results as $result ) {
+			var_dump($result->subscriber->first_name);
+		}
 	});
 
 	Route::get('worker', function() {
@@ -80,6 +82,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 			Route::put('email-settings/{option}/quick-update', 'EmailSettingController@quickUpdate');
 			Route::resource('email-settings', 'EmailSettingController');
 			Route::put('emails/{option}/quick-update', 'EmailController@quickUpdate');
+			Route::get('emails/{id}/recipients', 'EmailController@getRecipients');
 			Route::resource('emails', 'EmailController');
 		});
 

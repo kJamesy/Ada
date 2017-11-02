@@ -64,16 +64,17 @@ class Failure extends Model
 	 * Find resource with given conditions
 	 * @param $email_id
 	 * @param $subscriber_id
-	 * @param $link
+	 * @param $type
 	 *
 	 * @return Model|null|static
 	 */
-	public static function findResourceBelongingTo($email_id, $subscriber_id)
+	public static function findResourceBelongingTo($email_id, $subscriber_id, $type)
 	{
 		return static::with('email')
 		             ->with('subscriber')
 		             ->where('email_id', $email_id)
 		             ->where('subscriber_id', $subscriber_id)
+		             ->where('type', $type)
 		             ->first();
 	}
 

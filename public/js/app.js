@@ -75273,7 +75273,7 @@ var render = function() {
                                               staticClass:
                                                 "btn btn-sm btn-outline-primary",
                                               class:
-                                                resource.status < 0
+                                                resource.status < 1
                                                   ? "disabled"
                                                   : "",
                                               attrs: {
@@ -77289,6 +77289,76 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -77302,8 +77372,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             fetchingData: true,
             resource: { id: '', sender: '', reply_to_email: '', subject: '', content: '', recipients_num: 0,
-                status: '', friendly_status: '', created_at: '', updated_at: '', sent_at: '', user: {}, campaign: '', url: '', pdf: '' },
-            recipientsViewOptions: [{ text: 'Select Recipients To View', value: '' }, { text: 'All', value: 'injections' }, { text: 'Delivered', value: 'deliveries' }, { text: 'Confirmed Open', value: 'opens' }, { text: 'Clicked', value: 'clicks' }, { text: 'Failed', value: 'failures' }],
+                status: '', friendly_status: '', created_at: '', updated_at: '', sent_at: '', user: {},
+                campaign: '', url: '', pdf: '', injections_count: 0, deliveries_count: 0, opens_count: 0,
+                clicks_count: 0, failures_count: 0 },
+            recipientsViewOptions: [{ text: 'Select Recipients to View', value: '' }, { text: 'All', value: 'injections' }, { text: 'Delivered', value: 'deliveries' }, { text: 'Confirmed Open', value: 'opens' }, { text: 'Clicked', value: 'clicks' }, { text: 'Failed', value: 'failures' }],
             recipientsViewOption: '',
             viewingRecipients: false,
             fetchingRecipients: true,
@@ -77314,9 +77386,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 alwaysShowPrevNext: true
             },
             perPageOptions: [{ text: '25', value: 25 }, { text: '50', value: 50 }, { text: '100', value: 100 }, { text: '500', value: 500 }],
-            orderAttr: 'updated_at',
-            order: 'desc',
-            orderToggle: -1,
+            orderAttr: 'first_name',
+            order: 'asc',
+            orderToggle: 1,
             perPage: 25,
             searchText: '',
             searching: false
@@ -77325,7 +77397,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         orderedRecipients: function orderedRecipients() {
-            return _.orderBy(this.recipients, ['first_name', 'last_name'], ['asc']);
+            return _.orderBy(this.recipients, [this.orderAttr, 'first_name'], [this.orderToggle === 1 ? 'asc' : 'desc', 'asc']);
         }
     },
     methods: {
@@ -77337,6 +77409,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             vm.$on('successfulfetch', function () {
                 vm.rootEventsHub.$emit('show-edit-tab', { resource: vm.resource });
+
+                vm.recipientsViewOptions = [{ text: 'Select Recipients to View', value: '' }, { text: 'All (' + vm.resource.injections_count + ')', value: 'injections' }, { text: 'Delivered (' + vm.resource.deliveries_count + ')', value: 'deliveries' }, { text: 'Confirmed Open (' + vm.resource.opens_count + ')', value: 'opens' }, { text: 'Clicked (' + vm.resource.clicks_count + ')', value: 'clicks' }, { text: 'Failed (' + vm.resource.failures_count + ')', value: 'failures' }];
             });
         },
         resizeIframe: function resizeIframe(event) {
@@ -77345,40 +77419,143 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         fetchRecipients: function fetchRecipients() {
             var vm = this;
+            var progress = vm.$Progress;
+            var orderBy = vm.orderAttr;
+            var lastPage = _.ceil(vm.pagination.total / vm.pagination.per_page);
+
+            var params = {
+                type: vm.recipientsViewOption,
+                perPage: vm.pagination.per_page,
+                page: lastPage < vm.pagination.last_page ? 1 : vm.pagination.current_page,
+                orderBy: orderBy,
+                order: vm.orderToggle === 1 ? 'asc' : 'desc'
+            };
+
+            if (vm.searchText.length) params.search = vm.searchText;
+
+            progress.start();
+            vm.viewingRecipients = true;
             vm.fetchingRecipients = true;
 
-            vm.viewingRecipients = true;
-            vm.fetchingRecipients = false;
+            vm.$http.get(vm.appResourceUrl + '/' + vm.id + '/recipients', { params: params }).then(function (response) {
+                var recipients = response.data.recipients;
+
+                if (recipients && recipients.data && recipients.data.length) {
+                    vm.recipients = recipients.data;
+                    vm.orderAttr = orderBy;
+                    vm.order = vm.orderToggle === 1 ? 'asc' : 'desc';
+
+                    vm.$set(vm, 'pagination', {
+                        total: recipients.total,
+                        per_page: recipients.per_page,
+                        current_page: recipients.current_page,
+                        last_page: recipients.last_page,
+                        from: recipients.from,
+                        to: recipients.to
+                    });
+
+                    vm.appInitialiseTooltip();
+                    progress.finish();
+                    vm.fetchingRecipients = false;
+                } else {
+                    var message = vm.searching ? 'Your search returned no results. Please try again with different keywords' : 'No records found';
+
+                    if (vm.searching) vm.appCustomErrorAlertConfirmed(message);
+
+                    vm.searchText = '';
+                    vm.recipients = [];
+                    vm.fetchingRecipients = false;
+                    progress.fail();
+                }
+            }, function (error) {
+                if (error.status && error.status === 403 && error.data) vm.appCustomErrorAlert(error.data.error);else if (error.status && error.status === 404 && error.data) {
+                    var message = vm.searching ? 'Your search returned no results. Please try again with different keywords' : error.data.error;
+
+                    if (vm.searching) vm.appCustomErrorAlertConfirmed(message);
+                } else vm.appGeneralErrorAlert();
+
+                vm.searchText = '';
+                vm.recipients = [];
+                vm.fetchingRecipients = false;
+                progress.fail();
+            });
         },
         doRecipientsSearch: function doRecipientsSearch() {
             var vm = this;
 
             if (vm.searchText.length) {
-                //                    vm.appResources = [];
-                //                    vm.appPagination = vm.appGetInitialPagination();
-                //                    vm.appSearching = true;
-                //                    if ( typeof vm.fetchResources === 'function' )
-                //                        vm.fetchResources();
+                vm.recipients = [];
+                vm.pagination = vm.getInitialPagination();
+                vm.searching = true;
+
+                vm.fetchRecipients();
             }
         },
         getInitialPagination: function getInitialPagination() {
             return {
                 total: 0,
-                per_page: 100,
+                per_page: 25,
                 current_page: 1,
                 last_page: 0,
                 from: 1,
-                to: 100
+                to: 25
             };
+        },
+        changeSort: function changeSort(attr) {
+            var vm = this;
+
+            vm.orderToggle = _.toLower(vm.orderAttr) === _.toLower(attr) ? vm.orderToggle * -1 : 1;
+            vm.orderAttr = attr;
+
+            vm.fetchRecipients();
+        },
+        getSortMarkup: function getSortMarkup(attr) {
+            var vm = this;
+            var html = '';
+
+            if (_.toLower(vm.orderAttr) === _.toLower(attr)) html = vm.orderToggle === 1 ? '&darr;' : '&uarr;';
+            return html;
+        },
+        getStatusHtml: function getStatusHtml(status) {
+            switch (status) {
+                case 'failed':
+                    return "<i title='Failed' data-toggle='tooltip' class='fa fa-times'></i>";
+                    break;
+                case 'clicked':
+                    return "<i title='Clicked' data-toggle='tooltip' class='fa fa-mouse-pointer'></i>";
+                    break;
+                case 'opened':
+                    return "<i title='Opened' data-toggle='tooltip' class='fa fa-envelope-open-o'></i>";
+                    break;
+                case 'delivered':
+                    return "<i title='Delivered' data-toggle='tooltip' class='fa fa-envelope'></i>";
+                    break;
+                case 'unknown':
+                    return "<i title='Dispatched' data-toggle='tooltip' class='fa fa-paper-plane-o'></i>";
+                    break;
+            }
         }
     },
     watch: {
-        'recipientsViewOption': function recipientsViewOption(newVal) {
+        recipientsViewOption: function recipientsViewOption(newVal) {
             var vm = this;
             if (newVal.length) {
                 vm.pagination = vm.getInitialPagination();
                 vm.fetchRecipients();
             } else vm.viewingRecipients = false;
+        },
+        perPage: function perPage(newVal, oldVal) {
+            var vm = this;
+
+            if (newVal !== oldVal) vm.pagination.per_page = newVal;
+        },
+        searchText: function searchText(newVal, oldVal) {
+            var vm = this;
+
+            if (oldVal.length && !newVal.length) {
+                vm.searching = false;
+                vm.fetchRecipients();
+            }
         }
     }
 });
@@ -77592,7 +77769,24 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm.resource.recipients_num
+                  _vm.resource.status === -1
+                    ? _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "col-sm-3 text-sm-right font-weight-bold"
+                          },
+                          [_vm._v("Recipients:")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-sm-9" }, [
+                          _vm._v(_vm._s(_vm.resource.recipients_num))
+                        ])
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.resource.injections_count
                     ? _c("div", { staticClass: "row" }, [
                         _c(
                           "div",
@@ -77603,7 +77797,7 @@ var render = function() {
                           [
                             _vm._v(
                               "Recipients (" +
-                                _vm._s(_vm.resource.recipients_num) +
+                                _vm._s(_vm.resource.injections_count) +
                                 "):"
                             )
                           ]
@@ -77685,7 +77879,7 @@ var render = function() {
                               : _c(
                                   "div",
                                   [
-                                    _c("div", { staticClass: "row" }, [
+                                    _c("div", { staticClass: "row mt-3" }, [
                                       _c("div", { staticClass: "col-md-6" }, [
                                         _c(
                                           "form",
@@ -77864,7 +78058,7 @@ var render = function() {
                                     _vm._v(" "),
                                     _c(
                                       "div",
-                                      { staticClass: "table-responsive" },
+                                      { staticClass: "table-responsive mt-5" },
                                       [
                                         _c(
                                           "table",
@@ -77872,14 +78066,1046 @@ var render = function() {
                                             staticClass: "table table-striped"
                                           },
                                           [
-                                            _vm._m(0),
+                                            _c("thead", [
+                                              _c(
+                                                "tr",
+                                                {
+                                                  staticClass: "pointer-cursor"
+                                                },
+                                                [
+                                                  _c(
+                                                    "th",
+                                                    {
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          $event.preventDefault()
+                                                          _vm.changeSort(
+                                                            "first_name"
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v("Recipient "),
+                                                      _c("span", {
+                                                        domProps: {
+                                                          innerHTML: _vm._s(
+                                                            _vm.getSortMarkup(
+                                                              "first_name"
+                                                            )
+                                                          )
+                                                        }
+                                                      })
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "th",
+                                                    {
+                                                      staticStyle: {
+                                                        cursor: "default"
+                                                      }
+                                                    },
+                                                    [_vm._v("Status")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _vm.recipientsViewOption ===
+                                                  "injections"
+                                                    ? [
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "injected_at"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Dispatched "
+                                                            ),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "injected_at"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        )
+                                                      ]
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  _vm.recipientsViewOption ===
+                                                  "deliveries"
+                                                    ? [
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "delivered_at"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Delivered "
+                                                            ),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "delivered_at"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        )
+                                                      ]
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  _vm.recipientsViewOption ===
+                                                  "opens"
+                                                    ? [
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "ip_address"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v("IP "),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "ip_address"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "country"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v("Country "),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "country"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "device"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v("Device "),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "device"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "os"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v("OS "),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "os"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "browser"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v("Browser "),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "browser"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "opens"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v("Opens "),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "opens"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "first_opened_at"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "First Opened "
+                                                            ),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "first_opened_at"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "last_opened_at"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Last Opened "
+                                                            ),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "last_opened_at"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        )
+                                                      ]
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  _vm.recipientsViewOption ===
+                                                  "clicks"
+                                                    ? [
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "link"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v("Link "),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "link"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "clicks"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v("Clicks "),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "clicks"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "first_clicked_at"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "First Clicked "
+                                                            ),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "first_clicked_at"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "last_clicked_at"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Last Clicked "
+                                                            ),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "last_clicked_at"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        )
+                                                      ]
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  _vm.recipientsViewOption ===
+                                                  "failures"
+                                                    ? [
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "type"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v("Type "),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "type"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "reason"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v("Reason "),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "reason"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "fails"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v("Fails "),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "fails"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "first_failed_at"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "First Failed "
+                                                            ),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "first_failed_at"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "th",
+                                                          {
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.changeSort(
+                                                                  "last_failed_at"
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Last Failed "
+                                                            ),
+                                                            _c("span", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getSortMarkup(
+                                                                    "last_failed_at"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        )
+                                                      ]
+                                                    : _vm._e()
+                                                ],
+                                                2
+                                              )
+                                            ]),
                                             _vm._v(" "),
                                             _c(
                                               "tbody",
                                               _vm._l(
                                                 _vm.orderedRecipients,
                                                 function(recipient) {
-                                                  return _c("tr")
+                                                  return _c(
+                                                    "tr",
+                                                    [
+                                                      _c("td", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            recipient.first_name
+                                                          ) +
+                                                            " " +
+                                                            _vm._s(
+                                                              recipient.last_name
+                                                            ) +
+                                                            " <" +
+                                                            _vm._s(
+                                                              recipient.email
+                                                            ) +
+                                                            ">"
+                                                        )
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _c("td", [
+                                                        recipient.failed
+                                                          ? _c("small", {
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  _vm.getStatusHtml(
+                                                                    "failed"
+                                                                  )
+                                                                )
+                                                              }
+                                                            })
+                                                          : recipient.clicked
+                                                            ? _c("small", {
+                                                                domProps: {
+                                                                  innerHTML: _vm._s(
+                                                                    _vm.getStatusHtml(
+                                                                      "clicked"
+                                                                    )
+                                                                  )
+                                                                }
+                                                              })
+                                                            : recipient.opened
+                                                              ? _c("small", {
+                                                                  domProps: {
+                                                                    innerHTML: _vm._s(
+                                                                      _vm.getStatusHtml(
+                                                                        "opened"
+                                                                      )
+                                                                    )
+                                                                  }
+                                                                })
+                                                              : recipient.delivered
+                                                                ? _c("small", {
+                                                                    domProps: {
+                                                                      innerHTML: _vm._s(
+                                                                        _vm.getStatusHtml(
+                                                                          "delivered"
+                                                                        )
+                                                                      )
+                                                                    }
+                                                                  })
+                                                                : _c("small", {
+                                                                    domProps: {
+                                                                      innerHTML: _vm._s(
+                                                                        _vm.getStatusHtml(
+                                                                          "unknown"
+                                                                        )
+                                                                      )
+                                                                    }
+                                                                  })
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _vm.recipientsViewOption ===
+                                                      "injections"
+                                                        ? [
+                                                            _c("td", [
+                                                              _c(
+                                                                "span",
+                                                                {
+                                                                  attrs: {
+                                                                    title: _vm._f(
+                                                                      "dateToTheMinWithDayOfWeek"
+                                                                    )(
+                                                                      recipient.injected_at
+                                                                    ),
+                                                                    "data-toggle":
+                                                                      "tooltip"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm._f(
+                                                                        "dateToTheMinute"
+                                                                      )(
+                                                                        recipient.injected_at
+                                                                      )
+                                                                    )
+                                                                  )
+                                                                ]
+                                                              )
+                                                            ])
+                                                          ]
+                                                        : _vm._e(),
+                                                      _vm._v(" "),
+                                                      _vm.recipientsViewOption ===
+                                                      "deliveries"
+                                                        ? [
+                                                            _c("td", [
+                                                              _c(
+                                                                "span",
+                                                                {
+                                                                  attrs: {
+                                                                    title: _vm._f(
+                                                                      "dateToTheMinWithDayOfWeek"
+                                                                    )(
+                                                                      recipient.delivered_at
+                                                                    ),
+                                                                    "data-toggle":
+                                                                      "tooltip"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm._f(
+                                                                        "dateToTheMinute"
+                                                                      )(
+                                                                        recipient.delivered_at
+                                                                      )
+                                                                    )
+                                                                  )
+                                                                ]
+                                                              )
+                                                            ])
+                                                          ]
+                                                        : _vm._e(),
+                                                      _vm._v(" "),
+                                                      _vm.recipientsViewOption ===
+                                                      "opens"
+                                                        ? [
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  recipient.ip_address
+                                                                )
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  recipient.country
+                                                                )
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  recipient.device
+                                                                )
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  recipient.os
+                                                                )
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  recipient.browser
+                                                                )
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  recipient.opens
+                                                                )
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _c(
+                                                                "span",
+                                                                {
+                                                                  attrs: {
+                                                                    title: _vm._f(
+                                                                      "dateToTheMinWithDayOfWeek"
+                                                                    )(
+                                                                      recipient.first_opened_at
+                                                                    ),
+                                                                    "data-toggle":
+                                                                      "tooltip"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm._f(
+                                                                        "dateToTheMinute"
+                                                                      )(
+                                                                        recipient.first_opened_at
+                                                                      )
+                                                                    )
+                                                                  )
+                                                                ]
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _c(
+                                                                "span",
+                                                                {
+                                                                  attrs: {
+                                                                    title: _vm._f(
+                                                                      "dateToTheMinWithDayOfWeek"
+                                                                    )(
+                                                                      recipient.last_opened_at
+                                                                    ),
+                                                                    "data-toggle":
+                                                                      "tooltip"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm._f(
+                                                                        "dateToTheMinute"
+                                                                      )(
+                                                                        recipient.last_opened_at
+                                                                      )
+                                                                    )
+                                                                  )
+                                                                ]
+                                                              )
+                                                            ])
+                                                          ]
+                                                        : _vm._e(),
+                                                      _vm._v(" "),
+                                                      _vm.recipientsViewOption ===
+                                                      "clicks"
+                                                        ? [
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  recipient.link
+                                                                )
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  recipient.clicks
+                                                                )
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _c(
+                                                                "span",
+                                                                {
+                                                                  attrs: {
+                                                                    title: _vm._f(
+                                                                      "dateToTheMinWithDayOfWeek"
+                                                                    )(
+                                                                      recipient.first_clicked_at
+                                                                    ),
+                                                                    "data-toggle":
+                                                                      "tooltip"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm._f(
+                                                                        "dateToTheMinute"
+                                                                      )(
+                                                                        recipient.first_clicked_at
+                                                                      )
+                                                                    )
+                                                                  )
+                                                                ]
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _c(
+                                                                "span",
+                                                                {
+                                                                  attrs: {
+                                                                    title: _vm._f(
+                                                                      "dateToTheMinWithDayOfWeek"
+                                                                    )(
+                                                                      recipient.last_clicked_at
+                                                                    ),
+                                                                    "data-toggle":
+                                                                      "tooltip"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm._f(
+                                                                        "dateToTheMinute"
+                                                                      )(
+                                                                        recipient.last_clicked_at
+                                                                      )
+                                                                    )
+                                                                  )
+                                                                ]
+                                                              )
+                                                            ])
+                                                          ]
+                                                        : _vm._e(),
+                                                      _vm._v(" "),
+                                                      _vm.recipientsViewOption ===
+                                                      "failures"
+                                                        ? [
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  recipient.type
+                                                                )
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  recipient.reason
+                                                                    ? recipient.reason
+                                                                    : "-"
+                                                                )
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _vm._v(
+                                                                _vm._s(
+                                                                  recipient.fails
+                                                                )
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _c(
+                                                                "span",
+                                                                {
+                                                                  attrs: {
+                                                                    title: _vm._f(
+                                                                      "dateToTheMinWithDayOfWeek"
+                                                                    )(
+                                                                      recipient.first_failed_at
+                                                                    ),
+                                                                    "data-toggle":
+                                                                      "tooltip"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm._f(
+                                                                        "dateToTheMinute"
+                                                                      )(
+                                                                        recipient.first_failed_at
+                                                                      )
+                                                                    )
+                                                                  )
+                                                                ]
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _c(
+                                                                "span",
+                                                                {
+                                                                  attrs: {
+                                                                    title: _vm._f(
+                                                                      "dateToTheMinWithDayOfWeek"
+                                                                    )(
+                                                                      recipient.last_failed_at
+                                                                    ),
+                                                                    "data-toggle":
+                                                                      "tooltip"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm._f(
+                                                                        "dateToTheMinute"
+                                                                      )(
+                                                                        recipient.last_failed_at
+                                                                      )
+                                                                    )
+                                                                  )
+                                                                ]
+                                                              )
+                                                            ])
+                                                          ]
+                                                        : _vm._e()
+                                                    ],
+                                                    2
+                                                  )
                                                 }
                                               )
                                             )
@@ -77915,14 +79141,7 @@ var render = function() {
     2
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [_c("tr", { staticClass: "pointer-cursor" })])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Searchable;
 
 class Email extends Model
@@ -222,6 +223,9 @@ class Email extends Model
 	{
 		return static::with('user')
 		             ->with('campaign')
+		             ->withCount(['injections', 'deliveries', 'opens'])
+		             ->selectRaw("(SELECT COUNT(DISTINCT subscriber_id) FROM clicks WHERE email_id = $id) AS clicks_count")
+		             ->selectRaw("(SELECT COUNT(DISTINCT subscriber_id) FROM failures WHERE email_id = $id) AS failures_count")
 		             ->isNotDeleted()->find($id);
 	}
 
@@ -341,6 +345,107 @@ class Email extends Model
 		}
 
 		return $count;
+	}
+
+	/**
+	 * Get recipients for a supplied email id
+	 * @param $emailId
+	 * @param string $type
+	 * @param array $selected
+	 * @param string $orderBy
+	 * @param string $order
+	 * @param null $paginate
+	 *
+	 * @return mixed
+	 */
+	public static function getRecipients($emailId, $type = 'injections', $selected = [], $orderBy = 'updated_at', $order = 'desc', $paginate = null)
+	{
+		if ( $type === 'deliveries' ) {
+			$query = Delivery::join('subscribers', 'deliveries.subscriber_id', '=', 'subscribers.id')
+			                 ->where('deliveries.email_id', $emailId)
+			                 ->orderBy($orderBy === 'first_name' ? 'subscribers.first_name' : "deliveries.$orderBy", $order);
+
+			$rawQuery = "(case when ((select count(*) from deliveries WHERE email_id = deliveries.email_id AND subscriber_id = deliveries.subscriber_id) > 0)  THEN  1 ELSE  0 END) as delivered,";
+			$rawQuery .= "(case when ((select count(*) from opens WHERE email_id = deliveries.email_id AND subscriber_id = deliveries.subscriber_id) > 0)  THEN  1 ELSE  0 END) as opened,";
+			$rawQuery .= "(case when ((select count(*) from clicks WHERE email_id = deliveries.email_id AND subscriber_id = deliveries.subscriber_id) > 0)  THEN  1 ELSE  0 END) as clicked,";
+			$rawQuery .= "(case when ((select count(*) from failures WHERE email_id = deliveries.email_id AND subscriber_id = deliveries.subscriber_id) > 0)  THEN  1 ELSE  0 END) as failed";
+
+			$query->select('subscribers.*', 'deliveries.*', DB::raw($rawQuery));
+		}
+		elseif ( $type === 'opens' ) {
+			$query = Open::join('subscribers', 'opens.subscriber_id', '=', 'subscribers.id')
+			                 ->where('opens.email_id', $emailId)
+			                 ->orderBy($orderBy === 'first_name' ? 'subscribers.first_name' : "opens.$orderBy", $order);
+
+			$rawQuery = "(case when ((select count(*) from deliveries WHERE email_id = opens.email_id AND subscriber_id = opens.subscriber_id) > 0)  THEN  1 ELSE  0 END) as delivered,";
+			$rawQuery .= "(case when ((select count(*) from opens WHERE email_id = opens.email_id AND subscriber_id = opens.subscriber_id) > 0)  THEN  1 ELSE  0 END) as opened,";
+			$rawQuery .= "(case when ((select count(*) from clicks WHERE email_id = opens.email_id AND subscriber_id = opens.subscriber_id) > 0)  THEN  1 ELSE  0 END) as clicked,";
+			$rawQuery .= "(case when ((select count(*) from failures WHERE email_id = opens.email_id AND subscriber_id = opens.subscriber_id) > 0)  THEN  1 ELSE  0 END) as failed";
+
+			$query->select('subscribers.*', 'opens.*', DB::raw($rawQuery));
+		}
+		elseif ( $type === 'clicks' ) {
+			$query = Click::join('subscribers', 'clicks.subscriber_id', '=', 'subscribers.id')
+			                  ->where('clicks.email_id', $emailId)
+			                  ->orderBy($orderBy === 'first_name' ? 'subscribers.first_name' : "clicks.$orderBy", $order);
+
+			$rawQuery = "(case when ((select count(*) from deliveries WHERE email_id = clicks.email_id AND subscriber_id = clicks.subscriber_id) > 0)  THEN  1 ELSE  0 END) as delivered,";
+			$rawQuery .= "(case when ((select count(*) from opens WHERE email_id = clicks.email_id AND subscriber_id = clicks.subscriber_id) > 0)  THEN  1 ELSE  0 END) as opened,";
+			$rawQuery .= "(case when ((select count(*) from clicks WHERE email_id = clicks.email_id AND subscriber_id = clicks.subscriber_id) > 0)  THEN  1 ELSE  0 END) as clicked,";
+			$rawQuery .= "(case when ((select count(*) from failures WHERE email_id = clicks.email_id AND subscriber_id = clicks.subscriber_id) > 0)  THEN  1 ELSE  0 END) as failed";
+
+			$query->select('subscribers.*', 'clicks.*', DB::raw($rawQuery));
+		}
+		elseif ( $type === 'failures' ) {
+			$query = Failure::join('subscribers', 'failures.subscriber_id', '=', 'subscribers.id')
+			              ->where('failures.email_id', $emailId)
+			              ->orderBy($orderBy === 'first_name' ? 'subscribers.first_name' : "failures.$orderBy", $order);
+
+			$rawQuery = "(case when ((select count(*) from deliveries WHERE email_id = failures.email_id AND subscriber_id = failures.subscriber_id) > 0)  THEN  1 ELSE  0 END) as delivered,";
+			$rawQuery .= "(case when ((select count(*) from opens WHERE email_id = failures.email_id AND subscriber_id = failures.subscriber_id) > 0)  THEN  1 ELSE  0 END) as opened,";
+			$rawQuery .= "(case when ((select count(*) from clicks WHERE email_id = failures.email_id AND subscriber_id = failures.subscriber_id) > 0)  THEN  1 ELSE  0 END) as clicked,";
+			$rawQuery .= "(case when ((select count(*) from failures WHERE email_id = failures.email_id AND subscriber_id = failures.subscriber_id) > 0)  THEN  1 ELSE  0 END) as failed";
+
+			$query->select('subscribers.*', 'failures.*', DB::raw($rawQuery));
+		}
+		else {
+			$query = Injection::join('subscribers', 'injections.subscriber_id', '=', 'subscribers.id')
+			             ->where('injections.email_id', $emailId)
+			             ->orderBy($orderBy === 'first_name' ? 'subscribers.first_name' : "injections.$orderBy", $order);
+
+			$rawQuery = "(case when ((select count(*) from deliveries WHERE email_id = injections.email_id AND subscriber_id = injections.subscriber_id) > 0)  THEN  1 ELSE  0 END) as delivered,";
+			$rawQuery .= "(case when ((select count(*) from opens WHERE email_id = injections.email_id AND subscriber_id = injections.subscriber_id) > 0)  THEN  1 ELSE  0 END) as opened,";
+			$rawQuery .= "(case when ((select count(*) from clicks WHERE email_id = injections.email_id AND subscriber_id = injections.subscriber_id) > 0)  THEN  1 ELSE  0 END) as clicked,";
+			$rawQuery .= "(case when ((select count(*) from failures WHERE email_id = injections.email_id AND subscriber_id = injections.subscriber_id) > 0)  THEN  1 ELSE  0 END) as failed";
+
+			$query->select('subscribers.*', 'injections.*', DB::raw($rawQuery));
+		}
+
+		if ( count($selected) )
+			$query->whereIn('subscribers.id', $selected);
+
+		return (int) $paginate ? $query->paginate($paginate) : $query->get();
+	}
+
+
+	/**
+	 * Get recipients search results
+	 * @param $search
+	 * @param $emailId
+	 * @param string $type
+	 * @param string $orderBy
+	 * @param string $order
+	 * @param null $paginate
+	 *
+	 * @return mixed
+	 */
+	public static function getRecipientSearchResults($search, $emailId, $type = 'injections', $orderBy = 'updated_at', $order = 'desc', $paginate = null)
+	{
+		$searchQuery = Subscriber::search($search);
+		$searchQuery->limit = 5000;
+		$results = $searchQuery->get()->pluck('id');
+
+		return static::getRecipients($emailId, $type, $results, $orderBy, $order, $paginate);
 	}
 
 }

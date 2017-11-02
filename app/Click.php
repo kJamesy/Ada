@@ -73,7 +73,8 @@ class Click extends Model
 		             ->with('subscriber')
 		             ->where('email_id', $email_id)
 		             ->where('subscriber_id', $subscriber_id)
-		             ->where('link', $link)->first();
+		             ->where('link', $link)
+		             ->first();
 	}
 
 }

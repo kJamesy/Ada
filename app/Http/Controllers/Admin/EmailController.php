@@ -236,6 +236,47 @@ class EmailController extends Controller
 	}
 
 	/**
+	 * Get email recipient stats
+	 * @param $id
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function getRecipients($id, Request $request)
+	{
+		$resource = Email::findResource( (int) $id );
+		$currentUser = $request->user();
+
+		if ( $resource ) {
+			if ( ! $currentUser->can('read', $this->policyOwnerClass) )
+				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+
+			$types = ['injections', 'deliveries', 'opens', 'clicks', 'failures'];
+			$orderByFields = [
+				'injections' => ['first_name', 'injected_at', 'created_at', 'updated_at'],
+				'deliveries' => ['first_name', 'delivered_at', 'created_at', 'updated_at'],
+				'opens' => ['first_name', 'ip_address', 'country', 'device', 'os', 'browser', 'opens', 'first_opened_at', 'last_opened_at', 'created_at', 'updated_at'],
+				'clicks' => ['first_name', 'link', 'clicks', 'first_clicked_at', 'last_clicked_at', 'created_at', 'updated_at'],
+				'failures' => ['first_name', 'type', 'reason', 'fails', 'first_failed_at', 'last_failed_at', 'created_at', 'updated_at']
+			];
+
+			$type = in_array(strtolower($request->type), $types) ? strtolower($request->type) : $types[0];
+			$orderBy = in_array(strtolower($request->orderBy), $orderByFields[$type]) ? strtolower($request->orderBy) : 'updated_at';
+			$order = in_array(strtolower($request->order), $this->orderCriteria) ? strtolower($request->order) : $this->orderCriteria[0];
+			$perPage = (int) $request->perPage ?: $this->perPage;
+			$search = strtolower($request->search);
+
+			$recipients = $search
+				? Email::getRecipientSearchResults($search, (int) $id, $type, $orderBy, $order, $perPage)
+				: Email::getRecipients( (int) $id, $type, [], $orderBy, $order, $perPage);
+
+			return response()->json(compact('recipients'));
+		}
+
+		return response()->json(['error' => "$this->friendlyName does not exist"], 404);
+	}
+
+	/**
 	 * Display resource content
 	 * @param $id
 	 */

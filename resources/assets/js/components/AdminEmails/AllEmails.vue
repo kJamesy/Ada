@@ -120,7 +120,7 @@
                                     </td>
                                     <td v-if="appUserHasPermission('read')">
                                         <router-link v-bind:to="{ name: 'admin_emails.stats', params: { id: resource.id }}" class="btn btn-sm btn-outline-primary"
-                                                     v-bind:class="resource.status < 0 ? 'disabled' : ''">
+                                                     v-bind:class="resource.status < 1 ? 'disabled' : ''">
                                             <i class="fa fa-line-chart"></i>
                                         </router-link>
                                     </td>

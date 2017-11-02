@@ -29,7 +29,7 @@ trait FailureTracking
 		if ( validator()->make(compact('email_id', 'subscriber_id', 'type', 'reason'), Failure::$rules)->fails())
 			return ['error' => 'Validation problem'];
 
-		$failure = Failure::findResourceBelongingTo($email_id, $subscriber_id);
+		$failure = Failure::findResourceBelongingTo($email_id, $subscriber_id, trim($type));
 
 		$fails = $failure ? (int) $failure->fails + 1 : 1;
 		$first_failed = $failure ? $failure->first_failed_at : $failed_at;
