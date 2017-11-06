@@ -28,6 +28,10 @@
             <router-link v-bind:to="{ name: 'admin_emails.view', params: { id: appCurrentRouteIdParam }}" class="nav-link" exact><i class="fa fa-eye"></i>
                 {{ viewTabText() }}</router-link>
         </li>
+        <li class="nav-item" v-if="appCurrentRouteIdParam && appUserHasPermission('read') && showStatsTab()">
+            <router-link v-bind:to="{ name: 'admin_emails.stats', params: { id: appCurrentRouteIdParam }}" class="nav-link" exact><i class="fa fa-pie-chart"></i>
+                Email Stats </router-link>
+        </li>
         <li class="nav-item" v-if="appCurrentRouteIdParam && appUserHasPermission('update')">
             <router-link v-bind:to="{ name: 'admin_emails.edit', params: { id: appCurrentRouteIdParam }}" class="nav-link" exact><i class="fa fa-edit"></i>
                  {{ editTabText() }}</router-link>
@@ -74,6 +78,10 @@
             isLookingAtNonDraft() {
                 let vm = this;
                 return (vm.readyResource && vm.readyResource.status !== -2 );
+            },
+            isLookingAtSuccessfullySent() {
+                let vm = this;
+                return (vm.readyResource && vm.readyResource.status === 1 );
             }
         },
         methods: {
@@ -97,6 +105,9 @@
 
                 return text;
             },
+            showStatsTab() {
+                return this.isLookingAtSuccessfullySent;
+            }
         }
     }
 </script>

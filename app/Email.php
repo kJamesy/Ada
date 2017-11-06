@@ -448,4 +448,20 @@ class Email extends Model
 		return static::getRecipients($emailId, $type, $results, $orderBy, $order, $paginate);
 	}
 
+	/**
+	 * Get general email stats
+	 * @param $id
+	 *
+	 * @return mixed
+	 */
+	public static function getGeneralStats($id)
+	{
+		return static::withCount(['injections', 'deliveries', 'opens'])
+		             ->selectRaw("(SELECT COUNT(DISTINCT subscriber_id) FROM clicks WHERE email_id = $id) AS clicks_count")
+		             ->selectRaw("(SELECT COUNT(DISTINCT subscriber_id) FROM failures WHERE email_id = $id) AS failures_count")
+		             ->where('status', 1)
+		             ->find($id);
+	}
+
+
 }

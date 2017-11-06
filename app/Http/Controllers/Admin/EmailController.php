@@ -277,6 +277,27 @@ class EmailController extends Controller
 	}
 
 	/**
+	 * Show specified resource.
+	 * @param $id
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function getGeneralStats($id, Request $request)
+	{
+		$resource = Email::getGeneralStats( (int) $id );
+		$currentUser = $request->user();
+
+		if ( $resource ) {
+			if ( ! $currentUser->can('read', $this->policyOwnerClass) )
+				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+
+			return response()->json(compact('resource'));
+		}
+
+		return response()->json(['error' => "$this->friendlyName does not exist"], 404);
+	}
+
+	/**
 	 * Display resource content
 	 * @param $id
 	 */

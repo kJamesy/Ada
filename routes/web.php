@@ -83,6 +83,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 			Route::resource('email-settings', 'EmailSettingController');
 			Route::put('emails/{option}/quick-update', 'EmailController@quickUpdate');
 			Route::get('emails/{id}/recipients', 'EmailController@getRecipients');
+			Route::get('emails/{id}/general-stats', 'EmailController@getGeneralStats');
 			Route::resource('emails', 'EmailController');
 		});
 
