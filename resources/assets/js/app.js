@@ -251,7 +251,10 @@ import AdminEmailsTrash from './components/AdminEmails/TrashEmails.vue';
 import AdminEmailsNew from './components/AdminEmails/NewEmail.vue';
 import AdminEmailsView from './components/AdminEmails/ViewEmail.vue';
 import AdminEmailsStats from './components/AdminEmails/ViewEmailStats.vue';
+import AdminEmailsClicksStats from './components/AdminEmails/ViewEmailClicksStats.vue';
 import AdminEmailsEdit from './components/AdminEmails/EditEmail.vue';
+
+import StatsPlugin from './components/AdminEmails/Stats/StatsPlugin';
 
 if ( $('#admin-emails-app').length ) {
     let router = new VueRouter({
@@ -266,11 +269,16 @@ if ( $('#admin-emails-app').length ) {
             { path: '/trash', name: 'admin_emails.trash', component: AdminEmailsTrash },
             { path: '/create', name: 'admin_emails.create', component: AdminEmailsNew },
             { path: '/:id(\\d+)/view', name: 'admin_emails.view', component: AdminEmailsView },
-            { path: '/:id(\\d+)/stats', name: 'admin_emails.stats', component: AdminEmailsStats },
+            { path: '/:id(\\d+)/stats/general', name: 'admin_emails.stats', component: AdminEmailsStats },
+            { path: '/:id(\\d+)/stats/opens', name: 'admin_emails.open_stats', component: AdminEmailsStats },
+            { path: '/:id(\\d+)/stats/clicks', name: 'admin_emails.click_stats', component: AdminEmailsClicksStats },
+            { path: '/:id(\\d+)/stats/*', redirect: { name: 'admin_emails.stats' } },
             { path: '/:id(\\d+)/edit', name: 'admin_emails.edit', component: AdminEmailsEdit },
             { path: '*', redirect: { name: 'admin_emails.index' } }
         ]
     });
+
+    Vue.use(StatsPlugin);
 
     new Vue({
         el: '#admin-emails-app',

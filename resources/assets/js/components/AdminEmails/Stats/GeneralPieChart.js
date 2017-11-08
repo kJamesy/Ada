@@ -7,8 +7,10 @@ export default {
     extends: Pie,
     mixins: [reactiveProp],
     props: ['options', 'width', 'height'],
-    mounted () {
-        this.renderChart(this.chartData, this.options)
+    mounted() {
+        let vm = this;
+
+        vm.renderChart(vm.chartData, vm.options);
     },
     watch: {
         options(newVal, oldVal)  {

@@ -277,7 +277,7 @@ class EmailController extends Controller
 	}
 
 	/**
-	 * Show specified resource.
+	 * Show specified resource general stats.
 	 * @param $id
 	 * @param Request $request
 	 * @return \Illuminate\Http\JsonResponse
@@ -294,7 +294,58 @@ class EmailController extends Controller
 			return response()->json(compact('resource'));
 		}
 
-		return response()->json(['error' => "$this->friendlyName does not exist"], 404);
+		return response()->json(['error' => "No stats found"], 404);
+	}
+
+	/**
+	 * Show specified resource opens stats.
+	 * @param $id
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function getOpensStats($id, Request $request)
+	{
+		$limit = 5;
+		$resource = Email::getOpensStats( (int) $id, $limit );
+		$currentUser = $request->user();
+
+		if ( $resource ) {
+			if ( ! $currentUser->can('read', $this->policyOwnerClass) )
+				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+
+			return response()->json(compact('resource'));
+		}
+
+		return response()->json(['error' => "No stats found"], 404);
+	}
+
+	/**
+	 * Show specified resource clicks stats
+	 * @param $id
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function getClicksStats($id, Request $request)
+	{
+		if ( $request->user()->can('read', $this->policyOwnerClass) ) {
+
+			$orderBy = in_array(strtolower($request->orderBy), ['clicks_count', 'link']) ? strtolower($request->orderBy) : 'clicks_count';
+			$order = in_array(strtolower($request->order), $this->orderCriteria) ? strtolower($request->order) : 'DESC';
+			$perPage = (int) $request->perPage ?: $this->perPage;
+			$search = strtolower($request->search);
+
+			$resource = $search
+				? Email::getClicksStatsResults($search, (int) $id, $orderBy, $order, $perPage)
+				: Email::getClicksStats( (int) $id, $orderBy, $order, $perPage);
+
+			if ( $resource )
+				return response()->json(compact('resource'));
+			else
+				return response()->json(['error' => "No stats found"], 404);
+		}
+		else
+			return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 	}
 
 	/**

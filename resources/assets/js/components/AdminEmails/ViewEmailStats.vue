@@ -5,25 +5,55 @@
         <template v-if="! fetchingData">
             <div v-if="appUserHasPermission('read')">
                 <h3>{{ resource.subject }}</h3>
-                <h5>Dispatched to {{ resource.injections_count }}</h5>
+                <h5 v-if="statType === 'general'">Dispatched to {{ resource.injections_count }}</h5>
+                <div class="mt-5 mb-3">
+                    <label for="statType"></label><select id="statType" v-model="statType">
+                    <option v-for="option in statTypes" v-bind:value="option.value">
+                        {{ option.text }}
+                    </option></select>
+                    <a href="" v-on:click.prevent="refetchData()" class="pull-right"><i class="fa fa-refresh" v-bind:class="{ 'fa-spin': refreshing }"></i></a>
+                </div>
 
-                <a href="" v-on:click.prevent="refetchData()" class="pull-right"><i class="fa fa-refresh" v-bind:class="{ 'fa-spin': refreshing }"></i></a>
-                <div class="row" style="margin-top: 50px;">
-                    <div class="col-sm-6">
-                        <general-stats :chart-data="getPieData('deliveries')" :options="getPieOptions('deliveries')"></general-stats>
+                <template v-if="statType === 'general'">
+                    <div class="row mt-5">
+                        <div class="col-sm-6">
+                            <general-pie-chart :chart-data="getGeneralPieData('deliveries')" :options="getGeneralPieOptions('deliveries')"></general-pie-chart>
+                        </div>
+                        <div class="col-sm-6">
+                            <general-pie-chart :chart-data="getGeneralPieData('opens')" :options="getGeneralPieOptions('opens')"></general-pie-chart>
+                        </div>
                     </div>
-                    <div class="col-sm-6">
-                        <general-stats :chart-data="getPieData('opens')" :options="getPieOptions('opens')"></general-stats>
+                    <div class="row mt-5">
+                        <div class="col-sm-6">
+                            <general-pie-chart :chart-data="getGeneralPieData('clicks')" :options="getGeneralPieOptions('clicks')"></general-pie-chart>
+                        </div>
+                        <div class="col-sm-6">
+                            <general-pie-chart :chart-data="getGeneralPieData('failures')" :options="getGeneralPieOptions('failures')"></general-pie-chart>
+                        </div>
                     </div>
-                </div>
-                <div class="row" style="margin-top: 50px;">
-                    <div class="col-sm-6">
-                        <general-stats :chart-data="getPieData('clicks')" :options="getPieOptions('clicks')"></general-stats>
+                </template>
+                <template v-if="statType === 'opens'">
+                    <div class="row mt-5">
+                        <div class="col">
+                            <general-pie-chart :chart-data="getOpensPieData('countries')" :options="getOpensPieOptions('countries')"></general-pie-chart>
+                        </div>
                     </div>
-                    <div class="col-sm-6">
-                        <general-stats :chart-data="getPieData('failures')" :options="getPieOptions('failures')"></general-stats>
+                    <div class="row mt-5">
+                        <div class="col">
+                            <general-pie-chart :chart-data="getOpensPieData('devices')" :options="getOpensPieOptions('devices')"></general-pie-chart>
+                        </div>
                     </div>
-                </div>
+                    <div class="row mt-5">
+                        <div class="col">
+                            <general-pie-chart :chart-data="getOpensPieData('OSs')" :options="getOpensPieOptions('OSs')"></general-pie-chart>
+                        </div>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col">
+                            <general-pie-chart :chart-data="getOpensPieData('browsers')" :options="getOpensPieOptions('browsers')"></general-pie-chart>
+                        </div>
+                    </div>
+                </template>
             </div>
             <div v-else="">
                 <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
@@ -33,21 +63,31 @@
 </template>
 
 <script>
-    import GeneralStats from './Stats/GeneralStats';
+    import GeneralPieChart from './Stats/GeneralPieChart';
 
     export default {
         mounted() {
             this.$nextTick(function() {
-                this.showResource();
                 this.appInitialiseTooltip();
+
+                switch(this.$route.name) {
+                    case 'admin_emails.stats':
+                        this.statType = 'general';
+                        break;
+                    case 'admin_emails.open_stats':
+                        this.statType = 'opens';
+                        break;
+                }
+                this.showResource();
             });
         },
         data() {
             return {
                 fetchingData: true,
                 resource: {id: '', sender: '', reply_to_email: '', subject: '', content: '', recipients_num: 0, status: '', friendly_status: '', created_at: '', updated_at: '', sent_at: '',
-                    injections_count: 0, deliveries_count: 0, opens_count: 0, clicks_count: 0, failures_count: 0},
-                refreshing: false
+                    injections_count: 0, deliveries_count: 0, opens_count: 0, clicks_count: 0, failures_count: 0,
+                    country_stats: [], device_stats: [], os_stats: [], browser_stats: []},
+                refreshing: false,
             }
         },
         methods: {
@@ -57,7 +97,7 @@
 
                 progress.start();
 
-                vm.$http.get(vm.appResourceUrl + '/' + vm.id + '/general-stats').then(function (response) {
+                vm.$http.get(vm.appResourceUrl + '/' + vm.id + '/' + vm.statType + '-stats').then(function (response) {
                     if (response.data && response.data.resource) {
                         _.forEach(vm.resource, function (val, idx) {
                             if ( response.data.resource.hasOwnProperty(idx) )
@@ -94,75 +134,13 @@
                     vm.refreshing = false;
                 });
             },
-            getPieOptions(stat) {
-                let num = this.resource[stat + '_count'];
-                let percentage = _.round( (num/this.resource.injections_count)*100, 2 );
-
-                return {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    title: {
-                        display: true,
-                        text:  _.capitalize(stat) + ' - ' + num + ' (' + percentage + '%)'
-                    },
-                    legend: {
-                        display: true,
-                        position: 'bottom'
-                    }
-                };
-            },
-            getPieData(stat) {
-                let vm = this;
-                let injections = vm.resource.injections_count;
-                let deliveries = vm.resource.deliveries_count;
-                let opens = vm.resource.opens_count;
-                let clicks = vm.resource.clicks_count;
-                let failures = vm.resource.failures_count;
-
-                let labels = [];
-                let backgroundColor = [];
-                let data = [];
-
-                switch ( _.lowerCase(stat) ) {
-                    case 'deliveries':
-                        labels = ['Delivered', 'Not Delivered'];
-                        backgroundColor = ['#FF6384', '#DDD'];
-                        data = [deliveries, _.subtract(injections, deliveries)];
-                        break;
-                    case 'opens':
-                        labels = ['Opened', 'Not Opened'];
-                        backgroundColor = ['#EBF90B', '#FAEAB8'];
-                        data = [opens, _.subtract(injections, opens)];
-                        break;
-                    case 'clicks':
-                        labels = ['Clicked', 'Not Clicked'];
-                        backgroundColor = ['#FF9124', '#F6D8D8'];
-                        data = [clicks, _.subtract(injections, clicks)];
-                        break;
-                    case 'failures':
-                        labels = ['Failed', 'Successful'];
-                        backgroundColor = ['#C0E5F6', '#059BFF'];
-                        data = [failures, _.subtract(injections, failures)];
-                        break;
-                }
-
-                return {
-                    labels: labels,
-                    datasets: [
-                        {
-                            backgroundColor: backgroundColor,
-                            data: data
-                        }
-                    ]
-                };
-            },
             refetchData() {
                 this.refreshing = true;
                 this.showResource();
-            }
+            },
         },
         components: {
-            GeneralStats
+            GeneralPieChart
         }
     }
 </script>

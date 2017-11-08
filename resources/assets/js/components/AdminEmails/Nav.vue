@@ -29,7 +29,7 @@
                 {{ viewTabText() }}</router-link>
         </li>
         <li class="nav-item" v-if="appCurrentRouteIdParam && appUserHasPermission('read') && showStatsTab()">
-            <router-link v-bind:to="{ name: 'admin_emails.stats', params: { id: appCurrentRouteIdParam }}" class="nav-link" exact><i class="fa fa-pie-chart"></i>
+            <router-link v-bind:to="{ name: 'admin_emails.stats', params: { id: appCurrentRouteIdParam }}" class="nav-link" v-bind:class="{ 'active' : statsTabIsActive() }" exact><i class="fa fa-pie-chart"></i>
                 Email Stats </router-link>
         </li>
         <li class="nav-item" v-if="appCurrentRouteIdParam && appUserHasPermission('update')">
@@ -107,6 +107,9 @@
             },
             showStatsTab() {
                 return this.isLookingAtSuccessfullySent;
+            },
+            statsTabIsActive() {
+                return _.includes(this.$route.path, '/stats/');
             }
         }
     }

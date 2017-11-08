@@ -33950,7 +33950,7 @@ module.exports = { "default": __webpack_require__(523), __esModule: true };
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(265);
-module.exports = __webpack_require__(550);
+module.exports = __webpack_require__(551);
 
 
 /***/ }),
@@ -34053,20 +34053,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__components_AdminEmails_ViewEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_48__components_AdminEmails_ViewEmail_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_ViewEmailStats_vue__ = __webpack_require__(434);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_ViewEmailStats_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_ViewEmailStats_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_EditEmail_vue__ = __webpack_require__(527);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_EditEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_EditEmail_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__components_AdminUsers_AdminUsers_vue__ = __webpack_require__(530);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__components_AdminUsers_AdminUsers_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_51__components_AdminUsers_AdminUsers_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__components_AdminUsers_AllUsers_vue__ = __webpack_require__(535);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__components_AdminUsers_AllUsers_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_52__components_AdminUsers_AllUsers_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_NewUser_vue__ = __webpack_require__(538);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_NewUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_NewUser_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_ViewUser_vue__ = __webpack_require__(541);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_ViewUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_ViewUser_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_EditUser_vue__ = __webpack_require__(544);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_EditUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_EditUser_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_EditUserPermissions_vue__ = __webpack_require__(547);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_EditUserPermissions_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_EditUserPermissions_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_ViewEmailClicksStats_vue__ = __webpack_require__(556);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_ViewEmailClicksStats_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_ViewEmailClicksStats_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__components_AdminEmails_EditEmail_vue__ = __webpack_require__(527);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__components_AdminEmails_EditEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_51__components_AdminEmails_EditEmail_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__components_AdminEmails_Stats_StatsPlugin__ = __webpack_require__(530);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_AdminUsers_vue__ = __webpack_require__(531);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_AdminUsers_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_AdminUsers_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_AllUsers_vue__ = __webpack_require__(536);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_AllUsers_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_AllUsers_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_NewUser_vue__ = __webpack_require__(539);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_NewUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_NewUser_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_ViewUser_vue__ = __webpack_require__(542);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_ViewUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_ViewUser_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__components_AdminUsers_EditUser_vue__ = __webpack_require__(545);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__components_AdminUsers_EditUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_57__components_AdminUsers_EditUser_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__components_AdminUsers_EditUserPermissions_vue__ = __webpack_require__(548);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__components_AdminUsers_EditUserPermissions_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_58__components_AdminUsers_EditUserPermissions_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -34278,13 +34281,18 @@ if ($('#admin-email-settings-app').length) {
 
 
 
+
+
+
 if ($('#admin-emails-app').length) {
     var _router6 = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
         mode: 'history',
         base: links.base,
         linkActiveClass: 'active',
-        routes: [{ path: '/', name: 'admin_emails.index', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/drafts', name: 'admin_emails.drafts', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/:campaignId(\\d+)/in-campaign', name: 'admin_emails.campaign', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/:userId(\\d+)/by-user', name: 'admin_emails.user', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/trash', name: 'admin_emails.trash', component: __WEBPACK_IMPORTED_MODULE_46__components_AdminEmails_TrashEmails_vue___default.a }, { path: '/create', name: 'admin_emails.create', component: __WEBPACK_IMPORTED_MODULE_47__components_AdminEmails_NewEmail_vue___default.a }, { path: '/:id(\\d+)/view', name: 'admin_emails.view', component: __WEBPACK_IMPORTED_MODULE_48__components_AdminEmails_ViewEmail_vue___default.a }, { path: '/:id(\\d+)/stats', name: 'admin_emails.stats', component: __WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_ViewEmailStats_vue___default.a }, { path: '/:id(\\d+)/edit', name: 'admin_emails.edit', component: __WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_EditEmail_vue___default.a }, { path: '*', redirect: { name: 'admin_emails.index' } }]
+        routes: [{ path: '/', name: 'admin_emails.index', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/drafts', name: 'admin_emails.drafts', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/:campaignId(\\d+)/in-campaign', name: 'admin_emails.campaign', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/:userId(\\d+)/by-user', name: 'admin_emails.user', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/trash', name: 'admin_emails.trash', component: __WEBPACK_IMPORTED_MODULE_46__components_AdminEmails_TrashEmails_vue___default.a }, { path: '/create', name: 'admin_emails.create', component: __WEBPACK_IMPORTED_MODULE_47__components_AdminEmails_NewEmail_vue___default.a }, { path: '/:id(\\d+)/view', name: 'admin_emails.view', component: __WEBPACK_IMPORTED_MODULE_48__components_AdminEmails_ViewEmail_vue___default.a }, { path: '/:id(\\d+)/stats/general', name: 'admin_emails.stats', component: __WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_ViewEmailStats_vue___default.a }, { path: '/:id(\\d+)/stats/opens', name: 'admin_emails.open_stats', component: __WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_ViewEmailStats_vue___default.a }, { path: '/:id(\\d+)/stats/clicks', name: 'admin_emails.click_stats', component: __WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_ViewEmailClicksStats_vue___default.a }, { path: '/:id(\\d+)/stats/*', redirect: { name: 'admin_emails.stats' } }, { path: '/:id(\\d+)/edit', name: 'admin_emails.edit', component: __WEBPACK_IMPORTED_MODULE_51__components_AdminEmails_EditEmail_vue___default.a }, { path: '*', redirect: { name: 'admin_emails.index' } }]
     });
+
+    Vue.use(__WEBPACK_IMPORTED_MODULE_52__components_AdminEmails_Stats_StatsPlugin__["a" /* default */]);
 
     new Vue({
         el: '#admin-emails-app',
@@ -34310,13 +34318,13 @@ if ($('#admin-users-app').length) {
         mode: 'history',
         base: links.base,
         linkActiveClass: 'active',
-        routes: [{ path: '/', name: 'admin_users.index', component: __WEBPACK_IMPORTED_MODULE_52__components_AdminUsers_AllUsers_vue___default.a }, { path: '/create', name: 'admin_users.create', component: __WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_NewUser_vue___default.a }, { path: '/:id(\\d+)/view', name: 'admin_users.view', component: __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_ViewUser_vue___default.a }, { path: '/:id(\\d+)/edit', name: 'admin_users.edit', component: __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_EditUser_vue___default.a }, { path: '/:id(\\d+)/permissions', name: 'admin_users.edit_permissions', component: __WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_EditUserPermissions_vue___default.a }, { path: '*', redirect: { name: 'admin_users.index' } }]
+        routes: [{ path: '/', name: 'admin_users.index', component: __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_AllUsers_vue___default.a }, { path: '/create', name: 'admin_users.create', component: __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_NewUser_vue___default.a }, { path: '/:id(\\d+)/view', name: 'admin_users.view', component: __WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_ViewUser_vue___default.a }, { path: '/:id(\\d+)/edit', name: 'admin_users.edit', component: __WEBPACK_IMPORTED_MODULE_57__components_AdminUsers_EditUser_vue___default.a }, { path: '/:id(\\d+)/permissions', name: 'admin_users.edit_permissions', component: __WEBPACK_IMPORTED_MODULE_58__components_AdminUsers_EditUserPermissions_vue___default.a }, { path: '*', redirect: { name: 'admin_users.index' } }]
     });
 
     new Vue({
         el: '#admin-users-app',
         components: {
-            AdminUsers: __WEBPACK_IMPORTED_MODULE_51__components_AdminUsers_AdminUsers_vue___default.a
+            AdminUsers: __WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_AdminUsers_vue___default.a
         },
         router: _router7
     });
@@ -91856,6 +91864,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         showStatsTab: function showStatsTab() {
             return this.isLookingAtSuccessfullySent;
+        },
+        statsTabIsActive: function statsTabIsActive() {
+            return _.includes(this.$route.path, '/stats/');
         }
     }
 });
@@ -92067,6 +92078,7 @@ var render = function() {
               "router-link",
               {
                 staticClass: "nav-link",
+                class: { active: _vm.statsTabIsActive() },
                 attrs: {
                   to: {
                     name: "admin_emails.stats",
@@ -95690,7 +95702,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (error.status && error.status === 403 && error.data) vm.appCustomErrorAlert(error.data.error);else if (error.status && error.status === 404 && error.data) {
                     var message = vm.searching ? 'Your search returned no results. Please try again with different keywords' : error.data.error;
 
-                    if (vm.searching) vm.appCustomErrorAlertConfirmed(message);
+                    if (vm.searching) vm.appCustomErrorAlertConfirmed(message);else vm.appCustomErrorAlert(error.data.error);
                 } else vm.appGeneralErrorAlert();
 
                 vm.searchText = '';
@@ -97424,7 +97436,37 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Stats_GeneralStats__ = __webpack_require__(436);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Stats_GeneralPieChart__ = __webpack_require__(559);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -97465,15 +97507,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
         this.$nextTick(function () {
-            this.showResource();
             this.appInitialiseTooltip();
+
+            switch (this.$route.name) {
+                case 'admin_emails.stats':
+                    this.statType = 'general';
+                    break;
+                case 'admin_emails.open_stats':
+                    this.statType = 'opens';
+                    break;
+            }
+            this.showResource();
         });
     },
     data: function data() {
         return {
             fetchingData: true,
             resource: { id: '', sender: '', reply_to_email: '', subject: '', content: '', recipients_num: 0, status: '', friendly_status: '', created_at: '', updated_at: '', sent_at: '',
-                injections_count: 0, deliveries_count: 0, opens_count: 0, clicks_count: 0, failures_count: 0 },
+                injections_count: 0, deliveries_count: 0, opens_count: 0, clicks_count: 0, failures_count: 0,
+                country_stats: [], device_stats: [], os_stats: [], browser_stats: [] },
             refreshing: false
         };
     },
@@ -97485,7 +97537,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             progress.start();
 
-            vm.$http.get(vm.appResourceUrl + '/' + vm.id + '/general-stats').then(function (response) {
+            vm.$http.get(vm.appResourceUrl + '/' + vm.id + '/' + vm.statType + '-stats').then(function (response) {
                 if (response.data && response.data.resource) {
                     _.forEach(vm.resource, function (val, idx) {
                         if (response.data.resource.hasOwnProperty(idx)) vm.$set(vm.resource, idx, response.data.resource[idx]);
@@ -97516,107 +97568,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 vm.refreshing = false;
             });
         },
-        getPieOptions: function getPieOptions(stat) {
-            var num = this.resource[stat + '_count'];
-            var percentage = _.round(num / this.resource.injections_count * 100, 2);
-
-            return {
-                responsive: true,
-                maintainAspectRatio: true,
-                title: {
-                    display: true,
-                    text: _.capitalize(stat) + ' - ' + num + ' (' + percentage + '%)'
-                },
-                legend: {
-                    display: true,
-                    position: 'bottom'
-                }
-            };
-        },
-        getPieData: function getPieData(stat) {
-            var vm = this;
-            var injections = vm.resource.injections_count;
-            var deliveries = vm.resource.deliveries_count;
-            var opens = vm.resource.opens_count;
-            var clicks = vm.resource.clicks_count;
-            var failures = vm.resource.failures_count;
-
-            var labels = [];
-            var backgroundColor = [];
-            var data = [];
-
-            switch (_.lowerCase(stat)) {
-                case 'deliveries':
-                    labels = ['Delivered', 'Not Delivered'];
-                    backgroundColor = ['#FF6384', '#DDD'];
-                    data = [deliveries, _.subtract(injections, deliveries)];
-                    break;
-                case 'opens':
-                    labels = ['Opened', 'Not Opened'];
-                    backgroundColor = ['#EBF90B', '#FAEAB8'];
-                    data = [opens, _.subtract(injections, opens)];
-                    break;
-                case 'clicks':
-                    labels = ['Clicked', 'Not Clicked'];
-                    backgroundColor = ['#FF9124', '#F6D8D8'];
-                    data = [clicks, _.subtract(injections, clicks)];
-                    break;
-                case 'failures':
-                    labels = ['Failed', 'Successful'];
-                    backgroundColor = ['#C0E5F6', '#059BFF'];
-                    data = [failures, _.subtract(injections, failures)];
-                    break;
-            }
-
-            return {
-                labels: labels,
-                datasets: [{
-                    backgroundColor: backgroundColor,
-                    data: data
-                }]
-            };
-        },
         refetchData: function refetchData() {
             this.refreshing = true;
             this.showResource();
         }
     },
     components: {
-        GeneralStats: __WEBPACK_IMPORTED_MODULE_0__Stats_GeneralStats__["a" /* default */]
+        GeneralPieChart: __WEBPACK_IMPORTED_MODULE_0__Stats_GeneralPieChart__["a" /* default */]
     }
 });
 
 /***/ }),
-/* 436 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__ = __webpack_require__(437);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_chartjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_chartjs__);
-
-
-
-var reactiveProp = __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["mixins"].reactiveProp;
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    extends: __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["Pie"],
-    mixins: [reactiveProp],
-    props: ['options', 'width', 'height'],
-    mounted: function mounted() {
-        this.renderChart(this.chartData, this.options);
-    },
-
-    watch: {
-        options: function options(newVal, oldVal) {
-            if (!_.isEqual(newVal, oldVal)) {
-                if (typeof newVal.title.text === 'string') this.$data._chart.options.title.text = newVal.title.text;
-            }
-        }
-    }
-});
-
-/***/ }),
+/* 436 */,
 /* 437 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -114359,109 +114322,238 @@ var render = function() {
       !_vm.fetchingData
         ? [
             _vm.appUserHasPermission("read")
-              ? _c("div", [
-                  _c("h3", [_vm._v(_vm._s(_vm.resource.subject))]),
-                  _vm._v(" "),
-                  _c("h5", [
-                    _vm._v(
-                      "Dispatched to " + _vm._s(_vm.resource.injections_count)
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "pull-right",
-                      attrs: { href: "" },
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          _vm.refetchData()
-                        }
-                      }
-                    },
-                    [
-                      _c("i", {
-                        staticClass: "fa fa-refresh",
-                        class: { "fa-spin": _vm.refreshing }
-                      })
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "row",
-                      staticStyle: { "margin-top": "50px" }
-                    },
-                    [
+              ? _c(
+                  "div",
+                  [
+                    _c("h3", [_vm._v(_vm._s(_vm.resource.subject))]),
+                    _vm._v(" "),
+                    _vm.statType === "general"
+                      ? _c("h5", [
+                          _vm._v(
+                            "Dispatched to " +
+                              _vm._s(_vm.resource.injections_count)
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "mt-5 mb-3" }, [
+                      _c("label", { attrs: { for: "statType" } }),
                       _c(
-                        "div",
-                        { staticClass: "col-sm-6" },
-                        [
-                          _c("general-stats", {
-                            attrs: {
-                              "chart-data": _vm.getPieData("deliveries"),
-                              options: _vm.getPieOptions("deliveries")
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.statType,
+                              expression: "statType"
                             }
-                          })
-                        ],
-                        1
+                          ],
+                          attrs: { id: "statType" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.statType = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        _vm._l(_vm.statTypes, function(option) {
+                          return _c(
+                            "option",
+                            { domProps: { value: option.value } },
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(option.text) +
+                                  "\n                "
+                              )
+                            ]
+                          )
+                        })
                       ),
                       _vm._v(" "),
                       _c(
-                        "div",
-                        { staticClass: "col-sm-6" },
-                        [
-                          _c("general-stats", {
-                            attrs: {
-                              "chart-data": _vm.getPieData("opens"),
-                              options: _vm.getPieOptions("opens")
+                        "a",
+                        {
+                          staticClass: "pull-right",
+                          attrs: { href: "" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.refetchData()
                             }
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-refresh",
+                            class: { "fa-spin": _vm.refreshing }
                           })
-                        ],
-                        1
+                        ]
                       )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "row",
-                      staticStyle: { "margin-top": "50px" }
-                    },
-                    [
-                      _c(
-                        "div",
-                        { staticClass: "col-sm-6" },
-                        [
-                          _c("general-stats", {
-                            attrs: {
-                              "chart-data": _vm.getPieData("clicks"),
-                              options: _vm.getPieOptions("clicks")
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "col-sm-6" },
-                        [
-                          _c("general-stats", {
-                            attrs: {
-                              "chart-data": _vm.getPieData("failures"),
-                              options: _vm.getPieOptions("failures")
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ]
-                  )
-                ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.statType === "general"
+                      ? [
+                          _c("div", { staticClass: "row mt-5" }, [
+                            _c(
+                              "div",
+                              { staticClass: "col-sm-6" },
+                              [
+                                _c("general-pie-chart", {
+                                  attrs: {
+                                    "chart-data": _vm.getGeneralPieData(
+                                      "deliveries"
+                                    ),
+                                    options: _vm.getGeneralPieOptions(
+                                      "deliveries"
+                                    )
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "col-sm-6" },
+                              [
+                                _c("general-pie-chart", {
+                                  attrs: {
+                                    "chart-data": _vm.getGeneralPieData(
+                                      "opens"
+                                    ),
+                                    options: _vm.getGeneralPieOptions("opens")
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row mt-5" }, [
+                            _c(
+                              "div",
+                              { staticClass: "col-sm-6" },
+                              [
+                                _c("general-pie-chart", {
+                                  attrs: {
+                                    "chart-data": _vm.getGeneralPieData(
+                                      "clicks"
+                                    ),
+                                    options: _vm.getGeneralPieOptions("clicks")
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "col-sm-6" },
+                              [
+                                _c("general-pie-chart", {
+                                  attrs: {
+                                    "chart-data": _vm.getGeneralPieData(
+                                      "failures"
+                                    ),
+                                    options: _vm.getGeneralPieOptions(
+                                      "failures"
+                                    )
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        ]
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.statType === "opens"
+                      ? [
+                          _c("div", { staticClass: "row mt-5" }, [
+                            _c(
+                              "div",
+                              { staticClass: "col" },
+                              [
+                                _c("general-pie-chart", {
+                                  attrs: {
+                                    "chart-data": _vm.getOpensPieData(
+                                      "countries"
+                                    ),
+                                    options: _vm.getOpensPieOptions("countries")
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row mt-5" }, [
+                            _c(
+                              "div",
+                              { staticClass: "col" },
+                              [
+                                _c("general-pie-chart", {
+                                  attrs: {
+                                    "chart-data": _vm.getOpensPieData(
+                                      "devices"
+                                    ),
+                                    options: _vm.getOpensPieOptions("devices")
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row mt-5" }, [
+                            _c(
+                              "div",
+                              { staticClass: "col" },
+                              [
+                                _c("general-pie-chart", {
+                                  attrs: {
+                                    "chart-data": _vm.getOpensPieData("OSs"),
+                                    options: _vm.getOpensPieOptions("OSs")
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row mt-5" }, [
+                            _c(
+                              "div",
+                              { staticClass: "col" },
+                              [
+                                _c("general-pie-chart", {
+                                  attrs: {
+                                    "chart-data": _vm.getOpensPieData(
+                                      "browsers"
+                                    ),
+                                    options: _vm.getOpensPieOptions("browsers")
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        ]
+                      : _vm._e()
+                  ],
+                  2
+                )
               : _c("div", [
                   _c("i", { staticClass: "fa fa-warning" }),
                   _vm._v(
@@ -115610,14 +115702,207 @@ if (false) {
 
 /***/ }),
 /* 530 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var StatsPlugin = {
+    install: function install(Vue, options) {
+
+        Vue.mixin({
+            mounted: function mounted() {
+                this.$nextTick(function () {});
+            },
+            data: function data() {
+                return {
+                    statTypes: [{ text: 'General Stats', value: 'general' }, { text: 'Opens Stats', value: 'opens' }, { text: 'Clicks Stats', value: 'clicks' }, { text: 'Failures Stats', value: 'failures' }],
+                    statType: 'general',
+                    routeNames: { general: 'admin_emails.stats', opens: 'admin_emails.open_stats', clicks: 'admin_emails.click_stats' }
+                };
+            },
+
+            computed: {
+                countriesCount: function countriesCount() {
+                    var vm = this;
+                    return vm.doCount(vm.resource.country_stats, 'country_count');
+                },
+                devicesCount: function devicesCount() {
+                    var vm = this;
+                    return vm.doCount(vm.resource.device_stats, 'device_count');
+                },
+                OSsCount: function OSsCount() {
+                    var vm = this;
+                    return vm.doCount(vm.resource.os_stats, 'OS_count');
+                },
+                browsersCount: function browsersCount() {
+                    var vm = this;
+                    return vm.doCount(vm.resource.browser_stats, 'browser_count');
+                }
+            },
+            methods: {
+                doCount: function doCount(countObj, prop) {
+                    var total = 0;
+
+                    if ((typeof countObj === 'undefined' ? 'undefined' : _typeof(countObj)) === 'object') {
+                        _.forEach(countObj, function (count) {
+                            total += parseInt(count[prop]);
+                        });
+                    }
+
+                    return total;
+                },
+                getGeneralPieOptions: function getGeneralPieOptions(stat) {
+                    var num = this.resource[stat + '_count'];
+                    var percentage = _.round(num / this.resource.injections_count * 100, 2);
+
+                    return {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        title: {
+                            display: true,
+                            text: _.capitalize(stat) + ' - ' + num + ' (' + percentage + '%)'
+                        },
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    };
+                },
+                getOpensPieOptions: function getOpensPieOptions(stat) {
+                    var friendlyName = stat === 'OSs' ? 'Operating systems' : stat;
+
+                    return {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        title: {
+                            display: true,
+                            text: _.capitalize(friendlyName) + ' - ' + this[stat + 'Count']
+                        },
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    };
+                },
+                getGeneralPieData: function getGeneralPieData(stat) {
+                    var vm = this;
+                    var injections = vm.resource.injections_count;
+                    var deliveries = vm.resource.deliveries_count;
+                    var opens = vm.resource.opens_count;
+                    var clicks = vm.resource.clicks_count;
+                    var failures = vm.resource.failures_count;
+
+                    var labels = [];
+                    var backgroundColor = [];
+                    var data = [];
+
+                    switch (_.lowerCase(stat)) {
+                        case 'deliveries':
+                            labels = ['Delivered', 'Not Delivered'];
+                            backgroundColor = ['#FF6384', '#DDD'];
+                            data = [deliveries, _.subtract(injections, deliveries)];
+                            break;
+                        case 'opens':
+                            labels = ['Opened', 'Not Opened'];
+                            backgroundColor = ['#EBF90B', '#FAEAB8'];
+                            data = [opens, _.subtract(injections, opens)];
+                            break;
+                        case 'clicks':
+                            labels = ['Clicked', 'Not Clicked'];
+                            backgroundColor = ['#FF9124', '#F6D8D8'];
+                            data = [clicks, _.subtract(injections, clicks)];
+                            break;
+                        case 'failures':
+                            labels = ['Failed', 'Successful'];
+                            backgroundColor = ['#C0E5F6', '#059BFF'];
+                            data = [failures, _.subtract(injections, failures)];
+                            break;
+                    }
+                    return {
+                        labels: labels,
+                        datasets: [{
+                            backgroundColor: backgroundColor,
+                            data: data
+                        }]
+                    };
+                },
+                getOpensPieData: function getOpensPieData(stat) {
+                    var vm = this;
+                    var country_stats = vm.resource.country_stats;
+                    var device_stats = vm.resource.device_stats;
+                    var os_stats = vm.resource.os_stats;
+                    var browser_stats = vm.resource.browser_stats;
+
+                    var labels = [];
+                    var backgroundColor = [];
+                    var data = [];
+
+                    switch (stat) {
+                        case 'countries':
+                            _.forEach(country_stats, function (cStat) {
+                                labels.push(cStat.country_name + ' - ' + cStat.country_count);
+                                data.push(cStat.country_count);
+                                if (!vm.refreshing) backgroundColor.push('#' + Math.floor(Math.random() * 16777215).toString(16));
+                            });
+                            break;
+                        case 'devices':
+                            _.forEach(device_stats, function (dStat) {
+                                labels.push(dStat.device_name + ' - ' + dStat.device_count);
+                                data.push(dStat.device_count);
+                                if (!vm.refreshing) backgroundColor.push('#' + Math.floor(Math.random() * 16777215).toString(16));
+                            });
+                            break;
+                        case 'OSs':
+                            _.forEach(os_stats, function (oStat) {
+                                labels.push(oStat.OS_name + ' - ' + oStat.OS_count);
+                                data.push(oStat.OS_count);
+                                if (!vm.refreshing) backgroundColor.push('#' + Math.floor(Math.random() * 16777215).toString(16));
+                            });
+                            break;
+                        case 'browsers':
+                            _.forEach(browser_stats, function (bStat) {
+                                labels.push(bStat.browser_name + ' - ' + bStat.browser_count);
+                                data.push(bStat.browser_count);
+                                if (!vm.refreshing) backgroundColor.push('#' + Math.floor(Math.random() * 16777215).toString(16));
+                            });
+                            break;
+                    }
+                    return {
+                        labels: labels,
+                        datasets: [{
+                            backgroundColor: backgroundColor,
+                            data: data
+                        }]
+                    };
+                }
+            },
+            watch: {
+                statType: function statType(newVal, oldVal) {
+                    var vm = this;
+                    if (newVal !== oldVal) {
+                        if (typeof vm.routeNames[newVal] === 'string') vm.$router.push({ name: vm.routeNames[newVal] });
+                    }
+                }
+            }
+        });
+    }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (StatsPlugin);
+
+/***/ }),
+/* 531 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(531)
+var __vue_script__ = __webpack_require__(532)
 /* template */
-var __vue_template__ = __webpack_require__(534)
+var __vue_template__ = __webpack_require__(535)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -115657,12 +115942,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 531 */
+/* 532 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Nav_vue__ = __webpack_require__(532);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Nav_vue__ = __webpack_require__(533);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Nav_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Nav_vue__);
 //
 //
@@ -115682,7 +115967,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 532 */
+/* 533 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
@@ -115690,7 +115975,7 @@ var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = null
 /* template */
-var __vue_template__ = __webpack_require__(533)
+var __vue_template__ = __webpack_require__(534)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -115730,7 +116015,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 533 */
+/* 534 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -115869,7 +116154,7 @@ if (false) {
 }
 
 /***/ }),
-/* 534 */
+/* 535 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -115900,15 +116185,15 @@ if (false) {
 }
 
 /***/ }),
-/* 535 */
+/* 536 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(536)
+var __vue_script__ = __webpack_require__(537)
 /* template */
-var __vue_template__ = __webpack_require__(537)
+var __vue_template__ = __webpack_require__(538)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -115948,7 +116233,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 536 */
+/* 537 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -116094,7 +116379,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 537 */
+/* 538 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -116722,15 +117007,15 @@ if (false) {
 }
 
 /***/ }),
-/* 538 */
+/* 539 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(539)
+var __vue_script__ = __webpack_require__(540)
 /* template */
-var __vue_template__ = __webpack_require__(540)
+var __vue_template__ = __webpack_require__(541)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -116770,7 +117055,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 539 */
+/* 540 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -116882,7 +117167,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 540 */
+/* 541 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -117351,15 +117636,15 @@ if (false) {
 }
 
 /***/ }),
-/* 541 */
+/* 542 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(542)
+var __vue_script__ = __webpack_require__(543)
 /* template */
-var __vue_template__ = __webpack_require__(543)
+var __vue_template__ = __webpack_require__(544)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -117399,7 +117684,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 542 */
+/* 543 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -117500,7 +117785,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 543 */
+/* 544 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -117647,15 +117932,15 @@ if (false) {
 }
 
 /***/ }),
-/* 544 */
+/* 545 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(545)
+var __vue_script__ = __webpack_require__(546)
 /* template */
-var __vue_template__ = __webpack_require__(546)
+var __vue_template__ = __webpack_require__(547)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -117695,7 +117980,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 545 */
+/* 546 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -117843,7 +118128,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 546 */
+/* 547 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -118388,15 +118673,15 @@ if (false) {
 }
 
 /***/ }),
-/* 547 */
+/* 548 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(548)
+var __vue_script__ = __webpack_require__(549)
 /* template */
-var __vue_template__ = __webpack_require__(549)
+var __vue_template__ = __webpack_require__(550)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -118436,7 +118721,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 548 */
+/* 549 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -118597,7 +118882,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 549 */
+/* 550 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -118943,10 +119228,671 @@ if (false) {
 }
 
 /***/ }),
-/* 550 */
+/* 551 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 552 */,
+/* 553 */,
+/* 554 */,
+/* 555 */,
+/* 556 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(557)
+/* template */
+var __vue_template__ = __webpack_require__(558)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\AdminEmails\\ViewEmailClicksStats.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5b7c5768", Component.options)
+  } else {
+    hotAPI.reload("data-v-5b7c5768", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 557 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        this.$nextTick(function () {
+            var vm = this;
+            vm.pagination = vm.getInitialPagination();
+            vm.showResource();
+            vm.appInitialiseTooltip();
+        });
+    },
+    data: function data() {
+        return {
+            fetchingData: true,
+            resource: { id: '', sender: '', reply_to_email: '', subject: '', content: '', recipients_num: 0, status: '', friendly_status: '', created_at: '', updated_at: '', sent_at: '',
+                clicks_stats: [] },
+            statType: 'clicks',
+            fetchingClicks: true,
+            pagination: {},
+            paginationOptions: {
+                offset: 5,
+                alwaysShowPrevNext: true
+            },
+            perPageOptions: [{ text: '25', value: 25 }, { text: '50', value: 50 }, { text: '100', value: 100 }, { text: '500', value: 500 }],
+            orderAttr: 'clicks_count',
+            order: 'desc',
+            orderToggle: -1,
+            perPage: 25,
+            searchText: '',
+            searching: false
+        };
+    },
+
+    computed: {
+        orderedClicks: function orderedClicks() {
+            return _.orderBy(this.resource.clicks_stats.data, [this.orderAttr, 'clicks_count'], [this.orderToggle === 1 ? 'asc' : 'desc', 'asc']);
+        }
+    },
+    methods: {
+        showResource: function showResource() {
+            var vm = this;
+            var progress = vm.$Progress;
+            var orderBy = vm.orderAttr;
+            var lastPage = _.ceil(vm.pagination.total / vm.pagination.per_page);
+
+            var params = {
+                perPage: vm.pagination.per_page,
+                page: lastPage < vm.pagination.last_page ? 1 : vm.pagination.current_page,
+                orderBy: orderBy,
+                order: vm.orderToggle === 1 ? 'asc' : 'desc'
+            };
+
+            if (vm.searchText.length) params.search = vm.searchText;
+
+            progress.start();
+            vm.fetchingClicks = true;
+
+            vm.$http.get(vm.appResourceUrl + '/' + vm.id + '/' + vm.statType + '-stats', { params: params }).then(function (response) {
+
+                if (response.data && response.data.resource && response.data.resource.clicks_stats.data.length) {
+                    _.forEach(vm.resource, function (val, idx) {
+                        if (response.data.resource.hasOwnProperty(idx)) vm.$set(vm.resource, idx, response.data.resource[idx]);
+                    });
+
+                    vm.rootEventsHub.$emit('show-edit-tab', { resource: vm.resource });
+
+                    vm.orderAttr = orderBy;
+                    vm.order = vm.orderToggle === 1 ? 'asc' : 'desc';
+
+                    var clicks_stats = response.data.resource.clicks_stats;
+
+                    vm.$set(vm, 'pagination', {
+                        total: clicks_stats.total,
+                        per_page: clicks_stats.per_page,
+                        current_page: clicks_stats.current_page,
+                        last_page: clicks_stats.last_page,
+                        from: clicks_stats.from,
+                        to: clicks_stats.to
+                    });
+
+                    vm.appInitialiseTooltip();
+                    progress.finish();
+                } else {
+                    var message = vm.searching ? 'Your search returned no results. Please try again with different keywords' : 'No records found';
+
+                    if (vm.searching) vm.appCustomErrorAlertConfirmed(message);
+
+                    vm.searchText = '';
+                    vm.resource.clicks_stats = [];
+
+                    progress.fail();
+                }
+
+                vm.fetchingData = false;
+                vm.fetchingClicks = false;
+            }, function (error) {
+                if (error.status && error.status === 403 && error.data) vm.appCustomErrorAlert(error.data.error);else if (error.status && error.status === 404 && error.data) {
+                    var message = vm.searching ? 'Your search returned no results. Please try again with different keywords' : error.data.error;
+
+                    if (vm.searching) vm.appCustomErrorAlertConfirmed(message);else vm.appCustomErrorAlert(error.data.error);
+                } else vm.appGeneralErrorAlert();
+
+                vm.searchText = '';
+                vm.resource.clicks_stats = [];
+
+                vm.fetchingData = false;
+                vm.fetchingClicks = false;
+                progress.fail();
+            });
+        },
+        doClicksSearch: function doClicksSearch() {
+            var vm = this;
+
+            if (vm.searchText.length) {
+                vm.resource.clicks_stats = [];
+                vm.pagination = vm.getInitialPagination();
+                vm.searching = true;
+
+                vm.showResource();
+            }
+        },
+        getInitialPagination: function getInitialPagination() {
+            return {
+                total: 0,
+                per_page: 25,
+                current_page: 1,
+                last_page: 0,
+                from: 1,
+                to: 25
+            };
+        },
+        changeSort: function changeSort(attr) {
+            var vm = this;
+
+            vm.orderToggle = _.toLower(vm.orderAttr) === _.toLower(attr) ? vm.orderToggle * -1 : 1;
+            vm.orderAttr = attr;
+
+            vm.showResource();
+        },
+        getSortMarkup: function getSortMarkup(attr) {
+            var vm = this;
+            var html = '';
+
+            if (_.toLower(vm.orderAttr) === _.toLower(attr)) html = vm.orderToggle === 1 ? '&darr;' : '&uarr;';
+            return html;
+        }
+    },
+    watch: {
+        perPage: function perPage(newVal, oldVal) {
+            var vm = this;
+
+            if (newVal !== oldVal) vm.pagination.per_page = newVal;
+        },
+        searchText: function searchText(newVal, oldVal) {
+            var vm = this;
+
+            if (oldVal.length && !newVal.length) {
+                vm.searching = false;
+                vm.showResource();
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 558 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "mt-5" },
+    [
+      _vm.fetchingData
+        ? _c("i", { staticClass: "fa fa-spinner fa-spin" })
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.fetchingData
+        ? [
+            _vm.appUserHasPermission("read")
+              ? _c("div", [
+                  _c("h3", [_vm._v(_vm._s(_vm.resource.subject))]),
+                  _vm._v(" "),
+                  _c("h5", [
+                    _vm._v("Clicked by " + _vm._s(_vm.pagination.total))
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "mt-5 mb-3" }, [
+                    _c("label", { attrs: { for: "statType" } }),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.statType,
+                            expression: "statType"
+                          }
+                        ],
+                        attrs: { id: "statType" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.statType = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      _vm._l(_vm.statTypes, function(option) {
+                        return _c(
+                          "option",
+                          { domProps: { value: option.value } },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(option.text) +
+                                "\n                "
+                            )
+                          ]
+                        )
+                      })
+                    ),
+                    _vm._v(" "),
+                    _vm.fetchingClicks
+                      ? _c("div", [
+                          _c("i", { staticClass: "fa fa-spinner fa-spin" })
+                        ])
+                      : _c(
+                          "div",
+                          [
+                            _c("div", { staticClass: "row mt-3" }, [
+                              _c("div", { staticClass: "col-md-6" }, [
+                                _c(
+                                  "form",
+                                  {
+                                    staticClass: "form-inline",
+                                    on: {
+                                      submit: function($event) {
+                                        $event.preventDefault()
+                                        _vm.doClicksSearch($event)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("div", { staticClass: "form-group" }, [
+                                      _c(
+                                        "label",
+                                        { staticClass: "form-control-label" },
+                                        [_vm._v(" ")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model.trim",
+                                            value: _vm.searchText,
+                                            expression: "searchText",
+                                            modifiers: { trim: true }
+                                          }
+                                        ],
+                                        staticClass: "form-control",
+                                        attrs: {
+                                          type: "text",
+                                          placeholder: "Search"
+                                        },
+                                        domProps: { value: _vm.searchText },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.searchText = $event.target.value.trim()
+                                          },
+                                          blur: function($event) {
+                                            _vm.$forceUpdate()
+                                          }
+                                        }
+                                      })
+                                    ])
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-md-6" }, [
+                                _c(
+                                  "form",
+                                  { staticClass: "form-inline pull-right" },
+                                  [
+                                    _c("span", { staticClass: "mr-3" }, [
+                                      _vm._v(
+                                        "Page " +
+                                          _vm._s(_vm.pagination.current_page) +
+                                          " of " +
+                                          _vm._s(_vm.pagination.last_page) +
+                                          " ["
+                                      ),
+                                      _c("b", [
+                                        _vm._v(
+                                          _vm._s(_vm.pagination.total) +
+                                            " items"
+                                        )
+                                      ]),
+                                      _vm._v("]")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "label",
+                                      {
+                                        staticClass:
+                                          "form-control-label mr-sm-2",
+                                        attrs: { for: "records_per_page" }
+                                      },
+                                      [_vm._v("Per Page")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "select",
+                                      {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.perPage,
+                                            expression: "perPage"
+                                          }
+                                        ],
+                                        staticClass:
+                                          "custom-select form-control mb-2 mb-sm-0",
+                                        attrs: { id: "records_per_page" },
+                                        on: {
+                                          change: function($event) {
+                                            var $$selectedVal = Array.prototype.filter
+                                              .call(
+                                                $event.target.options,
+                                                function(o) {
+                                                  return o.selected
+                                                }
+                                              )
+                                              .map(function(o) {
+                                                var val =
+                                                  "_value" in o
+                                                    ? o._value
+                                                    : o.value
+                                                return val
+                                              })
+                                            _vm.perPage = $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          }
+                                        }
+                                      },
+                                      _vm._l(_vm.perPageOptions, function(
+                                        option
+                                      ) {
+                                        return _c(
+                                          "option",
+                                          { domProps: { value: option.value } },
+                                          [
+                                            _vm._v(
+                                              "\n                                        " +
+                                                _vm._s(option.text) +
+                                                "\n                                    "
+                                            )
+                                          ]
+                                        )
+                                      })
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "table-responsive mt-5" },
+                              [
+                                _c(
+                                  "table",
+                                  { staticClass: "table table-striped" },
+                                  [
+                                    _c("thead", [
+                                      _c(
+                                        "tr",
+                                        { staticClass: "pointer-cursor" },
+                                        [
+                                          _c(
+                                            "th",
+                                            {
+                                              on: {
+                                                click: function($event) {
+                                                  $event.preventDefault()
+                                                  _vm.changeSort("link")
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v("Link "),
+                                              _c("span", {
+                                                domProps: {
+                                                  innerHTML: _vm._s(
+                                                    _vm.getSortMarkup("link")
+                                                  )
+                                                }
+                                              })
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "th",
+                                            {
+                                              on: {
+                                                click: function($event) {
+                                                  $event.preventDefault()
+                                                  _vm.changeSort("clicks_count")
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v("Unique Clicks "),
+                                              _c("span", {
+                                                domProps: {
+                                                  innerHTML: _vm._s(
+                                                    _vm.getSortMarkup(
+                                                      "clicks_count"
+                                                    )
+                                                  )
+                                                }
+                                              })
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "tbody",
+                                      _vm._l(_vm.orderedClicks, function(
+                                        click
+                                      ) {
+                                        return _c("tr", [
+                                          _c("td", [
+                                            _vm._v(_vm._s(click.link))
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(_vm._s(click.clicks_count))
+                                          ])
+                                        ])
+                                      })
+                                    )
+                                  ]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("pagination", {
+                              staticClass: "mt-5 mb-3",
+                              attrs: {
+                                pagination: _vm.pagination,
+                                callback: _vm.showResource,
+                                options: _vm.paginationOptions
+                              }
+                            })
+                          ],
+                          1
+                        )
+                  ])
+                ])
+              : _c("div", [
+                  _c("i", { staticClass: "fa fa-warning" }),
+                  _vm._v(
+                    " " + _vm._s(_vm.appUnauthorisedErrorMessage) + "\n        "
+                  )
+                ])
+          ]
+        : _vm._e()
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5b7c5768", module.exports)
+  }
+}
+
+/***/ }),
+/* 559 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__ = __webpack_require__(437);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_chartjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_chartjs__);
+
+
+
+var reactiveProp = __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["mixins"].reactiveProp;
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    extends: __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["Pie"],
+    mixins: [reactiveProp],
+    props: ['options', 'width', 'height'],
+    mounted: function mounted() {
+        var vm = this;
+
+        vm.renderChart(vm.chartData, vm.options);
+    },
+
+    watch: {
+        options: function options(newVal, oldVal) {
+            if (!_.isEqual(newVal, oldVal)) {
+                if (typeof newVal.title.text === 'string') this.$data._chart.options.title.text = newVal.title.text;
+            }
+        }
+    }
+});
 
 /***/ })
 ],[264]);

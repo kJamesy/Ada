@@ -17,10 +17,11 @@ Route::redirect('/home', route('guest.home'));
 
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
-		$results = \App\Email::getRecipients(146, 'clicks', [], 'injected_at', 'asc', 5);
-		foreach(  $results as $result ) {
-			var_dump($result->subscriber->first_name);
-		}
+		$result = \App\Email::getClicksStats(81, 'clicks_count', 'ASC', 5);
+
+		var_dump($result->clicks_stats);
+//		var_dump($result->link);
+
 	});
 
 	Route::get('worker', function() {
@@ -84,6 +85,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 			Route::put('emails/{option}/quick-update', 'EmailController@quickUpdate');
 			Route::get('emails/{id}/recipients', 'EmailController@getRecipients');
 			Route::get('emails/{id}/general-stats', 'EmailController@getGeneralStats');
+			Route::get('emails/{id}/opens-stats', 'EmailController@getOpensStats');
+			Route::get('emails/{id}/clicks-stats', 'EmailController@getClicksStats');
 			Route::resource('emails', 'EmailController');
 		});
 

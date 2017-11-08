@@ -460,7 +460,156 @@ class Email extends Model
 		             ->selectRaw("(SELECT COUNT(DISTINCT subscriber_id) FROM clicks WHERE email_id = $id) AS clicks_count")
 		             ->selectRaw("(SELECT COUNT(DISTINCT subscriber_id) FROM failures WHERE email_id = $id) AS failures_count")
 		             ->where('status', 1)
+		             ->isNotDeleted()
 		             ->find($id);
+	}
+
+	/**
+	 * Get stats for a given email
+	 * @param $id
+	 * @param $limit
+	 *
+	 * @return mixed
+	 */
+	public static function getOpensStats($id, $limit)
+	{
+		$email = static::where('status', 1)->isNotDeleted()->find($id);
+
+		if ( $email ) {
+			$email->country_stats = static::getCountriesStats( $id, $limit );
+			$email->device_stats  = static::getDevicesStats( $id, $limit );
+			$email->os_stats      = static::getOssStats( $id, $limit );
+			$email->browser_stats = static::getBrowsersStats( $id, $limit );
+		}
+
+		return $email;
+	}
+
+	/**
+	 * Get countries stats for specified email id
+	 * @param $id
+	 * @param $limit
+	 *
+	 * @return mixed
+	 */
+	public static function getCountriesStats($id, $limit)
+	{
+		return DB::select("(SELECT IF(all_countries.country_count >= IFNULL(nth_count.c_count, 0), all_countries.country, 'Others') AS country_name,
+		SUM(all_countries.country_count) AS country_count
+		FROM (SELECT country, count(country) AS country_count FROM opens WHERE email_id = $id GROUP BY country) AS all_countries
+		LEFT JOIN (SELECT count(country) c_count FROM opens WHERE email_id = $id GROUP BY country ORDER BY c_count DESC LIMIT $limit, 1) AS nth_count
+		ON true
+		GROUP BY country_name
+		ORDER BY country_count DESC)");
+	}
+
+	/**
+	 * Get devices stats for specified email id
+	 * @param $id
+	 * @param $limit
+	 *
+	 * @return mixed
+	 */
+	public static function getDevicesStats($id, $limit)
+	{
+		return DB::select("(SELECT IF(all_devices.device_count >= IFNULL(nth_count.d_count, 0), all_devices.device, 'Others') AS device_name,
+		SUM(all_devices.device_count) AS device_count
+		FROM (SELECT device, count(device) AS device_count FROM opens WHERE email_id = $id GROUP BY device) AS all_devices
+		LEFT JOIN (SELECT count(device) d_count FROM opens WHERE email_id = $id GROUP BY device ORDER BY d_count DESC LIMIT $limit, 1) AS nth_count
+		ON true
+		GROUP BY device_name
+		ORDER BY device_count DESC)");
+	}
+
+	/**
+	 * Get OSs stats for specified email id
+	 * @param $id
+	 * @param $limit
+	 *
+	 * @return mixed
+	 */
+	public static function getOssStats($id, $limit)
+	{
+		return DB::select("(SELECT IF(all_OSs.OS_count >= IFNULL(nth_count.o_count, 0), all_OSs.OS, 'Others') AS OS_name,
+		SUM(all_OSs.OS_count) AS OS_count
+		FROM (SELECT OS, count(OS) AS OS_count FROM opens WHERE email_id = $id GROUP BY OS) AS all_OSs
+		LEFT JOIN (SELECT count(os) o_count FROM opens WHERE email_id = $id GROUP BY OS ORDER BY o_count DESC LIMIT $limit, 1) AS nth_count
+		ON true
+		GROUP BY OS_name
+		ORDER BY OS_count DESC)");
+	}
+
+	/**
+	 * Get browsers stats for specified email id
+	 * @param $id
+	 * @param $limit
+	 *
+	 * @return mixed
+	 */
+	public static function getBrowsersStats($id, $limit)
+	{
+		return DB::select("(SELECT IF(all_browsers.browser_count >= IFNULL(nth_count.b_count, 0), all_browsers.browser, 'Others') AS browser_name,
+		SUM(all_browsers.browser_count) AS browser_count
+		FROM (SELECT browser, count(browser) AS browser_count FROM opens WHERE email_id = $id GROUP BY browser) AS all_browsers
+		LEFT JOIN (SELECT count(browser) b_count FROM opens WHERE email_id = $id GROUP BY browser ORDER BY b_count DESC LIMIT $limit, 1) AS nth_count
+		ON true
+		GROUP BY browser_name
+		ORDER BY browser_count DESC)");
+	}
+
+	/**
+	 * Get clicks stats
+	 * @param null $emailId
+	 * @param string $orderBy
+	 * @param string $order
+	 * @param null $paginate
+	 *
+	 * @return mixed
+	 */
+	public static function getClicksStats($emailId = null, $orderBy = 'clicks_count', $order = 'DESC', $paginate = null)
+	{
+		$email = static::where('status', 1)->isNotDeleted()->find($emailId);
+
+		if ( $email ) {
+			$query = Click::select('link', DB::raw('count(link) clicks_count'))
+			              ->where('email_id', (int) $emailId)
+			              ->groupBy('link')
+			              ->orderBy($orderBy, $order);
+
+			$email->clicks_stats = (int) $paginate ? $query->paginate($paginate) : $query->get();
+		}
+
+		return $email;
+	}
+
+	/**
+	 * Get clicks stats search results
+	 * @param $search
+	 * @param $emailId
+	 * @param string $orderBy
+	 * @param string $order
+	 * @param null $paginate
+	 *
+	 * @return mixed
+	 */
+	public static function getClicksStatsResults($search, $emailId, $orderBy = 'clicks_count', $order = 'DESC', $paginate = null)
+	{
+		$searchQuery = Click::search($search);
+		$searchQuery->limit = 5000;
+
+		$email = static::where('status', 1)->isNotDeleted()->find($emailId);
+
+		if ( $email ) {
+			$query = Click::select('link', DB::raw('count(link) clicks_count'))
+			              ->whereIn('id', $searchQuery->get()->pluck('id'))
+			              ->where('email_id', (int) $emailId)
+			              ->groupBy('link')
+			              ->orderBy($orderBy, $order);
+
+			$email->clicks_stats = (int) $paginate ? $query->paginate($paginate) : $query->get();
+		}
+
+		return $email;
 	}
 
 

@@ -326,6 +326,8 @@
 
                         if ( vm.searching )
                             vm.appCustomErrorAlertConfirmed(message);
+                        else
+                            vm.appCustomErrorAlert(error.data.error);
                     }
                     else
                         vm.appGeneralErrorAlert();
