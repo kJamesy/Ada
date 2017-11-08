@@ -34055,21 +34055,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_ViewEmailStats_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_ViewEmailStats_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_ViewEmailClicksStats_vue__ = __webpack_require__(556);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_ViewEmailClicksStats_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_ViewEmailClicksStats_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__components_AdminEmails_EditEmail_vue__ = __webpack_require__(527);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__components_AdminEmails_EditEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_51__components_AdminEmails_EditEmail_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__components_AdminEmails_Stats_StatsPlugin__ = __webpack_require__(530);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_AdminUsers_vue__ = __webpack_require__(531);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_AdminUsers_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_AdminUsers_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_AllUsers_vue__ = __webpack_require__(536);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_AllUsers_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_AllUsers_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_NewUser_vue__ = __webpack_require__(539);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_NewUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_NewUser_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_ViewUser_vue__ = __webpack_require__(542);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_ViewUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_ViewUser_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__components_AdminUsers_EditUser_vue__ = __webpack_require__(545);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__components_AdminUsers_EditUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_57__components_AdminUsers_EditUser_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__components_AdminUsers_EditUserPermissions_vue__ = __webpack_require__(548);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__components_AdminUsers_EditUserPermissions_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_58__components_AdminUsers_EditUserPermissions_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__components_AdminEmails_ViewEmailFailuresStats_vue__ = __webpack_require__(560);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__components_AdminEmails_ViewEmailFailuresStats_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_51__components_AdminEmails_ViewEmailFailuresStats_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__components_AdminEmails_EditEmail_vue__ = __webpack_require__(527);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__components_AdminEmails_EditEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_52__components_AdminEmails_EditEmail_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__components_AdminEmails_Stats_StatsPlugin__ = __webpack_require__(530);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_AdminUsers_vue__ = __webpack_require__(531);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_AdminUsers_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_AdminUsers_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_AllUsers_vue__ = __webpack_require__(536);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_AllUsers_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_AllUsers_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_NewUser_vue__ = __webpack_require__(539);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_NewUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_NewUser_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__components_AdminUsers_ViewUser_vue__ = __webpack_require__(542);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__components_AdminUsers_ViewUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_57__components_AdminUsers_ViewUser_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__components_AdminUsers_EditUser_vue__ = __webpack_require__(545);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__components_AdminUsers_EditUser_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_58__components_AdminUsers_EditUser_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__components_AdminUsers_EditUserPermissions_vue__ = __webpack_require__(548);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__components_AdminUsers_EditUserPermissions_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_59__components_AdminUsers_EditUserPermissions_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -34284,15 +34286,16 @@ if ($('#admin-email-settings-app').length) {
 
 
 
+
 if ($('#admin-emails-app').length) {
     var _router6 = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
         mode: 'history',
         base: links.base,
         linkActiveClass: 'active',
-        routes: [{ path: '/', name: 'admin_emails.index', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/drafts', name: 'admin_emails.drafts', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/:campaignId(\\d+)/in-campaign', name: 'admin_emails.campaign', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/:userId(\\d+)/by-user', name: 'admin_emails.user', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/trash', name: 'admin_emails.trash', component: __WEBPACK_IMPORTED_MODULE_46__components_AdminEmails_TrashEmails_vue___default.a }, { path: '/create', name: 'admin_emails.create', component: __WEBPACK_IMPORTED_MODULE_47__components_AdminEmails_NewEmail_vue___default.a }, { path: '/:id(\\d+)/view', name: 'admin_emails.view', component: __WEBPACK_IMPORTED_MODULE_48__components_AdminEmails_ViewEmail_vue___default.a }, { path: '/:id(\\d+)/stats/general', name: 'admin_emails.stats', component: __WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_ViewEmailStats_vue___default.a }, { path: '/:id(\\d+)/stats/opens', name: 'admin_emails.open_stats', component: __WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_ViewEmailStats_vue___default.a }, { path: '/:id(\\d+)/stats/clicks', name: 'admin_emails.click_stats', component: __WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_ViewEmailClicksStats_vue___default.a }, { path: '/:id(\\d+)/stats/*', redirect: { name: 'admin_emails.stats' } }, { path: '/:id(\\d+)/edit', name: 'admin_emails.edit', component: __WEBPACK_IMPORTED_MODULE_51__components_AdminEmails_EditEmail_vue___default.a }, { path: '*', redirect: { name: 'admin_emails.index' } }]
+        routes: [{ path: '/', name: 'admin_emails.index', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/drafts', name: 'admin_emails.drafts', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/:campaignId(\\d+)/in-campaign', name: 'admin_emails.campaign', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/:userId(\\d+)/by-user', name: 'admin_emails.user', component: __WEBPACK_IMPORTED_MODULE_45__components_AdminEmails_AllEmails_vue___default.a }, { path: '/trash', name: 'admin_emails.trash', component: __WEBPACK_IMPORTED_MODULE_46__components_AdminEmails_TrashEmails_vue___default.a }, { path: '/create', name: 'admin_emails.create', component: __WEBPACK_IMPORTED_MODULE_47__components_AdminEmails_NewEmail_vue___default.a }, { path: '/:id(\\d+)/view', name: 'admin_emails.view', component: __WEBPACK_IMPORTED_MODULE_48__components_AdminEmails_ViewEmail_vue___default.a }, { path: '/:id(\\d+)/stats/general', name: 'admin_emails.stats', component: __WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_ViewEmailStats_vue___default.a }, { path: '/:id(\\d+)/stats/opens', name: 'admin_emails.open_stats', component: __WEBPACK_IMPORTED_MODULE_49__components_AdminEmails_ViewEmailStats_vue___default.a }, { path: '/:id(\\d+)/stats/clicks', name: 'admin_emails.click_stats', component: __WEBPACK_IMPORTED_MODULE_50__components_AdminEmails_ViewEmailClicksStats_vue___default.a }, { path: '/:id(\\d+)/stats/failures', name: 'admin_emails.failure_stats', component: __WEBPACK_IMPORTED_MODULE_51__components_AdminEmails_ViewEmailFailuresStats_vue___default.a }, { path: '/:id(\\d+)/stats/*', redirect: { name: 'admin_emails.stats' } }, { path: '/:id(\\d+)/edit', name: 'admin_emails.edit', component: __WEBPACK_IMPORTED_MODULE_52__components_AdminEmails_EditEmail_vue___default.a }, { path: '*', redirect: { name: 'admin_emails.index' } }]
     });
 
-    Vue.use(__WEBPACK_IMPORTED_MODULE_52__components_AdminEmails_Stats_StatsPlugin__["a" /* default */]);
+    Vue.use(__WEBPACK_IMPORTED_MODULE_53__components_AdminEmails_Stats_StatsPlugin__["a" /* default */]);
 
     new Vue({
         el: '#admin-emails-app',
@@ -34318,13 +34321,13 @@ if ($('#admin-users-app').length) {
         mode: 'history',
         base: links.base,
         linkActiveClass: 'active',
-        routes: [{ path: '/', name: 'admin_users.index', component: __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_AllUsers_vue___default.a }, { path: '/create', name: 'admin_users.create', component: __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_NewUser_vue___default.a }, { path: '/:id(\\d+)/view', name: 'admin_users.view', component: __WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_ViewUser_vue___default.a }, { path: '/:id(\\d+)/edit', name: 'admin_users.edit', component: __WEBPACK_IMPORTED_MODULE_57__components_AdminUsers_EditUser_vue___default.a }, { path: '/:id(\\d+)/permissions', name: 'admin_users.edit_permissions', component: __WEBPACK_IMPORTED_MODULE_58__components_AdminUsers_EditUserPermissions_vue___default.a }, { path: '*', redirect: { name: 'admin_users.index' } }]
+        routes: [{ path: '/', name: 'admin_users.index', component: __WEBPACK_IMPORTED_MODULE_55__components_AdminUsers_AllUsers_vue___default.a }, { path: '/create', name: 'admin_users.create', component: __WEBPACK_IMPORTED_MODULE_56__components_AdminUsers_NewUser_vue___default.a }, { path: '/:id(\\d+)/view', name: 'admin_users.view', component: __WEBPACK_IMPORTED_MODULE_57__components_AdminUsers_ViewUser_vue___default.a }, { path: '/:id(\\d+)/edit', name: 'admin_users.edit', component: __WEBPACK_IMPORTED_MODULE_58__components_AdminUsers_EditUser_vue___default.a }, { path: '/:id(\\d+)/permissions', name: 'admin_users.edit_permissions', component: __WEBPACK_IMPORTED_MODULE_59__components_AdminUsers_EditUserPermissions_vue___default.a }, { path: '*', redirect: { name: 'admin_users.index' } }]
     });
 
     new Vue({
         el: '#admin-users-app',
         components: {
-            AdminUsers: __WEBPACK_IMPORTED_MODULE_53__components_AdminUsers_AdminUsers_vue___default.a
+            AdminUsers: __WEBPACK_IMPORTED_MODULE_54__components_AdminUsers_AdminUsers_vue___default.a
         },
         router: _router7
     });
@@ -97501,6 +97504,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -114327,80 +114345,115 @@ var render = function() {
                   [
                     _c("h3", [_vm._v(_vm._s(_vm.resource.subject))]),
                     _vm._v(" "),
-                    _vm.statType === "general"
-                      ? _c("h5", [
-                          _vm._v(
-                            "Dispatched to " +
-                              _vm._s(_vm.resource.injections_count)
-                          )
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "mt-5 mb-3" }, [
-                      _c("label", { attrs: { for: "statType" } }),
-                      _c(
-                        "select",
-                        {
-                          directives: [
+                    _c("div", { staticClass: "row mt-5" }, [
+                      _c("div", { staticClass: "col" }, [
+                        _c("form", { staticClass: "form-inline pull-left" }, [
+                          _c(
+                            "label",
                             {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.statType,
-                              expression: "statType"
+                              staticClass: "form-control-label mr-sm-2",
+                              attrs: { for: "statType" }
+                            },
+                            [_vm._v("Viewing")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.statType,
+                                  expression: "statType"
+                                }
+                              ],
+                              staticClass:
+                                "custom-select form-control mb-2 mb-sm-0",
+                              attrs: { id: "statType" },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.statType = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                }
+                              }
+                            },
+                            _vm._l(_vm.statTypes, function(option) {
+                              return _c(
+                                "option",
+                                { domProps: { value: option.value } },
+                                [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(option.text) +
+                                      "\n                            "
+                                  )
+                                ]
+                              )
+                            })
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "pull-right",
+                            attrs: { href: "" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.refetchData()
+                              }
                             }
-                          ],
-                          attrs: { id: "statType" },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.statType = $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            }
-                          }
-                        },
-                        _vm._l(_vm.statTypes, function(option) {
-                          return _c(
-                            "option",
-                            { domProps: { value: option.value } },
-                            [
+                          },
+                          [
+                            _c("i", {
+                              staticClass: "fa fa-refresh",
+                              class: { "fa-spin": _vm.refreshing }
+                            })
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "clearfix" }),
+                    _vm._v(" "),
+                    _c(
+                      "h5",
+                      { staticClass: "mt-4" },
+                      [
+                        _vm.statType === "general"
+                          ? [
                               _vm._v(
-                                "\n                    " +
-                                  _vm._s(option.text) +
+                                "\n                    Dispatched to " +
+                                  _vm._s(_vm.resource.injections_count) +
                                   "\n                "
                               )
                             ]
-                          )
-                        })
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "pull-right",
-                          attrs: { href: "" },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              _vm.refetchData()
-                            }
-                          }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-refresh",
-                            class: { "fa-spin": _vm.refreshing }
-                          })
-                        ]
-                      )
-                    ]),
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.statType === "opens"
+                          ? [
+                              _vm._v(
+                                "\n                    Opened by " +
+                                  _vm._s(_vm.resource.opens_count) +
+                                  "\n                "
+                              )
+                            ]
+                          : _vm._e()
+                      ],
+                      2
+                    ),
                     _vm._v(" "),
                     _vm.statType === "general"
                       ? [
@@ -115720,7 +115773,7 @@ var StatsPlugin = {
                 return {
                     statTypes: [{ text: 'General Stats', value: 'general' }, { text: 'Opens Stats', value: 'opens' }, { text: 'Clicks Stats', value: 'clicks' }, { text: 'Failures Stats', value: 'failures' }],
                     statType: 'general',
-                    routeNames: { general: 'admin_emails.stats', opens: 'admin_emails.open_stats', clicks: 'admin_emails.click_stats' }
+                    routeNames: { general: 'admin_emails.stats', opens: 'admin_emails.open_stats', clicks: 'admin_emails.click_stats', failures: 'admin_emails.failure_stats' }
                 };
             },
 
@@ -119360,6 +119413,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -119545,300 +119604,304 @@ var render = function() {
               ? _c("div", [
                   _c("h3", [_vm._v(_vm._s(_vm.resource.subject))]),
                   _vm._v(" "),
-                  _c("h5", [
-                    _vm._v("Clicked by " + _vm._s(_vm.pagination.total))
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "mt-5 mb-3" }, [
-                    _c("label", { attrs: { for: "statType" } }),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.statType,
-                            expression: "statType"
-                          }
-                        ],
-                        attrs: { id: "statType" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.statType = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          }
-                        }
-                      },
-                      _vm._l(_vm.statTypes, function(option) {
-                        return _c(
-                          "option",
-                          { domProps: { value: option.value } },
-                          [
-                            _vm._v(
-                              "\n                    " +
-                                _vm._s(option.text) +
-                                "\n                "
-                            )
-                          ]
-                        )
-                      })
-                    ),
-                    _vm._v(" "),
-                    _vm.fetchingClicks
-                      ? _c("div", [
-                          _c("i", { staticClass: "fa fa-spinner fa-spin" })
-                        ])
-                      : _c(
-                          "div",
-                          [
-                            _c("div", { staticClass: "row mt-3" }, [
-                              _c("div", { staticClass: "col-md-6" }, [
-                                _c(
-                                  "form",
-                                  {
-                                    staticClass: "form-inline",
-                                    on: {
-                                      submit: function($event) {
-                                        $event.preventDefault()
-                                        _vm.doClicksSearch($event)
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c("div", { staticClass: "form-group" }, [
-                                      _c(
-                                        "label",
-                                        { staticClass: "form-control-label" },
-                                        [_vm._v(" ")]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model.trim",
-                                            value: _vm.searchText,
-                                            expression: "searchText",
-                                            modifiers: { trim: true }
-                                          }
-                                        ],
-                                        staticClass: "form-control",
-                                        attrs: {
-                                          type: "text",
-                                          placeholder: "Search"
-                                        },
-                                        domProps: { value: _vm.searchText },
-                                        on: {
-                                          input: function($event) {
-                                            if ($event.target.composing) {
-                                              return
-                                            }
-                                            _vm.searchText = $event.target.value.trim()
-                                          },
-                                          blur: function($event) {
-                                            _vm.$forceUpdate()
-                                          }
+                  _vm.fetchingClicks
+                    ? _c("div", [
+                        _c("i", { staticClass: "fa fa-spinner fa-spin" })
+                      ])
+                    : _c(
+                        "div",
+                        [
+                          _c("div", { staticClass: "row mt-5 mb-4" }, [
+                            _c("div", { staticClass: "col" }, [
+                              _c(
+                                "form",
+                                { staticClass: "form-inline pull-left" },
+                                [
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass: "form-control-label mr-sm-2",
+                                      attrs: { for: "statType" }
+                                    },
+                                    [_vm._v("Viewing")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.statType,
+                                          expression: "statType"
                                         }
-                                      })
-                                    ])
-                                  ]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col-md-6" }, [
-                                _c(
-                                  "form",
-                                  { staticClass: "form-inline pull-right" },
-                                  [
-                                    _c("span", { staticClass: "mr-3" }, [
-                                      _vm._v(
-                                        "Page " +
-                                          _vm._s(_vm.pagination.current_page) +
-                                          " of " +
-                                          _vm._s(_vm.pagination.last_page) +
-                                          " ["
-                                      ),
-                                      _c("b", [
-                                        _vm._v(
-                                          _vm._s(_vm.pagination.total) +
-                                            " items"
-                                        )
-                                      ]),
-                                      _vm._v("]")
-                                    ]),
-                                    _vm._v(" "),
-                                    _c(
-                                      "label",
-                                      {
-                                        staticClass:
-                                          "form-control-label mr-sm-2",
-                                        attrs: { for: "records_per_page" }
-                                      },
-                                      [_vm._v("Per Page")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "select",
-                                      {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.perPage,
-                                            expression: "perPage"
-                                          }
-                                        ],
-                                        staticClass:
-                                          "custom-select form-control mb-2 mb-sm-0",
-                                        attrs: { id: "records_per_page" },
-                                        on: {
-                                          change: function($event) {
-                                            var $$selectedVal = Array.prototype.filter
-                                              .call(
-                                                $event.target.options,
-                                                function(o) {
-                                                  return o.selected
-                                                }
-                                              )
-                                              .map(function(o) {
-                                                var val =
-                                                  "_value" in o
-                                                    ? o._value
-                                                    : o.value
-                                                return val
-                                              })
-                                            _vm.perPage = $event.target.multiple
-                                              ? $$selectedVal
-                                              : $$selectedVal[0]
-                                          }
-                                        }
-                                      },
-                                      _vm._l(_vm.perPageOptions, function(
-                                        option
-                                      ) {
-                                        return _c(
-                                          "option",
-                                          { domProps: { value: option.value } },
-                                          [
-                                            _vm._v(
-                                              "\n                                        " +
-                                                _vm._s(option.text) +
-                                                "\n                                    "
+                                      ],
+                                      staticClass:
+                                        "custom-select form-control mb-2 mb-sm-0",
+                                      attrs: { id: "statType" },
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
                                             )
-                                          ]
-                                        )
-                                      })
-                                    )
-                                  ]
-                                )
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "table-responsive mt-5" },
-                              [
-                                _c(
-                                  "table",
-                                  { staticClass: "table table-striped" },
-                                  [
-                                    _c("thead", [
-                                      _c(
-                                        "tr",
-                                        { staticClass: "pointer-cursor" },
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.statType = $event.target.multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        }
+                                      }
+                                    },
+                                    _vm._l(_vm.statTypes, function(option) {
+                                      return _c(
+                                        "option",
+                                        { domProps: { value: option.value } },
                                         [
-                                          _c(
-                                            "th",
-                                            {
-                                              on: {
-                                                click: function($event) {
-                                                  $event.preventDefault()
-                                                  _vm.changeSort("link")
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _vm._v("Link "),
-                                              _c("span", {
-                                                domProps: {
-                                                  innerHTML: _vm._s(
-                                                    _vm.getSortMarkup("link")
-                                                  )
-                                                }
-                                              })
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "th",
-                                            {
-                                              on: {
-                                                click: function($event) {
-                                                  $event.preventDefault()
-                                                  _vm.changeSort("clicks_count")
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _vm._v("Unique Clicks "),
-                                              _c("span", {
-                                                domProps: {
-                                                  innerHTML: _vm._s(
-                                                    _vm.getSortMarkup(
-                                                      "clicks_count"
-                                                    )
-                                                  )
-                                                }
-                                              })
-                                            ]
+                                          _vm._v(
+                                            "\n                                    " +
+                                              _vm._s(option.text) +
+                                              "\n                                "
                                           )
                                         ]
                                       )
+                                    })
+                                  )
+                                ]
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row mt-3" }, [
+                            _c("div", { staticClass: "col-md-6" }, [
+                              _c(
+                                "form",
+                                {
+                                  staticClass: "form-inline",
+                                  on: {
+                                    submit: function($event) {
+                                      $event.preventDefault()
+                                      _vm.doClicksSearch($event)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("div", { staticClass: "form-group" }, [
+                                    _c(
+                                      "label",
+                                      { staticClass: "form-control-label" },
+                                      [_vm._v(" ")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model.trim",
+                                          value: _vm.searchText,
+                                          expression: "searchText",
+                                          modifiers: { trim: true }
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "text",
+                                        placeholder: "Search"
+                                      },
+                                      domProps: { value: _vm.searchText },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.searchText = $event.target.value.trim()
+                                        },
+                                        blur: function($event) {
+                                          _vm.$forceUpdate()
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-6" }, [
+                              _c(
+                                "form",
+                                { staticClass: "form-inline pull-right" },
+                                [
+                                  _c("span", { staticClass: "mr-3" }, [
+                                    _vm._v(
+                                      "Page " +
+                                        _vm._s(_vm.pagination.current_page) +
+                                        " of " +
+                                        _vm._s(_vm.pagination.last_page) +
+                                        " ["
+                                    ),
+                                    _c("b", [
+                                      _vm._v(
+                                        _vm._s(_vm.pagination.total) + " items"
+                                      )
                                     ]),
+                                    _vm._v("]")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass: "form-control-label mr-sm-2",
+                                      attrs: { for: "records_per_page" }
+                                    },
+                                    [_vm._v("Per Page")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.perPage,
+                                          expression: "perPage"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "custom-select form-control mb-2 mb-sm-0",
+                                      attrs: { id: "records_per_page" },
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.perPage = $event.target.multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        }
+                                      }
+                                    },
+                                    _vm._l(_vm.perPageOptions, function(
+                                      option
+                                    ) {
+                                      return _c(
+                                        "option",
+                                        { domProps: { value: option.value } },
+                                        [
+                                          _vm._v(
+                                            "\n                                    " +
+                                              _vm._s(option.text) +
+                                              "\n                                "
+                                          )
+                                        ]
+                                      )
+                                    })
+                                  )
+                                ]
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "table-responsive mt-5" }, [
+                            _c(
+                              "table",
+                              { staticClass: "table table-striped" },
+                              [
+                                _c("thead", [
+                                  _c("tr", { staticClass: "pointer-cursor" }, [
+                                    _c(
+                                      "th",
+                                      {
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            _vm.changeSort("link")
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm._v("Link "),
+                                        _c("span", {
+                                          domProps: {
+                                            innerHTML: _vm._s(
+                                              _vm.getSortMarkup("link")
+                                            )
+                                          }
+                                        })
+                                      ]
+                                    ),
                                     _vm._v(" "),
                                     _c(
-                                      "tbody",
-                                      _vm._l(_vm.orderedClicks, function(
-                                        click
-                                      ) {
-                                        return _c("tr", [
-                                          _c("td", [
-                                            _vm._v(_vm._s(click.link))
-                                          ]),
-                                          _vm._v(" "),
-                                          _c("td", [
-                                            _vm._v(_vm._s(click.clicks_count))
-                                          ])
-                                        ])
-                                      })
+                                      "th",
+                                      {
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            _vm.changeSort("clicks_count")
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm._v("Unique Clicks "),
+                                        _c("span", {
+                                          domProps: {
+                                            innerHTML: _vm._s(
+                                              _vm.getSortMarkup("clicks_count")
+                                            )
+                                          }
+                                        })
+                                      ]
                                     )
-                                  ]
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "tbody",
+                                  _vm._l(_vm.orderedClicks, function(click) {
+                                    return _c("tr", [
+                                      _c("td", [_vm._v(_vm._s(click.link))]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _vm._v(_vm._s(click.clicks_count))
+                                      ])
+                                    ])
+                                  })
                                 )
                               ]
-                            ),
-                            _vm._v(" "),
-                            _c("pagination", {
-                              staticClass: "mt-5 mb-3",
-                              attrs: {
-                                pagination: _vm.pagination,
-                                callback: _vm.showResource,
-                                options: _vm.paginationOptions
-                              }
-                            })
-                          ],
-                          1
-                        )
-                  ])
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("pagination", {
+                            staticClass: "mt-5 mb-3",
+                            attrs: {
+                              pagination: _vm.pagination,
+                              callback: _vm.showResource,
+                              options: _vm.paginationOptions
+                            }
+                          })
+                        ],
+                        1
+                      )
                 ])
               : _c("div", [
                   _c("i", { staticClass: "fa fa-warning" }),
@@ -119893,6 +119956,356 @@ var reactiveProp = __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["mixins"].reactiveP
         }
     }
 });
+
+/***/ }),
+/* 560 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(561)
+/* template */
+var __vue_template__ = __webpack_require__(562)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\AdminEmails\\ViewEmailFailuresStats.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-29d4d464", Component.options)
+  } else {
+    hotAPI.reload("data-v-29d4d464", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 561 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Stats_GeneralPieChart__ = __webpack_require__(559);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        this.$nextTick(function () {
+            this.appInitialiseTooltip();
+            this.showResource();
+        });
+    },
+    data: function data() {
+        return {
+            fetchingData: true,
+            resource: { id: '', sender: '', reply_to_email: '', subject: '', content: '', recipients_num: 0, status: '', friendly_status: '', created_at: '', updated_at: '', sent_at: '',
+                injections_count: 0, deliveries_count: 0, opens_count: 0, clicks_count: 0, failures_count: 0,
+                failures_stats: [] },
+            refreshing: false,
+            statType: 'failures'
+        };
+    },
+
+    methods: {
+        showResource: function showResource() {
+            var vm = this;
+            var progress = vm.$Progress;
+
+            progress.start();
+
+            vm.$http.get(vm.appResourceUrl + '/' + vm.id + '/' + vm.statType + '-stats').then(function (response) {
+                if (response.data && response.data.resource) {
+                    _.forEach(vm.resource, function (val, idx) {
+                        if (response.data.resource.hasOwnProperty(idx)) vm.$set(vm.resource, idx, response.data.resource[idx]);
+                    });
+
+                    vm.rootEventsHub.$emit('show-edit-tab', { resource: vm.resource });
+                    progress.finish();
+                } else {
+                    vm.appGeneralErrorAlert();
+                    progress.fail();
+                }
+
+                vm.fetchingData = false;
+                vm.refreshing = false;
+            }, function (error) {
+                if (error.status && error.status === 403 && error.data) {
+                    swal({
+                        title: "Uh oh!",
+                        text: error.data.error,
+                        type: 'error',
+                        animation: 'slide-from-top'
+                    }, function () {
+                        window.location.replace(vm.appUserHome);
+                    });
+                } else if (error.status && error.status === 404 && error.data) vm.appCustomErrorAlert(error.data.error);else vm.appGeneralErrorAlert();
+                progress.fail();
+                vm.fetchingData = false;
+                vm.refreshing = false;
+            });
+        },
+        getPieOptions: function getPieOptions() {
+            var num = this.resource.failures_count;
+            var percentage = _.round(num / this.resource.injections_count * 100, 2);
+
+            return {
+                responsive: true,
+                maintainAspectRatio: true,
+                title: {
+                    display: true,
+                    text: 'Failures - ' + num + ' (' + percentage + '%)'
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                }
+            };
+        },
+        getPieData: function getPieData() {
+            var vm = this;
+            var failures_stats = vm.resource.failures_stats;
+
+            var labels = [];
+            var backgroundColor = [];
+            var data = [];
+
+            if (failures_stats.length) {
+                _.forEach(failures_stats, function (fStat) {
+                    labels.push(fStat.type + ' - ' + fStat.types_count);
+                    data.push(fStat.types_count);
+                    if (!vm.refreshing) backgroundColor.push('#' + Math.floor(Math.random() * 16777215).toString(16));
+                });
+            }
+
+            return {
+                labels: labels,
+                datasets: [{
+                    backgroundColor: backgroundColor,
+                    data: data
+                }]
+            };
+        },
+        refetchData: function refetchData() {
+            this.refreshing = true;
+            this.showResource();
+        }
+    },
+    components: {
+        GeneralPieChart: __WEBPACK_IMPORTED_MODULE_0__Stats_GeneralPieChart__["a" /* default */]
+    }
+});
+
+/***/ }),
+/* 562 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "mt-5" },
+    [
+      _vm.fetchingData
+        ? _c("i", { staticClass: "fa fa-spinner fa-spin" })
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.fetchingData
+        ? [
+            _vm.appUserHasPermission("read")
+              ? _c("div", [
+                  _c("h3", [_vm._v(_vm._s(_vm.resource.subject))]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row mt-5" }, [
+                    _c("div", { staticClass: "col" }, [
+                      _c("form", { staticClass: "form-inline pull-left" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "form-control-label mr-sm-2",
+                            attrs: { for: "statType" }
+                          },
+                          [_vm._v("Viewing")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.statType,
+                                expression: "statType"
+                              }
+                            ],
+                            staticClass:
+                              "custom-select form-control mb-2 mb-sm-0",
+                            attrs: { id: "statType" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.statType = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          _vm._l(_vm.statTypes, function(option) {
+                            return _c(
+                              "option",
+                              { domProps: { value: option.value } },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(option.text) +
+                                    "\n                            "
+                                )
+                              ]
+                            )
+                          })
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "pull-right",
+                          attrs: { href: "" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.refetchData()
+                            }
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-refresh",
+                            class: { "fa-spin": _vm.refreshing }
+                          })
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "clearfix" }),
+                  _vm._v(" "),
+                  _c("h5", { staticClass: "mt-4" }, [
+                    _vm._v(
+                      "Total Failures: " + _vm._s(_vm.resource.failures_count)
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row mt-5" }, [
+                    _c(
+                      "div",
+                      { staticClass: "col" },
+                      [
+                        _c("general-pie-chart", {
+                          attrs: {
+                            "chart-data": _vm.getPieData(),
+                            options: _vm.getPieOptions()
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ])
+                ])
+              : _c("div", [
+                  _c("i", { staticClass: "fa fa-warning" }),
+                  _vm._v(
+                    " " + _vm._s(_vm.appUnauthorisedErrorMessage) + "\n        "
+                  )
+                ])
+          ]
+        : _vm._e()
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-29d4d464", module.exports)
+  }
+}
 
 /***/ })
 ],[264]);

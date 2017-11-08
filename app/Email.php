@@ -421,8 +421,9 @@ class Email extends Model
 			$query->select('subscribers.*', 'injections.*', DB::raw($rawQuery));
 		}
 
-		if ( count($selected) )
-			$query->whereIn('subscribers.id', $selected);
+		if ( count($selected) ) {
+			$query->whereIn('subscribers.id', $selected['ids']);
+		}
 
 		return (int) $paginate ? $query->paginate($paginate) : $query->get();
 	}
@@ -445,7 +446,7 @@ class Email extends Model
 		$searchQuery->limit = 5000;
 		$results = $searchQuery->get()->pluck('id');
 
-		return static::getRecipients($emailId, $type, $results, $orderBy, $order, $paginate);
+		return static::getRecipients($emailId, $type, ['ids' => $results], $orderBy, $order, $paginate);
 	}
 
 	/**
@@ -473,7 +474,10 @@ class Email extends Model
 	 */
 	public static function getOpensStats($id, $limit)
 	{
-		$email = static::where('status', 1)->isNotDeleted()->find($id);
+		$email = static::withCount(['injections', 'deliveries', 'opens'])
+		               ->selectRaw("(SELECT COUNT(DISTINCT subscriber_id) FROM clicks WHERE email_id = $id) AS clicks_count")
+		               ->selectRaw("(SELECT COUNT(DISTINCT subscriber_id) FROM failures WHERE email_id = $id) AS failures_count")
+		               ->where('status', 1)->isNotDeleted()->find($id);
 
 		if ( $email ) {
 			$email->country_stats = static::getCountriesStats( $id, $limit );
@@ -608,6 +612,25 @@ class Email extends Model
 
 			$email->clicks_stats = (int) $paginate ? $query->paginate($paginate) : $query->get();
 		}
+
+		return $email;
+	}
+
+	/**
+	 * Get failures stats
+	 * @param $id
+	 *
+	 * @return mixed
+	 */
+	public static function getFailuresStats($id)
+	{
+		$email = static::withCount(['injections', 'deliveries', 'opens'])
+		               ->selectRaw("(SELECT COUNT(DISTINCT subscriber_id) FROM clicks WHERE email_id = $id) AS clicks_count")
+		               ->selectRaw("(SELECT COUNT(DISTINCT subscriber_id) FROM failures WHERE email_id = $id) AS failures_count")
+		               ->where('status', 1)->isNotDeleted()->find($id);
+
+		if ( $email )
+			$email->failures_stats = DB::select("(SELECT type, COUNT(type) AS types_count FROM failures WHERE email_id = $id GROUP BY type ORDER BY types_count DESC)");
 
 		return $email;
 	}

@@ -5,60 +5,66 @@
         <template v-if="! fetchingData">
             <div v-if="appUserHasPermission('read')">
                 <h3>{{ resource.subject }}</h3>
-                <h5>Clicked by {{ pagination.total }}</h5>
-                <div class="mt-5 mb-3">
-                    <label for="statType"></label><select id="statType" v-model="statType">
-                    <option v-for="option in statTypes" v-bind:value="option.value">
-                        {{ option.text }}
-                    </option></select>
 
-                    <div v-if="fetchingClicks">
-                        <i class="fa fa-spinner fa-spin"></i>
-                    </div>
-                    <div v-else="">
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <form class="form-inline" v-on:submit.prevent="doClicksSearch">
-                                    <div class="form-group">
-                                        <label class="form-control-label">&nbsp;</label>
-                                        <input type="text" v-model.trim="searchText" placeholder="Search" class="form-control" />
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="col-md-6">
-                                <form class="form-inline pull-right">
-                                    <span class="mr-3">Page {{ pagination.current_page }} of {{ pagination.last_page }} [<b>{{ pagination.total }} items</b>]</span>
-                                    <label class="form-control-label mr-sm-2" for="records_per_page">Per Page</label>
-                                    <select class="custom-select form-control mb-2 mb-sm-0" v-model="perPage" id="records_per_page">
-                                        <option v-for="option in perPageOptions" v-bind:value="option.value">
-                                            {{ option.text }}
-                                        </option>
-                                    </select>
-                                </form>
-                            </div>
-                        </div>
-
-                        <div class="table-responsive mt-5">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr class="pointer-cursor">
-                                        <th v-on:click.prevent="changeSort('link')">Link <span v-html="getSortMarkup('link')"></span></th>
-                                        <th v-on:click.prevent="changeSort('clicks_count')">Unique Clicks <span v-html="getSortMarkup('clicks_count')"></span></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="click in orderedClicks">
-                                        <td>{{ click.link }}</td>
-                                        <td>{{ click.clicks_count }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <pagination :pagination="pagination" :callback="showResource" :options="paginationOptions" class="mt-5 mb-3"></pagination>
-                    </div>
-
+                <div v-if="fetchingClicks">
+                    <i class="fa fa-spinner fa-spin"></i>
                 </div>
+                <div v-else="">
+                    <div class="row mt-5 mb-4">
+                        <div class="col">
+                            <form class="form-inline pull-left">
+                                <label class="form-control-label mr-sm-2" for="statType">Viewing</label>
+                                <select class="custom-select form-control mb-2 mb-sm-0" v-model="statType" id="statType">
+                                    <option v-for="option in statTypes" v-bind:value="option.value">
+                                        {{ option.text }}
+                                    </option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <form class="form-inline" v-on:submit.prevent="doClicksSearch">
+                                <div class="form-group">
+                                    <label class="form-control-label">&nbsp;</label>
+                                    <input type="text" v-model.trim="searchText" placeholder="Search" class="form-control" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6">
+                            <form class="form-inline pull-right">
+                                <span class="mr-3">Page {{ pagination.current_page }} of {{ pagination.last_page }} [<b>{{ pagination.total }} items</b>]</span>
+                                <label class="form-control-label mr-sm-2" for="records_per_page">Per Page</label>
+                                <select class="custom-select form-control mb-2 mb-sm-0" v-model="perPage" id="records_per_page">
+                                    <option v-for="option in perPageOptions" v-bind:value="option.value">
+                                        {{ option.text }}
+                                    </option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive mt-5">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr class="pointer-cursor">
+                                    <th v-on:click.prevent="changeSort('link')">Link <span v-html="getSortMarkup('link')"></span></th>
+                                    <th v-on:click.prevent="changeSort('clicks_count')">Unique Clicks <span v-html="getSortMarkup('clicks_count')"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="click in orderedClicks">
+                                    <td>{{ click.link }}</td>
+                                    <td>{{ click.clicks_count }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <pagination :pagination="pagination" :callback="showResource" :options="paginationOptions" class="mt-5 mb-3"></pagination>
+                </div>
+
             </div>
             <div v-else="">
                 <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}

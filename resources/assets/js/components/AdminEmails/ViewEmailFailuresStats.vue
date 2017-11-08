@@ -20,55 +20,13 @@
                     </div>
                 </div>
                 <div class="clearfix"></div>
-                <h5 class="mt-4">
-                    <template v-if="statType === 'general'">
-                        Dispatched to {{ resource.injections_count }}
-                    </template>
-                    <template v-if="statType === 'opens'">
-                        Opened by {{ resource.opens_count }}
-                    </template>
-                </h5>
+                <h5 class="mt-4">Total Failures: {{ resource.failures_count }}</h5>
 
-                <template v-if="statType === 'general'">
-                    <div class="row mt-5">
-                        <div class="col-sm-6">
-                            <general-pie-chart :chart-data="getGeneralPieData('deliveries')" :options="getGeneralPieOptions('deliveries')"></general-pie-chart>
-                        </div>
-                        <div class="col-sm-6">
-                            <general-pie-chart :chart-data="getGeneralPieData('opens')" :options="getGeneralPieOptions('opens')"></general-pie-chart>
-                        </div>
+                <div class="row mt-5">
+                    <div class="col">
+                        <general-pie-chart :chart-data="getPieData()" :options="getPieOptions()"></general-pie-chart>
                     </div>
-                    <div class="row mt-5">
-                        <div class="col-sm-6">
-                            <general-pie-chart :chart-data="getGeneralPieData('clicks')" :options="getGeneralPieOptions('clicks')"></general-pie-chart>
-                        </div>
-                        <div class="col-sm-6">
-                            <general-pie-chart :chart-data="getGeneralPieData('failures')" :options="getGeneralPieOptions('failures')"></general-pie-chart>
-                        </div>
-                    </div>
-                </template>
-                <template v-if="statType === 'opens'">
-                    <div class="row mt-5">
-                        <div class="col">
-                            <general-pie-chart :chart-data="getOpensPieData('countries')" :options="getOpensPieOptions('countries')"></general-pie-chart>
-                        </div>
-                    </div>
-                    <div class="row mt-5">
-                        <div class="col">
-                            <general-pie-chart :chart-data="getOpensPieData('devices')" :options="getOpensPieOptions('devices')"></general-pie-chart>
-                        </div>
-                    </div>
-                    <div class="row mt-5">
-                        <div class="col">
-                            <general-pie-chart :chart-data="getOpensPieData('OSs')" :options="getOpensPieOptions('OSs')"></general-pie-chart>
-                        </div>
-                    </div>
-                    <div class="row mt-5">
-                        <div class="col">
-                            <general-pie-chart :chart-data="getOpensPieData('browsers')" :options="getOpensPieOptions('browsers')"></general-pie-chart>
-                        </div>
-                    </div>
-                </template>
+                </div>
             </div>
             <div v-else="">
                 <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
@@ -84,25 +42,17 @@
         mounted() {
             this.$nextTick(function() {
                 this.appInitialiseTooltip();
-
-                switch(this.$route.name) {
-                    case 'admin_emails.stats':
-                        this.statType = 'general';
-                        break;
-                    case 'admin_emails.open_stats':
-                        this.statType = 'opens';
-                        break;
-                }
                 this.showResource();
             });
         },
         data() {
             return {
                 fetchingData: true,
-                resource: {id: '', sender: '', reply_to_email: '', subject: '', content: '', recipients_num: 0, status: '', friendly_status: '', created_at: '', updated_at: '', sent_at: '',
+                resource: { id: '', sender: '', reply_to_email: '', subject: '', content: '', recipients_num: 0, status: '', friendly_status: '', created_at: '', updated_at: '', sent_at: '',
                     injections_count: 0, deliveries_count: 0, opens_count: 0, clicks_count: 0, failures_count: 0,
-                    country_stats: [], device_stats: [], os_stats: [], browser_stats: []},
+                    failures_stats: [] },
                 refreshing: false,
+                statType: 'failures',
             }
         },
         methods: {
@@ -148,6 +98,50 @@
                     vm.fetchingData = false;
                     vm.refreshing = false;
                 });
+            },
+            getPieOptions() {
+                let num = this.resource.failures_count;
+                let percentage = _.round( (num/this.resource.injections_count)*100, 2 );
+
+                return {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    title: {
+                        display: true,
+                        text: 'Failures - ' + num + ' (' + percentage + '%)'
+                    },
+                    legend: {
+                        display: true,
+                        position: 'bottom'
+                    }
+                };
+            },
+            getPieData() {
+                let vm = this;
+                let failures_stats = vm.resource.failures_stats;
+
+                let labels = [];
+                let backgroundColor = [];
+                let data = [];
+
+                if ( failures_stats.length ) {
+                    _.forEach(failures_stats, function (fStat) {
+                        labels.push(fStat.type + ' - ' + fStat.types_count);
+                        data.push(fStat.types_count);
+                        if ( !vm.refreshing )
+                            backgroundColor.push('#' + Math.floor(Math.random() * 16777215).toString(16));
+                    });
+                }
+
+                return  {
+                    labels: labels,
+                    datasets: [
+                        {
+                            backgroundColor: backgroundColor,
+                            data: data
+                        }
+                    ]
+                };
             },
             refetchData() {
                 this.refreshing = true;

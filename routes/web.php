@@ -17,9 +17,9 @@ Route::redirect('/home', route('guest.home'));
 
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
-		$result = \App\Email::getClicksStats(81, 'clicks_count', 'ASC', 5);
+		$result = \App\Email::getFailuresStats(187);
 
-		var_dump($result->clicks_stats);
+		var_dump($result->failures_stats);
 //		var_dump($result->link);
 
 	});
@@ -87,6 +87,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 			Route::get('emails/{id}/general-stats', 'EmailController@getGeneralStats');
 			Route::get('emails/{id}/opens-stats', 'EmailController@getOpensStats');
 			Route::get('emails/{id}/clicks-stats', 'EmailController@getClicksStats');
+			Route::get('emails/{id}/failures-stats', 'EmailController@getFailuresStats');
 			Route::resource('emails', 'EmailController');
 		});
 

@@ -18,7 +18,7 @@ const StatsPlugin = {
                         { text: 'Failures Stats', value: 'failures' },
                     ],
                     statType: 'general',
-                    routeNames: { general: 'admin_emails.stats', opens: 'admin_emails.open_stats', clicks: 'admin_emails.click_stats' }
+                    routeNames: { general: 'admin_emails.stats', opens: 'admin_emails.open_stats', clicks: 'admin_emails.click_stats', failures: 'admin_emails.failure_stats' }
                 }
             },
             computed: {

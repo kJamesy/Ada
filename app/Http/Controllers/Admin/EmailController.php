@@ -349,6 +349,27 @@ class EmailController extends Controller
 	}
 
 	/**
+	 * Show specified resource failures stats.
+	 * @param $id
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function getFailuresStats($id, Request $request)
+	{
+		$resource = Email::getFailuresStats( (int) $id );
+		$currentUser = $request->user();
+
+		if ( $resource ) {
+			if ( ! $currentUser->can('read', $this->policyOwnerClass) )
+				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+
+			return response()->json(compact('resource'));
+		}
+
+		return response()->json(['error' => "No stats found"], 404);
+	}
+
+	/**
 	 * Display resource content
 	 * @param $id
 	 */

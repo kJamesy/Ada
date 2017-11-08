@@ -252,6 +252,7 @@ import AdminEmailsNew from './components/AdminEmails/NewEmail.vue';
 import AdminEmailsView from './components/AdminEmails/ViewEmail.vue';
 import AdminEmailsStats from './components/AdminEmails/ViewEmailStats.vue';
 import AdminEmailsClicksStats from './components/AdminEmails/ViewEmailClicksStats.vue';
+import AdminEmailsFailuresStats from './components/AdminEmails/ViewEmailFailuresStats.vue';
 import AdminEmailsEdit from './components/AdminEmails/EditEmail.vue';
 
 import StatsPlugin from './components/AdminEmails/Stats/StatsPlugin';
@@ -272,6 +273,7 @@ if ( $('#admin-emails-app').length ) {
             { path: '/:id(\\d+)/stats/general', name: 'admin_emails.stats', component: AdminEmailsStats },
             { path: '/:id(\\d+)/stats/opens', name: 'admin_emails.open_stats', component: AdminEmailsStats },
             { path: '/:id(\\d+)/stats/clicks', name: 'admin_emails.click_stats', component: AdminEmailsClicksStats },
+            { path: '/:id(\\d+)/stats/failures', name: 'admin_emails.failure_stats', component: AdminEmailsFailuresStats },
             { path: '/:id(\\d+)/stats/*', redirect: { name: 'admin_emails.stats' } },
             { path: '/:id(\\d+)/edit', name: 'admin_emails.edit', component: AdminEmailsEdit },
             { path: '*', redirect: { name: 'admin_emails.index' } }
