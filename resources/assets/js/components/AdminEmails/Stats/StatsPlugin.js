@@ -67,6 +67,13 @@ const StatsPlugin = {
                         legend: {
                             display: true,
                             position: 'bottom'
+                        },
+                        tooltips: {
+                            callbacks: {
+                                label: function (tooltipItem, data) {
+                                    return data.labels[tooltipItem.index];
+                                }
+                            }
                         }
                     };
                 },
@@ -78,11 +85,18 @@ const StatsPlugin = {
                         maintainAspectRatio: true,
                         title: {
                             display: true,
-                            text:  _.capitalize(friendlyName) + ' - ' + this[stat + 'Count']
+                            text:  _.capitalize(friendlyName) + ': ' + this[stat + 'Count']
                         },
                         legend: {
                             display: true,
                             position: 'bottom'
+                        },
+                        tooltips: {
+                            callbacks: {
+                                label: function (tooltipItem, data) {
+                                    return data.labels[tooltipItem.index];
+                                }
+                            }
                         }
                     };
                 },
@@ -100,22 +114,22 @@ const StatsPlugin = {
 
                     switch ( _.lowerCase(stat) ) {
                         case 'deliveries':
-                            labels = ['Delivered', 'Not Delivered'];
+                            labels = ['Delivered: ' + deliveries, 'Not Delivered: ' + _.subtract(injections, deliveries)];
                             backgroundColor = ['#FF6384', '#DDD'];
                             data = [deliveries, _.subtract(injections, deliveries)];
                             break;
                         case 'opens':
-                            labels = ['Opened', 'Not Opened'];
+                            labels = ['Opened: ' + opens, 'Not Opened: ' + _.subtract(injections, opens)];
                             backgroundColor = ['#EBF90B', '#FAEAB8'];
                             data = [opens, _.subtract(injections, opens)];
                             break;
                         case 'clicks':
-                            labels = ['Clicked', 'Not Clicked'];
+                            labels = ['Clicked: ' + clicks, 'Not Clicked: ' + _.subtract(injections, clicks)];
                             backgroundColor = ['#FF9124', '#F6D8D8'];
                             data = [clicks, _.subtract(injections, clicks)];
                             break;
                         case 'failures':
-                            labels = ['Failed', 'Successful'];
+                            labels = ['Failed: ' + failures, 'Successful: ' + _.subtract(injections, failures)];
                             backgroundColor = ['#C0E5F6', '#059BFF'];
                             data = [failures, _.subtract(injections, failures)];
                             break;
@@ -148,7 +162,7 @@ const StatsPlugin = {
                             palette = vm.getPalette(country_stats.length);
 
                             _.forEach(country_stats, function(cStat, key) {
-                                labels.push(cStat.country_name + ' - ' + cStat.country_count);
+                                labels.push(cStat.country_name + ': ' + cStat.country_count);
                                 data.push(cStat.country_count);
                                 if ( ! vm.refreshing )
                                     backgroundColor.push(vm.getColor(key, palette));
@@ -158,7 +172,7 @@ const StatsPlugin = {
                             palette = vm.getPalette(device_stats.length);
 
                             _.forEach(device_stats, function(dStat, key) {
-                                labels.push(dStat.device_name + ' - ' + dStat.device_count);
+                                labels.push(dStat.device_name + ': ' + dStat.device_count);
                                 data.push(dStat.device_count);
                                 if ( ! vm.refreshing )
                                     backgroundColor.push(vm.getColor(key, palette));
@@ -168,7 +182,7 @@ const StatsPlugin = {
                             palette = vm.getPalette(os_stats.length);
 
                             _.forEach(os_stats, function(oStat, key) {
-                                labels.push(oStat.OS_name + ' - ' + oStat.OS_count);
+                                labels.push(oStat.OS_name + ': ' + oStat.OS_count);
                                 data.push(oStat.OS_count);
                                 if ( ! vm.refreshing )
                                     backgroundColor.push(vm.getColor(key, palette));
@@ -178,7 +192,7 @@ const StatsPlugin = {
                             palette = vm.getPalette(browser_stats.length);
 
                             _.forEach(browser_stats, function(bStat, key) {
-                                labels.push(bStat.browser_name + ' - ' + bStat.browser_count);
+                                labels.push(bStat.browser_name + ': ' + bStat.browser_count);
                                 data.push(bStat.browser_count);
                                 if ( ! vm.refreshing )
                                     backgroundColor.push(vm.getColor(key, palette));

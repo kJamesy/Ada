@@ -113,6 +113,13 @@
                     legend: {
                         display: true,
                         position: 'bottom'
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                return data.labels[tooltipItem.index];
+                            }
+                        }
                     }
                 };
             },
@@ -128,7 +135,7 @@
                     let palette = vm.getPalette(failures_stats.length);
 
                     _.forEach(failures_stats, function (fStat, key) {
-                        labels.push(fStat.type + ' - ' + fStat.types_count);
+                        labels.push(fStat.type + ': ' + fStat.types_count);
                         data.push(fStat.types_count);
                         if ( ! vm.refreshing )
                             backgroundColor.push(vm.getColor(key, palette));
