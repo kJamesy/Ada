@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Email;
+use App\Subscriber;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -33,8 +35,14 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        if ( $profile = Auth::user() )
-            return $profile;
+        if ( $profile = Auth::user() ) {
+        	$lastEmail = Email::getLastSentEmailGeneralStats();
+        	$nextScheduledEmail = Email::findNextScheduledEmail();
+        	$todaysSubscribers = Subscriber::getSubscribersRegisteredToday();
+        	$subscribersCount = Subscriber::getCount();
+
+	        return response()->json(compact('profile', 'lastEmail', 'nextScheduledEmail', 'todaysSubscribers', 'subscribersCount'));
+        }
         else
             return response()->json(['error' => 'User does not exist. Please login and try again'], 403);
     }

@@ -635,5 +635,40 @@ class Email extends Model
 		return $email;
 	}
 
+	/***
+	 * Get general stats of last email sent
+	 * @return null
+	 */
+	public static function getLastSentEmailGeneralStats()
+	{
+		$last = static::where('sent_at', '<=', Carbon::now()->toDateTimeString())
+		              ->isNotDeleted()
+		              ->where('status', 1)
+		              ->orderBy('sent_at', 'DESC')
+		              ->first();
+
+		if ( $id = $last->id ) {
+			return static::withCount( [ 'injections', 'deliveries', 'opens' ] )
+			             ->selectRaw( "(SELECT COUNT(DISTINCT subscriber_id) FROM clicks WHERE email_id = $id) AS clicks_count" )
+			             ->selectRaw( "(SELECT COUNT(DISTINCT subscriber_id) FROM failures WHERE email_id = $id) AS failures_count" )
+			             ->find( $id );
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get next scheduled email
+	 * @return mixed
+	 */
+	public static function findNextScheduledEmail()
+	{
+		return static::where('sent_at', '>', Carbon::now()->toDateTimeString())
+		             ->where('status', -1)
+		             ->isNotDeleted()
+		             ->orderBy('sent_at', 'ASC')
+		             ->first();
+	}
+
 
 }

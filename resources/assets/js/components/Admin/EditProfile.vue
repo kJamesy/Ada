@@ -70,8 +70,8 @@
                 progress.start();
 
                 vm.$http.get(vm.appResourceUrl + '/show').then(function(response) {
-                    if ( response.data )
-                        vm.profile = response.data;
+                    if ( response.data && response.data.profile )
+                        vm.profile = response.data.profile;
                     vm.fetchingData = false;
                     progress.finish();
                 }, function(error) {

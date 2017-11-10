@@ -76129,6 +76129,9 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__AdminEmails_Stats_GeneralPieChart__ = __webpack_require__(141);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_google_palette__ = __webpack_require__(537);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_google_palette___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_google_palette__);
 //
 //
 //
@@ -76138,6 +76141,60 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -76149,24 +76206,133 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             fetchingData: true,
-            profile: {}
+            profile: {},
+            lastEmail: {},
+            nextScheduledEmail: {},
+            todaysSubscribers: [],
+            subscribersCount: 0
         };
     },
 
+    computed: {
+        showStats: function showStats() {
+            return this.lastEmail.injections_count || this.nextScheduledEmail.subject;
+        }
+    },
     methods: {
         fetchProfile: function fetchProfile() {
             var vm = this;
             var progress = vm.$Progress;
 
             vm.$http.get(vm.appResourceUrl + '/show').then(function (response) {
-                if (response.data) vm.profile = response.data;
+
+                if (response.data) {
+                    if (response.data.profile) vm.profile = response.data.profile;
+                    if (response.data.lastEmail) vm.lastEmail = response.data.lastEmail;
+                    if (response.data.nextScheduledEmail) vm.nextScheduledEmail = response.data.nextScheduledEmail;
+                    if (response.data.todaysSubscribers) vm.todaysSubscribers = response.data.todaysSubscribers;
+                    if (response.data.subscribersCount) vm.subscribersCount = response.data.subscribersCount;
+                }
+
+                vm.appInitialiseTooltip();
                 vm.fetchingData = false;
                 progress.finish();
             }, function (error) {
                 vm.appGeneralErrorAlert();
                 progress.fail();
             });
+        },
+        getGeneralPieOptions: function getGeneralPieOptions(stat) {
+            var num = this.lastEmail[stat + '_count'];
+            var percentage = _.round(num / this.lastEmail.injections_count * 100, 2);
+
+            return {
+                responsive: true,
+                maintainAspectRatio: true,
+                title: {
+                    display: true,
+                    text: _.capitalize(stat) + ' - ' + num + ' (' + percentage + '%)'
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function label(tooltipItem, data) {
+                            return data.labels[tooltipItem.index];
+                        }
+                    }
+                }
+            };
+        },
+        getGeneralPieData: function getGeneralPieData(stat) {
+            var vm = this;
+            var injections = vm.lastEmail.injections_count;
+            var deliveries = vm.lastEmail.deliveries_count;
+            var opens = vm.lastEmail.opens_count;
+            var clicks = vm.lastEmail.clicks_count;
+            var failures = vm.lastEmail.failures_count;
+
+            var palette = [];
+
+            var labels = [];
+            var backgroundColor = [];
+            var data = [];
+
+            switch (_.lowerCase(stat)) {
+                case 'deliveries':
+                    palette = vm.getPalette(2);
+
+                    labels = ['Delivered: ' + deliveries, 'Not Delivered: ' + _.subtract(injections, deliveries)];
+                    backgroundColor = [vm.getColor(0, palette), vm.getColor(1, palette)];
+                    data = [deliveries, _.subtract(injections, deliveries)];
+                    break;
+                case 'opens':
+                    palette = vm.getPalette(2);
+
+                    labels = ['Opened: ' + opens, 'Not Opened: ' + _.subtract(injections, opens)];
+                    backgroundColor = [vm.getColor(0, palette), vm.getColor(1, palette)];
+                    data = [opens, _.subtract(injections, opens)];
+                    break;
+                case 'clicks':
+                    palette = vm.getPalette(2);
+
+                    labels = ['Clicked: ' + clicks, 'Not Clicked: ' + _.subtract(injections, clicks)];
+                    backgroundColor = [vm.getColor(0, palette), vm.getColor(1, palette)];
+                    data = [clicks, _.subtract(injections, clicks)];
+                    break;
+                case 'failures':
+                    palette = vm.getPalette(2);
+
+                    labels = ['Failed: ' + failures, 'Successful: ' + _.subtract(injections, failures)];
+                    backgroundColor = [vm.getColor(0, palette), vm.getColor(1, palette)];
+                    data = [failures, _.subtract(injections, failures)];
+                    break;
+            }
+            return {
+                labels: labels,
+                datasets: [{
+                    backgroundColor: backgroundColor,
+                    data: data
+                }]
+            };
+        },
+        getColor: function getColor(key, palette) {
+            if (palette && palette.length && palette[key] !== 'undefined') return '#' + palette[key];else return '#' + Math.floor(Math.random() * 16777215).toString(16);
+        },
+        getPalette: function getPalette(num) {
+            var colorBrewers = ['cb-PuRd', 'cb-YlOrRd', 'cb-RdYlBu', 'cb-RdYlGn', 'cb-Spectral', 'cb-RdBu'];
+            var tols = ['tol-dv', 'tol-rainbow'];
+            var palette = _.reverse(__WEBPACK_IMPORTED_MODULE_1_google_palette___default()(tols[_.random(0, tols.length - 1)], num));
+
+            if (num <= 9) palette = _.reverse(__WEBPACK_IMPORTED_MODULE_1_google_palette___default()(colorBrewers[_.random(0, colorBrewers.length - 1)], num));
+
+            return palette;
         }
+    },
+    components: {
+        GeneralPieChart: __WEBPACK_IMPORTED_MODULE_0__AdminEmails_Stats_GeneralPieChart__["a" /* default */]
     }
 });
 
@@ -76185,9 +76351,185 @@ var render = function() {
     _vm._v(" "),
     !_vm.fetchingData
       ? _c("div", [
-          _vm._v(
-            "\n        Welcome back, " + _vm._s(_vm.profile.name) + "\n    "
-          )
+          _c("p", { staticClass: "mb-3" }, [
+            _vm._v("Welcome back, " + _vm._s(_vm.profile.name))
+          ]),
+          _vm._v(" "),
+          _vm.lastEmail.injections_count
+            ? _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c("div", { staticClass: "card" }, [
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c("h4", { staticClass: "card-title" }, [
+                          _vm._v(_vm._s(_vm.lastEmail.subject))
+                        ]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "card-text" }, [
+                          _vm._v("\n                            Sent: "),
+                          _c(
+                            "span",
+                            {
+                              attrs: {
+                                title: _vm._f("dateToTheMinWithDayOfWeek")(
+                                  _vm.lastEmail.sent_at
+                                ),
+                                "data-toggle": "tooltip"
+                              }
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  _vm._f("dateToTheDay")(_vm.lastEmail.sent_at)
+                                )
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("br"),
+                          _vm._v(
+                            "\n                            Recipients: " +
+                              _vm._s(_vm.lastEmail.injections_count) +
+                              "\n                        "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("general-pie-chart", {
+                          attrs: {
+                            "chart-data": _vm.getGeneralPieData("deliveries"),
+                            options: _vm.getGeneralPieOptions("deliveries")
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c("div", { staticClass: "card" }, [
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c("h4", { staticClass: "card-title" }, [
+                          _vm._v(_vm._s(_vm.lastEmail.subject))
+                        ]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "card-text" }, [
+                          _vm._v("\n                            Sent: "),
+                          _c(
+                            "span",
+                            {
+                              attrs: {
+                                title: _vm._f("dateToTheMinWithDayOfWeek")(
+                                  _vm.lastEmail.sent_at
+                                ),
+                                "data-toggle": "tooltip"
+                              }
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  _vm._f("dateToTheDay")(_vm.lastEmail.sent_at)
+                                )
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("br"),
+                          _vm._v(
+                            "\n                            Recipients: " +
+                              _vm._s(_vm.lastEmail.injections_count) +
+                              "\n                        "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("general-pie-chart", {
+                          attrs: {
+                            "chart-data": _vm.getGeneralPieData("failures"),
+                            options: _vm.getGeneralPieOptions("failures")
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ])
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "row mt-4" }, [
+            _vm.nextScheduledEmail.sent_at &&
+            _vm.nextScheduledEmail.recipients_num
+              ? _c("div", { staticClass: "col-sm-6" }, [
+                  _c("div", { staticClass: "card" }, [
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("h4", { staticClass: "card-title" }, [
+                        _vm._v(_vm._s(_vm.nextScheduledEmail.subject))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "card-text" }, [
+                        _vm._v("\n                            Scheduled For: "),
+                        _c(
+                          "span",
+                          {
+                            attrs: {
+                              title: _vm._f("dateToTheMinWithDayOfWeek")(
+                                _vm.nextScheduledEmail.sent_at
+                              ),
+                              "data-toggle": "tooltip"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("dateToTheDay")(
+                                  _vm.nextScheduledEmail.sent_at
+                                )
+                              )
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(
+                          "\n                            Recipients: " +
+                            _vm._s(_vm.nextScheduledEmail.recipients_num) +
+                            "\n                        "
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-6" }, [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("h4", { staticClass: "card-title" }, [
+                    _vm._v("Subscribers")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "card-text" }, [
+                    _vm._v(
+                      "\n                            New Today: " +
+                        _vm._s(_vm.todaysSubscribers.length) +
+                        " "
+                    ),
+                    _c("br"),
+                    _vm._v(
+                      "\n                            Total: " +
+                        _vm._s(_vm.subscribersCount) +
+                        "\n                        "
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
         ])
       : _vm._e()
   ])
@@ -76309,7 +76651,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var progress = vm.$Progress;
 
             vm.$http.get(vm.appResourceUrl + '/show').then(function (response) {
-                if (response.data) vm.profile = response.data;
+                if (response.data && response.data.profile) vm.profile = response.data.profile;
                 vm.fetchingData = false;
                 progress.finish();
             }, function (error) {
@@ -76515,7 +76857,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             progress.start();
 
             vm.$http.get(vm.appResourceUrl + '/show').then(function (response) {
-                if (response.data) vm.profile = response.data;
+                if (response.data && response.data.profile) vm.profile = response.data.profile;
                 vm.fetchingData = false;
                 progress.finish();
             }, function (error) {

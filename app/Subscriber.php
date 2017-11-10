@@ -336,4 +336,13 @@ class Subscriber extends Model
 		return static::isActive()->isNotDeleted()->inMailingLists($mLists)->get();
 	}
 
+	/**
+	 * Get subscribers who registered today
+	 * @return mixed
+	 */
+	public static function getSubscribersRegisteredToday()
+	{
+		return static::whereBetween('created_at', [Carbon::now()->startOfDay()->toDateTimeString(), Carbon::now()->endOfDay()->toDateTimeString()])->get();
+	}
+
 }
