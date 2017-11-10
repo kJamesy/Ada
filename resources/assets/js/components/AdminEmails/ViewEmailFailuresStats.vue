@@ -125,11 +125,13 @@
                 let data = [];
 
                 if ( failures_stats.length ) {
-                    _.forEach(failures_stats, function (fStat) {
+                    let palette = vm.getPalette(failures_stats.length);
+
+                    _.forEach(failures_stats, function (fStat, key) {
                         labels.push(fStat.type + ' - ' + fStat.types_count);
                         data.push(fStat.types_count);
-                        if ( !vm.refreshing )
-                            backgroundColor.push('#' + Math.floor(Math.random() * 16777215).toString(16));
+                        if ( ! vm.refreshing )
+                            backgroundColor.push(vm.getColor(key, palette));
                     });
                 }
 

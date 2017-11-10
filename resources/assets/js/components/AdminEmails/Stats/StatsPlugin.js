@@ -1,5 +1,7 @@
 'use strict';
 
+import googlePalette from 'google-palette';
+
 const StatsPlugin = {
     install(Vue, options) {
 
@@ -18,7 +20,7 @@ const StatsPlugin = {
                         { text: 'Failures Stats', value: 'failures' },
                     ],
                     statType: 'general',
-                    routeNames: { general: 'admin_emails.stats', opens: 'admin_emails.open_stats', clicks: 'admin_emails.click_stats', failures: 'admin_emails.failure_stats' }
+                    routeNames: { general: 'admin_emails.stats', opens: 'admin_emails.open_stats', clicks: 'admin_emails.click_stats', failures: 'admin_emails.failure_stats' },
                 }
             },
             computed: {
@@ -135,41 +137,51 @@ const StatsPlugin = {
                     let os_stats = vm.resource.os_stats;
                     let browser_stats = vm.resource.browser_stats;
 
+                    let palette = [];
+
                     let labels = [];
                     let backgroundColor = [];
                     let data = [];
 
                     switch ( stat ) {
                         case 'countries':
-                            _.forEach(country_stats, function(cStat) {
+                            palette = vm.getPalette(country_stats.length);
+
+                            _.forEach(country_stats, function(cStat, key) {
                                 labels.push(cStat.country_name + ' - ' + cStat.country_count);
                                 data.push(cStat.country_count);
                                 if ( ! vm.refreshing )
-                                    backgroundColor.push('#'+Math.floor(Math.random()*16777215).toString(16));
+                                    backgroundColor.push(vm.getColor(key, palette));
                             });
                             break;
                         case 'devices':
-                            _.forEach(device_stats, function(dStat) {
+                            palette = vm.getPalette(device_stats.length);
+
+                            _.forEach(device_stats, function(dStat, key) {
                                 labels.push(dStat.device_name + ' - ' + dStat.device_count);
                                 data.push(dStat.device_count);
                                 if ( ! vm.refreshing )
-                                    backgroundColor.push('#'+Math.floor(Math.random()*16777215).toString(16));
+                                    backgroundColor.push(vm.getColor(key, palette));
                             });
                             break;
                         case 'OSs':
-                            _.forEach(os_stats, function(oStat) {
+                            palette = vm.getPalette(os_stats.length);
+
+                            _.forEach(os_stats, function(oStat, key) {
                                 labels.push(oStat.OS_name + ' - ' + oStat.OS_count);
                                 data.push(oStat.OS_count);
                                 if ( ! vm.refreshing )
-                                    backgroundColor.push('#'+Math.floor(Math.random()*16777215).toString(16));
+                                    backgroundColor.push(vm.getColor(key, palette));
                             });
                             break;
                         case 'browsers':
-                            _.forEach(browser_stats, function(bStat) {
+                            palette = vm.getPalette(browser_stats.length);
+
+                            _.forEach(browser_stats, function(bStat, key) {
                                 labels.push(bStat.browser_name + ' - ' + bStat.browser_count);
                                 data.push(bStat.browser_count);
                                 if ( ! vm.refreshing )
-                                    backgroundColor.push('#'+Math.floor(Math.random()*16777215).toString(16));
+                                    backgroundColor.push(vm.getColor(key, palette));
                             });
                             break;
                     }
@@ -182,6 +194,22 @@ const StatsPlugin = {
                             }
                         ]
                     };
+                },
+                getColor(key, palette) {
+                    if ( palette && palette.length && palette[key] !== 'undefined' )
+                        return '#' + palette[key];
+                    else
+                        return '#' + Math.floor(Math.random()*16777215).toString(16);
+                },
+                getPalette(num) {
+                    let colorBrewers = ['cb-PuRd', 'cb-YlOrRd', 'cb-YlGnBu', 'cb-Blues', 'cb-RdYlBu', 'cb-RdYlGn', 'cb-Spectral', 'cb-RdBu'];
+                    let tols = ['tol-dv', 'tol-rainbow'];
+                    let palette = _.reverse(googlePalette(tols[_.random(0, tols.length -1)], num));
+
+                    if ( num <= 9 )
+                        palette = _.reverse(googlePalette(colorBrewers[_.random(0, colorBrewers.length - 1)], num));
+
+                    return palette;
                 },
             },
             watch: {
