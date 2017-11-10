@@ -292,6 +292,40 @@ if ( $('#admin-emails-app').length ) {
 }
 
 /**
+ * Email Contents
+ */
+import AdminEmailContents from './components/AdminEmailContents/AdminEmailContents.vue';
+import AdminEmailContentsAll from './components/AdminEmailContents/AllEmailContents.vue';
+import AdminEmailContentsTrash from './components/AdminEmailContents/TrashEmailContents.vue';
+import AdminEmailContentsNew from './components/AdminEmailContents/NewEmailContent.vue';
+import AdminEmailContentsView from './components/AdminEmailContents/ViewEmailContent.vue';
+import AdminEmailContentsEdit from './components/AdminEmailContents/EditEmailContent.vue';
+
+if ( $('#admin-email-contents-app').length ) {
+    let router = new VueRouter({
+        mode: 'history',
+        base: links.base,
+        linkActiveClass: 'active',
+        routes: [
+            { path: '/', name: 'admin_email_contents.index', component: AdminEmailContentsAll },
+            { path: '/trash', name: 'admin_email_contents.trash', component: AdminEmailContentsTrash },
+            { path: '/create', name: 'admin_email_contents.create', component: AdminEmailContentsNew },
+            { path: '/:id(\\d+)/view', name: 'admin_email_contents.view', component: AdminEmailContentsView },
+            { path: '/:id(\\d+)/edit', name: 'admin_email_contents.edit', component: AdminEmailContentsEdit },
+            { path: '*', redirect: { name: 'admin_email_contents.index' } }
+        ]
+    });
+
+    new Vue({
+        el: '#admin-email-contents-app',
+        components: {
+            AdminEmailContents
+        },
+        router: router
+    });
+}
+
+/**
  * Users
  */
 import AdminUsers from './components/AdminUsers/AdminUsers.vue';

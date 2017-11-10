@@ -30,7 +30,8 @@ class UserSettings
 	    'campaigns',
 	    'templates',
 	    'email_settings',
-	    'emails'
+	    'emails',
+	    'email_contents'
     ];
 
     /**

@@ -67,6 +67,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 				Route::get('email-settings/{vue?}', 'EmailSettingController@index');
 				Route::get('emails/export', 'EmailController@export');
 				Route::get('emails/{vue?}', 'EmailController@index');
+				Route::get('email-contents/{vue?}', 'EmailContentController@index');
 			}
 
 			Route::resource('settings', 'AdminController');
@@ -89,6 +90,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 			Route::get('emails/{id}/clicks-stats', 'EmailController@getClicksStats');
 			Route::get('emails/{id}/failures-stats', 'EmailController@getFailuresStats');
 			Route::resource('emails', 'EmailController');
+			Route::put('email-contents/{option}/quick-update', 'EmailContentController@quickUpdate');
+			Route::resource('email-contents', 'EmailContentController');
 		});
 
 		Route::get('inactive', ['as' => 'admin.inactive', 'middleware' => 'inactive', function () { return view('admin.inactive'); }]);

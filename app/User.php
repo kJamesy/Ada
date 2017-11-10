@@ -52,6 +52,16 @@ class User extends Authenticatable
     {
     	return $this->hasMany(Email::class);
     }
+
+	/**
+	 * A User has many EmailContents
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function email_contents()
+	{
+		return $this->hasMany(EmailContent::class);
+	}
+
     /**
      * Get default user role
      * @return string
