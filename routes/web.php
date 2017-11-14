@@ -17,10 +17,9 @@ Route::redirect('/home', route('guest.home'));
 
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
-		$result = \App\Email::getFailuresStats(187);
+		$eContent = \App\EmailContent::findResource(6);
 
-		var_dump($result->failures_stats);
-//		var_dump($result->link);
+
 
 	});
 

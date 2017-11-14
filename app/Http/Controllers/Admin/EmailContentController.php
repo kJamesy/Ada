@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\EmailContent;
+use App\Helpers\Content;
 use App\Permissions\UserPermissions;
 use App\Settings\UserSettings;
 use Illuminate\Http\Request;
@@ -137,8 +138,12 @@ class EmailContentController extends Controller
 	 */
 	public function display($id)
 	{
-		if ( $resource = EmailContent::findResource( (int) $id) )
-			echo $resource->content;
+		if ( $resource = EmailContent::findResource( (int) $id) ) {
+			$replaced = new Content($resource->content);
+			$content = $replaced->setH2sIdAttribute();
+
+			echo $content;
+		}
 		else
 			echo "No $this->friendlyName found";
 	}
