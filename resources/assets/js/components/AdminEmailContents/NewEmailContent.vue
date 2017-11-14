@@ -26,8 +26,7 @@
                     <div class="form-group">
                         <label class="form-control-label" for="content">Content <small class="text-danger">{{ validationErrors.content }}</small></label>
                         <div class="">
-                            <textarea class="form-control" id="content" v-model.trim="resource.content" rows="4" v-on:click="checkEditor">
-                            </textarea>
+                            <textarea class="form-control" id="content" v-model.trim="resource.content" rows="4" v-on:click="checkEditor"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -45,6 +44,8 @@
 </template>
 
 <script>
+    import slugify from 'slugify';
+
     export default {
         mounted() {
             this.$nextTick(function() {
@@ -100,18 +101,26 @@
             checkEditor() {
                 let vm = this;
                 if ( ! vm.editorReady )
-                    vm.initTinyMce(50);
+                    vm.initTinyMce(10);
             },
             listenEvents() {
                 let vm = this;
 
                 vm.$on('unsuccessfulcreate', function() {
-                    vm.initTinyMce(50);
+                    vm.initTinyMce(10);
                 });
 
-                vm.$on('successfulcreate', function() {
-                    vm.initTinyMce(50);
+                vm.$on('successfulcreate', function(data) {
+                    vm.initTinyMce(10);
+
+                    if ( data.response )
+                        vm.$router.push({name: 'admin_email_contents.view', params: { id: data.response.data.id }});
                 });
+            }
+        },
+        watch: {
+            'resource.title'(newValue) {
+                this.resource.slug = slugify(newValue, {lower: true, remove: /[^\w\s-]/g});
             }
         }
     }

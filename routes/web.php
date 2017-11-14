@@ -103,6 +103,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 Route::group(['prefix' => 'guest'], function() {
 	Route::get('templates/{id}/display', ['as' => 'templates.display', 'uses' => 'Admin\\TemplateController@display']);
 	Route::get('emails/{id}/display', ['as' => 'emails.display', 'uses' => 'Admin\\EmailController@display']);
+	Route::get('email-contents/{id}/display', ['as' => 'email-contents.display', 'uses' => 'Admin\\EmailContentController@display']);
 });
 
 Route::group(['prefix' => 'subscriber'], function() {

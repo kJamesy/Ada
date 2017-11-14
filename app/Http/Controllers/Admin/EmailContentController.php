@@ -92,7 +92,8 @@ class EmailContentController extends Controller
 		if ( $request->user()->can('create', $this->policyOwnerClass) ) {
 			$this->validate($request, $this->rules);
 
-			$slug = self::generateSlug(EmailContent::getExistingSlugs(), str_slug($request->title));
+			$proposedSlug = $request->slug ? str_slug($request->slug) : str_slug($request->title);
+			$slug = self::generateUniqueSlug(EmailContent::getExistingSlugs(), $proposedSlug);
 
 			$resource = new EmailContent();
 			$resource->user_id = $request->user()->id;
@@ -107,51 +108,182 @@ class EmailContentController extends Controller
 		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 	}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+	/**
+	 * Show specified resource
+	 * @param $id
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function show($id, Request $request)
+	{
+		$resource = EmailContent::findResource( (int) $id );
+		$currentUser = $request->user();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+		if ( $resource ) {
+			if ( ! $currentUser->can('read', $this->policyOwnerClass) )
+				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+			$resource->url = route('email-contents.display', ['id' => $resource->id]);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+			return response()->json(compact('resource'));
+		}
 
+		return response()->json(['error' => "$this->friendlyName does not exist"], 404);
+	}
+
+	/**
+	 * Display resource content
+	 * @param $id
+	 */
+	public function display($id)
+	{
+		if ( $resource = EmailContent::findResource( (int) $id) )
+			echo $resource->content;
+		else
+			echo "No $this->friendlyName found";
+	}
+
+	/**
+	 * Show resource for editing
+	 * @param $id
+	 * @param Request $request
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function edit($id, Request $request)
+	{
+		$resource = EmailContent::findResource( (int) $id );
+		$currentUser = $request->user();
+
+		if ( $resource ) {
+			if ( ! $currentUser->can('update', $this->policyOwnerClass) )
+				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+
+			return response()->json(compact('resource'));
+		}
+
+		return response()->json(['error' => "$this->friendlyName does not exist"], 404);
+	}
+
+	/**
+	 * Update the specified resource
+	 * @param Request $request
+	 * @param $id
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function update(Request $request, $id)
+	{
+		$resource = EmailContent::findResource( (int) $id );
+		$currentUser = $request->user();
+
+		if ( $resource ) {
+			if ( ! $currentUser->can('update', $this->policyOwnerClass) )
+				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+
+			$this->validate($request, $this->rules);
+
+			$proposedSlug = $request->slug ? str_slug($request->slug) : str_slug($request->title);
+			$slug = ( $proposedSlug === $resource->slug ) ? $resource->slug : self::generateUniqueSlug(EmailContent::getExistingSlugs(), $proposedSlug);
+
+			$resource->user_id = $request->user()->id;
+			$resource->title = trim($request->title);
+			$resource->slug = $slug;
+			$resource->content = trim($request->get('content'));
+			$resource->save();
+
+			return $resource;
+		}
+
+		return response()->json(['error' => "$this->friendlyName does not exist"], 404);
+	}
+
+	/**
+	 * Delete/destroy the specified resource
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy($id, Request $request)
+	{
+		$resource = EmailContent::findResource( (int) $id );
+		$currentUser = $request->user();
+
+		if ( $currentUser->can('delete', $this->policyOwnerClass) ) {
+			if ( ! $resource )
+				return response()->json(['error' => "$this->friendlyName does not exist"], 404);
+
+			$suffix = 'permanently deleted';
+
+			if ( $request->permanent )
+				$resource->delete();
+			else {
+				$resource->is_deleted = 1;
+				$resource->save();
+				$suffix = 'moved to trash';
+			}
+
+			return response()->json(['success' => "$this->friendlyName $suffix"]);
+		}
+
+		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+	}
+
+	/**
+	 * Quickly update resources in bulk
+	 * @param Request $request
+	 * @param $update
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function quickUpdate(Request $request, $update)
+	{
+		$currentUser = $request->user();
+		$resourceIds = $request->resources;
+
+		if ( $currentUser->can('delete', $this->policyOwnerClass) ) {
+			$selectedNum = count($resourceIds);
+
+			if ( $selectedNum ) {
+				try {
+					$resources = EmailContent::getResources($resourceIds, -1)->pluck('id')->toArray();
+					$successNum = 0;
+
+					if ( $resources ) {
+						switch ($update) {
+							case 'delete':
+								$successNum = EmailContent::doBulkActions($resources, 'delete');
+								break;
+							case 'restore':
+								$successNum = EmailContent::doBulkActions($resources, 'restore');
+								break;
+							case 'destroy':
+								$successNum = EmailContent::doBulkActions($resources, 'destroy');
+								break;
+						}
+
+						$append = ( $selectedNum == $successNum ) ? '' : "Please note you do not have sufficient permissions to $update some $this->friendlyNamePlural.";
+						$string = $successNum == 1 ? $this->friendlyName : $this->friendlyNamePlural;
+						$successNum = $successNum ?: 'No';
+
+						if ( $update == 'delete')
+							$update = 'moved to trash';
+						else if ( $update == 'destroy')
+							$update = 'permanently deleted';
+						else
+							$update = "{$update}d";
+
+						return response()->json(['success' => "$successNum $string $update. $append"]);
+					}
+					else
+						return response()->json(['error' => "$this->friendlyNamePlural do not exist"], 404);
+				}
+				catch (\Exception $e) {
+					return response()->json(['error' => 'A server error occurred.'], 500);
+				}
+			}
+			else
+				return response()->json(['error' => "No $this->friendlyNamePlural received"], 500);
+		}
+
+		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
+	}
 
 	/**
 	 * Generate a unique slug
@@ -160,7 +292,7 @@ class EmailContentController extends Controller
 	 *
 	 * @return mixed
 	 */
-	protected static function generateSlug($existingSlugs, $proposedSlug)
+	protected static function generateUniqueSlug($existingSlugs, $proposedSlug)
 	{
 		$exists = false;
 
@@ -194,7 +326,7 @@ class EmailContentController extends Controller
 			else
 				$newSlug = $exists . '-1';
 
-			return static::generateSlug($existingSlugs, $newSlug);
+			return static::generateUniqueSlug($existingSlugs, $newSlug);
 		}
 
 		return $proposedSlug;

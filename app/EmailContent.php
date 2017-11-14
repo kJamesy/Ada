@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
@@ -15,6 +16,7 @@ class EmailContent extends Model
 	 */
 	public static $rules = [
 		'title' => 'required|max:255',
+		'slug' => 'max:400',
 		'content' => 'required|max:128000',
 	];
 
@@ -54,7 +56,7 @@ class EmailContent extends Model
 	 */
 	public static function findResource($id)
 	{
-		return static::isNotDeleted()->find($id);
+		return static::with('user')->isNotDeleted()->find($id);
 	}
 
 	/**
@@ -74,9 +76,9 @@ class EmailContent extends Model
 		if ( count($selected) )
 			$query->whereIn('id', $selected);
 
-		if ( (int) $deleted == 1 )
+		if ( (int) $deleted === 1 )
 			$query->isDeleted();
-		elseif ( (int) $deleted == 0 )
+		elseif ( (int) $deleted === 0 )
 			$query->isNotDeleted();
 
 		$query->orderBy($orderBy, $order);

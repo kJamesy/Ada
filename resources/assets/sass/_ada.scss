@@ -77,3 +77,16 @@ table .custom-checkbox {
 label.custom-control {
   margin-bottom: 0;
 }
+
+.title-td {
+  div {
+    visibility: hidden;
+    font-size: 0.8rem;
+  }
+  
+  &:hover, &:focus {
+    div {
+      visibility: visible;
+    }
+  }
+}

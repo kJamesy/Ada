@@ -3,9 +3,7 @@
         <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
         <div v-if="! fetchingData && appResourceCount">
             <div v-if="appUserHasPermission('read')">
-                <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right" title="Export All" data-toggle="tooltip"><i class="fa fa-arrow-circle-o-down"></i></a>
-                <div class="clearfix mb-2"></div>
-                <form v-on:submit.prevent="appDoSearch">
+                <form v-on:submit.prevent="appDoSearch" class="mt-5">
                     <div class="form-group">
                         <input type="text" v-model.trim="appSearchText" placeholder="Search" class="form-control" />
                     </div>
@@ -40,8 +38,7 @@
                                         <span class="custom-control-indicator"></span>
                                     </label>
                                 </th>
-                                <th v-on:click.prevent="appChangeSort('name')">Name <span v-html="appGetSortMarkup('name')"></span></th>
-                                <!--<th v-on:click.prevent="appChangeSort('emails_count')">Emails <span v-html="appGetSortMarkup('emails_count')"></span></th>-->
+                                <th v-on:click.prevent="appChangeSort('title')">Title <span v-html="appGetSortMarkup('title')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('updated_at')" >Deleted <span v-html="appGetSortMarkup('updated_at')"></span></th>
                             </tr>
                             </thead>
@@ -53,8 +50,7 @@
                                         <span class="custom-control-indicator"></span>
                                     </label>
                                 </td>
-                                <td v-bind:title="resource.description" data-toggle="tooltip">{{ resource.name }}</td>
-                                <!--<td>{{ resource.emails_count }}</td>-->
+                                <td v-bind:title="resource.description" data-toggle="tooltip">{{ resource.title }}</td>
                                 <td><span v-bind:title="resource.updated_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
                             </tr>
                         </tbody>
@@ -90,7 +86,6 @@
                 quickEditOptions: [
                     { text: 'Select Option', value: '' },
                     { text: 'Restore', value: 'restore' },
-                    { text: 'Export', value: 'export' },
                     { text: 'Destroy', value: 'destroy' }
                 ],
                 quickEditOption: '',

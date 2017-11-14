@@ -65,7 +65,7 @@ const AppEditcreenPlugin = {
                         vm.appCustomSuccessAlert('Resource updated');
                         progress.finish();
                         vm.fetchingData = false;
-                        vm.$emit('successfulupdate');
+                        vm.$emit('successfulupdate', { response: response });
                     }, function(error) {
                         if ( error.status && error.status === 422 && error.data && error.data.errors ) {
                             vm.appValidationErrorAlert();

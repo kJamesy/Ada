@@ -10712,6 +10712,16 @@ label.custom-control {
   margin-bottom: 0;
 }
 
+.title-td div {
+  visibility: hidden;
+  font-size: 0.8rem;
+}
+
+.title-td:hover div,
+.title-td:focus div {
+  visibility: visible;
+}
+
 .pagination li a {
   position: relative;
   display: block;

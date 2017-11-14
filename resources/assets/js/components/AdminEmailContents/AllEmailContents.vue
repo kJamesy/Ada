@@ -3,8 +3,7 @@
         <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
         <div v-if="! fetchingData && appResourceCount">
             <div v-if="appUserHasPermission('read')">
-                <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right" title="Export All" data-toggle="tooltip"><i class="fa fa-arrow-circle-o-down"></i></a>
-                <div class="clearfix mb-2"></div>
+                <div class="mt-5"></div>
                 <form v-on:submit.prevent="appDoSearch">
                     <div class="form-group">
                         <input type="text" v-model.trim="appSearchText" placeholder="Search" class="form-control" />
@@ -40,8 +39,7 @@
                                         <span class="custom-control-indicator"></span>
                                     </label>
                                 </th>
-                                <th v-on:click.prevent="appChangeSort('name')">Name <span v-html="appGetSortMarkup('name')"></span></th>
-                                <!--<th v-on:click.prevent="appChangeSort('subscribers_count')">Emails <span v-html="appGetSortMarkup('emails_count')"></span></th>-->
+                                <th v-on:click.prevent="appChangeSort('title')">Title <span v-html="appGetSortMarkup('title')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('updated_at')" >Updated <span v-html="appGetSortMarkup('updated_at')"></span></th>
                                 <th v-if="appUserHasPermission('update')"></th>
                             </tr>
@@ -54,15 +52,14 @@
                                         <span class="custom-control-indicator"></span>
                                     </label>
                                 </td>
-                                <td v-bind:title="resource.description" data-toggle="tooltip">{{ resource.name }}</td>
-                                <!--<td>-->
-                                    <!--<a v-bind:class="! parseInt(resource.emails_count) ? 'disabled' : ''" v-bind:href="getEmailsInCampaignLink(resource.id)" class="btn btn-link">-->
-                                        <!--{{ resource.emails_count }}-->
-                                    <!--</a>-->
-                                <!--</td>-->
+                                <td class="title-td">
+                                    {{ resource.title }}
+                                    <div>{{ resource.slug }}</div>
+                                </td>
+
                                 <td><span v-bind:title="resource.updated_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
                                 <td v-if="appUserHasPermission('read')">
-                                    <router-link v-bind:to="{ name: 'admin_campaigns.view', params: { id: resource.id }}" class="btn btn-sm btn-outline-primary"><i class="fa fa-eye"></i></router-link>
+                                    <router-link v-bind:to="{ name: 'admin_email_contents.view', params: { id: resource.id }}" class="btn btn-sm btn-outline-primary"><i class="fa fa-eye"></i></router-link>
                                 </td>
                             </tr>
                         </tbody>
@@ -79,7 +76,7 @@
             No items found
         </div>
         <div class="mt-3 mb-3 font-italic text-right" v-if="! fetchingData && appDeletedNum">
-            <router-link v-bind:to="{ name: 'admin_campaigns.trash'}" class="btn btn-link"><i class="fa fa-trash"></i> Deleted Items ({{ appDeletedNum }})</router-link>
+            <router-link v-bind:to="{ name: 'admin_email_contents.trash'}" class="btn btn-link"><i class="fa fa-trash"></i> Deleted Items ({{ appDeletedNum }})</router-link>
         </div>
     </div>
 </template>
@@ -98,7 +95,6 @@
                 fetchingData: true,
                 quickEditOptions: [
                     { text: 'Select Option', value: '' },
-                    { text: 'Export', value: 'export' },
                     { text: 'Delete', value: 'delete' }
                 ],
                 quickEditOption: '',
@@ -113,9 +109,6 @@
             },
             exportAll() {
                 this.appExportAll();
-            },
-            getEmailsInCampaignLink(campaignId) {
-                return this.appAdminHome + '/emails/' + campaignId + '/in-campaign';
             },
         },
     }

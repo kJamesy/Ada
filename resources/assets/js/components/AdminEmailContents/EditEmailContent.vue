@@ -5,31 +5,36 @@
         <template v-if="! fetchingData">
             <div v-if="appUserHasPermission('update')">
                 <h3 class="mb-5">
-                    <i class="fa fa-edit"></i> {{ resource.name }}
+                    <i class="fa fa-edit"></i> {{ resource.title }}
                 </h3>
 
                 <form v-on:submit.prevent='updateResource' v-if="! fetchingData ">
-                    <div class="form-group row">
-                        <label class="col-md-4 form-control-label" for="name">Name</label>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" id="name" v-model.trim="resource.name" v-bind:class="validationErrors.name ? 'is-invalid' : ''">
+                    <div class="form-group">
+                        <label class="form-control-label" for="title">Title</label>
+                        <div class="">
+                            <input type="text" class="form-control" id="title" v-model.trim="resource.title" v-bind:class="validationErrors.title ? 'is-invalid' : ''">
                             <small class="invalid-feedback">
-                                {{ validationErrors.name }}
+                                {{ validationErrors.title }}
                             </small>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-md-4 form-control-label" for="description">Description</label>
-                        <div class="col-md-8">
-                            <textarea class="form-control" id="description" rows="4" v-model.trim="resource.description" v-bind:class="validationErrors.description ? 'is-invalid' : ''">
-                            </textarea>
+                    <div class="form-group">
+                        <label class="form-control-label" for="slug">URL Slug</label>
+                        <div class="">
+                            <input type="text" class="form-control" id="slug" v-model.trim="resource.slug" v-bind:class="validationErrors.slug ? 'is-invalid' : ''">
                             <small class="invalid-feedback">
-                                {{ validationErrors.description }}
+                                {{ validationErrors.slug }}
                             </small>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-md-8 ml-md-auto">
+                    <div class="form-group">
+                        <label class="form-control-label" for="content">Content <small class="text-danger">{{ validationErrors.content }}</small></label>
+                        <div class="">
+                            <textarea class="form-control" id="content" v-model.trim="resource.content" rows="4" v-on:click="checkEditor"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="">
                             <button type="submit" class="btn btn-primary btn-outline-primary">Update</button>
                             <form action="" class="form-inline pull-right">
                                 <label class="form-control-label mr-sm-2" for="more-options">More Options</label>
@@ -51,28 +56,57 @@
 </template>
 
 <script>
+    import slugify from 'slugify';
+
     export default {
         mounted() {
             this.$nextTick(function() {
                 this.getResource();
+                this.listenEvents();
             });
         },
         data() {
             return {
                 fetchingData: true,
-                resource: {name: '', description: ''},
-                validationErrors: {name: '', description: ''},
-                listRoute: 'admin_campaigns.index',
+                resource: {title: '', slug: '', content: ''},
+                validationErrors: {title: '', slug: '', content: ''},
+                listRoute: 'admin_email_contents.index',
                 moreOptions: [
                     { text: 'Select Option', value: '' },
-                    { text: 'Delete Campaign', value: 'delete' },
+                    { text: 'Delete Content', value: 'delete' },
                 ],
-                moreOption: ''
+                moreOption: '',
+                editorReady: false
             }
         },
         methods: {
             getResource() {
-                this.appGetResource();
+                let vm = this;
+                let progress = vm.$Progress;
+
+                progress.start();
+
+                vm.$http.get(vm.appResourceUrl + '/' + vm.id + '/edit').then(function(response) {
+                    if ( response.data && response.data.resource )
+                        vm.resource = response.data.resource;
+
+                    vm.initTinyMce(10);
+                    progress.finish();
+                    vm.fetchingData = false;
+
+                }, function(error) {
+                    if ( error.status && error.status === 403 && error.data ) {
+                        swal({ title: "Uh oh!", text: error.data.error, type: 'error', animation: 'slide-from-top'}, function(){
+                            window.location.replace(vm.appUserHome);
+                        });
+                    }
+                    else if ( error.status && error.status === 404 && error.data )
+                        vm.appCustomErrorAlert(error.data.error);
+                    else
+                        vm.appGeneralErrorAlert();
+                    progress.fail();
+                    vm.fetchingData = false;
+                });
             },
             updateResource() {
                 this.appUpdateResource();
@@ -80,8 +114,52 @@
             deleteResource() {
                 this.appDeleteResource();
             },
+            initTinyMce(wait) {
+                let vm = this;
+                let defaultConfig = tinyMceConfig;
+
+                let newCOnfig = {
+                    selector: '#content',
+                    setup: function(editor) {
+                        editor.on('init', function() {
+                            editor.setContent(vm.resource.content);
+                            vm.editorReady = true;
+                        });
+
+                        editor.on('change keyup blur', function() {
+                            vm.resource.content = editor.getContent();
+                        });
+                    },
+                };
+
+                _.delay(function() {
+                    tinymce.remove();
+                    tinymce.init(_.assign(defaultConfig, newCOnfig));
+                }, parseInt(wait));
+            },
+            checkEditor() {
+                let vm = this;
+                if ( ! vm.editorReady )
+                    vm.initTinyMce(10);
+            },
+            listenEvents() {
+                let vm = this;
+
+                vm.$on('unsuccessfulupdate', function() {
+                    vm.initTinyMce(50);
+                });
+
+                vm.$on('successfulupdate', function(data) {
+                    vm.initTinyMce(50);
+                    if ( data.response )
+                        vm.resource.slug = data.response.data.slug;
+                });
+            }
         },
         watch: {
+            'resource.title'(newValue) {
+                this.resource.slug = slugify(newValue, {lower: true, remove: /[^\w\s-]/g});
+            },
             moreOption(action) {
                 let vm = this;
 
