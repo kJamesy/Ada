@@ -29,19 +29,14 @@ class SparkyValidator
 	{
 		$httpClient = new GuzzleAdapter(new Client());
 		$sparky = new SparkPost($httpClient, ['key' => static::getApiKey()]);
+		$promise = $sparky->request('GET', "sending-domains?ownership_verified=true"); //, ['dkim_verify' => true]);
 		$sparky->setOptions(['async' => false, 'retries' => 3]);
-//		$response = $sparky->syncRequest('POST', "/sending-domains/$domain/verify", ['dkim_verify' => true]);
 
-		$promise = $sparky->request('GET', 'metrics/ip-pools', [
-			'from' => '2014-12-01T09:00',
-			'to' => '2015-12-01T08:00',
-			'timezone' => 'America/New_York',
-			'limit' => '5',
-		]);
-		
 		try {
-			dd($promise);
-			return ['success' => true, 'response' => $sparky->transmissions->get()];
+			$response = $sparky->transmissions->get();
+			print_r($response->getStatusCode()."<br />");
+			print_r($response->getBody());
+//			return ['success' => true, 'response' => $sparky->transmissions->get()];
 		}
 		catch (\Exception $e) {
 			dd($e->getMessage());

@@ -19,7 +19,7 @@ Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
 		$eContent = \App\EmailContent::findResource(6);
 
-		\App\Helpers\SparkyValidator::validateSendingDomain('acw2.uk');
+		\App\Helpers\SparkyValidator::validateSendingDomain('example1.com');
 
 	});
 
