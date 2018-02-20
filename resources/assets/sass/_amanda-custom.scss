@@ -1,0 +1,144 @@
+$dark_bg: darken($info, 15%);
+
+.am-signin-box > .row > div:first-child, .am-signup-box > .row > div:first-child {
+  text-align: center;
+  padding: 40px;
+  background-color: #FB9337;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#FB9337), to(#fb861e));
+  background-image: linear-gradient(to bottom, #FB9337 0%, #fb861e 100%);
+  background-repeat: repeat-x;
+  color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+
+  background: $pink;
+}
+
+.am-header {
+  background-color: $dark_bg;
+
+  .am-navicon {
+    color: $pink;
+  }
+}
+
+.nav.am-sideleft-menu {
+  font-family: $font-family-roboto-condensed;
+
+  .nav-item {
+    .nav-link {
+      font-size: 1.1rem;
+      color: inherit;
+
+      &:hover, &:focus, &.active:not(.with-sub) {
+        color: $pink;
+      }
+
+      &.active i:first-child {
+        color: $pink;
+      }
+
+    }
+
+    .nav-sub {
+      .nav-link {
+        font-size: 1rem;
+
+        &.active {
+          color: $pink;
+        }
+
+        i {
+          font-size: 1.05rem;
+        }
+      }
+    }
+  }
+}
+
+.am-header-right {
+  .dropdown-menu {
+    margin-top: -2px;
+    background-color: $dark_bg;
+  }
+
+  .nav-link {
+    color: $white;
+  }
+
+  .user-profile-nav {
+    a {
+      color: $white;
+
+      &:hover, &:focus {
+        text-decoration: none;
+        color: lighten($pink, 5%);
+        background: transparent;
+      }
+    }
+  }
+
+  .logged-name {
+    font-size: 1rem;
+  }
+}
+
+.am-sideleft {
+  .nav.am-sideleft-tab {
+    display: none;
+
+    .nav-item {
+      border-right: 1px solid $pink;
+
+      .nav-link {
+        background-color: $white;
+        color: inherit;
+
+        &.active, &:hover {
+          background-color: $white;
+          color: $pink;
+        }
+
+        &::after {
+          background-color: $pink;
+        }
+      }
+    }
+  }
+
+  .tab-content {
+    .tab-pane {
+      top: 0;
+    }
+  }
+}
+
+.am-mainpanel {
+  margin-top: 60px !important;
+
+  .am-pagetitle {
+    background: darken($white, 0);
+    position: relative;
+    margin: 0;
+    padding: 0 30px;
+    left: 0 !important;
+    top: 0 !important;
+
+    .am-title {
+      font-size: 1.3rem;
+      color: $pink;
+
+      i {
+        font-size: 1.5rem;
+        vertical-align: baseline;
+      }
+    }
+  }
+}

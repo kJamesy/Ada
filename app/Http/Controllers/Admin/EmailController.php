@@ -68,7 +68,7 @@ class EmailController extends Controller
 			$deleted = (int) $request->trash;
 
 			if ( ! $request->ajax() ) {
-				return view('admin.emails')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey]);
+				return view('admin.emails')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey, 'activeGroup' => 'content']);
 			}
 			else {
 				$settings = UserSettings::getSettings($user->id, $this->settingsKey, $orderBy, $order, $perPage, true);

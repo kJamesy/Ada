@@ -1,13 +1,13 @@
 <template>
     <div class="mt-5">
-        <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
+        <div class="sk-spinner sk-spinner-pulse bg-gray-800" v-if="fetchingData"></div>
 
         <template v-if="! fetchingData">
             <div v-if="appUserHasPermission('read')">
                 <h3>
                     {{ resource.subject }}
-                    <a class="btn" v-bind:href="resource.url" target="_blank" title="Open" data-toggle="tooltip"><i class="fa fa-external-link"></i></a>
-                    <a class="btn" v-bind:href="resource.pdf" target="_blank" title="Generate PDF" data-toggle="tooltip"><i class="fa fa-file-pdf-o"></i></a>
+                    <a class="btn btn-link" v-bind:href="resource.url" target="_blank" title="Open" data-toggle="tooltip"><i class="icon ion-android-open"></i></a>
+                    <a class="btn btn-link" v-bind:href="resource.pdf" target="_blank" title="Generate PDF" data-toggle="tooltip"><i class="icon ion-ios-cloud-download-outline"></i></a>
                 </h3>
                 <div class="row">
                     <div class="col-sm-3 text-sm-right font-weight-bold">Created:</div>
@@ -24,10 +24,10 @@
                 <div class="row">
                     <div class="col-sm-3 text-sm-right font-weight-bold">Status:</div>
                     <div class="col-sm-9">
-                        <i v-if="resource.status === -2" class="fa fa-spinner"></i>
-                        <i v-if="resource.status === -1" class="fa fa-clock-o"></i>
-                        <i v-if="resource.status === 0" class="fa fa-exclamation-triangle text-danger"></i>
-                        <i v-if="resource.status === 1" class="fa fa-check"></i>
+                        <i v-if="resource.status === -2" class="icon ion-edit"></i>
+                        <i v-if="resource.status === -1" class="icon ion-android-alarm-clock"></i>
+                        <i v-if="resource.status === 0" class="icon ion-alert-circled text-danger"></i>
+                        <i v-if="resource.status === 1" class="icon ion-ios-checkmark-outline"></i>
                         {{ resource.friendly_status }}
                     </div>
                 </div>
@@ -68,7 +68,10 @@
                         </div>
                         <div v-else="">
                             <div v-if="fetchingRecipients">
-                                <i class="fa fa-spinner fa-spin"></i>
+                                <div class="sk-double-bounce">
+                                    <div class="sk-child sk-double-bounce1 bg-gray-800"></div>
+                                    <div class="sk-child sk-double-bounce2 bg-gray-800"></div>
+                                </div>
                             </div>
                             <div v-else="">
                                 <div class="row mt-3">
@@ -94,7 +97,7 @@
                                 </div>
 
                                 <div class="table-responsive mt-5">
-                                    <table class="table table-striped">
+                                    <table class="table table-bordered table-hover table-info">
                                         <thead>
                                             <tr class="pointer-cursor">
                                                 <th v-on:click.prevent="changeSort('first_name')">Recipient <span v-html="getSortMarkup('first_name')"></span></th>
@@ -134,11 +137,11 @@
                                             <tr v-for="recipient in orderedRecipients">
                                                 <td>{{ recipient.first_name }} {{ recipient.last_name }} <{{ recipient.email }}></td>
                                                 <td>
-                                                    <small v-if="recipient.failed" v-html="getStatusHtml('failed')"></small>
-                                                    <small v-else-if="recipient.clicked" v-html="getStatusHtml('clicked')"></small>
-                                                    <small v-else-if="recipient.opened" v-html="getStatusHtml('opened')"></small>
-                                                    <small v-else-if="recipient.delivered" v-html="getStatusHtml('delivered')"></small>
-                                                    <small v-else="" v-html="getStatusHtml('unknown')"></small>
+                                                    <span v-if="recipient.failed" v-html="getStatusHtml('failed')"></span>
+                                                    <span v-else-if="recipient.clicked" v-html="getStatusHtml('clicked')"></span>
+                                                    <span v-else-if="recipient.opened" v-html="getStatusHtml('opened')"></span>
+                                                    <span v-else-if="recipient.delivered" v-html="getStatusHtml('delivered')"></span>
+                                                    <span v-else="" v-html="getStatusHtml('unknown')"></span>
                                                 </td>
                                                 <template v-if="recipientsViewOption === 'injections'">
                                                     <td><span v-bind:title="recipient.injected_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ recipient.injected_at | dateToTheMinute }}</span></td>
@@ -181,7 +184,7 @@
                 </div>
             </div>
             <div v-else="">
-                <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
+                <i class="icon ion-alert"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </template>
     </div>
@@ -378,19 +381,19 @@
             getStatusHtml(status) {
                 switch( status ) {
                     case 'failed':
-                        return "<i title='Failed' data-toggle='tooltip' class='fa fa-times'></i>";
+                        return "<i title='Failed' data-toggle='tooltip' class='icon ion-close'></i>";
                         break;
                     case 'clicked':
-                        return "<i title='Clicked' data-toggle='tooltip' class='fa fa-mouse-pointer'></i>";
+                        return "<i title='Clicked' data-toggle='tooltip' class='icon ion-mouse'></i>";
                         break;
                     case 'opened':
-                        return "<i title='Opened' data-toggle='tooltip' class='fa fa-envelope-open-o'></i>";
+                        return "<i title='Opened' data-toggle='tooltip' class='icon ion-ios-eye-outline'></i>";
                         break;
                     case 'delivered':
-                        return "<i title='Delivered' data-toggle='tooltip' class='fa fa-envelope'></i>";
+                        return "<i title='Delivered' data-toggle='tooltip' class='icon ion-email-unread'></i>";
                         break;
                     case 'unknown':
-                        return "<i title='Dispatched' data-toggle='tooltip' class='fa fa-paper-plane-o'></i>";
+                        return "<i title='Dispatched' data-toggle='tooltip' class='icon ion-share'></i>";
                         break;
                 }
             }

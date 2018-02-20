@@ -19,11 +19,11 @@ if ( mix.config.inProduction ) {
     mix.version();
 }
 
-mix.browserSync('ada.app');
+mix.browserSync('anada.app');
 
 // mix.browserSync({
 //     host: '192.168.10.10',
-//     proxy: 'ada.app',
+//     proxy: 'ada2.app',
 //     open: false,
 //     watchOptions: {
 //         usePolling: true,

@@ -7,7 +7,7 @@
         window.permissionsKey = '{!! $permissionsKey !!}';
         window.settingsKey = '{!! $settingsKey !!}';
         window.links = {
-            home: '{{ route('settings.index') }}',
+            home: '{{ route('profile.index') }}',
             base: '{{ explode( $_SERVER['SERVER_NAME'], route('email-settings.index'))[1] }}',
             admin: '{{ rtrim(route('admin.home'), '/') }}'
         }
@@ -16,9 +16,14 @@
 
 @section('email_settings_active', 'active')
 @section('content')
-    <div id="admin-email-settings-app">
-        <admin-email-settings>
+    <div class="am-mainpanel">
+        <div class="am-pagetitle">
+            <h5 class="am-title"><i class="icon ion-email-unread"></i> Email Settings</h5>
+        </div>
+        <div class="am-pagebody" id="admin-email-settings-app">
+            <admin-email-settings>
 
-        </admin-email-settings>
+            </admin-email-settings>
+        </div>
     </div>
 @endsection

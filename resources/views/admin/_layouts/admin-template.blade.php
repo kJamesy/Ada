@@ -1,67 +1,40 @@
 @extends('_layouts.main-template')
 
 @section('header-styles-scripts')
-    @if ( Auth::guard('web')->user() )
-        <script>
-            window.user = {!! $user !!};
-            window.permissions = {!! json_encode($permissions) !!};
-            window.settings = {!! json_encode($settings) !!};
-        </script>
-        @yield('view-header-styles-scripts')
-    @endif
+    <script>
+        window.user = {!! $user !!};
+        window.permissions = {!! json_encode($permissions) !!};
+        window.settings = {!! json_encode($settings) !!};
+    </script>
+    @yield('view-header-styles-scripts')
 @endsection
 
 @section('body')
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('guest.home') }}">{{ strtoupper(config('app.name')) }}</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav ml-auto">
-                    @if ( Auth::guard('web')->guest() )
-                        <li class="nav-item @yield('active-login')"><a class="nav-link" href="{{ route('admin.auth.show_login') }}">Login</a></li>
-                        <li class="nav-item @yield('active-registration')"><a class="nav-link" href="{{ route('admin.auth.show_registration') }}">Register</a></li>
-                    @else
-                        <li class="nav-item dropdown">
-                            <a href="" id="dropdown1" class="nav-link dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ Auth::guard('web')->user()->name }}
-                            </a>
-
-                            <div class="dropdown-menu" aria-labelledby="dropdown1">
-                                <a class="dropdown-item" href="{{ route('settings.index') }}">
-                                    <i class="fa fa-cogs" aria-hidden="true"></i> User Settings
-                                </a>
-                                <a class="dropdown-item" href="{{ route('admin.auth.get_logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
-                                </a>
-                                <form id="logout-form" action="{{ route('admin.auth.post_logout') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>
-                            </div>
-                        </li>
-                    @endif
-                </ul>
-            </div>
+    <div class="am-header">
+        <div class="am-header-left">
+            <a id="naviconLeft" href="" class="am-navicon d-none d-lg-flex"><i class="icon ion-navicon-round"></i></a>
+            <a id="naviconLeftMobile" href="" class="am-navicon d-lg-none"><i class="icon ion-navicon-round"></i></a>
+            <a href="{{ route('guest.home') }}" class="am-logo">{{ strtoupper(config('app.name')) }}</a>
         </div>
-    </nav>
 
-    <div class="main-content" style="margin-top: 80px;">
-        @if ( Auth::guard('web')->guest() )
-            @yield('content')
-        @else
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3">
-                        @include('admin._layouts.admin-nav')
-                    </div>
-                    <div class="col-lg-9">
-                        @yield('content')
-                    </div>
+        <div class="am-header-right">
+            <div class="dropdown dropdown-profile">
+                <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
+                    <span class="logged-name"><span class="hidden-xs-down">{{ Auth::guard('web')->user()->name }}</span> <i class="icon ion-ios-arrow-down mg-l-3"></i></span>
+                </a>
+                <div class="dropdown-menu wd-200">
+                    <ul class="list-unstyled user-profile-nav">
+                        <li><a href="{{ route('profile.index') }}"><i class="icon ion-ios-person-outline"></i> Profile</a></li>
+                        <li>
+                            <a href="{{ route('admin.auth.get_logout') }}"><i class="icon ion-power"></i> Logout</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        @endif
+        </div>
     </div>
+
+    @include('admin._layouts.admin-nav')
+    @yield('content')
+
 @endsection

@@ -1,19 +1,19 @@
 <template>
     <div class="mt-5">
-        <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
+        <div class="sk-spinner sk-spinner-pulse bg-gray-800" v-if="fetchingData"></div>
 
         <template v-if="! fetchingData">
             <div v-if="appUserHasPermission('create')">
                 <div class="mb-5 text-right font-italic">
                     <router-link v-bind:to="{ name: 'admin_subscribers.import'}" class="btn btn-link">
-                        Import from Excel/CSV Instead?
+                        <i class="icon ion-ios-cloud-upload-outline"></i> Import from Excel/CSV Instead?
                     </router-link>
                 </div>
                 <form v-on:submit.prevent='createResource'>
                     <div class="form-group row">
                         <label class="col-md-4 form-control-label" for="first_name">First Name</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" id="first_name" v-model.trim="resource.first_name" v-bind:class="validationErrors.first_name ? 'is-invalid' : ''">
+                            <input type="text" class="form-control" id="first_name" v-model.trim="resource.first_name" v-bind:class="validationErrors.first_name ? 'is-invalid' : ''" placeholder="First Name">
                             <small class="invalid-feedback">
                                 {{ validationErrors.first_name }}
                             </small>
@@ -22,7 +22,7 @@
                     <div class="form-group row">
                         <label class="col-md-4 form-control-label" for="last_name">Last Name</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" id="last_name" v-model.trim="resource.last_name" v-bind:class="validationErrors.last_name ? 'is-invalid' : ''">
+                            <input type="text" class="form-control" id="last_name" v-model.trim="resource.last_name" v-bind:class="validationErrors.last_name ? 'is-invalid' : ''" placeholder="Last Name">
                             <small class="invalid-feedback">
                                 {{ validationErrors.last_name }}
                             </small>
@@ -31,7 +31,7 @@
                     <div class="form-group row">
                         <label class="col-md-4 form-control-label" for="email">Email</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" id="email" v-model.trim="resource.email" v-bind:class="validationErrors.email ? 'is-invalid' : ''">
+                            <input type="text" class="form-control" id="email" v-model.trim="resource.email" v-bind:class="validationErrors.email ? 'is-invalid' : ''" placeholder="Email">
                             <small class="invalid-feedback">
                                 {{ validationErrors.email }}
                             </small>
@@ -54,13 +54,13 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-8 ml-md-auto">
-                            <button type="submit" class="btn btn-primary btn-outline-primary">Save</button>
+                            <button type="submit" class="btn btn-info btn-lg">Save</button>
                         </div>
                     </div>
                 </form>
             </div>
             <div v-if="! appUserHasPermission('create')">
-                <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
+                <i class="icon ion-alert"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </template>
     </div>

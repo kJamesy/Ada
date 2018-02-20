@@ -1,6 +1,6 @@
 <template>
     <div class="mt-5">
-        <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
+        <div class="sk-spinner sk-spinner-pulse bg-gray-800" v-if="fetchingData"></div>
 
         <template v-if="! fetchingData">
             <div v-if="appUserHasPermission('read')">
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div v-else="">
-                <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
+                <i class="icon ion-alert"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </template>
     </div>

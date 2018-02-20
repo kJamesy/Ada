@@ -1,37 +1,37 @@
 <template>
     <div class="mt-5">
-        <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
+        <div class="sk-spinner sk-spinner-pulse bg-gray-800" v-if="fetchingData"></div>
 
         <template v-if="! fetchingData">
             <div v-if="appUserHasPermission('update')">
                 <h3 class="mb-5">
-                    <i class="fa fa-edit"></i> {{ resource.name }}
+                    <i class="icon ion-ios-compose"></i> {{ resource.name }}
                 </h3>
 
                 <form v-on:submit.prevent='updateResource' v-if="! fetchingData ">
                     <div class="form-group ">
                         <label class="form-control-label" for="name">Name <small class="text-danger">{{ validationErrors.name }}</small></label>
                         <div class="">
-                            <input type="text" class="form-control" id="name" v-model.trim="resource.name">
+                            <input type="text" class="form-control" id="name" v-model.trim="resource.name" placeholder="Name">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="form-control-label" for="description">Description <small class="text-danger">{{ validationErrors.description }}</small></label>
                         <div class="">
-                            <textarea class="form-control" id="description" rows="4" v-model.trim="resource.description">
+                            <textarea class="form-control" id="description" rows="4" v-model.trim="resource.description" placeholder="Description">
                             </textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="form-control-label" for="content">Content <small class="text-danger">{{ validationErrors.content }}</small></label>
                         <div class="">
-                            <textarea class="form-control" id="content" v-model.trim="resource.content" rows="4" v-on:click="checkEditor">
+                            <textarea class="form-control" id="content" v-model.trim="resource.content" rows="4" v-on:click="checkEditor" placeholder="Content">
                             </textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="ml-md-auto">
-                            <button type="submit" class="btn btn-primary btn-outline-primary">Update</button>
+                            <button type="submit" class="btn btn-info btn-lg">Update</button>
                             <form action="" class="form-inline pull-right">
                                 <label class="form-control-label mr-sm-2" for="more-options">More Options</label>
                                 <select class="custom-select form-control mb-2 mb-sm-0" v-model="moreOption" id="more-options">
@@ -45,7 +45,7 @@
                 </form>
             </div>
             <div v-else="">
-                <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
+                <i class="icon ion-alert"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </template>
     </div>

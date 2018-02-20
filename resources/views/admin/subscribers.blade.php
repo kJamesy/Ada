@@ -7,7 +7,7 @@
         window.permissionsKey = '{!! $permissionsKey !!}';
         window.settingsKey = '{!! $settingsKey !!}';
         window.links = {
-            home: '{{ route('settings.index') }}',
+            home: '{{ route('profile.index') }}',
             base: '{{ explode( $_SERVER['SERVER_NAME'], route('subscribers.index'))[1] }}',
         }
     </script>
@@ -15,9 +15,14 @@
 
 @section('subscribers_active', 'active')
 @section('content')
-    <div id="admin-subscribers-app">
-        <admin-subscribers>
+    <div class="am-mainpanel">
+        <div class="am-pagetitle">
+            <h5 class="am-title"><i class="icon ion-android-people"></i> Subscribers</h5>
+        </div>
+        <div class="am-pagebody" id="admin-subscribers-app">
+            <admin-subscribers>
 
-        </admin-subscribers>
+            </admin-subscribers>
+        </div>
     </div>
 @endsection

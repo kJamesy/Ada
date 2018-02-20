@@ -41,7 +41,7 @@
                 <div class="col-md-10 offset-md-1">
                     <div class="card">
                         <div class="card-header">
-                            <h3><i class="fa fa-clock-o"></i> Account Inactive</h3>
+                            <h3><i class="icon ion-android-alarm-clock"></i> Account Inactive</h3>
                         </div>
                         <div class="card-body">
                             Hi {{ $user->first_name }}, Your account is awaiting approval.

@@ -58,7 +58,7 @@ class MailingListController extends Controller
 			$deleted = (int) $request->trash;
 
 			if ( ! $request->ajax() ) {
-				return view('admin.mailing_lists')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey]);
+				return view('admin.mailing_lists')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey, 'activeGroup' => 'recipients']);
 			}
 			else {
 				$settings = UserSettings::getSettings($user->id, $this->settingsKey, $orderBy, $order, $perPage, true);

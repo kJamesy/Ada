@@ -1,6 +1,6 @@
 <template>
     <div class="mt-5">
-        <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
+        <div class="sk-spinner sk-spinner-pulse bg-gray-800" v-if="fetchingData"></div>
 
         <template v-if="! fetchingData">
             <div v-if="appUserHasPermission('create')">
@@ -45,7 +45,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-8 ml-md-auto">
-                            <button type="submit" class="btn btn-primary btn-outline-primary" v-bind:disabled="! proceedWithUpload">Next</button>
+                            <button type="submit" class="btn btn-info btn-lg" v-bind:disabled="! proceedWithUpload">Next</button>
                             <router-link v-bind:to="{ name: 'admin_subscribers.index' }" class="btn btn-link pull-right">Cancel</router-link>
                         </div>
                     </div>
@@ -72,11 +72,11 @@
                             {{ nextStepValidation }}
                         </small>
                     </div>
-                    <button v-on:click.prevent="finaliseImport" class="btn btn-primary btn-outline-primary">Finish</button>
+                    <button v-on:click.prevent="finaliseImport" class="btn btn-info btn-lg">Finish</button>
                 </div>
             </div>
             <div v-if="! appUserHasPermission('create')">
-                <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
+                <i class="icon ion-alert"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </template>
     </div>

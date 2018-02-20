@@ -58,7 +58,7 @@ class CampaignController extends Controller
 			$deleted = (int) $request->trash;
 
 			if ( ! $request->ajax() ) {
-				return view('admin.campaigns')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey]);
+				return view('admin.campaigns')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey, 'activeGroup' => 'content']);
 			}
 			else {
 				$settings = UserSettings::getSettings($user->id, $this->settingsKey, $orderBy, $order, $perPage, true);

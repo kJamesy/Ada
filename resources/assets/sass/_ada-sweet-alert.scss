@@ -1,0 +1,27 @@
+.sweet-alert {
+  font-family: inherit;
+
+  .sa-button-container {
+    text-align: left;
+
+    button.cancel {
+      background: $gray-500 !important;
+
+      &:hover {
+        background: $pink !important;
+      }
+    }
+
+    .sa-confirm-button-container {
+      float: right;
+
+      button.confirm {
+        background: $info !important;
+
+        &:hover {
+          background: $pink !important;
+        }
+      }
+    }
+  }
+}

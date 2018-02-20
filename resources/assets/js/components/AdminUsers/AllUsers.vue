@@ -1,9 +1,9 @@
 <template>
     <div class="mt-3">
-        <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
+        <div class="sk-spinner sk-spinner-pulse bg-gray-800" v-if="fetchingData"></div>
         <div v-if="! fetchingData && appResourceCount">
             <div v-if="appUserHasPermission('read')">
-                <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right"><i class="fa fa-arrow-circle-o-down"></i></a>
+                <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right"><i class="icon ion-android-download"></i></a>
                 <div class="clearfix mb-2"></div>
                 <form v-on:submit.prevent="appDoSearch">
                     <div class="form-group">
@@ -31,7 +31,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-bordered table-hover table-info">
                         <thead>
                             <tr class="pointer-cursor">
                                 <th class="normal-cursor" v-if="appUserHasPermission('update')">
@@ -58,17 +58,17 @@
                                         </label>
                                     </template>
                                 </td>
-                                <td>{{ user.name }} <small v-if="user.is_super_admin" class="text-warning" title="Super Admin" data-toggle="tooltip"> <i class="fa fa-certificate"></i> </small></td>
+                                <td>{{ user.name }} <span v-if="user.is_super_admin" class="text-dark" title="Super Admin" data-toggle="tooltip"> <i class="icon ion-android-star"></i> </span></td>
                                 <td>{{ user.email }}</td>
                                 <td> {{ user.username }}</td>
                                 <td v-html="appActiveMarkup(user.active)"></td>
                                 <td v-bind:title="user.updated_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ user.updated_at | dateToTheDay }}</td>
                                 <td>
                                     <template v-if="appUserHasPermissionOnUser('read', user)">
-                                        <router-link v-bind:to="{ name: 'admin_users.view', params: { id: user.id }}" class="btn btn-sm btn-outline-primary"><i class="fa fa-user-o"></i></router-link>
+                                        <router-link v-bind:to="{ name: 'admin_users.view', params: { id: user.id }}" class="btn btn-sm rounded-circle btn-pink"><i class="ion-ios-body-outline"></i></router-link>
                                     </template>
                                     <template v-if="appUserIsCurrentUser(user)">
-                                        <a v-bind:href="appUserHome" class="btn btn-sm btn-outline-warning" data-toggle="tooltip" title="Yours truly :)"><i class="fa fa-user-o"></i></a>
+                                        <a v-bind:href="appUserHome" class="btn btn-sm rounded-circle btn-dark" data-toggle="tooltip" title="Yours truly :)"><i class="ion-ios-body-outline"></i></a>
                                     </template>
                                 </td>
                             </tr>
@@ -80,7 +80,7 @@
 
             </div>
             <div v-if="! appUserHasPermission('read')">
-                <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
+                <i class="icon ion-alert"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </div>
         <div v-if="! fetchingData && ! appResourceCount" class="mt-5">
@@ -94,7 +94,6 @@
         mounted() {
             this.$nextTick(function() {
                 this.appInitialiseSettings();
-                this.appInitialiseTooltip();
                 this.fetchResources();
             });
         },
@@ -134,6 +133,7 @@
         methods: {
             fetchResources(orderAttr, orderToggle) {
                 this.appFetchResources(this, orderAttr, orderToggle);
+                this.appInitialiseTooltip();
             },
             quickEditResources() {
                 this.appQuickEditResources();

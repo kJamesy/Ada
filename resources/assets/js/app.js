@@ -38,32 +38,57 @@ import AppHelpers from './plugins/AppHelpers';
 Vue.use(AppHelpers);
 
 /**
- * Settings
+ * Dashboard
  */
-import Admin from './components/Admin/Admin.vue';
-import AdminDashboard from './components/Admin/Dashboard.vue';
-import AdminProfile from './components/Admin/Profile.vue';
-import AdminEditProfile from './components/Admin/EditProfile.vue';
-import AdminEditPassword from './components/Admin/EditPassword.vue';
+import AdminDashboard from './components/AdminDashboard/AdminDashboard.vue';
+import AdminDashboardDashboard from './components/AdminDashboard/Dashboard.vue';
 
-if ( $('#admin-app').length ) {
+
+if ( $('#admin-dashboard-app').length ) {
     let router = new VueRouter({
         mode: 'history',
         base: links.base,
         linkActiveClass: 'active',
         routes: [
-            { path: '/', name: 'settings.index', component: AdminDashboard },
-            { path: '/profile', name: 'settings.profile', component: AdminProfile },
-            { path: '/edit-profile', name: 'settings.edit_profile', component: AdminEditProfile },
-            { path: '/edit-password', name: 'settings.edit_password', component: AdminEditPassword },
-            { path: '*', redirect: { name: 'settings.index' } }
+            { path: '/', name: 'dashboard.index', component: AdminDashboardDashboard },
+            { path: '*', redirect: { name: 'dashboard.index' } }
         ]
     });
 
     new Vue({
-        el: '#admin-app',
+        el: '#admin-dashboard-app',
         components: {
-            Admin
+            AdminDashboard
+        },
+        router: router
+    });
+}
+
+/**
+ * Profile
+ */
+import AdminProfile from './components/AdminProfile/AdminProfile.vue';
+import AdminProfileProfile from './components/AdminProfile/Profile.vue';
+import AdminEditProfile from './components/AdminProfile/EditProfile.vue';
+import AdminEditPassword from './components/AdminProfile/EditPassword.vue';
+
+if ( $('#admin-profile-app').length ) {
+    let router = new VueRouter({
+        mode: 'history',
+        base: links.base,
+        linkActiveClass: 'active',
+        routes: [
+            { path: '/', name: 'profile.index', component: AdminProfileProfile },
+            { path: '/edit-profile', name: 'profile.edit_profile', component: AdminEditProfile },
+            { path: '/edit-password', name: 'profile.edit_password', component: AdminEditPassword },
+            { path: '*', redirect: { name: 'profile.index' } }
+        ]
+    });
+
+    new Vue({
+        el: '#admin-profile-app',
+        components: {
+            AdminProfile
         },
         router: router
     });

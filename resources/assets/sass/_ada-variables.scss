@@ -1,0 +1,14 @@
+@mixin border_radius_none {
+  -webkit-border-radius: inherit;
+  -moz-border-radius: inherit;
+  border-radius: inherit;
+}
+
+@mixin box_shadow_none {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+$form_control_label_color: darken($info, 5%);
+$form_control_color: $gray-700;

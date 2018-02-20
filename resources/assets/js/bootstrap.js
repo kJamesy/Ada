@@ -37,3 +37,12 @@ Vue.http.interceptors.push((request, next) => {
 
     next();
 });
+
+//Amanda
+require('../vendor/amanda-admin/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min');
+require('../vendor/amanda-admin/lib/jquery-toggles/toggles.min');
+// require('../vendor/amanda-admin/lib/d3/d3');
+// require('../vendor/amanda-admin/lib/rickshaw/rickshaw.min');
+require('../vendor/amanda-admin/js/amanda');
+require('../vendor/amanda-admin/js/ResizeSensor');
+// require('../vendor/amanda-admin/js/dashboard');

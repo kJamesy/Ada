@@ -1,4 +1,4 @@
-.main-content {
+.am-mainpanel {
   .v-select {  
     font-family: inherit;
     
@@ -16,13 +16,19 @@
 
     .dropdown-toggle {
       padding: 2px;
-      border: 1px solid $border_color;
+      border-width: 1.5px;
+      border-style: dotted;
+      border-color: transparent;
+      border-bottom-color: $info;
+
       @include border_radius_none;
     }
 
-    &.open .dropdown-toggle {
-      border-color: $border_color_focus;
-      border-bottom-color: transparent;
+    &.open, &:hover, &:focus, &:active {
+      .dropdown-toggle {
+        border-color: $info;
+        @include box_shadow_none;
+      }
     }
 
     .dropdown-menu {
@@ -30,7 +36,9 @@
       z-index: 10;
       padding: 5px 0;
       @include border_radius_none;
-      border: 1px solid $border_color_focus;
+      border-width: 1.5px;
+      border-style: dotted;
+      border-color: $info;
       border-top: 0;
       @include box_shadow_none;
     }
@@ -76,17 +84,17 @@
     }
 
     .dropdown-menu > .highlight > a {
-      background: $blue;
+      background: $pink;
     }
 
     .dropdown-menu .active > a {
       color: $black;
       background: transparent;
-      opacity: 0.4;
-      cursor: context-menu;
+      opacity: 0.5;
+      font-style: italic;
 
       &:hover, &:focus, &:active {
-        background: transparent;
+        background: $pink;
       }
     }
 

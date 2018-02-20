@@ -1,10 +1,10 @@
 <template>
     <div class="mt-3">
-        <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
+        <div class="sk-spinner sk-spinner-pulse bg-gray-800" v-if="fetchingData"></div>
         <div v-if="! fetchingData">
             <div v-if="appUserHasPermission('read')">
                 <template v-if="appResourceCount">
-                    <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right" title="Export All" data-toggle="tooltip"><i class="fa fa-arrow-circle-o-down"></i></a>
+                    <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right" title="Export All" data-toggle="tooltip"><i class="icon ion-android-download"></i></a>
                     <div class="clearfix mb-2"></div>
                     <div class="row">
                         <div class="col-md-6">
@@ -66,7 +66,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-bordered table-hover table-info">
                             <thead>
                                 <tr class="pointer-cursor">
                                     <th class="normal-cursor" v-if="appUserHasPermission('update')">
@@ -104,10 +104,10 @@
                                         <span v-else=""><em>&mdash;</em></span>
                                     </td>
                                     <td v-bind:title="resource.friendly_status" data-toggle="tooltip">
-                                        <i v-if="resource.status === -2" class="fa fa-spinner"></i>
-                                        <i v-if="resource.status === -1" class="fa fa-clock-o"></i>
-                                        <i v-if="resource.status === 0" class="fa fa-exclamation-triangle text-danger"></i>
-                                        <i v-if="resource.status === 1" class="fa fa-check"></i>
+                                        <i v-if="resource.status === -2" class="icon ion-more"></i>
+                                        <i v-if="resource.status === -1" class="icon ion-android-alarm-clock"></i>
+                                        <i v-if="resource.status === 0" class="icon ion-alert-circled text-danger"></i>
+                                        <i v-if="resource.status === 1" class="icon ion-ios-checkmark-outline"></i>
                                     </td>
                                     <td><span v-bind:title="resource.created_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.created_at | dateToTheDay }}</span></td>
                                     <td v-if="appIsDraftsPage"><span v-bind:title="resource.updated_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
@@ -116,12 +116,12 @@
                                         <span v-else=""><em>&mdash;</em></span>
                                     </td>
                                     <td v-if="appUserHasPermission('read')">
-                                        <router-link v-bind:to="{ name: 'admin_emails.view', params: { id: resource.id }}" class="btn btn-sm btn-outline-primary"><i class="fa fa-eye"></i></router-link>
+                                        <router-link v-bind:to="{ name: 'admin_emails.view', params: { id: resource.id }}" class="btn btn-sm rounded-circle btn-pink"><i class="icon ion-eye"></i></router-link>
                                     </td>
                                     <td v-if="appUserHasPermission('read')">
-                                        <router-link v-bind:to="{ name: 'admin_emails.stats', params: { id: resource.id }}" class="btn btn-sm btn-outline-primary"
+                                        <router-link v-bind:to="{ name: 'admin_emails.stats', params: { id: resource.id }}" class="btn btn-sm rounded-circle btn-pink"
                                                      v-bind:class="resource.status < 1 ? 'disabled' : ''">
-                                            <i class="fa fa-line-chart"></i>
+                                            <i class="ion-stats-bars"></i>
                                         </router-link>
                                     </td>
                                 </tr>
@@ -137,11 +137,11 @@
                 </div>
             </div>
             <div v-if="! appUserHasPermission('read')">
-                <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
+                <i class="icon ion-alert"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </div>
         <div class="mt-3 mb-3 font-italic text-right" v-if="! fetchingData && appDeletedNum && isLandingPage()">
-            <router-link v-bind:to="{ name: 'admin_emails.trash'}" class="btn btn-link"><i class="fa fa-trash"></i> Deleted Items ({{ appDeletedNum }})</router-link>
+            <router-link v-bind:to="{ name: 'admin_emails.trash'}" class="btn btn-link"><i class="icon ion-trash-a"></i> Deleted Items ({{ appDeletedNum }})</router-link>
         </div>
 
     </div>
@@ -152,7 +152,6 @@
         mounted() {
             this.$nextTick(function() {
                 this.appInitialiseSettings();
-                this.appInitialiseTooltip();
                 this.fetchResources();
                 this.applyListeners();
             });
@@ -247,6 +246,7 @@
 
                 vm.$on('successfulfetch', function () {
                     vm.setOtherData();
+                    vm.appInitialiseTooltip();
                 });
             },
             isLandingPage() {

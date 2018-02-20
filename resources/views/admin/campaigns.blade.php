@@ -7,7 +7,7 @@
         window.permissionsKey = '{!! $permissionsKey !!}';
         window.settingsKey = '{!! $settingsKey !!}';
         window.links = {
-            home: '{{ route('settings.index') }}',
+            home: '{{ route('profile.index') }}',
             base: '{{ explode( $_SERVER['SERVER_NAME'], route('campaigns.index'))[1] }}',
             admin: '{{ rtrim(route('admin.home'), '/') }}'
         }
@@ -16,9 +16,14 @@
 
 @section('campaigns_active', 'active')
 @section('content')
-    <div id="admin-campaigns-app">
-        <admin-campaigns>
+    <div class="am-mainpanel">
+        <div class="am-pagetitle">
+            <h5 class="am-title"><i class="icon ion-speakerphone"></i> Campaigns</h5>
+        </div>
+        <div class="am-pagebody" id="admin-campaigns-app">
+            <admin-campaigns>
 
-        </admin-campaigns>
+            </admin-campaigns>
+        </div>
     </div>
 @endsection

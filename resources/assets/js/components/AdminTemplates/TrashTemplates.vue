@@ -1,9 +1,9 @@
 <template>
     <div class="mt-3">
-        <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
+        <div class="sk-spinner sk-spinner-pulse bg-gray-800" v-if="fetchingData"></div>
         <div v-if="! fetchingData && appResourceCount">
             <div v-if="appUserHasPermission('read')">
-                <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right" title="Export All" data-toggle="tooltip"><i class="fa fa-arrow-circle-o-down"></i></a>
+                <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right" title="Export All" data-toggle="tooltip"><i class="icon ion-android-download"></i></a>
                 <div class="clearfix mb-2"></div>
                 <form v-on:submit.prevent="appDoSearch">
                     <div class="form-group">
@@ -31,7 +31,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-bordered table-hover table-info">
                         <thead>
                             <tr class="pointer-cursor">
                                 <th class="normal-cursor" v-if="appUserHasPermission('update')">
@@ -65,7 +65,7 @@
 
             </div>
             <div v-if="! appUserHasPermission('read')">
-                <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
+                <i class="icon ion-alert"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </div>
         <div v-if="! fetchingData && ! appResourceCount" class="mt-5">

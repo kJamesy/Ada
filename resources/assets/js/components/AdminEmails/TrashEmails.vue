@@ -1,9 +1,9 @@
 <template>
     <div class="mt-3">
-        <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
+        <div class="sk-spinner sk-spinner-pulse bg-gray-800" v-if="fetchingData"></div>
         <div v-if="! fetchingData && appResourceCount">
             <div v-if="appUserHasPermission('read')">
-                <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right" title="Export All" data-toggle="tooltip"><i class="fa fa-arrow-circle-o-down"></i></a>
+                <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right" title="Export All" data-toggle="tooltip"><i class="icon ion-android-download"></i></a>
                 <div class="clearfix mb-2"></div>
                 <form v-on:submit.prevent="appDoSearch">
                     <div class="form-group">
@@ -31,7 +31,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-bordered table-hover table-info">
                         <thead>
                             <tr class="pointer-cursor">
                                 <th class="normal-cursor" v-if="appUserHasPermission('update')">
@@ -66,10 +66,10 @@
                                     <span v-else=""><em>&mdash;</em></span>
                                 </td>
                                 <td v-bind:title="resource.friendly_status" data-toggle="tooltip">
-                                    <i v-if="resource.status === -2" class="fa fa-spinner"></i>
-                                    <i v-if="resource.status === -1" class="fa fa-clock-o"></i>
-                                    <i v-if="resource.status === 0" class="fa fa-exclamation-triangle text-danger"></i>
-                                    <i v-if="resource.status === 1" class="fa fa-check"></i>
+                                    <i v-if="resource.status === -2" class="icon ion-edit"></i>
+                                    <i v-if="resource.status === -1" class="icon ion-android-alarm-clock"></i>
+                                    <i v-if="resource.status === 0" class="icon ion-alert-circled text-danger"></i>
+                                    <i v-if="resource.status === 1" class="icon ion-ios-checkmark-outline"></i>
                                 </td>
                                 <td><span v-bind:title="resource.created_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.created_at | dateToTheDay }}</span></td>
                                 <td><span v-bind:title="resource.updated_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
@@ -81,7 +81,7 @@
                 <pagination :pagination="appPagination" :callback="fetchResources" :options="appPaginationOptions" class="mt-5 mb-5"></pagination>
             </div>
             <div v-if="! appUserHasPermission('read')">
-                <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
+                <i class="icon ion-alert"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </div>
         <div v-if="! fetchingData && ! appResourceCount" class="mt-5">

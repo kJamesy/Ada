@@ -1,8 +1,10 @@
 <template>
-    <div class="ml-md-5">
-        <vue-progress-bar></vue-progress-bar>
-        <app-nav></app-nav>
-        <router-view></router-view>
+    <div class="card pd-20">
+        <div class="card-body">
+            <vue-progress-bar></vue-progress-bar>
+            <app-nav></app-nav>
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 

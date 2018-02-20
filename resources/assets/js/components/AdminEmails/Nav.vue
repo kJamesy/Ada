@@ -1,39 +1,39 @@
 <template>
-    <ul class="nav nav-tabs mt-3">
+    <ul class="nav nav-pills mt-3">
         <li class="nav-item" v-if="appUserHasPermission('read')">
-            <router-link v-bind:to="{ name: 'admin_emails.index' }" tag="a" class="nav-link" exact><i class="fa fa-home"></i>
+            <router-link v-bind:to="{ name: 'admin_emails.index' }" tag="a" class="nav-link" exact><i class="icon ion-android-home"></i>
                 All Emails</router-link>
         </li>
         <li class="nav-item" v-if="appUserHasPermission('read') && draftsNum">
-            <router-link v-bind:to="{ name: 'admin_emails.drafts' }" tag="a" class="nav-link" exact><i class="fa fa-spinner"></i>
+            <router-link v-bind:to="{ name: 'admin_emails.drafts' }" tag="a" class="nav-link" exact><i class="icon ion-more"></i>
                 Drafts ({{ draftsNum }})</router-link>
         </li>
         <li class="nav-item" v-if="appUserHasPermission('read') && appBelongingToUser">
-            <router-link v-bind:to="{ name: 'admin_emails.user', params: { userId: appBelongingToUser } }" tag="a" class="nav-link" exact><i class="fa fa-user"></i>
+            <router-link v-bind:to="{ name: 'admin_emails.user', params: { userId: appBelongingToUser } }" tag="a" class="nav-link" exact><i class="icon ion-ios-body-outline"></i>
                 Emails by User</router-link>
         </li>
         <li class="nav-item" v-if="appUserHasPermission('read') && appBelongingToCampaign">
-            <router-link v-bind:to="{ name: 'admin_emails.campaign', params: { campaignId: appBelongingToCampaign } }" tag="a" class="nav-link" exact><i class="fa fa-folder-open"></i>
+            <router-link v-bind:to="{ name: 'admin_emails.campaign', params: { campaignId: appBelongingToCampaign } }" tag="a" class="nav-link" exact><i class="icon ion-speakerphone"></i>
                 Emails in Campaign</router-link>
         </li>
         <li class="nav-item" v-if="appUserHasPermission('read') && appIsTrashPage()"> <!-- ! appCurrentRouteIdParam -->
-            <router-link v-bind:to="{ name: 'admin_emails.trash' }" tag="a" class="nav-link" exact><i class="fa fa-trash"></i>
+            <router-link v-bind:to="{ name: 'admin_emails.trash' }" tag="a" class="nav-link" exact><i class="icon ion-trash-a"></i>
                 Deleted Emails ({{ deletedNum }})</router-link>
         </li>
         <li class="nav-item" v-if="appUserHasPermission('create')">
-            <router-link v-bind:to="{ name: 'admin_emails.create' }" tag="a" class="nav-link" exact><i class="fa fa-pencil"></i>
+            <router-link v-bind:to="{ name: 'admin_emails.create' }" tag="a" class="nav-link" exact><i class="icon ion-edit"></i>
                 New Email</router-link>
         </li>
         <li class="nav-item" v-if="appCurrentRouteIdParam && appUserHasPermission('read')">
-            <router-link v-bind:to="{ name: 'admin_emails.view', params: { id: appCurrentRouteIdParam }}" class="nav-link" exact><i class="fa fa-eye"></i>
+            <router-link v-bind:to="{ name: 'admin_emails.view', params: { id: appCurrentRouteIdParam }}" class="nav-link" exact><i class="icon ion-eye"></i>
                 {{ viewTabText() }}</router-link>
         </li>
         <li class="nav-item" v-if="appCurrentRouteIdParam && appUserHasPermission('read') && showStatsTab()">
-            <router-link v-bind:to="{ name: 'admin_emails.stats', params: { id: appCurrentRouteIdParam }}" class="nav-link" v-bind:class="{ 'active' : statsTabIsActive() }" exact><i class="fa fa-pie-chart"></i>
+            <router-link v-bind:to="{ name: 'admin_emails.stats', params: { id: appCurrentRouteIdParam }}" class="nav-link" v-bind:class="{ 'active' : statsTabIsActive() }" exact><i class="icon ion-stats-bars"></i>
                 Email Stats </router-link>
         </li>
         <li class="nav-item" v-if="appCurrentRouteIdParam && appUserHasPermission('update')">
-            <router-link v-bind:to="{ name: 'admin_emails.edit', params: { id: appCurrentRouteIdParam }}" class="nav-link" exact><i class="fa fa-edit"></i>
+            <router-link v-bind:to="{ name: 'admin_emails.edit', params: { id: appCurrentRouteIdParam }}" class="nav-link" exact><i class="icon ion-ios-compose"></i>
                  {{ editTabText() }}</router-link>
         </li>
     </ul>
