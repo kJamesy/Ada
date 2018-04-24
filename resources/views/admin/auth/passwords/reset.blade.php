@@ -23,6 +23,8 @@
 
                     <form method="POST" action="{{ route('admin.auth.process_password_reset_form') }}">
                         {{ csrf_field() }}
+                        <input type="hidden" name="token" value="{{ $token }}">
+
                         <div class="form-group">
                             <label for="email" class="form-control-label">Email</label>
                             <input id="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ $email or old('email') }}" >
