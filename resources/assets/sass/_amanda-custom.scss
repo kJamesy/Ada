@@ -1,24 +1,94 @@
 $dark_bg: darken($info, 15%);
 
-.am-signin-box > .row > div:first-child, .am-signup-box > .row > div:first-child {
-  text-align: center;
-  padding: 40px;
-  background-color: #FB9337;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#FB9337), to(#fb861e));
-  background-image: linear-gradient(to bottom, #FB9337 0%, #fb861e 100%);
-  background-repeat: repeat-x;
-  color: #fff;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+.am-signin-box, .am-signup-box {
+  > .row > div:first-child {
+    text-align: center;
+    padding: 40px;
+    color: $white;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
 
-  background: $pink;
+    @include tulip_pink_gradient_background;
+  }
+
+  .form-control, .dataTables_filter input, select {
+    color: $form_control_color;
+    border-width: 1.5px;
+    border-style: dotted;
+    border-color: transparent;
+    border-bottom-color: $info;
+    background-color: $white;
+
+    &:hover, &:focus, &:active {
+      border-color: $info;
+      @include box_shadow_none;
+    }
+  }
+
+  ::-webkit-input-placeholder {
+    opacity: 0.5;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  :-moz-placeholder {
+    opacity: 0.5;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  ::-moz-placeholder {
+    opacity: 0.5;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  :-ms-input-placeholder {
+    opacity: 0.5;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  .custom-checkbox {
+    min-height: 1rem;
+
+    .custom-control-label::before {
+      background-color: $gray-400;
+    }
+
+    .custom-control-input:checked ~ .custom-control-label::before {
+      background-color: $pink;
+    }
+
+    .custom-control-input:focus ~ .custom-control-label::before {
+      @include box_shadow_none;
+    }
+  }
+
+  .btn, .sp-container button, .sp-container button, button {
+    margin-top: 2rem;
+    background-color: $pink;
+    color: $white;
+    border-color: $pink;
+
+    &:hover, &:focus, &:active, &:active:focus {
+      background-color: darken($pink, 10%);
+      border-color: $pink;
+      @include box_shadow_none;
+    }
+  }
+
+  .btn-orange:not(:disabled):not(.disabled):active:focus, .btn-orange:not(:disabled):not(.disabled).active:focus, .show > .btn-orange.dropdown-toggle:focus {
+    @include box_shadow_none;
+  }
+
 }
 
 .am-header {

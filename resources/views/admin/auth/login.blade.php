@@ -45,11 +45,12 @@
 
                         <div class="form-group">
                             <div class="checkbox">
-                                <label class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Remember Me</span>
-                                </label>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="remember">
+                                        Remember Me
+                                    </label>
+                                </div>
                             </div>
                         </div>
 

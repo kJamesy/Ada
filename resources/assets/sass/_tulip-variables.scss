@@ -10,5 +10,12 @@
   box-shadow: none;
 }
 
+@mixin tulip_pink_gradient_background {
+  background-color: $pink;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(lighten($pink, 10%)), to(darken($pink, 20%)));
+  background-image: linear-gradient(to bottom, lighten($pink, 10%) 0%, darken($pink, 20%) 100%);
+  background-repeat: repeat-x;
+}
+
 $form_control_label_color: darken($info, 5%);
 $form_control_color: $gray-700;

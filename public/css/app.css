@@ -64381,10 +64381,6 @@ a.hover-white-8:focus {
 .am-signup-box > .row > div:first-child {
   text-align: center;
   padding: 40px;
-  background-color: #FB9337;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#FB9337), to(#fb861e));
-  background-image: linear-gradient(to bottom, #FB9337 0%, #fb861e 100%);
-  background-repeat: repeat-x;
   color: #fff;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -64395,7 +64391,194 @@ a.hover-white-8:focus {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  background: #e83e8c;
+  background-color: #e83e8c;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ed6ca7), to(#ac145a));
+  background-image: linear-gradient(to bottom, #ed6ca7 0%, #ac145a 100%);
+  background-repeat: repeat-x;
+}
+
+.am-signin-box .form-control,
+.am-signin-box .dataTables_filter input,
+.dataTables_filter .am-signin-box input,
+.am-signin-box .dataTables_filter input,
+.am-signin-box select,
+.am-signup-box .form-control,
+.am-signup-box .dataTables_filter input,
+.dataTables_filter .am-signup-box input,
+.am-signup-box .dataTables_filter input,
+.am-signup-box select {
+  color: #495057;
+  border-width: 1.5px;
+  border-style: dotted;
+  border-color: transparent;
+  border-bottom-color: #17a2b8;
+  background-color: #fff;
+}
+
+.am-signin-box .form-control:hover,
+.am-signin-box .dataTables_filter input:hover,
+.dataTables_filter .am-signin-box input:hover,
+.am-signin-box .form-control:focus,
+.am-signin-box .dataTables_filter input:focus,
+.dataTables_filter .am-signin-box input:focus,
+.am-signin-box .form-control:active,
+.am-signin-box .dataTables_filter input:active,
+.dataTables_filter .am-signin-box input:active,
+.am-signin-box .dataTables_filter input:hover,
+.am-signin-box .dataTables_filter input:focus,
+.am-signin-box .dataTables_filter input:active,
+.am-signin-box select:hover,
+.am-signin-box select:focus,
+.am-signin-box select:active,
+.am-signup-box .form-control:hover,
+.am-signup-box .dataTables_filter input:hover,
+.dataTables_filter .am-signup-box input:hover,
+.am-signup-box .form-control:focus,
+.am-signup-box .dataTables_filter input:focus,
+.dataTables_filter .am-signup-box input:focus,
+.am-signup-box .form-control:active,
+.am-signup-box .dataTables_filter input:active,
+.dataTables_filter .am-signup-box input:active,
+.am-signup-box .dataTables_filter input:hover,
+.am-signup-box .dataTables_filter input:focus,
+.am-signup-box .dataTables_filter input:active,
+.am-signup-box select:hover,
+.am-signup-box select:focus,
+.am-signup-box select:active {
+  border-color: #17a2b8;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.am-signin-box ::-webkit-input-placeholder,
+.am-signup-box ::-webkit-input-placeholder {
+  opacity: 0.5;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.am-signin-box :-moz-placeholder,
+.am-signup-box :-moz-placeholder {
+  opacity: 0.5;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.am-signin-box ::-moz-placeholder,
+.am-signup-box ::-moz-placeholder {
+  opacity: 0.5;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.am-signin-box :-ms-input-placeholder,
+.am-signup-box :-ms-input-placeholder {
+  opacity: 0.5;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.am-signin-box .custom-checkbox,
+.am-signup-box .custom-checkbox {
+  min-height: 1rem;
+}
+
+.am-signin-box .custom-checkbox .custom-control-label::before,
+.am-signup-box .custom-checkbox .custom-control-label::before {
+  background-color: #ced4da;
+}
+
+.am-signin-box .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before,
+.am-signup-box .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+  background-color: #e83e8c;
+}
+
+.am-signin-box .custom-checkbox .custom-control-input:focus ~ .custom-control-label::before,
+.am-signup-box .custom-checkbox .custom-control-input:focus ~ .custom-control-label::before {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.am-signin-box .btn,
+.am-signin-box .sp-container button,
+.sp-container .am-signin-box button,
+.am-signin-box .sp-container button,
+.am-signin-box .sp-container button,
+.am-signin-box button,
+.am-signup-box .btn,
+.am-signup-box .sp-container button,
+.sp-container .am-signup-box button,
+.am-signup-box .sp-container button,
+.am-signup-box .sp-container button,
+.am-signup-box button {
+  margin-top: 2rem;
+  background-color: #e83e8c;
+  color: #fff;
+  border-color: #e83e8c;
+}
+
+.am-signin-box .btn:hover,
+.am-signin-box .sp-container button:hover,
+.sp-container .am-signin-box button:hover,
+.am-signin-box .btn:focus,
+.am-signin-box .sp-container button:focus,
+.sp-container .am-signin-box button:focus,
+.am-signin-box .btn:active,
+.am-signin-box .sp-container button:active,
+.sp-container .am-signin-box button:active,
+.am-signin-box .btn:active:focus,
+.am-signin-box .sp-container button:active:focus,
+.sp-container .am-signin-box button:active:focus,
+.am-signin-box .sp-container button:hover,
+.am-signin-box .sp-container button:focus,
+.am-signin-box .sp-container button:active,
+.am-signin-box .sp-container button:active:focus,
+.am-signin-box .sp-container button:hover,
+.am-signin-box .sp-container button:focus,
+.am-signin-box .sp-container button:active,
+.am-signin-box .sp-container button:active:focus,
+.am-signin-box button:hover,
+.am-signin-box button:focus,
+.am-signin-box button:active,
+.am-signin-box button:active:focus,
+.am-signup-box .btn:hover,
+.am-signup-box .sp-container button:hover,
+.sp-container .am-signup-box button:hover,
+.am-signup-box .btn:focus,
+.am-signup-box .sp-container button:focus,
+.sp-container .am-signup-box button:focus,
+.am-signup-box .btn:active,
+.am-signup-box .sp-container button:active,
+.sp-container .am-signup-box button:active,
+.am-signup-box .btn:active:focus,
+.am-signup-box .sp-container button:active:focus,
+.sp-container .am-signup-box button:active:focus,
+.am-signup-box .sp-container button:hover,
+.am-signup-box .sp-container button:focus,
+.am-signup-box .sp-container button:active,
+.am-signup-box .sp-container button:active:focus,
+.am-signup-box .sp-container button:hover,
+.am-signup-box .sp-container button:focus,
+.am-signup-box .sp-container button:active,
+.am-signup-box .sp-container button:active:focus,
+.am-signup-box button:hover,
+.am-signup-box button:focus,
+.am-signup-box button:active,
+.am-signup-box button:active:focus {
+  background-color: #d91a72;
+  border-color: #e83e8c;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.am-signin-box .btn-orange:not(:disabled):not(.disabled):active:focus,
+.am-signin-box .btn-orange:not(:disabled):not(.disabled).active:focus,
+.am-signin-box .show > .btn-orange.dropdown-toggle:focus,
+.am-signup-box .btn-orange:not(:disabled):not(.disabled):active:focus,
+.am-signup-box .btn-orange:not(:disabled):not(.disabled).active:focus,
+.am-signup-box .show > .btn-orange.dropdown-toggle:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 .am-header {
