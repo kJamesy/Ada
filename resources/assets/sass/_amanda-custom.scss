@@ -1,4 +1,4 @@
-$dark_bg: darken($info, 15%);
+$dark_bg: darken($info, 0);
 
 .am-signin-box, .am-signup-box {
   > .row > div:first-child {
@@ -95,7 +95,17 @@ $dark_bg: darken($info, 15%);
   background-color: $dark_bg;
 
   .am-navicon {
-    color: $pink;
+    color: $white;
+    opacity: 0.7;
+  }
+
+  a.am-logo {
+    font-size: 1.8rem;
+
+    &:hover, &:focus, &:active {
+      text-decoration: none;
+      opacity: 0.7;
+    }
   }
 }
 
@@ -149,7 +159,8 @@ $dark_bg: darken($info, 15%);
 
       &:hover, &:focus {
         text-decoration: none;
-        color: lighten($pink, 5%);
+        color: $white;
+        opacity: 0.7;
         background: transparent;
       }
     }
