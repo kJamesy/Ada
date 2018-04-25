@@ -62,15 +62,15 @@ a, a:hover, a:focus {
   .custom-checkbox {
     min-height: 1rem;
 
-    .custom-control-indicator {
+    .custom-control-label::before {
       background-color: $gray-400;
     }
 
-    .custom-control-input:checked ~ .custom-control-indicator {
+    .custom-control-input:checked ~ .custom-control-label::before {
       background-color: $pink;
     }
 
-    .custom-control-input:focus ~ .custom-control-indicator {
+    .custom-control-input:focus ~ .custom-control-label::before {
       @include box_shadow_none;
     }
   }
@@ -84,9 +84,16 @@ a, a:hover, a:focus {
       cursor: auto;
     }
 
+    .checkbox-th, .checkbox-td {
+      width: 2rem;
+    }
+
     .custom-checkbox {
-      .custom-control-indicator {
+      padding-left: 0;
+
+      .custom-control-label::before {
         background-color: $white;
+        top: 0.20rem;
       }
     }
 

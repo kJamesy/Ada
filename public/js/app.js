@@ -79037,65 +79037,77 @@ var render = function() {
                         _c("thead", [
                           _c("tr", { staticClass: "pointer-cursor" }, [
                             _vm.appUserHasPermission("update")
-                              ? _c("th", { staticClass: "normal-cursor" }, [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass:
-                                        "custom-control custom-checkbox mr-0"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.appSelectAll,
-                                            expression: "appSelectAll"
-                                          }
-                                        ],
-                                        staticClass: "custom-control-input",
-                                        attrs: { type: "checkbox" },
-                                        domProps: {
-                                          checked: Array.isArray(
-                                            _vm.appSelectAll
-                                          )
-                                            ? _vm._i(_vm.appSelectAll, null) >
-                                              -1
-                                            : _vm.appSelectAll
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            var $$a = _vm.appSelectAll,
-                                              $$el = $event.target,
-                                              $$c = $$el.checked ? true : false
-                                            if (Array.isArray($$a)) {
-                                              var $$v = null,
-                                                $$i = _vm._i($$a, $$v)
-                                              if ($$el.checked) {
-                                                $$i < 0 &&
-                                                  (_vm.appSelectAll = $$a.concat(
-                                                    [$$v]
-                                                  ))
+                              ? _c(
+                                  "th",
+                                  { staticClass: "normal-cursor checkbox-th" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "custom-control custom-checkbox"
+                                      },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.appSelectAll,
+                                              expression: "appSelectAll"
+                                            }
+                                          ],
+                                          staticClass: "custom-control-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "selectAllCheckbox"
+                                          },
+                                          domProps: {
+                                            checked: Array.isArray(
+                                              _vm.appSelectAll
+                                            )
+                                              ? _vm._i(_vm.appSelectAll, null) >
+                                                -1
+                                              : _vm.appSelectAll
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$a = _vm.appSelectAll,
+                                                $$el = $event.target,
+                                                $$c = $$el.checked
+                                                  ? true
+                                                  : false
+                                              if (Array.isArray($$a)) {
+                                                var $$v = null,
+                                                  $$i = _vm._i($$a, $$v)
+                                                if ($$el.checked) {
+                                                  $$i < 0 &&
+                                                    (_vm.appSelectAll = $$a.concat(
+                                                      [$$v]
+                                                    ))
+                                                } else {
+                                                  $$i > -1 &&
+                                                    (_vm.appSelectAll = $$a
+                                                      .slice(0, $$i)
+                                                      .concat(
+                                                        $$a.slice($$i + 1)
+                                                      ))
+                                                }
                                               } else {
-                                                $$i > -1 &&
-                                                  (_vm.appSelectAll = $$a
-                                                    .slice(0, $$i)
-                                                    .concat($$a.slice($$i + 1)))
+                                                _vm.appSelectAll = $$c
                                               }
-                                            } else {
-                                              _vm.appSelectAll = $$c
                                             }
                                           }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("span", {
-                                        staticClass: "custom-control-indicator"
-                                      })
-                                    ]
-                                  )
-                                ])
+                                        }),
+                                        _vm._v(" "),
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: { for: "selectAllCheckbox" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
                               : _vm._e(),
                             _vm._v(" "),
                             _c(
@@ -79177,10 +79189,10 @@ var render = function() {
                               _vm.appUserHasPermission("update")
                                 ? _c("td", [
                                     _c(
-                                      "label",
+                                      "div",
                                       {
                                         staticClass:
-                                          "custom-control custom-checkbox mr-0"
+                                          "custom-control custom-checkbox"
                                       },
                                       [
                                         _c("input", {
@@ -79193,7 +79205,10 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "custom-control-input",
-                                          attrs: { type: "checkbox" },
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "select_" + resource.id
+                                          },
                                           domProps: {
                                             value: resource.id,
                                             checked: Array.isArray(
@@ -79236,9 +79251,11 @@ var render = function() {
                                           }
                                         }),
                                         _vm._v(" "),
-                                        _c("span", {
-                                          staticClass:
-                                            "custom-control-indicator"
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: {
+                                            for: "select_" + resource.id
+                                          }
                                         })
                                       ]
                                     )
@@ -79786,65 +79803,77 @@ var render = function() {
                         _c("thead", [
                           _c("tr", { staticClass: "pointer-cursor" }, [
                             _vm.appUserHasPermission("update")
-                              ? _c("th", { staticClass: "normal-cursor" }, [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass:
-                                        "custom-control custom-checkbox mr-0"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.appSelectAll,
-                                            expression: "appSelectAll"
-                                          }
-                                        ],
-                                        staticClass: "custom-control-input",
-                                        attrs: { type: "checkbox" },
-                                        domProps: {
-                                          checked: Array.isArray(
-                                            _vm.appSelectAll
-                                          )
-                                            ? _vm._i(_vm.appSelectAll, null) >
-                                              -1
-                                            : _vm.appSelectAll
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            var $$a = _vm.appSelectAll,
-                                              $$el = $event.target,
-                                              $$c = $$el.checked ? true : false
-                                            if (Array.isArray($$a)) {
-                                              var $$v = null,
-                                                $$i = _vm._i($$a, $$v)
-                                              if ($$el.checked) {
-                                                $$i < 0 &&
-                                                  (_vm.appSelectAll = $$a.concat(
-                                                    [$$v]
-                                                  ))
+                              ? _c(
+                                  "th",
+                                  { staticClass: "normal-cursor checkbox-th" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "custom-control custom-checkbox"
+                                      },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.appSelectAll,
+                                              expression: "appSelectAll"
+                                            }
+                                          ],
+                                          staticClass: "custom-control-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "selectAllCheckbox"
+                                          },
+                                          domProps: {
+                                            checked: Array.isArray(
+                                              _vm.appSelectAll
+                                            )
+                                              ? _vm._i(_vm.appSelectAll, null) >
+                                                -1
+                                              : _vm.appSelectAll
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$a = _vm.appSelectAll,
+                                                $$el = $event.target,
+                                                $$c = $$el.checked
+                                                  ? true
+                                                  : false
+                                              if (Array.isArray($$a)) {
+                                                var $$v = null,
+                                                  $$i = _vm._i($$a, $$v)
+                                                if ($$el.checked) {
+                                                  $$i < 0 &&
+                                                    (_vm.appSelectAll = $$a.concat(
+                                                      [$$v]
+                                                    ))
+                                                } else {
+                                                  $$i > -1 &&
+                                                    (_vm.appSelectAll = $$a
+                                                      .slice(0, $$i)
+                                                      .concat(
+                                                        $$a.slice($$i + 1)
+                                                      ))
+                                                }
                                               } else {
-                                                $$i > -1 &&
-                                                  (_vm.appSelectAll = $$a
-                                                    .slice(0, $$i)
-                                                    .concat($$a.slice($$i + 1)))
+                                                _vm.appSelectAll = $$c
                                               }
-                                            } else {
-                                              _vm.appSelectAll = $$c
                                             }
                                           }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("span", {
-                                        staticClass: "custom-control-indicator"
-                                      })
-                                    ]
-                                  )
-                                ])
+                                        }),
+                                        _vm._v(" "),
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: { for: "selectAllCheckbox" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
                               : _vm._e(),
                             _vm._v(" "),
                             _c(
@@ -79922,10 +79951,10 @@ var render = function() {
                               _vm.appUserHasPermission("update")
                                 ? _c("td", [
                                     _c(
-                                      "label",
+                                      "div",
                                       {
                                         staticClass:
-                                          "custom-control custom-checkbox mr-0"
+                                          "custom-control custom-checkbox"
                                       },
                                       [
                                         _c("input", {
@@ -79938,7 +79967,10 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "custom-control-input",
-                                          attrs: { type: "checkbox" },
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "select_" + resource.id
+                                          },
                                           domProps: {
                                             value: resource.id,
                                             checked: Array.isArray(
@@ -79981,9 +80013,11 @@ var render = function() {
                                           }
                                         }),
                                         _vm._v(" "),
-                                        _c("span", {
-                                          staticClass:
-                                            "custom-control-indicator"
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: {
+                                            for: "select_" + resource.id
+                                          }
                                         })
                                       ]
                                     )
@@ -81968,65 +82002,77 @@ var render = function() {
                         _c("thead", [
                           _c("tr", { staticClass: "pointer-cursor" }, [
                             _vm.appUserHasPermission("update")
-                              ? _c("th", { staticClass: "normal-cursor" }, [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass:
-                                        "custom-control custom-checkbox mr-0"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.appSelectAll,
-                                            expression: "appSelectAll"
-                                          }
-                                        ],
-                                        staticClass: "custom-control-input",
-                                        attrs: { type: "checkbox" },
-                                        domProps: {
-                                          checked: Array.isArray(
-                                            _vm.appSelectAll
-                                          )
-                                            ? _vm._i(_vm.appSelectAll, null) >
-                                              -1
-                                            : _vm.appSelectAll
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            var $$a = _vm.appSelectAll,
-                                              $$el = $event.target,
-                                              $$c = $$el.checked ? true : false
-                                            if (Array.isArray($$a)) {
-                                              var $$v = null,
-                                                $$i = _vm._i($$a, $$v)
-                                              if ($$el.checked) {
-                                                $$i < 0 &&
-                                                  (_vm.appSelectAll = $$a.concat(
-                                                    [$$v]
-                                                  ))
+                              ? _c(
+                                  "th",
+                                  { staticClass: "normal-cursor checkbox-th" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "custom-control custom-checkbox"
+                                      },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.appSelectAll,
+                                              expression: "appSelectAll"
+                                            }
+                                          ],
+                                          staticClass: "custom-control-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "selectAllCheckbox"
+                                          },
+                                          domProps: {
+                                            checked: Array.isArray(
+                                              _vm.appSelectAll
+                                            )
+                                              ? _vm._i(_vm.appSelectAll, null) >
+                                                -1
+                                              : _vm.appSelectAll
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$a = _vm.appSelectAll,
+                                                $$el = $event.target,
+                                                $$c = $$el.checked
+                                                  ? true
+                                                  : false
+                                              if (Array.isArray($$a)) {
+                                                var $$v = null,
+                                                  $$i = _vm._i($$a, $$v)
+                                                if ($$el.checked) {
+                                                  $$i < 0 &&
+                                                    (_vm.appSelectAll = $$a.concat(
+                                                      [$$v]
+                                                    ))
+                                                } else {
+                                                  $$i > -1 &&
+                                                    (_vm.appSelectAll = $$a
+                                                      .slice(0, $$i)
+                                                      .concat(
+                                                        $$a.slice($$i + 1)
+                                                      ))
+                                                }
                                               } else {
-                                                $$i > -1 &&
-                                                  (_vm.appSelectAll = $$a
-                                                    .slice(0, $$i)
-                                                    .concat($$a.slice($$i + 1)))
+                                                _vm.appSelectAll = $$c
                                               }
-                                            } else {
-                                              _vm.appSelectAll = $$c
                                             }
                                           }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("span", {
-                                        staticClass: "custom-control-indicator"
-                                      })
-                                    ]
-                                  )
-                                ])
+                                        }),
+                                        _vm._v(" "),
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: { for: "selectAllCheckbox" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
                               : _vm._e(),
                             _vm._v(" "),
                             _c(
@@ -82152,10 +82198,10 @@ var render = function() {
                               _vm.appUserHasPermission("update")
                                 ? _c("td", [
                                     _c(
-                                      "label",
+                                      "div",
                                       {
                                         staticClass:
-                                          "custom-control custom-checkbox mr-0"
+                                          "custom-control custom-checkbox"
                                       },
                                       [
                                         _c("input", {
@@ -82168,7 +82214,10 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "custom-control-input",
-                                          attrs: { type: "checkbox" },
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "select_" + resource.id
+                                          },
                                           domProps: {
                                             value: resource.id,
                                             checked: Array.isArray(
@@ -82211,9 +82260,11 @@ var render = function() {
                                           }
                                         }),
                                         _vm._v(" "),
-                                        _c("span", {
-                                          staticClass:
-                                            "custom-control-indicator"
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: {
+                                            for: "select_" + resource.id
+                                          }
                                         })
                                       ]
                                     )
@@ -82889,65 +82940,77 @@ var render = function() {
                         _c("thead", [
                           _c("tr", { staticClass: "pointer-cursor" }, [
                             _vm.appUserHasPermission("update")
-                              ? _c("th", { staticClass: "normal-cursor" }, [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass:
-                                        "custom-control custom-checkbox mr-0"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.appSelectAll,
-                                            expression: "appSelectAll"
-                                          }
-                                        ],
-                                        staticClass: "custom-control-input",
-                                        attrs: { type: "checkbox" },
-                                        domProps: {
-                                          checked: Array.isArray(
-                                            _vm.appSelectAll
-                                          )
-                                            ? _vm._i(_vm.appSelectAll, null) >
-                                              -1
-                                            : _vm.appSelectAll
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            var $$a = _vm.appSelectAll,
-                                              $$el = $event.target,
-                                              $$c = $$el.checked ? true : false
-                                            if (Array.isArray($$a)) {
-                                              var $$v = null,
-                                                $$i = _vm._i($$a, $$v)
-                                              if ($$el.checked) {
-                                                $$i < 0 &&
-                                                  (_vm.appSelectAll = $$a.concat(
-                                                    [$$v]
-                                                  ))
+                              ? _c(
+                                  "th",
+                                  { staticClass: "normal-cursor checkbox-th" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "custom-control custom-checkbox"
+                                      },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.appSelectAll,
+                                              expression: "appSelectAll"
+                                            }
+                                          ],
+                                          staticClass: "custom-control-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "selectAllCheckbox"
+                                          },
+                                          domProps: {
+                                            checked: Array.isArray(
+                                              _vm.appSelectAll
+                                            )
+                                              ? _vm._i(_vm.appSelectAll, null) >
+                                                -1
+                                              : _vm.appSelectAll
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$a = _vm.appSelectAll,
+                                                $$el = $event.target,
+                                                $$c = $$el.checked
+                                                  ? true
+                                                  : false
+                                              if (Array.isArray($$a)) {
+                                                var $$v = null,
+                                                  $$i = _vm._i($$a, $$v)
+                                                if ($$el.checked) {
+                                                  $$i < 0 &&
+                                                    (_vm.appSelectAll = $$a.concat(
+                                                      [$$v]
+                                                    ))
+                                                } else {
+                                                  $$i > -1 &&
+                                                    (_vm.appSelectAll = $$a
+                                                      .slice(0, $$i)
+                                                      .concat(
+                                                        $$a.slice($$i + 1)
+                                                      ))
+                                                }
                                               } else {
-                                                $$i > -1 &&
-                                                  (_vm.appSelectAll = $$a
-                                                    .slice(0, $$i)
-                                                    .concat($$a.slice($$i + 1)))
+                                                _vm.appSelectAll = $$c
                                               }
-                                            } else {
-                                              _vm.appSelectAll = $$c
                                             }
                                           }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("span", {
-                                        staticClass: "custom-control-indicator"
-                                      })
-                                    ]
-                                  )
-                                ])
+                                        }),
+                                        _vm._v(" "),
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: { for: "selectAllCheckbox" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
                               : _vm._e(),
                             _vm._v(" "),
                             _c(
@@ -83069,10 +83132,10 @@ var render = function() {
                               _vm.appUserHasPermission("update")
                                 ? _c("td", [
                                     _c(
-                                      "label",
+                                      "div",
                                       {
                                         staticClass:
-                                          "custom-control custom-checkbox mr-0"
+                                          "custom-control custom-checkbox"
                                       },
                                       [
                                         _c("input", {
@@ -83085,7 +83148,10 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "custom-control-input",
-                                          attrs: { type: "checkbox" },
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "select_" + resource.id
+                                          },
                                           domProps: {
                                             value: resource.id,
                                             checked: Array.isArray(
@@ -83128,9 +83194,11 @@ var render = function() {
                                           }
                                         }),
                                         _vm._v(" "),
-                                        _c("span", {
-                                          staticClass:
-                                            "custom-control-indicator"
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: {
+                                            for: "select_" + resource.id
+                                          }
                                         })
                                       ]
                                     )
@@ -86231,65 +86299,77 @@ var render = function() {
                         _c("thead", [
                           _c("tr", { staticClass: "pointer-cursor" }, [
                             _vm.appUserHasPermission("update")
-                              ? _c("th", { staticClass: "normal-cursor" }, [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass:
-                                        "custom-control custom-checkbox mr-0"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.appSelectAll,
-                                            expression: "appSelectAll"
-                                          }
-                                        ],
-                                        staticClass: "custom-control-input",
-                                        attrs: { type: "checkbox" },
-                                        domProps: {
-                                          checked: Array.isArray(
-                                            _vm.appSelectAll
-                                          )
-                                            ? _vm._i(_vm.appSelectAll, null) >
-                                              -1
-                                            : _vm.appSelectAll
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            var $$a = _vm.appSelectAll,
-                                              $$el = $event.target,
-                                              $$c = $$el.checked ? true : false
-                                            if (Array.isArray($$a)) {
-                                              var $$v = null,
-                                                $$i = _vm._i($$a, $$v)
-                                              if ($$el.checked) {
-                                                $$i < 0 &&
-                                                  (_vm.appSelectAll = $$a.concat(
-                                                    [$$v]
-                                                  ))
+                              ? _c(
+                                  "th",
+                                  { staticClass: "normal-cursor checkbox-th" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "custom-control custom-checkbox"
+                                      },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.appSelectAll,
+                                              expression: "appSelectAll"
+                                            }
+                                          ],
+                                          staticClass: "custom-control-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "selectAllCheckbox"
+                                          },
+                                          domProps: {
+                                            checked: Array.isArray(
+                                              _vm.appSelectAll
+                                            )
+                                              ? _vm._i(_vm.appSelectAll, null) >
+                                                -1
+                                              : _vm.appSelectAll
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$a = _vm.appSelectAll,
+                                                $$el = $event.target,
+                                                $$c = $$el.checked
+                                                  ? true
+                                                  : false
+                                              if (Array.isArray($$a)) {
+                                                var $$v = null,
+                                                  $$i = _vm._i($$a, $$v)
+                                                if ($$el.checked) {
+                                                  $$i < 0 &&
+                                                    (_vm.appSelectAll = $$a.concat(
+                                                      [$$v]
+                                                    ))
+                                                } else {
+                                                  $$i > -1 &&
+                                                    (_vm.appSelectAll = $$a
+                                                      .slice(0, $$i)
+                                                      .concat(
+                                                        $$a.slice($$i + 1)
+                                                      ))
+                                                }
                                               } else {
-                                                $$i > -1 &&
-                                                  (_vm.appSelectAll = $$a
-                                                    .slice(0, $$i)
-                                                    .concat($$a.slice($$i + 1)))
+                                                _vm.appSelectAll = $$c
                                               }
-                                            } else {
-                                              _vm.appSelectAll = $$c
                                             }
                                           }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("span", {
-                                        staticClass: "custom-control-indicator"
-                                      })
-                                    ]
-                                  )
-                                ])
+                                        }),
+                                        _vm._v(" "),
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: { for: "selectAllCheckbox" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
                               : _vm._e(),
                             _vm._v(" "),
                             _c(
@@ -86349,10 +86429,10 @@ var render = function() {
                               _vm.appUserHasPermission("update")
                                 ? _c("td", [
                                     _c(
-                                      "label",
+                                      "div",
                                       {
                                         staticClass:
-                                          "custom-control custom-checkbox mr-0"
+                                          "custom-control custom-checkbox"
                                       },
                                       [
                                         _c("input", {
@@ -86365,7 +86445,10 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "custom-control-input",
-                                          attrs: { type: "checkbox" },
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "select_" + resource.id
+                                          },
                                           domProps: {
                                             value: resource.id,
                                             checked: Array.isArray(
@@ -86408,9 +86491,11 @@ var render = function() {
                                           }
                                         }),
                                         _vm._v(" "),
-                                        _c("span", {
-                                          staticClass:
-                                            "custom-control-indicator"
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: {
+                                            for: "select_" + resource.id
+                                          }
                                         })
                                       ]
                                     )
@@ -86934,65 +87019,77 @@ var render = function() {
                         _c("thead", [
                           _c("tr", { staticClass: "pointer-cursor" }, [
                             _vm.appUserHasPermission("update")
-                              ? _c("th", { staticClass: "normal-cursor" }, [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass:
-                                        "custom-control custom-checkbox mr-0"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.appSelectAll,
-                                            expression: "appSelectAll"
-                                          }
-                                        ],
-                                        staticClass: "custom-control-input",
-                                        attrs: { type: "checkbox" },
-                                        domProps: {
-                                          checked: Array.isArray(
-                                            _vm.appSelectAll
-                                          )
-                                            ? _vm._i(_vm.appSelectAll, null) >
-                                              -1
-                                            : _vm.appSelectAll
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            var $$a = _vm.appSelectAll,
-                                              $$el = $event.target,
-                                              $$c = $$el.checked ? true : false
-                                            if (Array.isArray($$a)) {
-                                              var $$v = null,
-                                                $$i = _vm._i($$a, $$v)
-                                              if ($$el.checked) {
-                                                $$i < 0 &&
-                                                  (_vm.appSelectAll = $$a.concat(
-                                                    [$$v]
-                                                  ))
+                              ? _c(
+                                  "th",
+                                  { staticClass: "normal-cursor checkbox-th" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "custom-control custom-checkbox"
+                                      },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.appSelectAll,
+                                              expression: "appSelectAll"
+                                            }
+                                          ],
+                                          staticClass: "custom-control-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "selectAllCheckbox"
+                                          },
+                                          domProps: {
+                                            checked: Array.isArray(
+                                              _vm.appSelectAll
+                                            )
+                                              ? _vm._i(_vm.appSelectAll, null) >
+                                                -1
+                                              : _vm.appSelectAll
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$a = _vm.appSelectAll,
+                                                $$el = $event.target,
+                                                $$c = $$el.checked
+                                                  ? true
+                                                  : false
+                                              if (Array.isArray($$a)) {
+                                                var $$v = null,
+                                                  $$i = _vm._i($$a, $$v)
+                                                if ($$el.checked) {
+                                                  $$i < 0 &&
+                                                    (_vm.appSelectAll = $$a.concat(
+                                                      [$$v]
+                                                    ))
+                                                } else {
+                                                  $$i > -1 &&
+                                                    (_vm.appSelectAll = $$a
+                                                      .slice(0, $$i)
+                                                      .concat(
+                                                        $$a.slice($$i + 1)
+                                                      ))
+                                                }
                                               } else {
-                                                $$i > -1 &&
-                                                  (_vm.appSelectAll = $$a
-                                                    .slice(0, $$i)
-                                                    .concat($$a.slice($$i + 1)))
+                                                _vm.appSelectAll = $$c
                                               }
-                                            } else {
-                                              _vm.appSelectAll = $$c
                                             }
                                           }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("span", {
-                                        staticClass: "custom-control-indicator"
-                                      })
-                                    ]
-                                  )
-                                ])
+                                        }),
+                                        _vm._v(" "),
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: { for: "selectAllCheckbox" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
                               : _vm._e(),
                             _vm._v(" "),
                             _c(
@@ -87048,10 +87145,10 @@ var render = function() {
                               _vm.appUserHasPermission("update")
                                 ? _c("td", [
                                     _c(
-                                      "label",
+                                      "div",
                                       {
                                         staticClass:
-                                          "custom-control custom-checkbox mr-0"
+                                          "custom-control custom-checkbox"
                                       },
                                       [
                                         _c("input", {
@@ -87064,7 +87161,10 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "custom-control-input",
-                                          attrs: { type: "checkbox" },
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "select_" + resource.id
+                                          },
                                           domProps: {
                                             value: resource.id,
                                             checked: Array.isArray(
@@ -87107,9 +87207,11 @@ var render = function() {
                                           }
                                         }),
                                         _vm._v(" "),
-                                        _c("span", {
-                                          staticClass:
-                                            "custom-control-indicator"
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: {
+                                            for: "select_" + resource.id
+                                          }
                                         })
                                       ]
                                     )
@@ -88830,65 +88932,77 @@ var render = function() {
                         _c("thead", [
                           _c("tr", { staticClass: "pointer-cursor" }, [
                             _vm.appUserHasPermission("update")
-                              ? _c("th", { staticClass: "normal-cursor" }, [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass:
-                                        "custom-control custom-checkbox mr-0"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.appSelectAll,
-                                            expression: "appSelectAll"
-                                          }
-                                        ],
-                                        staticClass: "custom-control-input",
-                                        attrs: { type: "checkbox" },
-                                        domProps: {
-                                          checked: Array.isArray(
-                                            _vm.appSelectAll
-                                          )
-                                            ? _vm._i(_vm.appSelectAll, null) >
-                                              -1
-                                            : _vm.appSelectAll
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            var $$a = _vm.appSelectAll,
-                                              $$el = $event.target,
-                                              $$c = $$el.checked ? true : false
-                                            if (Array.isArray($$a)) {
-                                              var $$v = null,
-                                                $$i = _vm._i($$a, $$v)
-                                              if ($$el.checked) {
-                                                $$i < 0 &&
-                                                  (_vm.appSelectAll = $$a.concat(
-                                                    [$$v]
-                                                  ))
+                              ? _c(
+                                  "th",
+                                  { staticClass: "normal-cursor checkbox-th" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "custom-control custom-checkbox"
+                                      },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.appSelectAll,
+                                              expression: "appSelectAll"
+                                            }
+                                          ],
+                                          staticClass: "custom-control-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "selectAllCheckbox"
+                                          },
+                                          domProps: {
+                                            checked: Array.isArray(
+                                              _vm.appSelectAll
+                                            )
+                                              ? _vm._i(_vm.appSelectAll, null) >
+                                                -1
+                                              : _vm.appSelectAll
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$a = _vm.appSelectAll,
+                                                $$el = $event.target,
+                                                $$c = $$el.checked
+                                                  ? true
+                                                  : false
+                                              if (Array.isArray($$a)) {
+                                                var $$v = null,
+                                                  $$i = _vm._i($$a, $$v)
+                                                if ($$el.checked) {
+                                                  $$i < 0 &&
+                                                    (_vm.appSelectAll = $$a.concat(
+                                                      [$$v]
+                                                    ))
+                                                } else {
+                                                  $$i > -1 &&
+                                                    (_vm.appSelectAll = $$a
+                                                      .slice(0, $$i)
+                                                      .concat(
+                                                        $$a.slice($$i + 1)
+                                                      ))
+                                                }
                                               } else {
-                                                $$i > -1 &&
-                                                  (_vm.appSelectAll = $$a
-                                                    .slice(0, $$i)
-                                                    .concat($$a.slice($$i + 1)))
+                                                _vm.appSelectAll = $$c
                                               }
-                                            } else {
-                                              _vm.appSelectAll = $$c
                                             }
                                           }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("span", {
-                                        staticClass: "custom-control-indicator"
-                                      })
-                                    ]
-                                  )
-                                ])
+                                        }),
+                                        _vm._v(" "),
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: { for: "selectAllCheckbox" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
                               : _vm._e(),
                             _vm._v(" "),
                             _c(
@@ -88970,10 +89084,10 @@ var render = function() {
                               _vm.appUserHasPermission("update")
                                 ? _c("td", [
                                     _c(
-                                      "label",
+                                      "div",
                                       {
                                         staticClass:
-                                          "custom-control custom-checkbox mr-0"
+                                          "custom-control custom-checkbox"
                                       },
                                       [
                                         _c("input", {
@@ -88986,7 +89100,10 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "custom-control-input",
-                                          attrs: { type: "checkbox" },
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "select_" + resource.id
+                                          },
                                           domProps: {
                                             value: resource.id,
                                             checked: Array.isArray(
@@ -89029,9 +89146,11 @@ var render = function() {
                                           }
                                         }),
                                         _vm._v(" "),
-                                        _c("span", {
-                                          staticClass:
-                                            "custom-control-indicator"
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: {
+                                            for: "select_" + resource.id
+                                          }
                                         })
                                       ]
                                     )
@@ -89222,8 +89341,6 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
 //
 //
 //
@@ -89557,65 +89674,77 @@ var render = function() {
                         _c("thead", [
                           _c("tr", { staticClass: "pointer-cursor" }, [
                             _vm.appUserHasPermission("update")
-                              ? _c("th", { staticClass: "normal-cursor" }, [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass:
-                                        "custom-control custom-checkbox mr-0"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.appSelectAll,
-                                            expression: "appSelectAll"
-                                          }
-                                        ],
-                                        staticClass: "custom-control-input",
-                                        attrs: { type: "checkbox" },
-                                        domProps: {
-                                          checked: Array.isArray(
-                                            _vm.appSelectAll
-                                          )
-                                            ? _vm._i(_vm.appSelectAll, null) >
-                                              -1
-                                            : _vm.appSelectAll
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            var $$a = _vm.appSelectAll,
-                                              $$el = $event.target,
-                                              $$c = $$el.checked ? true : false
-                                            if (Array.isArray($$a)) {
-                                              var $$v = null,
-                                                $$i = _vm._i($$a, $$v)
-                                              if ($$el.checked) {
-                                                $$i < 0 &&
-                                                  (_vm.appSelectAll = $$a.concat(
-                                                    [$$v]
-                                                  ))
+                              ? _c(
+                                  "th",
+                                  { staticClass: "normal-cursor checkbox-th" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "custom-control custom-checkbox"
+                                      },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.appSelectAll,
+                                              expression: "appSelectAll"
+                                            }
+                                          ],
+                                          staticClass: "custom-control-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "selectAllCheckbox"
+                                          },
+                                          domProps: {
+                                            checked: Array.isArray(
+                                              _vm.appSelectAll
+                                            )
+                                              ? _vm._i(_vm.appSelectAll, null) >
+                                                -1
+                                              : _vm.appSelectAll
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$a = _vm.appSelectAll,
+                                                $$el = $event.target,
+                                                $$c = $$el.checked
+                                                  ? true
+                                                  : false
+                                              if (Array.isArray($$a)) {
+                                                var $$v = null,
+                                                  $$i = _vm._i($$a, $$v)
+                                                if ($$el.checked) {
+                                                  $$i < 0 &&
+                                                    (_vm.appSelectAll = $$a.concat(
+                                                      [$$v]
+                                                    ))
+                                                } else {
+                                                  $$i > -1 &&
+                                                    (_vm.appSelectAll = $$a
+                                                      .slice(0, $$i)
+                                                      .concat(
+                                                        $$a.slice($$i + 1)
+                                                      ))
+                                                }
                                               } else {
-                                                $$i > -1 &&
-                                                  (_vm.appSelectAll = $$a
-                                                    .slice(0, $$i)
-                                                    .concat($$a.slice($$i + 1)))
+                                                _vm.appSelectAll = $$c
                                               }
-                                            } else {
-                                              _vm.appSelectAll = $$c
                                             }
                                           }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("span", {
-                                        staticClass: "custom-control-indicator"
-                                      })
-                                    ]
-                                  )
-                                ])
+                                        }),
+                                        _vm._v(" "),
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: { for: "selectAllCheckbox" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
                               : _vm._e(),
                             _vm._v(" "),
                             _c(
@@ -89671,10 +89800,10 @@ var render = function() {
                               _vm.appUserHasPermission("update")
                                 ? _c("td", [
                                     _c(
-                                      "label",
+                                      "div",
                                       {
                                         staticClass:
-                                          "custom-control custom-checkbox mr-0"
+                                          "custom-control custom-checkbox"
                                       },
                                       [
                                         _c("input", {
@@ -89687,7 +89816,10 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "custom-control-input",
-                                          attrs: { type: "checkbox" },
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "select_" + resource.id
+                                          },
                                           domProps: {
                                             value: resource.id,
                                             checked: Array.isArray(
@@ -89730,9 +89862,11 @@ var render = function() {
                                           }
                                         }),
                                         _vm._v(" "),
-                                        _c("span", {
-                                          staticClass:
-                                            "custom-control-indicator"
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: {
+                                            for: "select_" + resource.id
+                                          }
                                         })
                                       ]
                                     )
@@ -91706,65 +91840,77 @@ var render = function() {
                         _c("thead", [
                           _c("tr", { staticClass: "pointer-cursor" }, [
                             _vm.appUserHasPermission("update")
-                              ? _c("th", { staticClass: "normal-cursor" }, [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass:
-                                        "custom-control custom-checkbox mr-0"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.appSelectAll,
-                                            expression: "appSelectAll"
-                                          }
-                                        ],
-                                        staticClass: "custom-control-input",
-                                        attrs: { type: "checkbox" },
-                                        domProps: {
-                                          checked: Array.isArray(
-                                            _vm.appSelectAll
-                                          )
-                                            ? _vm._i(_vm.appSelectAll, null) >
-                                              -1
-                                            : _vm.appSelectAll
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            var $$a = _vm.appSelectAll,
-                                              $$el = $event.target,
-                                              $$c = $$el.checked ? true : false
-                                            if (Array.isArray($$a)) {
-                                              var $$v = null,
-                                                $$i = _vm._i($$a, $$v)
-                                              if ($$el.checked) {
-                                                $$i < 0 &&
-                                                  (_vm.appSelectAll = $$a.concat(
-                                                    [$$v]
-                                                  ))
+                              ? _c(
+                                  "th",
+                                  { staticClass: "normal-cursor checkbox-th" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "custom-control custom-checkbox"
+                                      },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.appSelectAll,
+                                              expression: "appSelectAll"
+                                            }
+                                          ],
+                                          staticClass: "custom-control-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "selectAllCheckbox"
+                                          },
+                                          domProps: {
+                                            checked: Array.isArray(
+                                              _vm.appSelectAll
+                                            )
+                                              ? _vm._i(_vm.appSelectAll, null) >
+                                                -1
+                                              : _vm.appSelectAll
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$a = _vm.appSelectAll,
+                                                $$el = $event.target,
+                                                $$c = $$el.checked
+                                                  ? true
+                                                  : false
+                                              if (Array.isArray($$a)) {
+                                                var $$v = null,
+                                                  $$i = _vm._i($$a, $$v)
+                                                if ($$el.checked) {
+                                                  $$i < 0 &&
+                                                    (_vm.appSelectAll = $$a.concat(
+                                                      [$$v]
+                                                    ))
+                                                } else {
+                                                  $$i > -1 &&
+                                                    (_vm.appSelectAll = $$a
+                                                      .slice(0, $$i)
+                                                      .concat(
+                                                        $$a.slice($$i + 1)
+                                                      ))
+                                                }
                                               } else {
-                                                $$i > -1 &&
-                                                  (_vm.appSelectAll = $$a
-                                                    .slice(0, $$i)
-                                                    .concat($$a.slice($$i + 1)))
+                                                _vm.appSelectAll = $$c
                                               }
-                                            } else {
-                                              _vm.appSelectAll = $$c
                                             }
                                           }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("span", {
-                                        staticClass: "custom-control-indicator"
-                                      })
-                                    ]
-                                  )
-                                ])
+                                        }),
+                                        _vm._v(" "),
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: { for: "selectAllCheckbox" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
                               : _vm._e(),
                             _vm._v(" "),
                             _c(
@@ -91846,10 +91992,10 @@ var render = function() {
                               _vm.appUserHasPermission("update")
                                 ? _c("td", [
                                     _c(
-                                      "label",
+                                      "div",
                                       {
                                         staticClass:
-                                          "custom-control custom-checkbox mr-0"
+                                          "custom-control custom-checkbox"
                                       },
                                       [
                                         _c("input", {
@@ -91862,7 +92008,10 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "custom-control-input",
-                                          attrs: { type: "checkbox" },
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "select_" + resource.id
+                                          },
                                           domProps: {
                                             value: resource.id,
                                             checked: Array.isArray(
@@ -91905,9 +92054,11 @@ var render = function() {
                                           }
                                         }),
                                         _vm._v(" "),
-                                        _c("span", {
-                                          staticClass:
-                                            "custom-control-indicator"
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: {
+                                            for: "select_" + resource.id
+                                          }
                                         })
                                       ]
                                     )
@@ -94461,13 +94612,16 @@ var render = function() {
                                   _vm.appUserHasPermission("update")
                                     ? _c(
                                         "th",
-                                        { staticClass: "normal-cursor" },
+                                        {
+                                          staticClass:
+                                            "normal-cursor checkbox-th"
+                                        },
                                         [
                                           _c(
-                                            "label",
+                                            "div",
                                             {
                                               staticClass:
-                                                "custom-control custom-checkbox mr-0"
+                                                "custom-control custom-checkbox"
                                             },
                                             [
                                               _c("input", {
@@ -94481,7 +94635,10 @@ var render = function() {
                                                 ],
                                                 staticClass:
                                                   "custom-control-input",
-                                                attrs: { type: "checkbox" },
+                                                attrs: {
+                                                  type: "checkbox",
+                                                  id: "selectAllCheckbox"
+                                                },
                                                 domProps: {
                                                   checked: Array.isArray(
                                                     _vm.appSelectAll
@@ -94522,9 +94679,12 @@ var render = function() {
                                                 }
                                               }),
                                               _vm._v(" "),
-                                              _c("span", {
+                                              _c("label", {
                                                 staticClass:
-                                                  "custom-control-indicator"
+                                                  "custom-control-label",
+                                                attrs: {
+                                                  for: "selectAllCheckbox"
+                                                }
                                               })
                                             ]
                                           )
@@ -94719,10 +94879,10 @@ var render = function() {
                                     _vm.appUserHasPermission("update")
                                       ? _c("td", [
                                           _c(
-                                            "label",
+                                            "div",
                                             {
                                               staticClass:
-                                                "custom-control custom-checkbox mr-0"
+                                                "custom-control custom-checkbox"
                                             },
                                             [
                                               _c("input", {
@@ -94738,7 +94898,10 @@ var render = function() {
                                                 ],
                                                 staticClass:
                                                   "custom-control-input",
-                                                attrs: { type: "checkbox" },
+                                                attrs: {
+                                                  type: "checkbox",
+                                                  id: "select_" + resource.id
+                                                },
                                                 domProps: {
                                                   value: resource.id,
                                                   checked: Array.isArray(
@@ -94781,9 +94944,12 @@ var render = function() {
                                                 }
                                               }),
                                               _vm._v(" "),
-                                              _c("span", {
+                                              _c("label", {
                                                 staticClass:
-                                                  "custom-control-indicator"
+                                                  "custom-control-label",
+                                                attrs: {
+                                                  for: "select_" + resource.id
+                                                }
                                               })
                                             ]
                                           )
@@ -95465,65 +95631,77 @@ var render = function() {
                         _c("thead", [
                           _c("tr", { staticClass: "pointer-cursor" }, [
                             _vm.appUserHasPermission("update")
-                              ? _c("th", { staticClass: "normal-cursor" }, [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass:
-                                        "custom-control custom-checkbox mr-0"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.appSelectAll,
-                                            expression: "appSelectAll"
-                                          }
-                                        ],
-                                        staticClass: "custom-control-input",
-                                        attrs: { type: "checkbox" },
-                                        domProps: {
-                                          checked: Array.isArray(
-                                            _vm.appSelectAll
-                                          )
-                                            ? _vm._i(_vm.appSelectAll, null) >
-                                              -1
-                                            : _vm.appSelectAll
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            var $$a = _vm.appSelectAll,
-                                              $$el = $event.target,
-                                              $$c = $$el.checked ? true : false
-                                            if (Array.isArray($$a)) {
-                                              var $$v = null,
-                                                $$i = _vm._i($$a, $$v)
-                                              if ($$el.checked) {
-                                                $$i < 0 &&
-                                                  (_vm.appSelectAll = $$a.concat(
-                                                    [$$v]
-                                                  ))
+                              ? _c(
+                                  "th",
+                                  { staticClass: "normal-cursor checkbox-th" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "custom-control custom-checkbox"
+                                      },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.appSelectAll,
+                                              expression: "appSelectAll"
+                                            }
+                                          ],
+                                          staticClass: "custom-control-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "selectAllCheckbox"
+                                          },
+                                          domProps: {
+                                            checked: Array.isArray(
+                                              _vm.appSelectAll
+                                            )
+                                              ? _vm._i(_vm.appSelectAll, null) >
+                                                -1
+                                              : _vm.appSelectAll
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$a = _vm.appSelectAll,
+                                                $$el = $event.target,
+                                                $$c = $$el.checked
+                                                  ? true
+                                                  : false
+                                              if (Array.isArray($$a)) {
+                                                var $$v = null,
+                                                  $$i = _vm._i($$a, $$v)
+                                                if ($$el.checked) {
+                                                  $$i < 0 &&
+                                                    (_vm.appSelectAll = $$a.concat(
+                                                      [$$v]
+                                                    ))
+                                                } else {
+                                                  $$i > -1 &&
+                                                    (_vm.appSelectAll = $$a
+                                                      .slice(0, $$i)
+                                                      .concat(
+                                                        $$a.slice($$i + 1)
+                                                      ))
+                                                }
                                               } else {
-                                                $$i > -1 &&
-                                                  (_vm.appSelectAll = $$a
-                                                    .slice(0, $$i)
-                                                    .concat($$a.slice($$i + 1)))
+                                                _vm.appSelectAll = $$c
                                               }
-                                            } else {
-                                              _vm.appSelectAll = $$c
                                             }
                                           }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("span", {
-                                        staticClass: "custom-control-indicator"
-                                      })
-                                    ]
-                                  )
-                                ])
+                                        }),
+                                        _vm._v(" "),
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: { for: "selectAllCheckbox" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
                               : _vm._e(),
                             _vm._v(" "),
                             _c(
@@ -95667,10 +95845,10 @@ var render = function() {
                               _vm.appUserHasPermission("update")
                                 ? _c("td", [
                                     _c(
-                                      "label",
+                                      "div",
                                       {
                                         staticClass:
-                                          "custom-control custom-checkbox mr-0"
+                                          "custom-control custom-checkbox"
                                       },
                                       [
                                         _c("input", {
@@ -95683,7 +95861,10 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "custom-control-input",
-                                          attrs: { type: "checkbox" },
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "select_" + resource.id
+                                          },
                                           domProps: {
                                             value: resource.id,
                                             checked: Array.isArray(
@@ -95726,9 +95907,11 @@ var render = function() {
                                           }
                                         }),
                                         _vm._v(" "),
-                                        _c("span", {
-                                          staticClass:
-                                            "custom-control-indicator"
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: {
+                                            for: "select_" + resource.id
+                                          }
                                         })
                                       ]
                                     )
@@ -102519,65 +102702,77 @@ var render = function() {
                         _c("thead", [
                           _c("tr", { staticClass: "pointer-cursor" }, [
                             _vm.appUserHasPermission("update")
-                              ? _c("th", { staticClass: "normal-cursor" }, [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass:
-                                        "custom-control custom-checkbox mr-0"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.appSelectAll,
-                                            expression: "appSelectAll"
-                                          }
-                                        ],
-                                        staticClass: "custom-control-input",
-                                        attrs: { type: "checkbox" },
-                                        domProps: {
-                                          checked: Array.isArray(
-                                            _vm.appSelectAll
-                                          )
-                                            ? _vm._i(_vm.appSelectAll, null) >
-                                              -1
-                                            : _vm.appSelectAll
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            var $$a = _vm.appSelectAll,
-                                              $$el = $event.target,
-                                              $$c = $$el.checked ? true : false
-                                            if (Array.isArray($$a)) {
-                                              var $$v = null,
-                                                $$i = _vm._i($$a, $$v)
-                                              if ($$el.checked) {
-                                                $$i < 0 &&
-                                                  (_vm.appSelectAll = $$a.concat(
-                                                    [$$v]
-                                                  ))
+                              ? _c(
+                                  "th",
+                                  { staticClass: "normal-cursor checkbox-th" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "custom-control custom-checkbox"
+                                      },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.appSelectAll,
+                                              expression: "appSelectAll"
+                                            }
+                                          ],
+                                          staticClass: "custom-control-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "selectAllCheckbox"
+                                          },
+                                          domProps: {
+                                            checked: Array.isArray(
+                                              _vm.appSelectAll
+                                            )
+                                              ? _vm._i(_vm.appSelectAll, null) >
+                                                -1
+                                              : _vm.appSelectAll
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$a = _vm.appSelectAll,
+                                                $$el = $event.target,
+                                                $$c = $$el.checked
+                                                  ? true
+                                                  : false
+                                              if (Array.isArray($$a)) {
+                                                var $$v = null,
+                                                  $$i = _vm._i($$a, $$v)
+                                                if ($$el.checked) {
+                                                  $$i < 0 &&
+                                                    (_vm.appSelectAll = $$a.concat(
+                                                      [$$v]
+                                                    ))
+                                                } else {
+                                                  $$i > -1 &&
+                                                    (_vm.appSelectAll = $$a
+                                                      .slice(0, $$i)
+                                                      .concat(
+                                                        $$a.slice($$i + 1)
+                                                      ))
+                                                }
                                               } else {
-                                                $$i > -1 &&
-                                                  (_vm.appSelectAll = $$a
-                                                    .slice(0, $$i)
-                                                    .concat($$a.slice($$i + 1)))
+                                                _vm.appSelectAll = $$c
                                               }
-                                            } else {
-                                              _vm.appSelectAll = $$c
                                             }
                                           }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("span", {
-                                        staticClass: "custom-control-indicator"
-                                      })
-                                    ]
-                                  )
-                                ])
+                                        }),
+                                        _vm._v(" "),
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: { for: "selectAllCheckbox" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
                               : _vm._e(),
                             _vm._v(" "),
                             _c(
@@ -102637,10 +102832,10 @@ var render = function() {
                               _vm.appUserHasPermission("update")
                                 ? _c("td", [
                                     _c(
-                                      "label",
+                                      "div",
                                       {
                                         staticClass:
-                                          "custom-control custom-checkbox mr-0"
+                                          "custom-control custom-checkbox"
                                       },
                                       [
                                         _c("input", {
@@ -102653,7 +102848,10 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "custom-control-input",
-                                          attrs: { type: "checkbox" },
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "select_" + resource.id
+                                          },
                                           domProps: {
                                             value: resource.id,
                                             checked: Array.isArray(
@@ -102696,9 +102894,11 @@ var render = function() {
                                           }
                                         }),
                                         _vm._v(" "),
-                                        _c("span", {
-                                          staticClass:
-                                            "custom-control-indicator"
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: {
+                                            for: "select_" + resource.id
+                                          }
                                         })
                                       ]
                                     )
@@ -103196,65 +103396,77 @@ var render = function() {
                         _c("thead", [
                           _c("tr", { staticClass: "pointer-cursor" }, [
                             _vm.appUserHasPermission("update")
-                              ? _c("th", { staticClass: "normal-cursor" }, [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass:
-                                        "custom-control custom-checkbox mr-0"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.appSelectAll,
-                                            expression: "appSelectAll"
-                                          }
-                                        ],
-                                        staticClass: "custom-control-input",
-                                        attrs: { type: "checkbox" },
-                                        domProps: {
-                                          checked: Array.isArray(
-                                            _vm.appSelectAll
-                                          )
-                                            ? _vm._i(_vm.appSelectAll, null) >
-                                              -1
-                                            : _vm.appSelectAll
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            var $$a = _vm.appSelectAll,
-                                              $$el = $event.target,
-                                              $$c = $$el.checked ? true : false
-                                            if (Array.isArray($$a)) {
-                                              var $$v = null,
-                                                $$i = _vm._i($$a, $$v)
-                                              if ($$el.checked) {
-                                                $$i < 0 &&
-                                                  (_vm.appSelectAll = $$a.concat(
-                                                    [$$v]
-                                                  ))
+                              ? _c(
+                                  "th",
+                                  { staticClass: "normal-cursor checkbox-th" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "custom-control custom-checkbox"
+                                      },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.appSelectAll,
+                                              expression: "appSelectAll"
+                                            }
+                                          ],
+                                          staticClass: "custom-control-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "selectAllCheckbox"
+                                          },
+                                          domProps: {
+                                            checked: Array.isArray(
+                                              _vm.appSelectAll
+                                            )
+                                              ? _vm._i(_vm.appSelectAll, null) >
+                                                -1
+                                              : _vm.appSelectAll
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$a = _vm.appSelectAll,
+                                                $$el = $event.target,
+                                                $$c = $$el.checked
+                                                  ? true
+                                                  : false
+                                              if (Array.isArray($$a)) {
+                                                var $$v = null,
+                                                  $$i = _vm._i($$a, $$v)
+                                                if ($$el.checked) {
+                                                  $$i < 0 &&
+                                                    (_vm.appSelectAll = $$a.concat(
+                                                      [$$v]
+                                                    ))
+                                                } else {
+                                                  $$i > -1 &&
+                                                    (_vm.appSelectAll = $$a
+                                                      .slice(0, $$i)
+                                                      .concat(
+                                                        $$a.slice($$i + 1)
+                                                      ))
+                                                }
                                               } else {
-                                                $$i > -1 &&
-                                                  (_vm.appSelectAll = $$a
-                                                    .slice(0, $$i)
-                                                    .concat($$a.slice($$i + 1)))
+                                                _vm.appSelectAll = $$c
                                               }
-                                            } else {
-                                              _vm.appSelectAll = $$c
                                             }
                                           }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("span", {
-                                        staticClass: "custom-control-indicator"
-                                      })
-                                    ]
-                                  )
-                                ])
+                                        }),
+                                        _vm._v(" "),
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: { for: "selectAllCheckbox" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
                               : _vm._e(),
                             _vm._v(" "),
                             _c(
@@ -103310,10 +103522,10 @@ var render = function() {
                               _vm.appUserHasPermission("update")
                                 ? _c("td", [
                                     _c(
-                                      "label",
+                                      "div",
                                       {
                                         staticClass:
-                                          "custom-control custom-checkbox mr-0"
+                                          "custom-control custom-checkbox"
                                       },
                                       [
                                         _c("input", {
@@ -103326,7 +103538,10 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "custom-control-input",
-                                          attrs: { type: "checkbox" },
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "select_" + resource.id
+                                          },
                                           domProps: {
                                             value: resource.id,
                                             checked: Array.isArray(
@@ -103369,9 +103584,11 @@ var render = function() {
                                           }
                                         }),
                                         _vm._v(" "),
-                                        _c("span", {
-                                          staticClass:
-                                            "custom-control-indicator"
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: {
+                                            for: "select_" + resource.id
+                                          }
                                         })
                                       ]
                                     )
@@ -105417,62 +105634,76 @@ var render = function() {
                         _c("thead", [
                           _c("tr", { staticClass: "pointer-cursor" }, [
                             _vm.appUserHasPermission("update")
-                              ? _c("th", { staticClass: "normal-cursor" }, [
-                                  _c(
-                                    "label",
-                                    {
-                                      staticClass:
-                                        "custom-control custom-checkbox mr-0"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.selectAll,
-                                            expression: "selectAll"
-                                          }
-                                        ],
-                                        staticClass: "custom-control-input",
-                                        attrs: { type: "checkbox" },
-                                        domProps: {
-                                          checked: Array.isArray(_vm.selectAll)
-                                            ? _vm._i(_vm.selectAll, null) > -1
-                                            : _vm.selectAll
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            var $$a = _vm.selectAll,
-                                              $$el = $event.target,
-                                              $$c = $$el.checked ? true : false
-                                            if (Array.isArray($$a)) {
-                                              var $$v = null,
-                                                $$i = _vm._i($$a, $$v)
-                                              if ($$el.checked) {
-                                                $$i < 0 &&
-                                                  (_vm.selectAll = $$a.concat([
-                                                    $$v
-                                                  ]))
+                              ? _c(
+                                  "th",
+                                  { staticClass: "normal-cursor checkbox-th" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "custom-control custom-checkbox"
+                                      },
+                                      [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.selectAll,
+                                              expression: "selectAll"
+                                            }
+                                          ],
+                                          staticClass: "custom-control-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: "selectAllCheckbox"
+                                          },
+                                          domProps: {
+                                            checked: Array.isArray(
+                                              _vm.selectAll
+                                            )
+                                              ? _vm._i(_vm.selectAll, null) > -1
+                                              : _vm.selectAll
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$a = _vm.selectAll,
+                                                $$el = $event.target,
+                                                $$c = $$el.checked
+                                                  ? true
+                                                  : false
+                                              if (Array.isArray($$a)) {
+                                                var $$v = null,
+                                                  $$i = _vm._i($$a, $$v)
+                                                if ($$el.checked) {
+                                                  $$i < 0 &&
+                                                    (_vm.selectAll = $$a.concat(
+                                                      [$$v]
+                                                    ))
+                                                } else {
+                                                  $$i > -1 &&
+                                                    (_vm.selectAll = $$a
+                                                      .slice(0, $$i)
+                                                      .concat(
+                                                        $$a.slice($$i + 1)
+                                                      ))
+                                                }
                                               } else {
-                                                $$i > -1 &&
-                                                  (_vm.selectAll = $$a
-                                                    .slice(0, $$i)
-                                                    .concat($$a.slice($$i + 1)))
+                                                _vm.selectAll = $$c
                                               }
-                                            } else {
-                                              _vm.selectAll = $$c
                                             }
                                           }
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _c("span", {
-                                        staticClass: "custom-control-indicator"
-                                      })
-                                    ]
-                                  )
-                                ])
+                                        }),
+                                        _vm._v(" "),
+                                        _c("label", {
+                                          staticClass: "custom-control-label",
+                                          attrs: { for: "selectAllCheckbox" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
                               : _vm._e(),
                             _vm._v(" "),
                             _c(
@@ -105603,10 +105834,10 @@ var render = function() {
                                       )
                                         ? [
                                             _c(
-                                              "label",
+                                              "div",
                                               {
                                                 staticClass:
-                                                  "custom-control custom-checkbox mr-0"
+                                                  "custom-control custom-checkbox"
                                               },
                                               [
                                                 _c("input", {
@@ -105622,7 +105853,10 @@ var render = function() {
                                                   ],
                                                   staticClass:
                                                     "custom-control-input",
-                                                  attrs: { type: "checkbox" },
+                                                  attrs: {
+                                                    type: "checkbox",
+                                                    id: "select_" + user.id
+                                                  },
                                                   domProps: {
                                                     value: user.id,
                                                     checked: Array.isArray(
@@ -105667,9 +105901,12 @@ var render = function() {
                                                   }
                                                 }),
                                                 _vm._v(" "),
-                                                _c("span", {
+                                                _c("label", {
                                                   staticClass:
-                                                    "custom-control-indicator"
+                                                    "custom-control-label",
+                                                  attrs: {
+                                                    for: "select_" + user.id
+                                                  }
                                                 })
                                               ]
                                             )

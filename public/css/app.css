@@ -64840,7 +64840,8 @@ a.hover-white-8:focus {
 }
 
 .am-mainpanel input[type=file],
-.am-mainpanel .custom-checkbox {
+.am-mainpanel .custom-control-input,
+.am-mainpanel .custom-control-label {
   cursor: pointer;
 }
 
@@ -64931,15 +64932,15 @@ a:focus {
   min-height: 1rem;
 }
 
-.am-mainpanel .custom-checkbox .custom-control-indicator {
+.am-mainpanel .custom-checkbox .custom-control-label::before {
   background-color: #ced4da;
 }
 
-.am-mainpanel .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator {
+.am-mainpanel .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
   background-color: #e83e8c;
 }
 
-.am-mainpanel .custom-checkbox .custom-control-input:focus ~ .custom-control-indicator {
+.am-mainpanel .custom-checkbox .custom-control-input:focus ~ .custom-control-label::before {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
@@ -64952,8 +64953,18 @@ a:focus {
   cursor: auto;
 }
 
-.am-mainpanel .table .custom-checkbox .custom-control-indicator {
+.am-mainpanel .table .checkbox-th,
+.am-mainpanel .table .checkbox-td {
+  width: 2rem;
+}
+
+.am-mainpanel .table .custom-checkbox {
+  padding-left: 0;
+}
+
+.am-mainpanel .table .custom-checkbox .custom-control-label::before {
   background-color: #fff;
+  top: 0.20rem;
 }
 
 .am-mainpanel .table td {

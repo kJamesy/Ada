@@ -34,11 +34,11 @@
                     <table class="table table-bordered table-hover table-info">
                         <thead>
                             <tr class="pointer-cursor">
-                                <th class="normal-cursor" v-if="appUserHasPermission('update')">
-                                    <label class="custom-control custom-checkbox mr-0">
-                                        <input type="checkbox" class="custom-control-input" v-model="selectAll">
-                                        <span class="custom-control-indicator"></span>
-                                    </label>
+                                <th class="normal-cursor checkbox-th" v-if="appUserHasPermission('update')">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="selectAllCheckbox" v-model="selectAll">
+                                        <label class="custom-control-label" for="selectAllCheckbox"></label>
+                                    </div>
                                 </th>
                                 <th v-on:click.prevent="appChangeSort('first_name')">Name <span v-html="appGetSortMarkup('first_name')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('email')">Email <span v-html="appGetSortMarkup('email')"></span></th>
@@ -52,10 +52,10 @@
                             <tr v-for="user in orderedAppResources">
                                 <td v-if="appUserHasPermission('update')">
                                     <template v-if="appUserHasPermissionOnUser('update', user)">
-                                        <label class="custom-control custom-checkbox mr-0">
-                                            <input type="checkbox" class="custom-control-input" v-model="appSelectedResources" v-bind:value="user.id">
-                                            <span class="custom-control-indicator"></span>
-                                        </label>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" v-bind:id="'select_' + user.id" v-model="appSelectedResources" v-bind:value="user.id">
+                                            <label class="custom-control-label" v-bind:for="'select_' + user.id"></label>
+                                        </div>
                                     </template>
                                 </td>
                                 <td>{{ user.name }} <span v-if="user.is_super_admin" class="text-dark" title="Super Admin" data-toggle="tooltip"> <i class="icon ion-android-star"></i> </span></td>

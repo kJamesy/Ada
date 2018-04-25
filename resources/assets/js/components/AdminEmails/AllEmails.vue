@@ -69,11 +69,11 @@
                         <table class="table table-bordered table-hover table-info">
                             <thead>
                                 <tr class="pointer-cursor">
-                                    <th class="normal-cursor" v-if="appUserHasPermission('update')">
-                                        <label class="custom-control custom-checkbox mr-0">
-                                            <input type="checkbox" class="custom-control-input" v-model="appSelectAll">
-                                            <span class="custom-control-indicator"></span>
-                                        </label>
+                                    <th class="normal-cursor checkbox-th" v-if="appUserHasPermission('update')">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="selectAllCheckbox" v-model="appSelectAll">
+                                            <label class="custom-control-label" for="selectAllCheckbox"></label>
+                                        </div>
                                     </th>
                                     <th v-on:click.prevent="appChangeSort('subject')">Subject <span v-html="appGetSortMarkup('subject')"></span></th>
                                     <th v-if="! appIsDraftsPage" v-on:click.prevent="appChangeSort('sender')">Sender <span v-html="appGetSortMarkup('sender')"></span></th>
@@ -89,10 +89,10 @@
                                 <tbody>
                                 <tr v-for="resource in orderedAppResources">
                                     <td v-if="appUserHasPermission('update')">
-                                        <label class="custom-control custom-checkbox mr-0">
-                                            <input type="checkbox" class="custom-control-input" v-model="appSelectedResources" v-bind:value="resource.id">
-                                            <span class="custom-control-indicator"></span>
-                                        </label>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" v-bind:id="'select_' + resource.id" v-model="appSelectedResources" v-bind:value="resource.id">
+                                            <label class="custom-control-label" v-bind:for="'select_' + resource.id"></label>
+                                        </div>
                                     </td>
                                     <td>{{ resource.subject }}</td>
                                     <td v-if="! appIsDraftsPage">
