@@ -19,7 +19,7 @@ if ( mix.config.inProduction ) {
     mix.version();
 }
 
-mix.browserSync('anada.app');
+mix.browserSync('anada.jamesy');
 
 // mix.browserSync({
 //     host: '192.168.10.10',
