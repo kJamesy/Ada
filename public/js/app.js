@@ -83406,6 +83406,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -83703,7 +83704,7 @@ var render = function() {
                       _c("div", { staticClass: "form-group row checkbox" }, [
                         _c("div", { staticClass: "col-md-8 ml-md-auto" }, [
                           _c(
-                            "label",
+                            "div",
                             { staticClass: "custom-control custom-checkbox" },
                             [
                               _c("input", {
@@ -83716,7 +83717,7 @@ var render = function() {
                                   }
                                 ],
                                 staticClass: "custom-control-input",
-                                attrs: { type: "checkbox" },
+                                attrs: { type: "checkbox", id: "active" },
                                 domProps: {
                                   checked: Array.isArray(_vm.resource.active)
                                     ? _vm._i(_vm.resource.active, null) > -1
@@ -83754,14 +83755,17 @@ var render = function() {
                                 }
                               }),
                               _vm._v(" "),
-                              _c("span", {
-                                staticClass: "custom-control-indicator"
-                              }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "custom-control-description" },
-                                [_vm._v("Active")]
+                                "label",
+                                {
+                                  staticClass: "custom-control-label",
+                                  attrs: { for: "active" }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                Active\n                            "
+                                  )
+                                ]
                               )
                             ]
                           )
@@ -83899,6 +83903,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -84336,7 +84341,7 @@ var render = function() {
                                 { staticClass: "col-md-8 ml-md-auto" },
                                 [
                                   _c(
-                                    "label",
+                                    "div",
                                     {
                                       staticClass:
                                         "custom-control custom-checkbox"
@@ -84352,7 +84357,10 @@ var render = function() {
                                           }
                                         ],
                                         staticClass: "custom-control-input",
-                                        attrs: { type: "checkbox" },
+                                        attrs: {
+                                          type: "checkbox",
+                                          id: "active"
+                                        },
                                         domProps: {
                                           checked: Array.isArray(
                                             _vm.resources.active
@@ -84401,17 +84409,17 @@ var render = function() {
                                         }
                                       }),
                                       _vm._v(" "),
-                                      _c("span", {
-                                        staticClass: "custom-control-indicator"
-                                      }),
-                                      _vm._v(" "),
                                       _c(
-                                        "span",
+                                        "label",
                                         {
-                                          staticClass:
-                                            "custom-control-description"
+                                          staticClass: "custom-control-label",
+                                          attrs: { for: "active" }
                                         },
-                                        [_vm._v("Active")]
+                                        [
+                                          _vm._v(
+                                            "\n                                Active\n                            "
+                                          )
+                                        ]
                                       )
                                     ]
                                   )
@@ -85055,6 +85063,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -85363,7 +85372,7 @@ var render = function() {
                                 { staticClass: "col-md-8 ml-md-auto" },
                                 [
                                   _c(
-                                    "label",
+                                    "div",
                                     {
                                       staticClass:
                                         "custom-control custom-checkbox"
@@ -85379,7 +85388,10 @@ var render = function() {
                                           }
                                         ],
                                         staticClass: "custom-control-input",
-                                        attrs: { type: "checkbox" },
+                                        attrs: {
+                                          type: "checkbox",
+                                          id: "active"
+                                        },
                                         domProps: {
                                           checked: Array.isArray(
                                             _vm.resource.active
@@ -85428,17 +85440,17 @@ var render = function() {
                                         }
                                       }),
                                       _vm._v(" "),
-                                      _c("span", {
-                                        staticClass: "custom-control-indicator"
-                                      }),
-                                      _vm._v(" "),
                                       _c(
-                                        "span",
+                                        "label",
                                         {
-                                          staticClass:
-                                            "custom-control-description"
+                                          staticClass: "custom-control-label",
+                                          attrs: { for: "active" }
                                         },
-                                        [_vm._v("Active")]
+                                        [
+                                          _vm._v(
+                                            "\n                                Active\n                            "
+                                          )
+                                        ]
                                       )
                                     ]
                                   )
@@ -106206,6 +106218,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -106604,7 +106617,7 @@ var render = function() {
                       _c("div", { staticClass: "form-group row checkbox" }, [
                         _c("div", { staticClass: "col-md-8 ml-md-auto" }, [
                           _c(
-                            "label",
+                            "div",
                             { staticClass: "custom-control custom-checkbox" },
                             [
                               _c("input", {
@@ -106617,7 +106630,7 @@ var render = function() {
                                   }
                                 ],
                                 staticClass: "custom-control-input",
-                                attrs: { type: "checkbox" },
+                                attrs: { type: "checkbox", id: "active" },
                                 domProps: {
                                   checked: Array.isArray(_vm.resource.active)
                                     ? _vm._i(_vm.resource.active, null) > -1
@@ -106655,16 +106668,15 @@ var render = function() {
                                 }
                               }),
                               _vm._v(" "),
-                              _c("span", {
-                                staticClass: "custom-control-indicator"
-                              }),
-                              _vm._v(" "),
                               _c(
-                                "span",
-                                { staticClass: "custom-control-description" },
+                                "label",
+                                {
+                                  staticClass: "custom-control-label",
+                                  attrs: { for: "active" }
+                                },
                                 [
                                   _vm._v(
-                                    "Active [Only active users can log in]"
+                                    "\n                                Active [Controls whether they can log in]\n                            "
                                   )
                                 ]
                               )
@@ -107080,6 +107092,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -107612,7 +107625,7 @@ var render = function() {
                         [
                           _c("div", { staticClass: "col-md-8 ml-md-auto" }, [
                             _c(
-                              "label",
+                              "div",
                               { staticClass: "custom-control custom-checkbox" },
                               [
                                 _c("input", {
@@ -107625,7 +107638,7 @@ var render = function() {
                                     }
                                   ],
                                   staticClass: "custom-control-input",
-                                  attrs: { type: "checkbox" },
+                                  attrs: { type: "checkbox", id: "active" },
                                   domProps: {
                                     checked: Array.isArray(_vm.resource.active)
                                       ? _vm._i(_vm.resource.active, null) > -1
@@ -107663,16 +107676,15 @@ var render = function() {
                                   }
                                 }),
                                 _vm._v(" "),
-                                _c("span", {
-                                  staticClass: "custom-control-indicator"
-                                }),
-                                _vm._v(" "),
                                 _c(
-                                  "span",
-                                  { staticClass: "custom-control-description" },
+                                  "label",
+                                  {
+                                    staticClass: "custom-control-label",
+                                    attrs: { for: "active" }
+                                  },
                                   [
                                     _vm._v(
-                                      "Active [Only active users can log in]"
+                                      "\n                                Active [Controls whether they can log in]\n                            "
                                     )
                                   ]
                                 )

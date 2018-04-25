@@ -61,11 +61,12 @@
                     </div>
                     <div class="form-group row checkbox">
                         <div class="col-md-8 ml-md-auto">
-                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" v-model="resource.active">
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-description">Active [Only active users can log in]</span>
-                            </label>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="active" v-model="resource.active">
+                                <label class="custom-control-label" for="active">
+                                    Active [Controls whether they can log in]
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
