@@ -16,19 +16,19 @@
 @import '../vendor/amanda-admin/scss/amanda';
 
 //Ada Variables
-@import "ada-variables";
+@import "tulip-variables";
 
 //Vue Select Overrides
-@import "ada-vue-select";
+@import "tulip-vue-select";
 
 //Vue Datepicker Overrides
-@import "ada-datepicker";
+@import "tulip-datepicker";
 
 //Sweetalert Overrides
-@import "ada-sweet-alert";
+@import "tulip-sweet-alert";
 
 // Ada
 @import "amanda-custom";
-@import 'pagination';
-@import 'ada-inputs';
-@import 'ada';
+@import 'tulip-pagination';
+@import 'tulip-inputs';
+@import 'tulip';
