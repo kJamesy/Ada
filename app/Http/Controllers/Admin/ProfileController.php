@@ -69,10 +69,10 @@ class ProfileController extends Controller
             $rules = User::$rules;
             unset($rules['password']);
 
-            if ( strtolower(trim($request->email)) == strtolower($user->email) )
-                $rules['email'] = str_replace("|unique:users", '', $rules['email']);
-            if ( strtolower(trim($request->username)) == strtolower($user->username) )
-                $rules['username'] = str_replace("|unique:users", '', $rules['username']);
+            if ( strtolower(trim($request->email)) === strtolower($user->email) )
+	            unset($rules['email']);
+            if ( strtolower(trim($request->username)) === strtolower($user->username) )
+	            unset($rules['username']);
 
             $this->validate($request, $rules);
 

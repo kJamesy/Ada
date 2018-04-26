@@ -343,8 +343,8 @@ class SubscriberController extends Controller
 
 		    $rules = $this->rules;
 
-		    if ( strtolower($resource->email) == strtolower(trim($request->email)) )
-			    $rules['email'] = str_replace("|unique:subscribers", '', $rules['email'] );
+		    if ( strtolower($resource->email) === strtolower(trim($request->email)) )
+			    unset($rules['email']);
 
 		    $this->validate($request, $rules);
 

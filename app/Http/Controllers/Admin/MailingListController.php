@@ -164,8 +164,8 @@ class MailingListController extends Controller
 
 			$rules = $this->rules;
 
-			if ( strtolower($resource->name) == strtolower(trim($request->name)) )
-				$rules['name'] = str_replace("|unique:mailing_lists", '', $rules['name'] );
+			if ( strtolower($resource->name) === strtolower(trim($request->name)) )
+				unset($rules['name']);
 
 			$this->validate($request, $rules);
 
