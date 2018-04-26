@@ -83988,6 +83988,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -84257,7 +84261,7 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-md-8" }, [
-                              _c("label", { staticClass: "custom-file" }, [
+                              _c("div", { staticClass: "custom-file" }, [
                                 _c("input", {
                                   staticClass: "custom-file-input",
                                   class: _vm.importErrors.file
@@ -84275,52 +84279,66 @@ var render = function() {
                                   }
                                 }),
                                 _vm._v(" "),
-                                _c("span", {
-                                  staticClass: "custom-file-control"
-                                })
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "custom-file-label",
+                                    attrs: { for: "file" }
+                                  },
+                                  [
+                                    _vm.upload.name ||
+                                    _vm.upload.type ||
+                                    _vm.upload.size
+                                      ? _c(
+                                          "small",
+                                          [
+                                            _vm.upload.name
+                                              ? [
+                                                  _vm._v(
+                                                    "Name: " +
+                                                      _vm._s(_vm.upload.name) +
+                                                      " | "
+                                                  )
+                                                ]
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            _vm.upload.type
+                                              ? [
+                                                  _vm._v(
+                                                    "Type: " +
+                                                      _vm._s(_vm.upload.type) +
+                                                      " | "
+                                                  )
+                                                ]
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            _vm.upload.size
+                                              ? [
+                                                  _vm._v(
+                                                    "Size: " +
+                                                      _vm._s(
+                                                        _vm._f("convertToKb")(
+                                                          _vm.upload.size
+                                                        )
+                                                      ) +
+                                                      " Kb"
+                                                  )
+                                                ]
+                                              : _vm._e()
+                                          ],
+                                          2
+                                        )
+                                      : [
+                                          _vm._v(
+                                            "\n                                    Choose File\n                                "
+                                          )
+                                        ]
+                                  ],
+                                  2
+                                )
                               ]),
                               _vm._v(" "),
                               _c("div", [
-                                _c(
-                                  "small",
-                                  [
-                                    _vm.upload.name
-                                      ? [
-                                          _vm._v(
-                                            "Name: " +
-                                              _vm._s(_vm.upload.name) +
-                                              " | "
-                                          )
-                                        ]
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.upload.type
-                                      ? [
-                                          _vm._v(
-                                            "Type: " +
-                                              _vm._s(_vm.upload.type) +
-                                              " | "
-                                          )
-                                        ]
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.upload.size
-                                      ? [
-                                          _vm._v(
-                                            "Size: " +
-                                              _vm._s(
-                                                _vm._f("convertToKb")(
-                                                  _vm.upload.size
-                                                )
-                                              ) +
-                                              " Kb"
-                                          )
-                                        ]
-                                      : _vm._e()
-                                  ],
-                                  2
-                                ),
-                                _vm._v(" "),
                                 _c("small", { staticClass: "text-danger" }, [
                                   _vm._v(
                                     "\n                                " +

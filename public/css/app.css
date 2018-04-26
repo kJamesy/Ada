@@ -64753,7 +64753,8 @@ a.hover-white-8:focus {
 .am-mainpanel .dataTables_filter input,
 .dataTables_filter .am-mainpanel input,
 .am-mainpanel .dataTables_filter input,
-.am-mainpanel select {
+.am-mainpanel select,
+.am-mainpanel .custom-file-label {
   color: #495057;
   border-width: 1.5px;
   border-style: dotted;
@@ -64776,7 +64777,10 @@ a.hover-white-8:focus {
 .am-mainpanel .dataTables_filter input:active,
 .am-mainpanel select:hover,
 .am-mainpanel select:focus,
-.am-mainpanel select:active {
+.am-mainpanel select:active,
+.am-mainpanel .custom-file-label:hover,
+.am-mainpanel .custom-file-label:focus,
+.am-mainpanel .custom-file-label:active {
   border-color: #17a2b8;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -64845,7 +64849,23 @@ a.hover-white-8:focus {
   cursor: pointer;
 }
 
-.am-mainpanel .custom-file-input:focus ~ .custom-file-control {
+.am-mainpanel .custom-file-label {
+  font-size: 1rem;
+  font-style: italic;
+  color: #adb5bd;
+}
+
+.am-mainpanel .custom-file-label::after {
+  color: #fff;
+  background-color: #e83e8c;
+  border: 1px solid #e83e8c;
+  font-style: normal;
+}
+
+.am-mainpanel .custom-file-input:hover ~ .custom-file-label,
+.am-mainpanel .custom-file-input:focus ~ .custom-file-label,
+.am-mainpanel .custom-file-input:active ~ .custom-file-label {
+  border-color: #17a2b8;
   -webkit-box-shadow: none;
   box-shadow: none;
 }

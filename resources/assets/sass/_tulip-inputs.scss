@@ -1,5 +1,5 @@
 .am-mainpanel {
-  .form-control, .dataTables_filter input, select {
+  .form-control, .dataTables_filter input, select, .custom-file-label {
     color: $form_control_color;
     border-width: 1.5px;
     border-style: dotted;
@@ -67,8 +67,26 @@
     cursor: pointer;
   }
 
-  .custom-file-input:focus ~ .custom-file-control {
-    @include box_shadow_none;
+  .custom-file-label {
+    font-size: 1rem;
+    font-style: italic;
+    color: $gray-500;
+
+    &::after {
+      color: $white;
+      background-color: $pink;
+      border: 1px solid $pink;
+      font-style: normal;
+    }
+  }
+
+  .custom-file-input {
+    &:hover, &:focus, &:active {
+      ~ .custom-file-label {
+        border-color: $info;
+        @include box_shadow_none;
+      }
+    }
   }
 
   label.custom-control {

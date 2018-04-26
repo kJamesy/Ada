@@ -12,16 +12,20 @@
                             Expected columns: {{ allowedColumnNames | arrToString }}
                         </label>
                         <div class="col-md-8">
-                            <label class="custom-file">
-                                <input type="file" id="file" class="custom-file-input" v-on:change="fileInserted($event)" name="upload" v-bind:class="importErrors.file ? 'is-invalid' : ''">
-                                <span class="custom-file-control"></span>
-                            </label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="file" v-on:change="fileInserted($event)" name="upload" v-bind:class="importErrors.file ? 'is-invalid' : ''">
+                                <label class="custom-file-label" for="file">
+                                    <small v-if="upload.name || upload.type || upload.size">
+                                        <template v-if="upload.name">Name: {{ upload.name }} | </template>
+                                        <template v-if="upload.type">Type: {{ upload.type }} | </template>
+                                        <template v-if="upload.size">Size: {{ upload.size | convertToKb }} Kb</template>
+                                    </small>
+                                    <template v-else="">
+                                        Choose File
+                                    </template>
+                                </label>
+                            </div>
                             <div>
-                                <small>
-                                    <template v-if="upload.name">Name: {{ upload.name }} | </template>
-                                    <template v-if="upload.type">Type: {{ upload.type }} | </template>
-                                    <template v-if="upload.size">Size: {{ upload.size | convertToKb }} Kb</template>
-                                </small>
                                 <small class="text-danger">
                                     {{ importErrors.file }}
                                 </small>
