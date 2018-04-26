@@ -62,7 +62,9 @@ class Campaign extends Model
 	 */
 	public static function findResource($id)
 	{
-		return static::isNotDeleted()->find($id);
+		return static::withCount(['emails' => function($q) {
+			$q->isNotDeleted()->isNotDraft();
+		}])->isNotDeleted()->find($id);
 	}
 
 	/**
@@ -77,7 +79,9 @@ class Campaign extends Model
 	 */
 	public static function getResources($selected = [], $deleted = 0, $orderBy = 'updated_at', $order = 'desc', $paginate = null)
 	{
-		$query = static::with([]);
+		$query = static::withCount(['emails' => function($q) {
+			$q->isNotDeleted()->isNotDraft();
+		}]);
 
 		if ( count($selected) )
 			$query->whereIn('id', $selected);
@@ -105,7 +109,9 @@ class Campaign extends Model
 		$searchQuery->limit = 5000;
 		$results = $searchQuery->get()->pluck('id');
 
-		$query = static::whereIn('id', $results);
+		$query = static::withCount(['emails' => function($q) {
+			$q->isNotDeleted()->isNotDraft();
+		}])->whereIn('id', $results);
 
 		if ( (int) $deleted == 1 )
 			$query->isDeleted();

@@ -86430,6 +86430,28 @@ var render = function() {
                                 on: {
                                   click: function($event) {
                                     $event.preventDefault()
+                                    _vm.appChangeSort("emails_count")
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v("Emails "),
+                                _c("span", {
+                                  domProps: {
+                                    innerHTML: _vm._s(
+                                      _vm.appGetSortMarkup("emails_count")
+                                    )
+                                  }
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "th",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
                                     _vm.appChangeSort("updated_at")
                                   }
                                 }
@@ -86542,6 +86564,30 @@ var render = function() {
                                 },
                                 [_vm._v(_vm._s(resource.name))]
                               ),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "btn btn-link",
+                                    class: !parseInt(resource.emails_count)
+                                      ? "disabled"
+                                      : "",
+                                    attrs: {
+                                      href: _vm.getEmailsInCampaignLink(
+                                        resource.id
+                                      )
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(resource.emails_count) +
+                                        "\n                                "
+                                    )
+                                  ]
+                                )
+                              ]),
                               _vm._v(" "),
                               _c("td", [
                                 _c(
@@ -87150,6 +87196,28 @@ var render = function() {
                                 on: {
                                   click: function($event) {
                                     $event.preventDefault()
+                                    _vm.appChangeSort("emails_count")
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v("Emails "),
+                                _c("span", {
+                                  domProps: {
+                                    innerHTML: _vm._s(
+                                      _vm.appGetSortMarkup("emails_count")
+                                    )
+                                  }
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "th",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
                                     _vm.appChangeSort("updated_at")
                                   }
                                 }
@@ -87258,6 +87326,8 @@ var render = function() {
                                 },
                                 [_vm._v(_vm._s(resource.name))]
                               ),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(resource.emails_count))]),
                               _vm._v(" "),
                               _c("td", [
                                 _c(
@@ -87725,6 +87795,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -87735,13 +87813,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             fetchingData: true,
-            resource: { id: '', name: '', description: '', created_at: '', updated_at: '' }
+            resource: { id: '', name: '', description: '', emails_count: 0, created_at: '', updated_at: '' }
         };
     },
 
     methods: {
         showResource: function showResource() {
             this.appShowResource();
+        },
+        getEmailsInCampaignLink: function getEmailsInCampaignLink(campaignId) {
+            return this.appAdminHome + '/emails/' + campaignId + '/in-campaign';
         }
     }
 });
@@ -87789,6 +87870,36 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(_vm.resource.description))])
+                          ]),
+                          _vm._v(" "),
+                          _c("tr", [
+                            _c("th", { attrs: { scope: "row" } }, [
+                              _vm._v("Emails")
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-link",
+                                  class: !parseInt(_vm.resource.emails_count)
+                                    ? "disabled"
+                                    : "",
+                                  attrs: {
+                                    href: _vm.getEmailsInCampaignLink(
+                                      _vm.resource.id
+                                    )
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(_vm.resource.emails_count) +
+                                      "\n                            "
+                                  )
+                                ]
+                              )
+                            ])
                           ]),
                           _vm._v(" "),
                           _c("tr", [

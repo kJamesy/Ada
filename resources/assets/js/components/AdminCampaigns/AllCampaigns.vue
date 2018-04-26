@@ -41,7 +41,7 @@
                                     </div>
                                 </th>
                                 <th v-on:click.prevent="appChangeSort('name')">Name <span v-html="appGetSortMarkup('name')"></span></th>
-                                <!--<th v-on:click.prevent="appChangeSort('subscribers_count')">Emails <span v-html="appGetSortMarkup('emails_count')"></span></th>-->
+                                <th v-on:click.prevent="appChangeSort('emails_count')">Emails <span v-html="appGetSortMarkup('emails_count')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('updated_at')" >Updated <span v-html="appGetSortMarkup('updated_at')"></span></th>
                                 <th v-if="appUserHasPermission('update')"></th>
                             </tr>
@@ -55,11 +55,11 @@
                                     </div>
                                 </td>
                                 <td v-bind:title="resource.description" data-toggle="tooltip">{{ resource.name }}</td>
-                                <!--<td>-->
-                                    <!--<a v-bind:class="! parseInt(resource.emails_count) ? 'disabled' : ''" v-bind:href="getEmailsInCampaignLink(resource.id)" class="btn btn-link">-->
-                                        <!--{{ resource.emails_count }}-->
-                                    <!--</a>-->
-                                <!--</td>-->
+                                <td>
+                                    <a v-bind:class="! parseInt(resource.emails_count) ? 'disabled' : ''" v-bind:href="getEmailsInCampaignLink(resource.id)" class="btn btn-link">
+                                        {{ resource.emails_count }}
+                                    </a>
+                                </td>
                                 <td><span v-bind:title="resource.updated_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
                                 <td v-if="appUserHasPermission('read')">
                                     <router-link v-bind:to="{ name: 'admin_campaigns.view', params: { id: resource.id }}" class="btn btn-sm rounded-circle btn-pink"><i class="icon ion-eye"></i></router-link>

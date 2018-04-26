@@ -41,7 +41,7 @@
                                     </div>
                                 </th>
                                 <th v-on:click.prevent="appChangeSort('name')">Name <span v-html="appGetSortMarkup('name')"></span></th>
-                                <!--<th v-on:click.prevent="appChangeSort('emails_count')">Emails <span v-html="appGetSortMarkup('emails_count')"></span></th>-->
+                                <th v-on:click.prevent="appChangeSort('emails_count')">Emails <span v-html="appGetSortMarkup('emails_count')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('updated_at')" >Deleted <span v-html="appGetSortMarkup('updated_at')"></span></th>
                             </tr>
                             </thead>
@@ -54,7 +54,7 @@
                                     </div>
                                 </td>
                                 <td v-bind:title="resource.description" data-toggle="tooltip">{{ resource.name }}</td>
-                                <!--<td>{{ resource.emails_count }}</td>-->
+                                <td>{{ resource.emails_count }}</td>
                                 <td><span v-bind:title="resource.updated_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
                             </tr>
                         </tbody>

@@ -163,6 +163,7 @@ class ResourceExporter
 					$exportArr[] = [
 						'Name' => $resource->name,
 						'Description' => $resource->description,
+						'Emails' => $resource->emails_count,
 						'Created' => $resource->created_at->toDateTimeString(),
 						'Last Updated' => $resource->updated_at->toDateTimeString(),
 					];

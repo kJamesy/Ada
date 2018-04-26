@@ -16,6 +16,14 @@
                             <td>{{ resource.description }}</td>
                         </tr>
                         <tr>
+                            <th scope="row">Emails</th>
+                            <td>
+                                <a v-bind:class="! parseInt(resource.emails_count) ? 'disabled' : ''" v-bind:href="getEmailsInCampaignLink(resource.id)" class="btn btn-link">
+                                    {{ resource.emails_count }}
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
                             <th scope="row">Created</th>
                             <td>{{ resource.created_at | dateToTheMinute }}</td>
                         </tr>
@@ -44,12 +52,15 @@
         data() {
             return {
                 fetchingData: true,
-                resource: {id: '', name: '', description: '', created_at: '', updated_at: ''}
+                resource: {id: '', name: '', description: '', emails_count: 0, created_at: '', updated_at: ''}
             }
         },
         methods: {
             showResource() {
                 this.appShowResource();
+            },
+            getEmailsInCampaignLink(campaignId) {
+                return this.appAdminHome + '/emails/' + campaignId + '/in-campaign';
             },
         }
     }
