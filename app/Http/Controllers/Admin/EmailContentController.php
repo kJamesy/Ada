@@ -141,8 +141,10 @@ class EmailContentController extends Controller
 		if ( $resource = EmailContent::findResource( (int) $id) ) {
 			$replaced = new Content($resource->content);
 			$content = $replaced->setH2sIdAttribute();
+			$menu = $replaced->getAnchorsMenu();
 
-			echo $content;
+//			dd($menu);
+			return view('guest.view-content', compact('resource', 'content', 'menu'));
 		}
 		else
 			echo "No $this->friendlyName found";

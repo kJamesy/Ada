@@ -45,7 +45,7 @@ class Content
 					if ( $h2->nodeValue ) {
 						$h2_slug = str_slug( Str::words( $h2->nodeValue, 12 ) ) . "-$count";
 						$h2->setAttribute( 'id', $h2_slug );
-						$this->menu[] = "<a href='#$h2_slug'>{$h2->nodeValue}</a>";
+						$this->menu[] = "<a href='#$h2_slug' class='nav-link'>{$h2->nodeValue}</a>";
 					}
 				}
 
