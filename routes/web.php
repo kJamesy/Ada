@@ -110,6 +110,13 @@ Route::group(['prefix' => 'guest'], function() {
 
 Route::group(['prefix' => 'subscriber'], function() {
 	Route::get('unsubscribe', ['as' => 'unsubscribe', function() {
-		return view('guest.unsubscribe');
+		$subscriber = null;
+
+		if ( $id = request()->get('unique') ) {
+			if ( $subscriber = \App\Subscriber::findResource( \App\Helpers\Hashids::decode( $id ) ) )
+				$subscriber = \App\Subscriber::deactivate($subscriber);
+		}
+
+		return view('guest.unsubscribe', compact('subscriber'));
 	}]);
 });

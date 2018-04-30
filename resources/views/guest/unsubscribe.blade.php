@@ -15,8 +15,8 @@
                     <div class="col-lg-7">
                         <h5 class="tx-gray-800 mg-b-25">You have successfully opted out of our emails.</h5>
                         <h6 class="tx-gray-600 mg-b-25">
-                            @if ( $name = request()->get('name') )
-                                {{ "Sorry to see you go, $name" }}.
+                            @if ( $subscriber )
+                                {{ "Sorry to see you go, {$subscriber->first_name}" }}.
                             @else
                                 {{ "Sorry to see you go." }}
                             @endif

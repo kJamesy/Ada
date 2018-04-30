@@ -345,4 +345,20 @@ class Subscriber extends Model
 		return static::whereBetween('created_at', [Carbon::now()->startOfDay()->toDateTimeString(), Carbon::now()->endOfDay()->toDateTimeString()])->get();
 	}
 
+	/**
+	 * Deactivate supplied subscribe
+	 * @param Subscriber $subscriber
+	 *
+	 * @return Subscriber
+	 */
+	public static function deactivate(Subscriber $subscriber)
+	{
+		if ( $subscriber->active ) {
+			$subscriber->active = 0;
+			$subscriber->save();
+		}
+
+		return $subscriber;
+	}
+
 }

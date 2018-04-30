@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Email;
+use App\Helpers\Hashids;
 use App\Subscriber;
 use GuzzleHttp\Client;
 use Html2Text\Html2Text;
@@ -87,7 +88,7 @@ class SparkyNewsletter
 			'name' => '%name%',
 			'email' => '%email%',
 			'unsubscribe' => '%unsubscribe%',
-			'unsubscribe_link' => '%unsubscribe_link%',
+//			'unsubscribe_link' => '%unsubscribe_link%',
 		];
 	}
 
@@ -104,7 +105,7 @@ class SparkyNewsletter
 		if ( $substitutionVariables ) {
 			foreach ( $substitutionVariables as $key => $variable ) {
 				$content = ( $key === 'unsubscribe' )
-					? str_ireplace($variable, "<a href='{$this->unsubscribeUrl}?name={{ $key }}' data-msys-unsubscribe='1'>unsubscribe</a>", $content)
+					? str_ireplace($variable, "<a href='{$this->unsubscribeUrl}?unique={{ $key }}' data-msys-unsubscribe='1'>unsubscribe</a>", $content)
 					: str_ireplace($variable, "{{ $key }}", $content);
 			}
 		}
@@ -125,7 +126,7 @@ class SparkyNewsletter
 		if ( $substitutionVariables ) {
 			foreach ( $substitutionVariables as $key => $variable ) {
 				if ( $key === 'unsubscribe' )
-					$data[$key] = $subscriber->name;
+					$data[$key] = Hashids::encode($subscriber->id);
 				else
 					$data[$key] = $subscriber->{$key};
 			}
