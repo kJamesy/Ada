@@ -38,9 +38,10 @@ class SparkyNewsletter
 		$httpClient = new GuzzleAdapter(new Client());
 		$sparky = new SparkPost($httpClient, ['key' => $this->apiKey]);
 
+		$sparky->setOptions(['async' => false, 'retries' => 3]);
+		$promise = $sparky->transmissions->post($this->getSparkyContent());
+
 		try {
-			$sparky->setOptions(['async' => false, 'retries' => 3]);
-			$promise = $sparky->transmissions->post($this->getSparkyContent());
 			return ['success' => true, 'response' => $sparky->transmissions->get()];
 		}
 		catch (\Exception $e) {

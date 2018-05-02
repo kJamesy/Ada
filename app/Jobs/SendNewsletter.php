@@ -10,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Mail;
 
 class SendNewsletter implements ShouldQueue
 {
@@ -59,8 +60,11 @@ class SendNewsletter implements ShouldQueue
 
         	if ( is_array($feedback) && array_key_exists('success', $feedback) )
         		$this->email->status = 1;
-        	else
+        	else {
+//        		Mail::to($this->sender)->subject('An Error was encountered');
+
 		        $this->email->status = 0;
+	        }
 
         	$this->email->save();
         }
