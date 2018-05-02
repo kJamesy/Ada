@@ -127,6 +127,7 @@ class SparkyNewsletter
 		$data = [];
 
 		if ( $substitutionVariables ) {
+			Log::error(exec("php -v"));
 			foreach ( $substitutionVariables as $key => $variable ) {
 				if ( $key === 'unsubscribe' )
 					$data[$key] = Hashids::encode($subscriber->id);
