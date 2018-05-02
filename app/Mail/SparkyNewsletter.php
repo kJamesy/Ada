@@ -9,6 +9,7 @@ use GuzzleHttp\Client;
 use Html2Text\Html2Text;
 use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 use SparkPost\SparkPost;
 
 class SparkyNewsletter
@@ -43,6 +44,7 @@ class SparkyNewsletter
 			return ['success' => true, 'response' => $sparky->transmissions->get()];
 		}
 		catch (\Exception $e) {
+			Log::error($e->getMessage());
 			return ['error' => true, 'message' => $e->getMessage()];
 		}
 	}
