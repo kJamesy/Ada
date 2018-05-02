@@ -58,7 +58,7 @@ class MailingListController extends Controller
 			$deleted = (int) $request->trash;
 
 			if ( ! $request->ajax() ) {
-				return view('admin.mailing_lists')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey]);
+				return view('admin.mailing_lists')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey, 'activeGroup' => 'recipients']);
 			}
 			else {
 				$settings = UserSettings::getSettings($user->id, $this->settingsKey, $orderBy, $order, $perPage, true);
@@ -164,8 +164,8 @@ class MailingListController extends Controller
 
 			$rules = $this->rules;
 
-			if ( strtolower($resource->name) == strtolower(trim($request->name)) )
-				$rules['name'] = str_replace("|unique:mailing_lists", '', $rules['name'] );
+			if ( strtolower($resource->name) === strtolower(trim($request->name)) )
+				unset($rules['name']);
 
 			$this->validate($request, $rules);
 

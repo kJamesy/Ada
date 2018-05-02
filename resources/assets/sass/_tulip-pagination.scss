@@ -1,0 +1,51 @@
+.pagination {
+  li {
+    a {
+      position: relative;
+      display: block;
+      padding: .5rem .75rem;
+      line-height: 1.25;
+      color: $white;
+      background-color: $info;
+      border-right: 1px solid $white;
+
+      &:hover {
+        text-decoration: none;
+        background: $pink;
+        color: $white;
+      }
+    }
+
+    &.active {
+      a {
+        pointer-events: none;
+        background: $pink;
+        color: $white;
+      }
+    }
+
+    &.disabled {
+      span {
+        background-color: $gray-300;
+        display: block;
+        padding: .5rem .75rem;
+        line-height: 1.25;
+        border-right: 1px solid $white;
+
+        span {
+          border: none;
+          line-height: 1;
+          display: inline;
+          margin: 0;
+          padding: 0;
+        }
+      }
+    }
+
+    &:last-child.disabled {
+      span {
+        border-right: none;
+      }
+    }
+  }
+}

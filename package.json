@@ -10,28 +10,30 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "browser-sync": "^2.18.13",
+        "browser-sync": "^2.23.7",
         "browser-sync-webpack-plugin": "^1.2.0",
-        "cross-env": "^5.1.1",
-        "laravel-mix": "^1.6.1"
+        "cross-env": "^5.1.4",
+        "laravel-mix": "^1.7.2"
     },
     "dependencies": {
-        "bootstrap": "^4.0.0-beta.2",
-        "chart.js": "^2.7.1",
-        "google-palette": "^1.0.0",
-        "jquery": "^3.2.1",
-        "lodash": "^4.17.4",
-        "moment": "^2.19.2",
-        "popper.js": "^1.12.7",
-        "slugify": "^1.2.4",
+        "bootstrap": "^4.1.0",
+        "chart.js": "^2.7.2",
+        "google-palette": "^1.1.0",
+        "jquery": "^3.3.1",
+        "lodash": "^4.17.10",
+        "moment": "^2.22.1",
+        "popper.js": "^1.14.3",
+        "slugify": "^1.2.9",
         "sweetalert": "^1.1.3",
-        "vue": "^2.5.3",
+        "vue": "^2.5.16",
         "vue-bootstrap-pagination": "^2.10.3",
-        "vue-chartjs": "^3.0.2",
+        "vue-chartjs": "^3.3.1",
         "vue-datepicker": "^1.3.0",
-        "vue-progressbar": "^0.7.3",
-        "vue-resource": "^1.3.4",
+        "vue-loader": "^13.7.1",
+        "vue-progressbar": "^0.7.5",
+        "vue-resource": "^1.5.0",
         "vue-router": "^2.8.1",
-        "vue-select": "github:sagalbot/vue-select"
+        "vue-select": "^2.4.0",
+        "vue-template-compiler": "^2.5.16"
     }
 }

@@ -27,3 +27,11 @@ Route::post('sparkpost/webhooks', function (Request $request) {
 
 	return response()->json(['message' => 'We\'ll take it from here, thank you.'], 200);
 });
+
+Route::group(['namespace' => 'API'], function() {
+	Route::group(['prefix' => 'v1'], function() {
+		Route::get('get-mailing-lists', 'VersionOneController@getMailingLists');
+		Route::any('is-subscribed/{email}', 'VersionOneController@isSubscribed');
+		Route::post('subscribe', 'VersionOneController@subscribe');
+	});
+});

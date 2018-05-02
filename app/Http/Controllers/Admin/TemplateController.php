@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exporters\ResourceExporter;
+use App\Helpers\Hashids;
 use App\Http\Controllers\Controller;
 use App\Permissions\UserPermissions;
 use App\Settings\UserSettings;
@@ -61,7 +62,7 @@ class TemplateController extends Controller
 			$deleted = (int) $request->trash;
 
 			if ( ! $request->ajax() ) {
-				return view('admin.templates')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey]);
+				return view('admin.templates')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey, 'activeGroup' => 'content']);
 			}
 			else {
 				$settings = UserSettings::getSettings($user->id, $this->settingsKey, $orderBy, $order, $perPage, true);
@@ -142,7 +143,7 @@ class TemplateController extends Controller
 			if ( ! $currentUser->can('read', $this->policyOwnerClass) )
 				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 
-			$resource->url = route('templates.display', ['id' => $resource->id]);
+			$resource->url = route('templates.display', ['id' => Hashids::encode($resource->id)]);
 			$resource->pdf = "{$this->pdfIt}?url={$resource->url}&pdfName=" . str_slug($resource->name);
 
 			return response()->json(compact('resource'));
@@ -157,7 +158,8 @@ class TemplateController extends Controller
 	 */
 	public function display($id)
 	{
-		if ( $resource = Template::findResource( (int) $id) )
+		$id = (int) Hashids::decode($id);
+		if ( $resource = Template::findResource($id) )
 			echo $resource->content;
 		else
 			echo "No $this->friendlyName found";
@@ -202,8 +204,8 @@ class TemplateController extends Controller
 
 			$rules = $this->rules;
 
-			if ( strtolower($resource->name) == strtolower(trim($request->name)) )
-				$rules['name'] = str_replace("|unique:templates", '', $rules['name'] );
+			if ( strtolower($resource->name) === strtolower(trim($request->name)) )
+				unset($rules['name']);
 
 			$this->validate($request, $rules);
 

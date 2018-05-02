@@ -1,6 +1,6 @@
 <template>
     <div class="mt-5">
-        <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
+        <div class="sk-spinner sk-spinner-pulse bg-gray-800" v-if="fetchingData"></div>
 
         <template v-if="! fetchingData">
             <div v-if="appUserHasPermission('create')">
@@ -11,19 +11,19 @@
                         <div class="form-group col-md-4">
                             <label class="form-control-label" for="sender_name">Sender Name <small class="text-danger">{{ validationErrors.sender_name }}</small></label>
                             <div class="">
-                                <input type="text" class="form-control" id="sender_name" v-model.trim="resource.sender_name">
+                                <input type="text" class="form-control" id="sender_name" v-model.trim="resource.sender_name" placeholder="A N Other">
                             </div>
                         </div>
                         <div class="form-group col-md-4">
                             <label class="form-control-label" for="sender_email">Sender Email <small class="text-danger">{{ validationErrors.sender_email }}</small></label>
                             <div class="">
-                                <input type="text" class="form-control" id="sender_email" v-model.trim="resource.sender_email">
+                                <input type="text" class="form-control" id="sender_email" v-model.trim="resource.sender_email" placeholder="a.n.other@example.com">
                             </div>
                         </div>
                         <div class="form-group col-md-4">
                             <label class="form-control-label" for="reply_to_email">Reply-To Email <small class="text-danger">{{ validationErrors.reply_to_email }}</small></label>
                             <div class="">
-                                <input type="text" class="form-control" id="reply_to_email" v-model.trim="resource.reply_to_email">
+                                <input type="text" class="form-control" id="reply_to_email" v-model.trim="resource.reply_to_email" placeholder="other@example.com">
                             </div>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                         <div class="form-group col-md-6">
                             <label class="form-control-label" for="subject">Subject <small class="text-danger">{{ validationErrors.subject }}</small></label>
                             <div class="">
-                                <input type="text" class="form-control" id="subject" v-model.trim="resource.subject">
+                                <input type="text" class="form-control" id="subject" v-model.trim="resource.subject" placeholder="Subject">
                             </div>
                         </div>
                         <div class="form-group col-md-6">
@@ -74,12 +74,12 @@
                     <div class="form-group">
                         <label class="form-control-label" for="content">Content <small class="text-danger">{{ validationErrors.content }}</small></label>
                         <div class="">
-                            <textarea class="form-control" id="content" v-model.trim="resource.content" rows="4" v-on:click="checkEditor"></textarea>
+                            <textarea class="form-control" id="content" v-model.trim="resource.content" rows="4" v-on:click="checkEditor" placeholder="Content"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="ml-md-auto">
-                            <button type="submit" class="btn btn-primary btn-outline-primary">{{ submitBtnText }}</button>
+                            <button type="submit" class="btn btn-info btn-lg">{{ submitBtnText }}</button>
                             <form action="" class="form-inline pull-right">
                                 <label class="form-control-label mr-sm-2" for="more-options">More Options</label>
                                 <select class="custom-select form-control mb-2 mb-sm-0" v-model="moreOption" id="more-options">
@@ -93,7 +93,7 @@
                 </form>
             </div>
             <div v-if="! appUserHasPermission('create')">
-                <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
+                <i class="icon ion-alert"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </template>
     </div>

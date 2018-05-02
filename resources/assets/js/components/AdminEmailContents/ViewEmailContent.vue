@@ -1,11 +1,11 @@
 <template>
     <div class="mt-5">
-        <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
+        <div class="sk-spinner sk-spinner-pulse bg-gray-800" v-if="fetchingData"></div>
 
         <template v-if="! fetchingData">
             <div v-if="appUserHasPermission('read')">
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-bordered table-hover table-info">
                         <tbody>
                         <tr>
                             <th scope="row">Title</th>
@@ -29,7 +29,7 @@
                         </tr>
                         <tr>
                             <th scope="row">
-                                <a class="btn btn-md" v-bind:href="resource.url" target="_blank" title="Open" data-toggle="tooltip"><i class="fa fa-external-link"></i></a>
+                                <a class="btn btn-md btn-link" v-bind:href="resource.url" target="_blank" title="Open" data-toggle="tooltip"><i class="icon ion-android-open"></i></a>
                             </th>
                             <td>
                                 <iframe v-bind:src="resource.url" style="width: 100%; border:none;"  v-on:load="resizeIframe($event)"></iframe>
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div v-else="">
-                <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
+                <i class="icon ion-alert"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </template>
     </div>

@@ -1,0 +1,129 @@
+body {
+  font-family: $font-family-base;
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 1.5;
+  color: $gray-700;
+  background-color: $gray-400;
+}
+
+.navbar {
+  background: $dark_bg;
+  font-family: $font-family-roboto-condensed;
+
+  .navbar-brand {
+    color: $white;
+  }
+
+  .nav-item {
+    .nav-link {
+      color: $white;
+    }
+  }
+}
+
+.btn, button {
+  cursor: pointer;
+}
+
+h1, h2, h3, h4, h5, h6, .btn, th, .nav-pills, label, .nav-link-profile {
+  font-family: $font-family-roboto-condensed;
+}
+
+a, a:hover, a:focus {
+  color: $gray-700;
+}
+
+.sweet-alert, .sweet-alert button, .custom-checkbox .custom-control-indicator {
+  @include border_radius_none;
+}
+
+.am-mainpanel {
+  .nav-pills {
+    li {
+      a {
+        color: $white;
+        background: $info;
+        border-left: 1px solid $white;
+
+        &.active, &:hover, &:focus, &.active:hover, &.active:focus {
+          background: $pink;
+          color: $white;
+        }
+
+      }
+    }
+  }
+
+  .form-group.row.checkbox {
+    margin: 1.5rem 0;
+  }
+
+  .custom-checkbox {
+    min-height: 1rem;
+
+    .custom-control-label::before {
+      background-color: $gray-400;
+    }
+
+    .custom-control-input:checked ~ .custom-control-label::before {
+      background-color: $pink;
+    }
+
+    .custom-control-input:focus ~ .custom-control-label::before {
+      @include box_shadow_none;
+    }
+  }
+
+  .table {
+    tr.pointer-cursor th {
+      cursor: pointer;
+    }
+
+    tr.pointer-cursor th.normal-cursor {
+      cursor: auto;
+    }
+
+    .checkbox-th, .checkbox-td {
+      width: 2rem;
+    }
+
+    .custom-checkbox {
+      padding-left: 0;
+
+      .custom-control-label::before {
+        background-color: $white;
+        top: 0.20rem;
+      }
+    }
+
+    td {
+      color: $gray-900;
+    }
+
+    th, td {
+      padding: 0.5rem;
+    }
+
+  }
+
+  .title-td {
+    div {
+      visibility: hidden;
+      font-size: 0.8rem;
+    }
+
+    &:hover, &:focus {
+      div {
+        visibility: visible;
+      }
+    }
+  }
+
+  #admin-emails-app {
+    td span i {
+      color: $black;
+      font-size: 1.2rem;
+    }
+  }
+}

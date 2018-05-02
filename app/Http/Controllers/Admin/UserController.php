@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exporters\ResourceExporter;
-use App\Member;
 use App\Permissions\UserPermissions;
 use App\Settings\UserSettings;
 use App\User;
@@ -222,10 +221,10 @@ class UserController extends Controller
             else {
                 $rules = $this->rules;
 
-                if ( strtolower($resource->email) == strtolower(trim($request->email)) )
-                    $rules['email'] = str_replace("|unique:users", '', $rules['email'] );
-                if ( strtolower($resource->username) == strtolower(trim($request->username)))
-                    $rules['username'] = str_replace("|unique:users", '', $rules['username']);
+                if ( strtolower($resource->email) === strtolower(trim($request->email)) )
+	                unset($rules['email']);
+                if ( strtolower($resource->username) === strtolower(trim($request->username)))
+	                unset($rules['username']);
                 if ( ! $request->has('password') && ! $request->has('password_confirmation') )
                     unset($rules['password']);
 

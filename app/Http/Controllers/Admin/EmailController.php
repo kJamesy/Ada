@@ -6,6 +6,7 @@ use App\Campaign;
 use App\Email;
 use App\EmailSetting;
 use App\Exporters\ResourceExporter;
+use App\Helpers\Hashids;
 use App\Jobs\SendNewsletter;
 use App\MailingList;
 use App\Permissions\UserPermissions;
@@ -68,7 +69,7 @@ class EmailController extends Controller
 			$deleted = (int) $request->trash;
 
 			if ( ! $request->ajax() ) {
-				return view('admin.emails')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey]);
+				return view('admin.emails')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey, 'activeGroup' => 'content']);
 			}
 			else {
 				$settings = UserSettings::getSettings($user->id, $this->settingsKey, $orderBy, $order, $perPage, true);
@@ -226,7 +227,7 @@ class EmailController extends Controller
 			if ( ! $currentUser->can('read', $this->policyOwnerClass) )
 				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 
-			$resource->url = route('emails.display', ['id' => $resource->id]);
+			$resource->url = route('emails.display', ['id' => Hashids::encode($resource->id)]);
 			$resource->pdf = "{$this->pdfIt}?url={$resource->url}&pdfName=" . str_slug($resource->subject);
 
 			return response()->json(compact('resource'));
@@ -375,7 +376,9 @@ class EmailController extends Controller
 	 */
 	public function display($id)
 	{
-		if ( $resource = Email::findResource( (int) $id) )
+		$id = (int) Hashids::decode($id);
+
+		if ( $resource = Email::findResource($id) )
 			echo $resource->content;
 		else
 			echo "No $this->friendlyName found";

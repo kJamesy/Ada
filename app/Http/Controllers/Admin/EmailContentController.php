@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\EmailContent;
 use App\Helpers\Content;
+use App\Helpers\Hashids;
 use App\Permissions\UserPermissions;
 use App\Settings\UserSettings;
 use Illuminate\Http\Request;
@@ -57,7 +58,7 @@ class EmailContentController extends Controller
 			$deleted = (int) $request->trash;
 
 			if ( ! $request->ajax() ) {
-				return view('admin.email_contents')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey]);
+				return view('admin.email_contents')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey, 'activeGroup' => 'content']);
 			}
 			else {
 				$settings = UserSettings::getSettings($user->id, $this->settingsKey, $orderBy, $order, $perPage, true);
@@ -124,7 +125,7 @@ class EmailContentController extends Controller
 			if ( ! $currentUser->can('read', $this->policyOwnerClass) )
 				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 
-			$resource->url = route('email-contents.display', ['id' => $resource->id]);
+			$resource->url = route('email-contents.display', ['id' => Hashids::encode($resource->id)]);
 
 			return response()->json(compact('resource'));
 		}
@@ -138,11 +139,14 @@ class EmailContentController extends Controller
 	 */
 	public function display($id)
 	{
-		if ( $resource = EmailContent::findResource( (int) $id) ) {
+		$id = (int) Hashids::decode($id);
+		if ( $resource = EmailContent::findResource($id) ) {
 			$replaced = new Content($resource->content);
 			$content = $replaced->setH2sIdAttribute();
+			$menu = $replaced->getAnchorsMenu();
 
-			echo $content;
+//			dd($menu);
+			return view('guest.view-content', compact('resource', 'content', 'menu'));
 		}
 		else
 			echo "No $this->friendlyName found";

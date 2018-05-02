@@ -17,9 +17,10 @@ Route::redirect('/home', route('guest.home'));
 
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
-		$eContent = \App\EmailContent::findResource(6);
 
-		\App\Helpers\SparkyValidator::validateSendingDomain('example1.com');
+//		$eContent = \App\EmailContent::findResource(6);
+
+//		\App\Helpers\SparkyValidator::validateSendingDomain('acw2.uk');
 
 	});
 
@@ -48,10 +49,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
 	Route::group(['middleware' => ['auth']], function() {
 		Route::group(['middleware' => ['active']], function() {
-			Route::get('/', ['as' => 'admin.home', 'uses' => 'AdminController@index']);
+			Route::get('/', ['as' => 'admin.home', 'uses' => 'DashboardController@index']);
 
 			if ( ! request()->ajax() ) {
-				Route::get('settings/{vue?}', 'AdminController@index');
+				Route::get('dashboard/{vue?}', 'DashboardController@index');
+				Route::get('profile/{vue?}', 'ProfileController@index');
 				Route::get('users/export', 'UserController@export');
 				Route::get('users/{vue?}', 'UserController@index');
 				Route::get('mailing-lists/export', 'MailingListController@export');
@@ -69,7 +71,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 				Route::get('email-contents/{vue?}', 'EmailContentController@index');
 			}
 
-			Route::resource('settings', 'AdminController');
+			Route::resource('dashboard', 'DashboardController');
+			Route::resource('profile', 'ProfileController');
 			Route::put('users/{option}/quick-update', 'UserController@quickUpdate');
 			Route::resource('users', 'UserController');
 			Route::put('mailing-lists/{option}/quick-update', 'MailingListController@quickUpdate');
@@ -107,10 +110,13 @@ Route::group(['prefix' => 'guest'], function() {
 
 Route::group(['prefix' => 'subscriber'], function() {
 	Route::get('unsubscribe', ['as' => 'unsubscribe', function() {
+		$subscriber = null;
 
-		if ( $name = request()->get('name') )
-			return "Sorry to see you go, $name";
+		if ( $id = request()->get('unique') ) {
+			if ( $subscriber = \App\Subscriber::findResource( \App\Helpers\Hashids::decode( $id ) ) )
+				$subscriber = \App\Subscriber::deactivate($subscriber);
+		}
 
-		return 'Unsubscribed';
+		return view('guest.unsubscribe', compact('subscriber'));
 	}]);
 });

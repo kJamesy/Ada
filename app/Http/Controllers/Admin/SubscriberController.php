@@ -66,7 +66,7 @@ class SubscriberController extends Controller
 			$deleted = (int) $request->trash;
 
 			if ( ! $request->ajax() ) {
-				return view('admin.subscribers')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey]);
+				return view('admin.subscribers')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey, 'activeGroup' => 'recipients']);
 			}
 			else {
 				$settings = UserSettings::getSettings($user->id, $this->settingsKey, $orderBy, $order, $perPage, true);
@@ -343,8 +343,8 @@ class SubscriberController extends Controller
 
 		    $rules = $this->rules;
 
-		    if ( strtolower($resource->email) == strtolower(trim($request->email)) )
-			    $rules['email'] = str_replace("|unique:subscribers", '', $rules['email'] );
+		    if ( strtolower($resource->email) === strtolower(trim($request->email)) )
+			    unset($rules['email']);
 
 		    $this->validate($request, $rules);
 

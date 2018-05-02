@@ -1,10 +1,10 @@
 <template>
     <div class="mt-5">
-        <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
+        <div class="sk-spinner sk-spinner-pulse bg-gray-800" v-if="fetchingData"></div>
 
         <template v-if="! fetchingData">
             <div v-if="appUserHasPermissionOnUser('read', resource)" class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-bordered table-hover table-info">
                     <tbody>
                         <tr>
                             <th scope="row">First Name</th>
@@ -30,7 +30,7 @@
                             <th scope="row">Role</th>
                             <td>
                                 {{ resource.is_super_admin ? 'Super Admin' : 'User' }}
-                                <span v-if="resource.is_super_admin" class="text-warning"> <i class="fa fa-certificate"></i> </span>
+                                <span v-if="resource.is_super_admin" class="text-warning"> <i class="icon ion-android-star"></i> </span>
                             </td>
                         </tr>
                         <tr v-if="permissions">
@@ -49,7 +49,7 @@
                 </table>
             </div>
             <div v-else="">
-                <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
+                <i class="icon ion-alert"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </template>
     </div>

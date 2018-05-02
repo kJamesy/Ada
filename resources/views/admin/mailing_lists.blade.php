@@ -7,7 +7,7 @@
         window.permissionsKey = '{!! $permissionsKey !!}';
         window.settingsKey = '{!! $settingsKey !!}';
         window.links = {
-            home: '{{ route('settings.index') }}',
+            home: '{{ route('profile.index') }}',
             base: '{{ explode( $_SERVER['SERVER_NAME'], route('mailing-lists.index'))[1] }}',
             admin: '{{ rtrim(route('admin.home'), '/') }}'
         }
@@ -16,9 +16,14 @@
 
 @section('mailing_lists_active', 'active')
 @section('content')
-    <div id="admin-mailing-lists-app">
-        <admin-mailing-lists>
+    <div class="am-mainpanel">
+        <div class="am-pagetitle">
+            <h5 class="am-title"><i class="icon ion-ios-list-outline"></i> Mailing Lists</h5>
+        </div>
+        <div class="am-pagebody" id="admin-mailing-lists-app">
+            <admin-mailing-lists>
 
-        </admin-mailing-lists>
+            </admin-mailing-lists>
+        </div>
     </div>
 @endsection

@@ -1,0 +1,225 @@
+$dark_bg: darken($info, 0);
+
+.am-signin-box, .am-signup-box {
+  > .row > div:first-child {
+    text-align: center;
+    padding: 40px;
+    color: $white;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+
+    @include tulip_pink_gradient_background;
+  }
+
+  .form-control, .dataTables_filter input, select {
+    color: $form_control_color;
+    border-width: 1.5px;
+    border-style: dotted;
+    border-color: transparent;
+    border-bottom-color: $info;
+    background-color: $white;
+
+    &:hover, &:focus, &:active {
+      border-color: $info;
+      @include box_shadow_none;
+    }
+  }
+
+  ::-webkit-input-placeholder {
+    opacity: 0.5;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  :-moz-placeholder {
+    opacity: 0.5;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  ::-moz-placeholder {
+    opacity: 0.5;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  :-ms-input-placeholder {
+    opacity: 0.5;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  .custom-checkbox {
+    min-height: 1rem;
+
+    .custom-control-label::before {
+      background-color: $gray-400;
+    }
+
+    .custom-control-input:checked ~ .custom-control-label::before {
+      background-color: $pink;
+    }
+
+    .custom-control-input:focus ~ .custom-control-label::before {
+      @include box_shadow_none;
+    }
+  }
+
+  .btn, .sp-container button, .sp-container button, button {
+    margin-top: 2rem;
+    background-color: $pink;
+    color: $white;
+    border-color: $pink;
+
+    &:hover, &:focus, &:active, &:active:focus {
+      background-color: darken($pink, 10%);
+      border-color: $pink;
+      @include box_shadow_none;
+    }
+  }
+
+  .btn-orange:not(:disabled):not(.disabled):active:focus, .btn-orange:not(:disabled):not(.disabled).active:focus, .show > .btn-orange.dropdown-toggle:focus {
+    @include box_shadow_none;
+  }
+
+}
+
+.am-header {
+  background-color: $dark_bg;
+
+  .am-navicon {
+    color: $white;
+    opacity: 0.7;
+  }
+
+  a.am-logo {
+    font-size: 1.8rem;
+
+    &:hover, &:focus, &:active {
+      text-decoration: none;
+      opacity: 0.7;
+    }
+  }
+}
+
+.nav.am-sideleft-menu {
+  font-family: $font-family-roboto-condensed;
+
+  .nav-item {
+    .nav-link {
+      font-size: 1.1rem;
+      color: inherit;
+
+      &:hover, &:focus, &.active:not(.with-sub) {
+        color: $pink;
+      }
+
+      &.active i:first-child {
+        color: $pink;
+      }
+
+    }
+
+    .nav-sub {
+      .nav-link {
+        font-size: 1rem;
+
+        &.active {
+          color: $pink;
+        }
+
+        i {
+          font-size: 1.05rem;
+        }
+      }
+    }
+  }
+}
+
+.am-header-right {
+  .dropdown-menu {
+    margin-top: -2px;
+    background-color: $dark_bg;
+  }
+
+  .nav-link {
+    color: $white;
+  }
+
+  .user-profile-nav {
+    a {
+      color: $white;
+
+      &:hover, &:focus {
+        text-decoration: none;
+        color: $white;
+        opacity: 0.7;
+        background: transparent;
+      }
+    }
+  }
+
+  .logged-name {
+    font-size: 1rem;
+  }
+}
+
+.am-sideleft {
+  .nav.am-sideleft-tab {
+    display: none;
+
+    .nav-item {
+      border-right: 1px solid $pink;
+
+      .nav-link {
+        background-color: $white;
+        color: inherit;
+
+        &.active, &:hover {
+          background-color: $white;
+          color: $pink;
+        }
+
+        &::after {
+          background-color: $pink;
+        }
+      }
+    }
+  }
+
+  .tab-content {
+    .tab-pane {
+      top: 0;
+    }
+  }
+}
+
+.am-mainpanel {
+  margin-top: 60px !important;
+
+  .am-pagetitle {
+    background: darken($white, 0);
+    position: relative;
+    margin: 0;
+    padding: 0 30px;
+    left: 0 !important;
+    top: 0 !important;
+
+    .am-title {
+      font-size: 1.3rem;
+      color: $pink;
+
+      i {
+        font-size: 1.5rem;
+        vertical-align: baseline;
+      }
+    }
+  }
+}

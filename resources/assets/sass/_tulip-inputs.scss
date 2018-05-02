@@ -1,0 +1,95 @@
+.am-mainpanel {
+  .form-control, .dataTables_filter input, select, .custom-file-label {
+    color: $form_control_color;
+    border-width: 1.5px;
+    border-style: dotted;
+    border-color: transparent;
+    border-bottom-color: $info;
+    background-color: $white;
+
+    &:hover, &:focus, &:active {
+      border-color: $info;
+      @include box_shadow_none;
+    }
+  }
+
+  ::-webkit-input-placeholder {
+    opacity: 0.5;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  :-moz-placeholder {
+    opacity: 0.5;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  ::-moz-placeholder {
+    opacity: 0.5;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  :-ms-input-placeholder {
+    opacity: 0.5;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  .form-control-label, form label {
+    color: $form_control_label_color;
+  }
+
+  .btn-info:not([disabled]) {
+    &:hover, &:focus, &:active {
+      background-color: $pink;
+      border-color: $pink;
+    }
+  }
+
+  .btn-link, a.pull-right {
+    color: $info;
+
+    &:hover, &:focus, &:active {
+      color: $pink;
+      text-decoration: none;
+    }
+  }
+
+  .btn-link {
+    .ion-android-download, .ion-android-open, .ion-ios-cloud-download-outline {
+      font-size: 1.5rem;
+    }
+  }
+
+  input[type=file], .custom-control-input, .custom-control-label {
+    cursor: pointer;
+  }
+
+  .custom-file-label {
+    font-size: 1rem;
+    font-style: italic;
+    color: $gray-500;
+
+    &::after {
+      color: $white;
+      background-color: $pink;
+      border: 1px solid $pink;
+      font-style: normal;
+    }
+  }
+
+  .custom-file-input {
+    &:hover, &:focus, &:active {
+      ~ .custom-file-label {
+        border-color: $info;
+        @include box_shadow_none;
+      }
+    }
+  }
+
+  label.custom-control {
+    margin-bottom: 0;
+  }
+}

@@ -1,6 +1,6 @@
 <template>
     <div class="mt-5">
-        <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
+        <div class="sk-spinner sk-spinner-pulse bg-gray-800" v-if="fetchingData"></div>
 
         <template v-if="! fetchingData">
             <div v-if="appUserHasPermission('create')">
@@ -12,16 +12,20 @@
                             Expected columns: {{ allowedColumnNames | arrToString }}
                         </label>
                         <div class="col-md-8">
-                            <label class="custom-file">
-                                <input type="file" id="file" class="custom-file-input" v-on:change="fileInserted($event)" name="upload" v-bind:class="importErrors.file ? 'is-invalid' : ''">
-                                <span class="custom-file-control"></span>
-                            </label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="file" v-on:change="fileInserted($event)" name="upload" v-bind:class="importErrors.file ? 'is-invalid' : ''">
+                                <label class="custom-file-label" for="file">
+                                    <small v-if="upload.name || upload.type || upload.size">
+                                        <template v-if="upload.name">Name: {{ upload.name }} | </template>
+                                        <template v-if="upload.type">Type: {{ upload.type }} | </template>
+                                        <template v-if="upload.size">Size: {{ upload.size | convertToKb }} Kb</template>
+                                    </small>
+                                    <template v-else="">
+                                        Choose File
+                                    </template>
+                                </label>
+                            </div>
                             <div>
-                                <small>
-                                    <template v-if="upload.name">Name: {{ upload.name }} | </template>
-                                    <template v-if="upload.type">Type: {{ upload.type }} | </template>
-                                    <template v-if="upload.size">Size: {{ upload.size | convertToKb }} Kb</template>
-                                </small>
                                 <small class="text-danger">
                                     {{ importErrors.file }}
                                 </small>
@@ -30,11 +34,12 @@
                     </div>
                     <div class="form-group row checkbox">
                         <div class="col-md-8 ml-md-auto">
-                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" v-model="resources.active">
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-description">Active</span>
-                            </label>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="active" v-model="resources.active">
+                                <label class="custom-control-label" for="active">
+                                    Active
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row" v-if="mailing_lists.length">
@@ -45,7 +50,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-8 ml-md-auto">
-                            <button type="submit" class="btn btn-primary btn-outline-primary" v-bind:disabled="! proceedWithUpload">Next</button>
+                            <button type="submit" class="btn btn-info btn-lg" v-bind:disabled="! proceedWithUpload">Next</button>
                             <router-link v-bind:to="{ name: 'admin_subscribers.index' }" class="btn btn-link pull-right">Cancel</router-link>
                         </div>
                     </div>
@@ -72,11 +77,11 @@
                             {{ nextStepValidation }}
                         </small>
                     </div>
-                    <button v-on:click.prevent="finaliseImport" class="btn btn-primary btn-outline-primary">Finish</button>
+                    <button v-on:click.prevent="finaliseImport" class="btn btn-info btn-lg">Finish</button>
                 </div>
             </div>
             <div v-if="! appUserHasPermission('create')">
-                <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
+                <i class="icon ion-alert"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </template>
     </div>

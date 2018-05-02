@@ -1,0 +1,58 @@
+.am-mainpanel {
+  .cov-date-body {
+    @include box_shadow_none;
+    background: $info !important;
+    font-family: inherit !important;
+
+    .day:hover {
+      background: $pink !important;
+      -webkit-border-radius: 0 !important;
+      -moz-border-radius: 0 !important;
+      border-radius: 0 !important;
+    }
+
+    .date-item, .hour-item, .min-item {
+      font-size: inherit !important;
+
+      &:hover, &.active {
+        color: $white;
+        background: $pink !important;
+        -webkit-border-radius: 0 !important;
+        -moz-border-radius: 0 !important;
+        border-radius: 0 !important;
+      }
+    }
+
+    .checked {
+      background: $pink !important;
+      -webkit-border-radius: 0 !important;
+      -moz-border-radius: 0 !important;
+      border-radius: 0 !important;
+    }
+
+    .button-box {
+      background: $info !important;
+      text-align: center !important;
+      padding-right: 0 !important;
+
+      &:hover, &:focus {
+        background: $pink !important;
+      }
+
+      span {
+        color: $white !important;
+
+        &:first-child {
+          padding: 0 !important;
+          display: none;
+        }
+
+        &:last-child {
+          display: block;
+          padding: 0 !important;
+        }
+      }
+    }
+  }
+
+}

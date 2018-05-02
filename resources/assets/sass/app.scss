@@ -1,5 +1,5 @@
 // Variables
-@import "variables";
+@import "bootstrap-variables";
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
@@ -7,10 +7,28 @@
 //Sweetalert
 @import '~sweetalert/dev/sweetalert';
 
-//Vue Select overrides
-@import "ada-vue-select";
+//Amanda
+@import '../vendor/amanda-admin/lib/Ionicons/css/ionicons.css';
+@import '../vendor/amanda-admin/lib/perfect-scrollbar/css/perfect-scrollbar.css';
+@import '../vendor/amanda-admin/lib/jquery-toggles/toggles-full.css';
+@import '../vendor/amanda-admin/lib/highlightjs/github.css';
+@import '../vendor/amanda-admin/lib/SpinKit/spinkit.css';
+@import '../vendor/amanda-admin/scss/amanda';
+
+//Ada Variables
+@import "tulip-variables";
+
+//Vue Select Overrides
+@import "tulip-vue-select";
+
+//Vue Datepicker Overrides
+@import "tulip-datepicker";
+
+//Sweetalert Overrides
+@import "tulip-sweet-alert";
 
 // Ada
-@import "ada";
-
-@import 'pagination';
+@import "amanda-custom";
+@import 'tulip-pagination';
+@import 'tulip-inputs';
+@import 'tulip';

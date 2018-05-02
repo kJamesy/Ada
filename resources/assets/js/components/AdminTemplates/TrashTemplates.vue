@@ -1,9 +1,9 @@
 <template>
     <div class="mt-3">
-        <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
+        <div class="sk-spinner sk-spinner-pulse bg-gray-800" v-if="fetchingData"></div>
         <div v-if="! fetchingData && appResourceCount">
             <div v-if="appUserHasPermission('read')">
-                <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right" title="Export All" data-toggle="tooltip"><i class="fa fa-arrow-circle-o-down"></i></a>
+                <a href="#" v-on:click.prevent="exportAll" class="btn btn-link pull-right" title="Export All" data-toggle="tooltip"><i class="icon ion-android-download"></i></a>
                 <div class="clearfix mb-2"></div>
                 <form v-on:submit.prevent="appDoSearch">
                     <div class="form-group">
@@ -31,30 +31,28 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-bordered table-hover table-info">
                         <thead>
                             <tr class="pointer-cursor">
-                                <th class="normal-cursor" v-if="appUserHasPermission('update')">
-                                    <label class="custom-control custom-checkbox mr-0">
-                                        <input type="checkbox" class="custom-control-input" v-model="appSelectAll">
-                                        <span class="custom-control-indicator"></span>
-                                    </label>
+                                <th class="normal-cursor checkbox-th" v-if="appUserHasPermission('update')">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="selectAllCheckbox" v-model="appSelectAll">
+                                        <label class="custom-control-label" for="selectAllCheckbox"></label>
+                                    </div>
                                 </th>
                                 <th v-on:click.prevent="appChangeSort('name')">Name <span v-html="appGetSortMarkup('name')"></span></th>
-                                <!--<th v-on:click.prevent="appChangeSort('emails_count')">Emails <span v-html="appGetSortMarkup('emails_count')"></span></th>-->
                                 <th v-on:click.prevent="appChangeSort('updated_at')" >Deleted <span v-html="appGetSortMarkup('updated_at')"></span></th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr v-for="resource in orderedAppResources">
                                 <td v-if="appUserHasPermission('update')">
-                                    <label class="custom-control custom-checkbox mr-0">
-                                        <input type="checkbox" class="custom-control-input" v-model="appSelectedResources" v-bind:value="resource.id">
-                                        <span class="custom-control-indicator"></span>
-                                    </label>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" v-bind:id="'select_' + resource.id" v-model="appSelectedResources" v-bind:value="resource.id">
+                                        <label class="custom-control-label" v-bind:for="'select_' + resource.id"></label>
+                                    </div>
                                 </td>
                                 <td v-bind:title="resource.description" data-toggle="tooltip">{{ resource.name }}</td>
-                                <!--<td>{{ resource.emails_count }}</td>-->
                                 <td><span v-bind:title="resource.updated_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
                             </tr>
                         </tbody>
@@ -65,7 +63,7 @@
 
             </div>
             <div v-if="! appUserHasPermission('read')">
-                <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
+                <i class="icon ion-alert"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </div>
         <div v-if="! fetchingData && ! appResourceCount" class="mt-5">

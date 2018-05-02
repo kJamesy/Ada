@@ -7,7 +7,7 @@
         window.permissionsKey = '{!! $permissionsKey !!}';
         window.settingsKey = '{!! $settingsKey !!}';
         window.links = {
-            home: '{{ route('settings.index') }}',
+            home: '{{ route('profile.index') }}',
             base: '{{ explode( $_SERVER['SERVER_NAME'], route('templates.index'))[1] }}',
             admin: '{{ rtrim(route('admin.home'), '/') }}'
         }
@@ -17,9 +17,14 @@
 
 @section('templates_active', 'active')
 @section('content')
-    <div id="admin-templates-app">
-        <admin-templates>
+    <div class="am-mainpanel">
+        <div class="am-pagetitle">
+            <h5 class="am-title"><i class="icon ion-ios-star-outline"></i> Templates</h5>
+        </div>
+        <div class="am-pagebody" id="admin-templates-app">
+            <admin-templates>
 
-        </admin-templates>
+            </admin-templates>
+        </div>
     </div>
 @endsection

@@ -1,13 +1,13 @@
 <template>
     <div class="mt-5">
-        <i class="fa fa-spinner fa-spin" v-if="fetchingData"></i>
+        <div class="sk-spinner sk-spinner-pulse bg-gray-800" v-if="fetchingData"></div>
 
         <template v-if="! fetchingData">
             <div v-if="appUserHasPermission('read')">
                 <h3>{{ resource.subject }}</h3>
 
                 <div v-if="fetchingClicks">
-                    <i class="fa fa-spinner fa-spin"></i>
+                    <i class="icon ion-edit fa-spin"></i>
                 </div>
                 <div v-else="">
                     <div class="row mt-5 mb-4">
@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="table-responsive mt-5">
-                        <table class="table table-striped">
+                        <table class="table table-bordered table-hover table-info">
                             <thead>
                                 <tr class="pointer-cursor">
                                     <th v-on:click.prevent="changeSort('link')">Link <span v-html="getSortMarkup('link')"></span></th>
@@ -55,7 +55,7 @@
                             </thead>
                             <tbody>
                                 <tr v-for="click in orderedClicks">
-                                    <td>{{ click.link }}</td>
+                                    <td><a target="_blank" v-bind:href="click.link">{{ click.link }}</a></td>
                                     <td>{{ click.clicks_count }}</td>
                                 </tr>
                             </tbody>
@@ -67,7 +67,7 @@
 
             </div>
             <div v-else="">
-                <i class="fa fa-warning"></i> {{ appUnauthorisedErrorMessage }}
+                <i class="icon ion-alert"></i> {{ appUnauthorisedErrorMessage }}
             </div>
         </template>
     </div>
