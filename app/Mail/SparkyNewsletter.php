@@ -45,7 +45,7 @@ class SparkyNewsletter
 			return ['success' => true, 'response' => $sparky->transmissions->get()];
 		}
 		catch (\Exception $e) {
-			Log::error($e->getMessage());
+//			Log::error($e->getMessage());
 			return ['error' => true, 'message' => $e->getMessage()];
 		}
 	}
