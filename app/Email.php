@@ -33,7 +33,7 @@ class Email extends Model
 	 */
 	public static $rules = [
 		'sender_name' => 'required|max:255',
-		'sender_email' => 'required|email|max:255',
+		'sender_email' => ['bail', 'required', 'email', 'max:255'],
 		'reply_to_email' => 'required|email|max:255',
 		'subscribers' => 'required_without:mailing_lists',
 		'mailing_lists' => 'required_without:subscribers',

@@ -28,7 +28,7 @@ class SparkyValidator
 	 * Verify that the supplied domain is Ok to send
 	 * @param $domain
 	 *
-	 * @return bool|object
+	 * @return bool
 	 */
 	public static function validateSendingDomain($domain)
 	{
@@ -44,7 +44,7 @@ class SparkyValidator
 			return false;
 		}
 		catch (\Exception $e) {
-			return (object) ['error' => true, 'code' => $e->getCode(), 'message' => $e->getMessage()];
+			return false;
 		}
 
 	}
