@@ -17,9 +17,7 @@ Route::redirect('/home', route('guest.home'));
 
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
-
-		var_dump(extension_loaded('gmp'));
-		var_dump(extension_loaded('bcmath'));
+		
 //		$eContent = \App\EmailContent::findResource(6);
 
 //		\App\Helpers\SparkyValidator::validateSendingDomain('acw2.uk');

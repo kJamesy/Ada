@@ -35,9 +35,6 @@ class SparkyNewsletter
 	 */
 	public function send()
 	{
-		Log::error(extension_loaded('gmp'));
-		Log::error(extension_loaded('bcmath'));
-
 		$httpClient = new GuzzleAdapter(new Client());
 		$sparky = new SparkPost($httpClient, ['key' => $this->apiKey]);
 
