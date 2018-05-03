@@ -19,14 +19,16 @@ class SparkyNewsletter
 	protected $recipients;
 	protected $sender;
 	protected $unsubscribeUrl;
+	protected $viewInBrowserUrl;
 
-	public function __construct(Email $email, Collection $subscribers, $sender, $unsubscribeUrl)
+	public function __construct(Email $email, Collection $subscribers, $sender, $unsubscribeUrl, $viewInBrowserUrl)
 	{
 		$this->apiKey = env('SPARKPOST_SECRET');
 		$this->email = $email;
 		$this->recipients = $subscribers;
 		$this->sender = $sender;
 		$this->unsubscribeUrl = $unsubscribeUrl;
+		$this->viewInBrowserUrl = $viewInBrowserUrl;
 	}
 
 	/**
@@ -38,13 +40,13 @@ class SparkyNewsletter
 		$httpClient = new GuzzleAdapter(new Client());
 		$sparky = new SparkPost($httpClient, ['key' => $this->apiKey]);
 
+		$sparky->setOptions(['async' => false, 'retries' => 3]);
+		$promise = $sparky->transmissions->post($this->getSparkyContent());
+
 		try {
-			$sparky->setOptions(['async' => false, 'retries' => 3]);
-			$promise = $sparky->transmissions->post($this->getSparkyContent());
 			return ['success' => true, 'response' => $sparky->transmissions->get()];
 		}
 		catch (\Exception $e) {
-			Log::error($e->getMessage());
 			return ['error' => true, 'message' => $e->getMessage()];
 		}
 	}
@@ -90,6 +92,7 @@ class SparkyNewsletter
 			'name' => '%name%',
 			'email' => '%email%',
 			'unsubscribe' => '%unsubscribe%',
+			'view_this_email_in_the_browser' => '%view_this_email_in_the_browser%',
 //			'unsubscribe_link' => '%unsubscribe_link%',
 		];
 	}
@@ -106,9 +109,14 @@ class SparkyNewsletter
 
 		if ( $substitutionVariables ) {
 			foreach ( $substitutionVariables as $key => $variable ) {
-				$content = ( $key === 'unsubscribe' )
-					? str_ireplace($variable, "<a href='{$this->unsubscribeUrl}?unique={{ $key }}' data-msys-unsubscribe='1'>unsubscribe</a>", $content)
-					: str_ireplace($variable, "{{ $key }}", $content);
+				if ( $key === 'unsubscribe' )
+					$content = str_ireplace($variable, "<a href='{$this->unsubscribeUrl}?unique={{ $key }}' data-msys-unsubscribe='1'>unsubscribe</a>", $content);
+
+				elseif ( $key === 'view_this_email_in_the_browser' )
+					$content = str_ireplace($variable, "<a href='{$this->viewInBrowserUrl}?unique={{ $key }}'>view this email in the browser</a>", $content);
+
+				else
+					$content = str_ireplace($variable, "{{ $key }}", $content);
 			}
 		}
 
@@ -127,7 +135,7 @@ class SparkyNewsletter
 
 		if ( $substitutionVariables ) {
 			foreach ( $substitutionVariables as $key => $variable ) {
-				if ( $key === 'unsubscribe' )
+				if ( $key === 'unsubscribe' || $key === 'view_this_email_in_the_browser' )
 					$data[$key] = Hashids::encode($subscriber->id);
 				else
 					$data[$key] = $subscriber->{$key};

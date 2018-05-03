@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Email;
+use App\Helpers\Hashids;
 use App\Mail\SparkyNewsletter;
 use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Mail;
 
 class SendNewsletter implements ShouldQueue
 {
@@ -31,6 +33,7 @@ class SendNewsletter implements ShouldQueue
     protected $recipients;
     protected $sender;
     protected $unsubscribeUrl;
+    protected $viewInBrowserUrl;
 
 	/**
 	 * Create a new job instance
@@ -44,6 +47,7 @@ class SendNewsletter implements ShouldQueue
 		$this->recipients = $recipients;
 		$this->sender = $sender;
 		$this->unsubscribeUrl = route('unsubscribe');
+		$this->viewInBrowserUrl = route('emails.display', ['id' => Hashids::encode($email->id)]);
 	}
 
     /**
@@ -54,13 +58,16 @@ class SendNewsletter implements ShouldQueue
     public function handle()
     {
         if ( $this->email && $this->recipients && $this->sender ) {
-        	$sparkyNewsletter = new SparkyNewsletter($this->email, $this->recipients, $this->sender, $this->unsubscribeUrl);
+        	$sparkyNewsletter = new SparkyNewsletter($this->email, $this->recipients, $this->sender, $this->unsubscribeUrl, $this->viewInBrowserUrl);
         	$feedback = $sparkyNewsletter->send();
 
         	if ( is_array($feedback) && array_key_exists('success', $feedback) )
         		$this->email->status = 1;
-        	else
+        	else {
+//        		Mail::to($this->sender)->subject('An Error was encountered');
+
 		        $this->email->status = 0;
+	        }
 
         	$this->email->save();
         }

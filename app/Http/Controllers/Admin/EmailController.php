@@ -378,8 +378,42 @@ class EmailController extends Controller
 	{
 		$id = (int) Hashids::decode($id);
 
-		if ( $resource = Email::findResource($id) )
-			echo $resource->content;
+		if ( $resource = Email::findResource($id) ) {
+			$content = $resource->content;
+
+			$decodedSubscriberId = request()->has('unique') && (int) request()->get('unique') ? (int) Hashids::decode(request()->get('unique')) : null;
+			$subscriber = $decodedSubscriberId ? Subscriber::findResource($decodedSubscriberId) : null;
+
+			if ( $decodedSubscriberId && $subscriber ) {
+				$encodedSubscriberId = Hashids::encode($decodedSubscriberId);
+				$encodedEmailId = Hashids::encode($id);
+
+				$unsubscribeUrl = route('unsubscribe');
+				$viewInBrowserUrl = route('emails.display', ['id' => $encodedEmailId]);
+
+				$substitutionVariables = [
+					'id'                             => '%id%',
+					'first_name'                     => '%first_name%',
+					'last_name'                      => '%last_name%',
+					'name'                           => '%name%',
+					'email'                          => '%email%',
+					'unsubscribe'                    => '%unsubscribe%',
+					'view_this_email_in_the_browser' => '%view_this_email_in_the_browser%',
+				];
+
+				foreach ( $substitutionVariables as $key => $variable ) {
+					if ( $key === 'unsubscribe' )
+						$content = str_ireplace( $variable, "<a href='{$unsubscribeUrl}?unique=$encodedSubscriberId'>unsubscribe</a>", $content );
+					elseif ( $key === 'view_this_email_in_the_browser' )
+						$content = str_ireplace( $variable, "<a href='#'>view this email in the browser</a>", $content );
+					else
+						$content = str_ireplace( $variable, $subscriber->{$key}, $content );
+				}
+			}
+
+
+			echo $content;
+		}
 		else
 			echo "No $this->friendlyName found";
 	}
