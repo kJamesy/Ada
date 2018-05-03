@@ -18,9 +18,7 @@ Route::redirect('/home', route('guest.home'));
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
 
-//		$eContent = \App\EmailContent::findResource(6);
-
-//		\App\Helpers\SparkyValidator::validateSendingDomain('acw2.uk');
+		$rules['sender_email'][] = new \App\Rules\SendingDomain();
 
 	});
 

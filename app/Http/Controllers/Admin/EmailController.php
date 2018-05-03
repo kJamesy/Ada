@@ -10,6 +10,7 @@ use App\Helpers\Hashids;
 use App\Jobs\SendNewsletter;
 use App\MailingList;
 use App\Permissions\UserPermissions;
+use App\Rules\SendingDomain;
 use App\Settings\UserSettings;
 use App\Subscriber;
 use App\Template;
@@ -146,6 +147,8 @@ class EmailController extends Controller
 				                                   'mailing_lists'    => ''
 				] );
 			}
+			else
+				$rules['sender_email'][] = new SendingDomain();
 
 			$this->validate($request, $rules);
 
@@ -389,7 +392,7 @@ class EmailController extends Controller
 				$encodedEmailId = Hashids::encode($id);
 
 				$unsubscribeUrl = route('unsubscribe');
-				$viewInBrowserUrl = route('emails.display', ['id' => $encodedEmailId]);
+				$viewInBrowserUrl = route('emails.display', ['id' => $encodedEmailId]); //Not in Use
 
 				$substitutionVariables = [
 					'id'                             => '%id%',
