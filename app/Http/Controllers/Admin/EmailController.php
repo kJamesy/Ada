@@ -381,10 +381,11 @@ class EmailController extends Controller
 		if ( $resource = Email::findResource($id) ) {
 			$content = $resource->content;
 
-			$encodedSubscriberId = request()->has('unique') && (int) request()->get('unique') ? (int) Hashids::decode(request()->get('unique')) : null;
-			$subscriber = $encodedSubscriberId ? Subscriber::findResource(Hashids::decode($encodedSubscriberId)) : null;
+			$decodedSubscriberId = request()->has('unique') && (int) request()->get('unique') ? (int) Hashids::decode(request()->get('unique')) : null;
+			$subscriber = $decodedSubscriberId ? Subscriber::findResource($decodedSubscriberId) : null;
 
-			if ( $encodedSubscriberId && $subscriber ) {
+			if ( $decodedSubscriberId && $subscriber ) {
+				$encodedSubscriberId = Hashids::encode($decodedSubscriberId);
 				$encodedEmailId = Hashids::encode($id);
 
 				$unsubscribeUrl = route('unsubscribe');
@@ -402,7 +403,7 @@ class EmailController extends Controller
 
 				foreach ( $substitutionVariables as $key => $variable ) {
 					if ( $key === 'unsubscribe' )
-						$content = str_ireplace( $variable, "<a href='{$unsubscribeUrl}?unique={{ $encodedSubscriberId }}'>unsubscribe</a>", $content );
+						$content = str_ireplace( $variable, "<a href='{$unsubscribeUrl}?unique=$encodedSubscriberId'>unsubscribe</a>", $content );
 					elseif ( $key === 'view_this_email_in_the_browser' )
 						$content = str_ireplace( $variable, "<a href='#'>view this email in the browser</a>", $content );
 					else
