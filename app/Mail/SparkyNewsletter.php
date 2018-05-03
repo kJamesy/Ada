@@ -35,7 +35,6 @@ class SparkyNewsletter
 	 */
 	public function send()
 	{
-		Log::error(exec('php -v'));
 		$httpClient = new GuzzleAdapter(new Client());
 		$sparky = new SparkPost($httpClient, ['key' => $this->apiKey]);
 
