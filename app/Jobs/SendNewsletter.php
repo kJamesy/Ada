@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Email;
+use App\Helpers\Hashids;
 use App\Mail\SparkyNewsletter;
 use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Collection;
@@ -46,7 +47,7 @@ class SendNewsletter implements ShouldQueue
 		$this->recipients = $recipients;
 		$this->sender = $sender;
 		$this->unsubscribeUrl = route('unsubscribe');
-		$this->viewInBrowserUrl = route('emails.display', ['id' => $email->id]);
+		$this->viewInBrowserUrl = route('emails.display', ['id' => Hashids::encode($email->id)]);
 	}
 
     /**

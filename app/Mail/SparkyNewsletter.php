@@ -113,7 +113,7 @@ class SparkyNewsletter
 					$content = str_ireplace($variable, "<a href='{$this->unsubscribeUrl}?unique={{ $key }}' data-msys-unsubscribe='1'>unsubscribe</a>", $content);
 
 				elseif ( $key === 'view_this_email_in_the_browser' )
-					$content = str_ireplace($variable, "<a href='{$this->viewInBrowserUrl}'>view this email in the browser</a>", $content);
+					$content = str_ireplace($variable, "<a href='{$this->viewInBrowserUrl}?unique={{ $key }}'>view this email in the browser</a>", $content);
 
 				else
 					$content = str_ireplace($variable, "{{ $key }}", $content);
@@ -135,10 +135,8 @@ class SparkyNewsletter
 
 		if ( $substitutionVariables ) {
 			foreach ( $substitutionVariables as $key => $variable ) {
-				if ( $key === 'unsubscribe' )
+				if ( $key === 'unsubscribe' || $key === 'view_this_email_in_the_browser' )
 					$data[$key] = Hashids::encode($subscriber->id);
-				elseif ( $key === 'view_this_email_in_the_browser' )
-					continue;
 				else
 					$data[$key] = $subscriber->{$key};
 			}
