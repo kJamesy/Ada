@@ -35,6 +35,7 @@ class SparkyNewsletter
 	 */
 	public function send()
 	{
+		Log::error(exec('php -v'));
 		$httpClient = new GuzzleAdapter(new Client());
 		$sparky = new SparkPost($httpClient, ['key' => $this->apiKey]);
 
@@ -45,8 +46,6 @@ class SparkyNewsletter
 			return ['success' => true, 'response' => $sparky->transmissions->get()];
 		}
 		catch (\Exception $e) {
-			Log::error(exec('php -v'));
-			Log::error($e->getMessage());
 			return ['error' => true, 'message' => $e->getMessage()];
 		}
 	}
