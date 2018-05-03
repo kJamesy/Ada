@@ -15,16 +15,6 @@ use SparkPost\SparkPost;
 
 class SparkyValidator
 {
-
-	/**
-	 * Sparkpost API EndPoint
-	 * @return string
-	 */
-	public static function getApiEndPoint()
-	{
-		return 'https://api.sparkpost.com/api/v1';
-	}
-
 	/**
 	 * SparkPost API Key
 	 * @return mixed
@@ -34,25 +24,28 @@ class SparkyValidator
 		return env('SPARKPOST_SECRET');
 	}
 
+	/**
+	 * Verify that the supplied domain is Ok to send
+	 * @param $domain
+	 *
+	 * @return bool|object
+	 */
 	public static function validateSendingDomain($domain)
 	{
-//		$httpClient = new GuzzleAdapter(new Client());
-//		$sparky = new SparkPost($httpClient, ['key' => static::getApiKey()]);
-//		$response = $sparky->syncRequest("POST", "sending-domains/$domain/verify", ['dkim_verify' => TRUE]);
-//
-//		var_dump($response->getStatusCode());
-//		var_dump($response->getBody());
+		$httpClient = new GuzzleAdapter(new Client());
 
-		$json_submission = json_encode(['dkim_verify' => TRUE]);
-		$curl = curl_init(static::getApiEndPoint() . "/sending-domains/$domain/verify");
-//		$curl = curl_init(static::getApiEndPoint() . "/sending-domains/$domain");
-		curl_setopt($curl, CURLOPT_HTTPHEADER,['Authorization: ' . static::getApiKey()]);
-		curl_setopt($curl, CURLOPT_POST, 1);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, $json_submission);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		$response = curl_exec($curl);
-		curl_close($curl);
+		try {
+			$sparky = new SparkPost($httpClient, ['key' => static::getApiKey()]);
+			$response = $sparky->syncRequest("GET", "sending-domains/$domain", ['dkim_verify' => TRUE])->getBody();
 
-		dd($response);
+			if ( is_array($response) && array_key_exists('results', $response) )
+				return $response['results']['status']['compliance_status'] === 'valid' && $response['results']['status']['ownership_verified'];
+
+			return false;
+		}
+		catch (\Exception $e) {
+			return (object) ['error' => true, 'code' => $e->getCode(), 'message' => $e->getMessage()];
+		}
+
 	}
 }

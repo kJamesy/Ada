@@ -18,9 +18,14 @@ Route::redirect('/home', route('guest.home'));
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
 
-//		$eContent = \App\EmailContent::findResource(6);
+		$response = \App\Helpers\SparkyValidator::validateSendingDomain('tulip.acw2.uk');
 
-//		\App\Helpers\SparkyValidator::validateSendingDomain('acw2.uk');
+		if ( is_object($response) && property_exists($response, 'error') ) {
+			return $response->code;
+		}
+		else if ( is_bool($response) && $response === true ) {
+			return 'true';
+		}
 
 	});
 
