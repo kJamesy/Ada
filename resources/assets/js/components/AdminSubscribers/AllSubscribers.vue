@@ -108,7 +108,7 @@
                                             {{ mList.name }}
                                         </option>
                                     </select>
-                                    <button class="btn btn-primary mt-3" v-bind:disabled="! allowAttaching()">Attach</button>
+                                    <button class="btn btn-pink mt-3" v-bind:disabled="! allowAttaching()">Attach</button>
                                 </form>
                             </div>
                         </div>

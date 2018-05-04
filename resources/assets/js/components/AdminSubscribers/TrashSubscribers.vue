@@ -58,7 +58,7 @@
                                 <td>{{ resource.first_name }}</td>
                                 <td>{{ resource.last_name }}</td>
                                 <td>{{ resource.email }}</td>
-                                <td>{{ resource.active ? 'Yes' : 'No' }}</td>
+                                <td v-html="appActiveMarkup(resource.active)"></td>
                                 <td><span v-bind:title="resource.updated_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
                             </tr>
                         </tbody>
