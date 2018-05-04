@@ -64929,6 +64929,13 @@ a:focus {
   border-radius: inherit;
 }
 
+#landing-page {
+  height: 100vh;
+  background: url(/images/tulip-envelope.jpg?a5fd64821b15a8ccc47fe0fbf9060268);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .am-mainpanel .nav-pills li a {
   color: #fff;
   background: #17a2b8;
