@@ -33,8 +33,10 @@ Route::group(['prefix' => 'lab'], function() {
  */
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 	Route::group(['namespace' => 'Auth'], function() {
-		Route::get('register', ['as' => 'admin.auth.show_registration', 'uses' => 'RegisterController@showRegistrationForm']);
-		Route::post('register', ['as' => 'admin.auth.store_registration', 'uses' => 'RegisterController@register']);
+		if ( config('newsletter.allow_registration') ) {
+			Route::get('register', ['as' => 'admin.auth.show_registration', 'uses' => 'RegisterController@showRegistrationForm']);
+			Route::post('register', ['as' => 'admin.auth.store_registration', 'uses' => 'RegisterController@register']);
+		}
 		Route::get('login', ['as' => 'admin.auth.show_login', 'uses' => 'LoginController@showLoginForm']);
 		Route::post('login', ['as' => 'admin.auth.process_login', 'uses' => 'LoginController@login']);
 		Route::get('password/reset', ['as' => 'admin.auth.show_password_reset', 'uses' => 'ForgotPasswordController@showLinkRequestForm']);
