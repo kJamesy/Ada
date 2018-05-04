@@ -41,7 +41,7 @@ class Hashids
 	public static function decode($input)
 	{
 		$output = static::ourHashId()->decode($input);
-		return ( is_array($output) && count($output) ) ? $output[0] : $input;
+		return ( is_array($output) && count($output) ) ? $output[0] : null; //$input;
 	}
 
 }

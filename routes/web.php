@@ -117,4 +117,16 @@ Route::group(['prefix' => 'subscriber'], function() {
 
 		return view('guest.unsubscribe', compact('subscriber'));
 	}]);
+
+	Route::get('review-preferences', ['as' => 'subscriber.review', function() {
+		$subscriber = null;
+		$id = null;
+
+		if ( $id = request()->get('unique') )
+			$subscriber = \App\Subscriber::findResource( \App\Helpers\Hashids::decode( $id ) );
+
+		return view('guest.review-preferences', compact('subscriber', 'id'));
+	}]);
+
+	Route::post('update-preferences', ['as' => 'subscriber.update_preferences', 'uses' => 'Admin\\SubscriberController@updatePreferences']);
 });
