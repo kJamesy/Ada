@@ -329,6 +329,15 @@ const AppListScreenPlugin = {
                 appActiveMarkup(activeAttr) {
                     return activeAttr ? '&#10003;' : '&#10007;';
                 },
+                appConsentMarkup(activeAttr) {
+
+                    if ( activeAttr === -1 )
+                        return '&hellip;';
+                    else if ( activeAttr === 1 )
+                        return '&#10003;';
+
+                    return '&#10007;';
+                },
                 appStartCase(word) {
                     return _.startCase(word);
                 },
@@ -478,13 +487,13 @@ const AppListScreenPlugin = {
             },
             filters: {
                 dateToTheMinute(date) {
-                    return moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('D MMM YYYY HH:mm');
+                    return date ? moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('D MMM YYYY HH:mm') : '-';
                 },
                 dateToTheMinWithDayOfWeek(date) {
-                    return moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('llll');
+                    return date ? moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('llll') : '-';
                 },
                 dateToTheDay(date) {
-                    return moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('D MMM YYYY');
+                    return date ? moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('D MMM YYYY') : '-';
                 }
             }
         });

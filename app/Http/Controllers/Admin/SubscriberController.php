@@ -37,7 +37,7 @@ class SubscriberController extends Controller
 		$this->redirect = route('admin.home');
 		$this->rules = Subscriber::$rules;
 		$this->perPage = 25;
-		$this->orderByFields = ['first_name', 'last_name', 'email', 'active', 'created_at', 'updated_at'];
+		$this->orderByFields = ['first_name', 'last_name', 'email', 'active', 'consent', 'reviewed_at', 'created_at', 'updated_at'];
 		$this->orderCriteria = ['asc', 'desc'];
 		$this->settingsKey = 'subscribers';
 		$this->policies = UserPermissions::getPolicies();

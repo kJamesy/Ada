@@ -63445,6 +63445,12 @@ var AppListScreenPlugin = {
                 appActiveMarkup: function appActiveMarkup(activeAttr) {
                     return activeAttr ? '&#10003;' : '&#10007;';
                 },
+                appConsentMarkup: function appConsentMarkup(activeAttr) {
+
+                    if (activeAttr === -1) return '&hellip;';else if (activeAttr === 1) return '&#10003;';
+
+                    return '&#10007;';
+                },
                 appStartCase: function appStartCase(word) {
                     return _.startCase(word);
                 },
@@ -63589,13 +63595,13 @@ var AppListScreenPlugin = {
             },
             filters: {
                 dateToTheMinute: function dateToTheMinute(date) {
-                    return moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('D MMM YYYY HH:mm');
+                    return date ? moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('D MMM YYYY HH:mm') : '-';
                 },
                 dateToTheMinWithDayOfWeek: function dateToTheMinWithDayOfWeek(date) {
-                    return moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('llll');
+                    return date ? moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('llll') : '-';
                 },
                 dateToTheDay: function dateToTheDay(date) {
-                    return moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('D MMM YYYY');
+                    return date ? moment(date + ' Z', 'YYYY-MM-DD HH:mm:ss Z', true).format('D MMM YYYY') : '-';
                 }
             }
         });
@@ -81610,6 +81616,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -82169,6 +82179,50 @@ var render = function() {
                                 on: {
                                   click: function($event) {
                                     $event.preventDefault()
+                                    _vm.appChangeSort("consent")
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v("Consented "),
+                                _c("span", {
+                                  domProps: {
+                                    innerHTML: _vm._s(
+                                      _vm.appGetSortMarkup("consent")
+                                    )
+                                  }
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "th",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    _vm.appChangeSort("reviewed_at")
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v("Reviewed "),
+                                _c("span", {
+                                  domProps: {
+                                    innerHTML: _vm._s(
+                                      _vm.appGetSortMarkup("reviewed_at")
+                                    )
+                                  }
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "th",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
                                     _vm.appChangeSort("updated_at")
                                   }
                                 }
@@ -82284,6 +82338,37 @@ var render = function() {
                                   )
                                 }
                               }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  innerHTML: _vm._s(
+                                    _vm.appConsentMarkup(resource.consent)
+                                  )
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c(
+                                  "span",
+                                  {
+                                    attrs: {
+                                      title: _vm._f(
+                                        "dateToTheMinWithDayOfWeek"
+                                      )(resource.reviewed_at),
+                                      "data-toggle": "tooltip"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("dateToTheDay")(
+                                          resource.reviewed_at
+                                        )
+                                      )
+                                    )
+                                  ]
+                                )
+                              ]),
                               _vm._v(" "),
                               _c("td", [
                                 _c(
@@ -82602,6 +82687,10 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
 //
 //
 //
@@ -83107,6 +83196,50 @@ var render = function() {
                                 on: {
                                   click: function($event) {
                                     $event.preventDefault()
+                                    _vm.appChangeSort("consent")
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v("Consented "),
+                                _c("span", {
+                                  domProps: {
+                                    innerHTML: _vm._s(
+                                      _vm.appGetSortMarkup("consent")
+                                    )
+                                  }
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "th",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    _vm.appChangeSort("reviewed_at")
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v("Reviewed "),
+                                _c("span", {
+                                  domProps: {
+                                    innerHTML: _vm._s(
+                                      _vm.appGetSortMarkup("reviewed_at")
+                                    )
+                                  }
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "th",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
                                     _vm.appChangeSort("updated_at")
                                   }
                                 }
@@ -83218,6 +83351,37 @@ var render = function() {
                                   )
                                 }
                               }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  innerHTML: _vm._s(
+                                    _vm.appConsentMarkup(resource.consent)
+                                  )
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c(
+                                  "span",
+                                  {
+                                    attrs: {
+                                      title: _vm._f(
+                                        "dateToTheMinWithDayOfWeek"
+                                      )(resource.reviewed_at),
+                                      "data-toggle": "tooltip"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("dateToTheDay")(
+                                          resource.reviewed_at
+                                        )
+                                      )
+                                    )
+                                  ]
+                                )
+                              ]),
                               _vm._v(" "),
                               _c("td", [
                                 _c(
@@ -84800,6 +84964,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -84810,7 +84982,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             fetchingData: true,
-            resource: { id: '', first_name: '', last_name: '', email: '', active: null, created_at: '', updated_at: '', mailing_lists: [] }
+            resource: { id: '', first_name: '', last_name: '', email: '', active: null, consent: -1, reviewed_at: '', created_at: '', updated_at: '', mailing_lists: [] }
         };
     },
 
@@ -84888,6 +85060,36 @@ var render = function() {
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(_vm._s(_vm.resource.active ? "Yes" : "No"))
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("tr", [
+                            _c("th", { attrs: { scope: "row" } }, [
+                              _vm._v("Subscriber Consented")
+                            ]),
+                            _vm._v(" "),
+                            _c("td", {
+                              domProps: {
+                                innerHTML: _vm._s(
+                                  _vm.appConsentMarkup(_vm.resource.consent)
+                                )
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("tr", [
+                            _c("th", { attrs: { scope: "row" } }, [
+                              _vm._v("Last Subscriber Review")
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm._f("dateToTheMinute")(
+                                    _vm.resource.reviewed_at
+                                  )
+                                )
+                              )
                             ])
                           ]),
                           _vm._v(" "),

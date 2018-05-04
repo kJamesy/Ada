@@ -129,11 +129,20 @@ class ResourceExporter
 
 			if ( count($resources) ) {
 				foreach ($resources as $resource) {
+					$consented = '…';
+
+					if ( $resource->consent === 1 )
+						$consented = '✔';
+					elseif ( $resource->consent === 0 )
+						$consented = '✗';
+
 					$exportArr[] = [
 						'First Name' => $resource->first_name,
 						'Last Name' => $resource->last_name,
 						'Email' => $resource->email,
 						'Active' => $resource->active ? '✔' : '✗',
+						'Consented' => $consented,
+						'Reviewed' => $resource->reviewed_at ? $resource->reviewed_at->toDateTimeString() : '-',
 						'Subscribed' => $resource->created_at->toDateTimeString(),
 						'Last Updated' => $resource->updated_at->toDateTimeString(),
 					];

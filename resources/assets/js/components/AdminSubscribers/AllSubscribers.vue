@@ -61,6 +61,8 @@
                                 <th v-on:click.prevent="appChangeSort('last_name')">Last Name <span v-html="appGetSortMarkup('last_name')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('email')">Email <span v-html="appGetSortMarkup('email')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('active')">Active <span v-html="appGetSortMarkup('active')"></span></th>
+                                <th v-on:click.prevent="appChangeSort('consent')">Consented <span v-html="appGetSortMarkup('consent')"></span></th>
+                                <th v-on:click.prevent="appChangeSort('reviewed_at')" >Reviewed <span v-html="appGetSortMarkup('reviewed_at')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('updated_at')" >Updated <span v-html="appGetSortMarkup('updated_at')"></span></th>
                                 <th v-if="appUserHasPermission('update')"></th>
                             </tr>
@@ -77,6 +79,8 @@
                                 <td>{{ resource.last_name }}</td>
                                 <td>{{ resource.email }}</td>
                                 <td v-html="appActiveMarkup(resource.active)"></td>
+                                <td v-html="appConsentMarkup(resource.consent)"></td>
+                                <td><span v-bind:title="resource.reviewed_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.reviewed_at | dateToTheDay }}</span></td>
                                 <td><span v-bind:title="resource.updated_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
                                 <td v-if="appUserHasPermission('read')">
                                     <router-link v-bind:to="{ name: 'admin_subscribers.view', params: { id: resource.id }}" class="btn btn-sm rounded-circle btn-pink"><i class="icon ion-eye"></i></router-link>
