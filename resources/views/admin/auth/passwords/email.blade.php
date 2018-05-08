@@ -16,7 +16,7 @@
                     <h5 class="tx-gray-800 mg-b-25">Admin Password Reset</h5>
 
                     @if (session('status'))
-                        <div class="alert alert-dark">
+                        <div class="alert alert-info">
                             {{ session('status') }}
                         </div>
                     @endif

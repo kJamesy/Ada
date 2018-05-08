@@ -119,6 +119,9 @@
                     </li>
                 @endif
             </ul>
+            <div id="sidebar-credit">
+                <a href="//kjamesy.london" target="_blank">&copy;{{ strtolower(config('app.name')) }} {{ date('Y') }} all rights reserved.</a>
+            </div>
         </div><!-- #mainMenu -->
     </div>
 </div>

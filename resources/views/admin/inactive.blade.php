@@ -3,49 +3,33 @@
 @section('title', 'Admin Awaiting Approval')
 
 @section('body')
-    <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary fixed-top">
-        <div class="container">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <div id="landing-page">
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <a class="navbar-brand" href="{{ route('guest.home') }}">{{ strtolower(config('app.name')) }}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="{{ route('guest.home') }}">{{ config('app.name') }}</a>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-
-                </ul>
-
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a href="" id="dropdown01" class="nav-link dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ $user->name }}
-                        </a>
-
-                        <div class="dropdown-menu" aria-labelledby="dropdown01">
-                            <a class="dropdown-item" href="{{ route('admin.auth.get_logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
-                            </a>
-
-                            <form id="logout-form" action="{{ route('admin.auth.post_logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
-                        </div>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.auth.get_logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">logout</a>
                     </li>
                 </ul>
             </div>
-        </div>
-    </nav>
-    <div class="main-content" style="margin-top: 80px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10 offset-md-1">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3><i class="icon ion-android-alarm-clock"></i> Account Inactive</h3>
-                        </div>
-                        <div class="card-body">
-                            Hi {{ $user->first_name }}, Your account is awaiting approval.
-                        </div>
+        </nav>
+        <div class="am-signin-wrapper">
+            <div class="am-signin-box">
+                <div class="row no-gutters">
+                    <div class="col-lg-5">
+                        <h1>{{ strtoupper(config('newsletter.client_name')) }}</h1>
+                    </div>
+                    <div class="col-lg-7 text-center">
+                        <h3 class="mb-4"><i class="icon ion-android-alarm-clock"></i> Account Inactive</h3>
+                        <form id="logout-form" action="{{ route('admin.auth.post_logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                        Hi {{ $user->first_name }}, Your account is awaiting approval.
                     </div>
                 </div>
             </div>
