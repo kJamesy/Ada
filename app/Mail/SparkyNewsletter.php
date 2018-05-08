@@ -20,8 +20,19 @@ class SparkyNewsletter
 	protected $sender;
 	protected $unsubscribeUrl;
 	protected $viewInBrowserUrl;
+	protected $reviewYourPreferencesUrl;
 
-	public function __construct(Email $email, Collection $subscribers, $sender, $unsubscribeUrl, $viewInBrowserUrl)
+	/**
+	 * SparkyNewsletter constructor.
+	 *
+	 * @param Email $email
+	 * @param Collection $subscribers
+	 * @param $sender
+	 * @param $unsubscribeUrl
+	 * @param $viewInBrowserUrl
+	 * @param $reviewYourPreferencesUrl
+	 */
+	public function __construct(Email $email, Collection $subscribers, $sender, $unsubscribeUrl, $viewInBrowserUrl, $reviewYourPreferencesUrl)
 	{
 		$this->apiKey = env('SPARKPOST_SECRET');
 		$this->email = $email;
@@ -29,6 +40,7 @@ class SparkyNewsletter
 		$this->sender = $sender;
 		$this->unsubscribeUrl = $unsubscribeUrl;
 		$this->viewInBrowserUrl = $viewInBrowserUrl;
+		$this->reviewYourPreferencesUrl = $reviewYourPreferencesUrl;
 	}
 
 	/**
@@ -93,6 +105,7 @@ class SparkyNewsletter
 			'email' => '%email%',
 			'unsubscribe' => '%unsubscribe%',
 			'view_this_email_in_the_browser' => '%view_this_email_in_the_browser%',
+			'review_your_preferences' => '%review_your_preferences%',
 //			'unsubscribe_link' => '%unsubscribe_link%',
 		];
 	}
@@ -115,6 +128,9 @@ class SparkyNewsletter
 				elseif ( $key === 'view_this_email_in_the_browser' )
 					$content = str_ireplace($variable, "<a href='{$this->viewInBrowserUrl}?unique={{ $key }}'>view this email in the browser</a>", $content);
 
+				elseif ( $key === 'review_your_preferences' )
+					$content = str_ireplace($variable, "<a href='{$this->reviewYourPreferencesUrl}?unique={{ $key }}'>review your preferences</a>", $content);
+
 				else
 					$content = str_ireplace($variable, "{{ $key }}", $content);
 			}
@@ -135,7 +151,7 @@ class SparkyNewsletter
 
 		if ( $substitutionVariables ) {
 			foreach ( $substitutionVariables as $key => $variable ) {
-				if ( $key === 'unsubscribe' || $key === 'view_this_email_in_the_browser' )
+				if ( $key === 'unsubscribe' || $key === 'view_this_email_in_the_browser' || $key === 'review_your_preferences' )
 					$data[$key] = Hashids::encode($subscriber->id);
 				else
 					$data[$key] = $subscriber->{$key};

@@ -34,6 +34,7 @@ class SendNewsletter implements ShouldQueue
     protected $sender;
     protected $unsubscribeUrl;
     protected $viewInBrowserUrl;
+    protected $reviewYourPreferencesUrl;
 
 	/**
 	 * Create a new job instance
@@ -48,6 +49,7 @@ class SendNewsletter implements ShouldQueue
 		$this->sender = $sender;
 		$this->unsubscribeUrl = route('unsubscribe');
 		$this->viewInBrowserUrl = route('emails.display', ['id' => Hashids::encode($email->id)]);
+		$this->reviewYourPreferencesUrl = route('subscriber.review');
 	}
 
     /**
@@ -58,7 +60,7 @@ class SendNewsletter implements ShouldQueue
     public function handle()
     {
         if ( $this->email && $this->recipients && $this->sender ) {
-        	$sparkyNewsletter = new SparkyNewsletter($this->email, $this->recipients, $this->sender, $this->unsubscribeUrl, $this->viewInBrowserUrl);
+        	$sparkyNewsletter = new SparkyNewsletter($this->email, $this->recipients, $this->sender, $this->unsubscribeUrl, $this->viewInBrowserUrl, $this->reviewYourPreferencesUrl);
         	$feedback = $sparkyNewsletter->send();
 
         	if ( is_array($feedback) && array_key_exists('success', $feedback) )
