@@ -225,7 +225,7 @@ class UserController extends Controller
 	                unset($rules['email']);
                 if ( strtolower($resource->username) === strtolower(trim($request->username)))
 	                unset($rules['username']);
-                if ( ! $request->has('password') && ! $request->has('password_confirmation') )
+                if ( ! $request->filled('password') && ! $request->filled('password_confirmation') )
                     unset($rules['password']);
 
                 $this->validate($request, $rules);
@@ -235,7 +235,7 @@ class UserController extends Controller
                 $resource->username = trim($request->username);
                 $resource->email = strtolower(trim($request->email));
                 $resource->active = $request->active ? 1 : 0;
-                if ( $request->has('password_confirmation') )
+                if ( $request->filled('password_confirmation') )
                     $resource->password = bcrypt($request->password_confirmation);
                 $resource->save();
             }
