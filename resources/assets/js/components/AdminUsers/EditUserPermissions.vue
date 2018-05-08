@@ -14,31 +14,29 @@
                         <i class="icon ion-alert"></i> Please note, you can only assign permissions that you have
                     </div>
 
-                    <div class="form-group row checkbox mb-4" v-if="appUser.is_super_admin">
+                    <div class="row mb-4" v-if="appUser.is_super_admin">
                         <div class="col-12">
-                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" v-model="resource.is_super_admin">
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-description">Super Admin</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div v-if="newPoliciesLength" v-for="(policy, key, index) in newPolicies">
-                            <div class="col-6 mb-3">
-                                <h4>{{ appStartCase(appReplaceUnderscores(key)) }}</h4>
-                                <label class="custom-control custom-checkbox" v-for="(action, key2) in policy">
-                                    <input type="checkbox" class="custom-control-input"
-                                           v-model="action.resource" v-bind:disabled="disableCheckbox(action.user)" v-on:change="checkboxChanged()">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">{{ appCapitalise(key2) }}</span>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="is_super_admin" v-model="resource.is_super_admin">
+                                <label class="custom-control-label" for="is_super_admin">
+                                    Super Admin
                                 </label>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group row mt-2">
+                    <div class="row" v-if="newPoliciesLength">
+                        <div class="col-sm-4 mb-4" v-for="(policy, key, index) in newPolicies">
+                            <h5>{{ appStartCase(appReplaceUnderscores(key)) }}</h5>
+                            <div class="custom-control custom-checkbox" v-for="(action, key2) in policy">
+                                <input type="checkbox" class="custom-control-input" v-bind:id="key2 + '_' + key" v-model="action.resource"
+                                       v-bind:disabled="disableCheckbox(action.user)" v-on:change="checkboxChanged()">
+                                <label class="custom-control-label" v-bind:for="key2 + '_' + key">{{ appCapitalise(key2) }}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
                         <div class="col-12">
                             <button type="submit" class="btn btn-info btn-lg">Update</button>
                         </div>
