@@ -8,7 +8,7 @@
             <div class="row no-gutters">
                 <div class="col-lg-5">
                     <div>
-                        <h1>{{ strtoupper(config('app.name')) }}</h1>
+                        <h1>{{ strtoupper(config('newsletter.client_name')) }}</h1>
                         <p><a href="{{ route('admin.auth.show_login') }}">Log in</a></p>
                     </div>
                 </div>

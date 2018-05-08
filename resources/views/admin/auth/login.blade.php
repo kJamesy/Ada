@@ -10,10 +10,12 @@
             <div class="row no-gutters">
                 <div class="col-lg-5">
                     <div>
-                        <h1>{{ strtoupper(config('app.name')) }}</h1>
+                        <h1>{{ strtoupper(config('newsletter.client_name')) }}</h1>
                         <p>
-                            <a href="{{ route('admin.auth.show_password_reset') }}">Forgot Password</a> |
-                            <a href="{{ route('admin.auth.show_registration') }}">Register</a>
+                            <a href="{{ route('admin.auth.show_password_reset') }}">Forgot Password</a>
+                            @if ( config('newsletter.allow_registration') )
+                                | <a href="{{ route('admin.auth.show_registration') }}">Register</a>
+                            @endif
                         </p>
                     </div>
                 </div>

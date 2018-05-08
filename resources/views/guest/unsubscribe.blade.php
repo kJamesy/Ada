@@ -9,7 +9,7 @@
                 <div class="row no-gutters">
                     <div class="col-lg-5">
                         <div>
-                            <h1>{{ strtoupper(config('app.name')) }}</h1>
+                            <h1>{{ strtoupper(config('newsletter.client_name')) }}</h1>
                         </div>
                     </div>
                     <div class="col-lg-7">

@@ -44,6 +44,8 @@
                                 <th v-on:click.prevent="appChangeSort('last_name')">Last Name <span v-html="appGetSortMarkup('last_name')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('email')">Email <span v-html="appGetSortMarkup('email')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('active')">Active <span v-html="appGetSortMarkup('active')"></span></th>
+                                <th v-on:click.prevent="appChangeSort('consent')">Consented <span v-html="appGetSortMarkup('consent')"></span></th>
+                                <th v-on:click.prevent="appChangeSort('reviewed_at')" >Reviewed <span v-html="appGetSortMarkup('reviewed_at')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('updated_at')" >Deleted <span v-html="appGetSortMarkup('updated_at')"></span></th>
                             </tr>
                             </thead>
@@ -58,7 +60,9 @@
                                 <td>{{ resource.first_name }}</td>
                                 <td>{{ resource.last_name }}</td>
                                 <td>{{ resource.email }}</td>
-                                <td>{{ resource.active ? 'Yes' : 'No' }}</td>
+                                <td v-html="appActiveMarkup(resource.active)"></td>
+                                <td v-html="appConsentMarkup(resource.consent)"></td>
+                                <td><span v-bind:title="resource.reviewed_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.reviewed_at | dateToTheDay }}</span></td>
                                 <td><span v-bind:title="resource.updated_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ resource.updated_at | dateToTheDay }}</span></td>
                             </tr>
                         </tbody>

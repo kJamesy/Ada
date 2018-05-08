@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exporters\ResourceExporter;
+use App\Helpers\Hashids;
 use App\Importers\ResourceImporter;
 use App\MailingList;
 use App\Permissions\UserPermissions;
@@ -37,7 +38,7 @@ class SubscriberController extends Controller
 		$this->redirect = route('admin.home');
 		$this->rules = Subscriber::$rules;
 		$this->perPage = 25;
-		$this->orderByFields = ['first_name', 'last_name', 'email', 'active', 'created_at', 'updated_at'];
+		$this->orderByFields = ['first_name', 'last_name', 'email', 'active', 'consent', 'reviewed_at', 'created_at', 'updated_at'];
 		$this->orderCriteria = ['asc', 'desc'];
 		$this->settingsKey = 'subscribers';
 		$this->policies = UserPermissions::getPolicies();
@@ -512,5 +513,40 @@ class SubscriberController extends Controller
 		}
 		else
 			return redirect()->back();
+	}
+
+	/**
+	 * Subscriber updating their preferences
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
+	public function updatePreferences(Request $request)
+	{
+		$id = $request->unique ?: null;
+		$resource = Subscriber::findResource( Hashids::decode($id) );
+
+		if ( $resource ) {
+
+			$rules = $this->rules;
+
+			if ( strtolower($resource->email) === strtolower(trim($request->email)) )
+				unset($rules['email']);
+
+			$rules['consent'] = 'required';
+
+			$this->validate($request, $rules);
+
+			$resource->first_name = trim($request->first_name);
+			$resource->last_name = trim($request->last_name);
+			$resource->email = strtolower(trim($request->email));
+			$resource->consent = (int) $request->consent ? 1 : 0;
+			$resource->reviewed_at = Carbon::now();
+			$resource->save();
+
+			return redirect()->back()->withInput()->with(['success' => 'Great! Your preferences have been updated.']);
+		}
+
+		return redirect()->back()->withErrors('Subscriber not found.');
 	}
 }

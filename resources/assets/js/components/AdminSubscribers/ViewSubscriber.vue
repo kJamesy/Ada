@@ -24,6 +24,14 @@
                             <td>{{ resource.active ? 'Yes' : 'No' }}</td>
                         </tr>
                         <tr>
+                            <th scope="row">Subscriber Consented</th>
+                            <td v-html="appConsentMarkup(resource.consent)"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Last Subscriber Review</th>
+                            <td>{{ resource.reviewed_at | dateToTheMinute }}</td>
+                        </tr>
+                        <tr>
                             <th scope="row">Mailing Lists</th>
                             <td>{{ flattenedMLists }}</td>
                         </tr>
@@ -56,7 +64,7 @@
         data() {
             return {
                 fetchingData: true,
-                resource: {id: '', first_name: '', last_name: '', email: '', active: null, created_at: '', updated_at: '', mailing_lists: []}
+                resource: {id: '', first_name: '', last_name: '', email: '', active: null, consent: -1, reviewed_at: '', created_at: '', updated_at: '', mailing_lists: []}
             }
         },
         computed: {

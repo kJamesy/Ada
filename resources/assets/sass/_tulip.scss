@@ -4,7 +4,7 @@ body {
   font-weight: normal;
   line-height: 1.5;
   color: $gray-700;
-  background-color: $gray-400;
+  background-color: lighten(#32415A, 15%); //$gray-400;
 }
 
 .navbar {
@@ -36,6 +36,13 @@ a, a:hover, a:focus {
 
 .sweet-alert, .sweet-alert button, .custom-checkbox .custom-control-indicator {
   @include border_radius_none;
+}
+
+#landing-page {
+  height: 100vh;
+  background: url('img/tulip-envelope.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .am-mainpanel {
