@@ -4,11 +4,11 @@ body {
   font-weight: normal;
   line-height: 1.5;
   color: $gray-700;
-  background-color: lighten(#32415A, 15%); //$gray-400;
+  background-color: $dark_bg;
 }
 
 .navbar {
-  background: $dark_bg;
+  background: rgba(237, 108, 167, 0.9);
   font-family: $font-family-roboto-condensed;
 
   .navbar-brand {
@@ -45,7 +45,18 @@ a, a:hover, a:focus {
   background-size: cover;
 }
 
+#sidebar-credit {
+  position: absolute;
+  bottom: 10px;
+  padding: 15px;
+  font-size: small;
+}
+
 .am-mainpanel {
+  //background: url('img/tulip-envelope.jpg');
+  //background-repeat: no-repeat;
+  //background-size: cover;
+
   .nav-pills {
     li {
       a {

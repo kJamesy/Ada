@@ -1,4 +1,12 @@
-$dark_bg: darken($info, 0);
+$dark_bg: lighten(#32415A, 10%); //darken($info, 0);
+
+.am-signin-wrapper, .am-signup-wrapper {
+  background: url('img/tulip-envelope.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  padding: 25px 0;
+}
 
 .am-signin-box, .am-signup-box {
   > .row > div:first-child {
@@ -16,6 +24,11 @@ $dark_bg: darken($info, 0);
     justify-content: center;
 
     @include tulip_pink_gradient_background;
+    opacity: 0.9;
+  }
+
+  > .row > div:last-child {
+    opacity: 0.9;
   }
 
   .form-control, .dataTables_filter input, select {

@@ -14,7 +14,7 @@
         <div class="am-header-left">
             <a id="naviconLeft" href="" class="am-navicon d-none d-lg-flex"><i class="icon ion-navicon-round"></i></a>
             <a id="naviconLeftMobile" href="" class="am-navicon d-lg-none"><i class="icon ion-navicon-round"></i></a>
-            <a href="{{ route('guest.home') }}" class="am-logo">{{ strtoupper(config('app.name')) }}</a>
+            <a href="{{ route('guest.home') }}" class="am-logo">{{ config('newsletter.client_name') }}</a>
         </div>
 
         <div class="am-header-right">
@@ -36,5 +36,4 @@
 
     @include('admin._layouts.admin-nav')
     @yield('content')
-
 @endsection
