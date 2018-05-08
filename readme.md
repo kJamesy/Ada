@@ -1,4 +1,4 @@
-## Laravel 5.5 + VueJS Newsletter App
+# tulip
 
-* Lovelace
+A laravel 5.5, VueJS and Sparkpost newsletter application.
 
