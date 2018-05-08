@@ -213,7 +213,7 @@ class UserController extends Controller
             if ( ! $currentUser->can('update', $this->policyOwnerClass) || ( $resource->is_super_admin && ! $currentUser->is_super_admin ) )
                 return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 
-            if ( $request->has('permissions') && $request->permissions ) {
+            if ( $request->permissions ) {
                 $superAdmin = $request->get('is_super_admin');
                 $newPolicies = $request->get('newPolicies');
                 $this->updatePermissions($resource, $currentUser, $superAdmin, $newPolicies);
@@ -253,38 +253,40 @@ class UserController extends Controller
      * @param $superAdmin
      * @param $newPolicies
      */
-    protected function updatePermissions(User $resource, User $currentUser, $superAdmin, $newPolicies)
-    {
-        $currentPermissions = json_decode($resource->meta);
+	protected function updatePermissions(User $resource, User $currentUser, $superAdmin, $newPolicies)
+	{
+		$currentPermissions = (object) json_decode($resource->meta);
 
-        if( $superAdmin && $currentUser->is_super_admin )
-            $currentPermissions = ['role' => 'Super Administrator'];
-        elseif( count($newPolicies) ) {
+		if( $superAdmin && $currentUser->is_super_admin )
+			$currentPermissions = (object) ['role' => 'Super Administrator'];
+		elseif( count($newPolicies) ) {
 
-            foreach( $newPolicies as $policyKey => $newPolicy ) {
-                if( $model = UserPermissions::getModelFromShortName($policyKey) ) {
-                    foreach($newPolicy as $verb => $permission) {
-                        if ( $currentUser->can($verb, $model) ) {
-                            $prop = "{$verb}_{$policyKey}";
+			foreach( $newPolicies as $policyKey => $newPolicy ) {
+				if( $model = UserPermissions::getModelFromShortName($policyKey) ) {
+					foreach($newPolicy as $verb => $permission) {
+						if ( $currentUser->can($verb, $model) ) {
+							$prop = "{$verb}_{$policyKey}";
 
-                            if ( property_exists($currentPermissions, $prop) && ! $permission['resource'] ) //Permission revoked
-                                unset($currentPermissions->{$prop});
-                            elseif ( $permission['resource'] ) //Permission added
-                                $currentPermissions->{$prop} = true;
-                        }
-                    }
-                }
-            }
-        }
+							if ( property_exists($currentPermissions, $prop) && ! $permission['resource'] ) //Permission revoked
+								unset($currentPermissions->{$prop});
+							elseif ( $permission['resource'] ) //Permission added
+								$currentPermissions->{$prop} = true;
+						}
+					}
+				}
+			}
+		}
 
-        if ( ! $superAdmin )
-            $currentPermissions->role = 'User';
+		if ( ! $superAdmin )
+			$currentPermissions->role = 'User';
 
-        $resource->meta = json_encode($currentPermissions);
-        $resource->save();
+		$resource->meta = json_encode($currentPermissions);
+		$resource->save();
 
-        UserPermissions::getCachedUserPermissions($resource, true);
-    }
+		UserPermissions::getCachedUserPermissions($resource, true);
+
+		return response()->json(compact('resource'));
+	}
 
     /**
      * Destroy the specified resource
