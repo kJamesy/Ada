@@ -18,7 +18,6 @@ Route::redirect('/home', route('guest.home'));
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
 
-		$rules['sender_email'][] = new \App\Rules\SendingDomain();
 
 	});
 
