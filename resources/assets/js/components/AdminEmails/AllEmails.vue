@@ -82,8 +82,8 @@
                                     <th v-on:click.prevent="appChangeSort('created_at')" >Created <span v-html="appGetSortMarkup('created_at')"></span></th>
                                     <th v-if="appIsDraftsPage" v-on:click.prevent="appChangeSort('updated_at')" >Updated <span v-html="appGetSortMarkup('updated_at')"></span></th>
                                     <th v-if="! appIsDraftsPage" v-on:click.prevent="appChangeSort('sent_at')" >Sent <span v-html="appGetSortMarkup('sent_at')"></span></th>
-                                    <th v-if="appUserHasPermission('update')"></th>
-                                    <th v-if="appUserHasPermission('update')"></th>
+                                    <th v-if="appUserHasPermission('read')"></th>
+                                    <th v-if="appUserHasPermission('read')"></th>
                                 </tr>
                                 </thead>
                                 <tbody>

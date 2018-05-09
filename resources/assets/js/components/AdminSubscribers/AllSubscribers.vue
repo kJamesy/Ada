@@ -64,7 +64,7 @@
                                 <th v-on:click.prevent="appChangeSort('consent')">Consented <span v-html="appGetSortMarkup('consent')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('reviewed_at')" >Reviewed <span v-html="appGetSortMarkup('reviewed_at')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('updated_at')" >Updated <span v-html="appGetSortMarkup('updated_at')"></span></th>
-                                <th v-if="appUserHasPermission('update')"></th>
+                                <th v-if="appUserHasPermission('read')"></th>
                             </tr>
                             </thead>
                             <tbody>
