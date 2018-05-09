@@ -20,6 +20,20 @@ body {
       color: $white;
     }
   }
+
+  .navbar-toggler {
+    padding: 0.25rem;
+    border: 1px solid $white;
+
+    &:focus, &:active {
+      outline: none;
+    }
+
+    .navbar-toggler-icon {
+      width: 1.2em;
+      height: 1.2em;
+    }
+  }
 }
 
 .btn, button {
@@ -50,6 +64,11 @@ a, a:hover, a:focus {
   bottom: 10px;
   padding: 15px;
   font-size: small;
+
+  @media ( max-width: 991.98px ) {
+    position: relative;
+
+  }
 }
 
 .am-mainpanel {

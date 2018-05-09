@@ -2,11 +2,19 @@
 
 @section('title', 'Home')
 
+@section('header-styles-scripts')
+    <style>
+        body {
+            padding-top: 55px;
+        }
+    </style>
+@endsection
+
 @section('body')
     <div id="landing-page">
-        <nav class="navbar navbar-expand-lg fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
             <a class="navbar-brand" href="{{ route('guest.home') }}">{{ strtolower(config('app.name')) }}</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -20,6 +28,7 @@
                 </div>
             @endif
         </nav>
+
         <div class="am-signin-wrapper">
             <div class="am-signin-box">
                 <div class="row no-gutters">
