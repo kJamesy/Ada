@@ -129,7 +129,6 @@ class UserPermissions
         return class_exists($model) ? new $model : null;
     }
 
-
     /**
      * Determine if supplied user has supplied permission
      * @param User $user
