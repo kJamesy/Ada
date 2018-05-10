@@ -41,7 +41,7 @@
                                 </th>
                                 <th v-on:click.prevent="appChangeSort('title')">Title <span v-html="appGetSortMarkup('title')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('updated_at')" >Updated <span v-html="appGetSortMarkup('updated_at')"></span></th>
-                                <th v-if="appUserHasPermission('update')"></th>
+                                <th v-if="appUserHasPermission('read')"></th>
                             </tr>
                             </thead>
                             <tbody>

@@ -103,19 +103,31 @@ class UserPermissions
         }
     }
 
-    /**
-     * Return model given a model short name
-     * @param $shortName
-     * @return null
-     */
+	/**
+	 * Find a model from a model short name
+	 * @param $shortName
+	 *
+	 * @return null
+	 */
     public static function getModelFromShortName($shortName)
     {
         $shortName = str_replace('_', '', str_singular($shortName));
-        $class = "\\App\\{$shortName}";
+        $model = null;
+        $appDirContents = scandir(app_path());
 
-        return class_exists($class) ? new $class : null;
+        if ( count($appDirContents) ) {
+        	foreach ( $appDirContents as $appDirContent ) {
+        		if ( ends_with($appDirContent, '.php') ) {
+        			$strippedFileName = explode('.php', $appDirContent)[0];
+
+        			if ( strtolower($shortName) === strtolower($strippedFileName) )
+        				$model = "\\App\\{$strippedFileName}";
+		        }
+	        }
+        }
+
+        return class_exists($model) ? new $model : null;
     }
-
 
     /**
      * Determine if supplied user has supplied permission
