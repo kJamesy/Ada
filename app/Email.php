@@ -647,11 +647,13 @@ class Email extends Model
 		              ->orderBy('sent_at', 'DESC')
 		              ->first();
 
-		if ( $id = $last->id ) {
-			return static::withCount( [ 'injections', 'deliveries', 'opens' ] )
-			             ->selectRaw( "(SELECT COUNT(DISTINCT subscriber_id) FROM clicks WHERE email_id = $id) AS clicks_count" )
-			             ->selectRaw( "(SELECT COUNT(DISTINCT subscriber_id) FROM failures WHERE email_id = $id) AS failures_count" )
-			             ->find( $id );
+		if ( $last ) {
+			if ( $id = $last->id ) {
+				return static::withCount( [ 'injections', 'deliveries', 'opens' ] )
+				             ->selectRaw( "(SELECT COUNT(DISTINCT subscriber_id) FROM clicks WHERE email_id = $id) AS clicks_count" )
+				             ->selectRaw( "(SELECT COUNT(DISTINCT subscriber_id) FROM failures WHERE email_id = $id) AS failures_count" )
+				             ->find( $id );
+			}
 		}
 
 		return null;
