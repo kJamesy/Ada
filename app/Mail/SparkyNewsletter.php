@@ -106,6 +106,7 @@ class SparkyNewsletter
 			'unsubscribe' => '%unsubscribe%',
 			'unsubscribe_text' => '%unsubscribe_text=',
 			'view_this_email_in_the_browser' => '%view_this_email_in_the_browser%',
+			'view_this_email_in_the_browser_text' => '%view_this_email_in_the_browser_text=',
 			'review_your_preferences' => '%review_your_preferences%',
 			'review_your_preferences_text' => '%review_your_preferences_text=',
 		];
@@ -136,11 +137,8 @@ class SparkyNewsletter
 						foreach( $occurrences as $occurrence ) {
 							if ( strlen($occurrence) ) {
 								$customText = preg_split("/$end/i", $occurrence)[0];
-								if ( strlen($customText) ) {
-									$content = str_ireplace("$start$customText$end",
-										"<a href='{$this->unsubscribeUrl}?unique={{ $key }}' data-msys-unsubscribe='1'>$customText</a>",
-										$content);
-								}
+								if ( strlen($customText) )
+									$content = str_ireplace("$start$customText$end", "<a href='{$this->unsubscribeUrl}?unique={{ $key }}' data-msys-unsubscribe='1'>$customText</a>", $content);
 							}
 						}
 					}
@@ -148,6 +146,23 @@ class SparkyNewsletter
 
 				elseif ( $key === 'view_this_email_in_the_browser' )
 					$content = str_ireplace($variable, "<a href='{$this->viewInBrowserUrl}?unique={{ $key }}'>view this email in the browser</a>", $content);
+
+				elseif ( $key === 'view_this_email_in_the_browser_text' ) {
+					$start = $variable;
+					$end = '%';
+
+					$occurrences = preg_split("/$start/i", $content);
+
+					if ( count($occurrences) ) {
+						foreach( $occurrences as $occurrence ) {
+							if ( strlen($occurrence) ) {
+								$customText = preg_split("/$end/i", $occurrence)[0];
+								if ( strlen($customText) )
+									$content = str_ireplace("$start$customText$end", "<a href='{$this->viewInBrowserUrl}?unique={{ $key }}'>$customText</a>", $content);
+							}
+						}
+					}
+				}
 
 				elseif ( $key === 'review_your_preferences' )
 					$content = str_ireplace($variable, "<a href='{$this->reviewYourPreferencesUrl}?unique={{ $key }}'>review your preferences</a>", $content);
@@ -162,11 +177,8 @@ class SparkyNewsletter
 						foreach( $occurrences as $occurrence ) {
 							if ( strlen($occurrence) ) {
 								$customText = preg_split("/$end/i", $occurrence)[0];
-								if ( strlen($customText) ) {
-									$content = str_ireplace("$start$customText$end",
-										"<a href='{$this->reviewYourPreferencesUrl}?unique={{ $key }}'>$customText</a>",
-										$content);
-								}
+								if ( strlen($customText) )
+									$content = str_ireplace("$start$customText$end", "<a href='{$this->reviewYourPreferencesUrl}?unique={{ $key }}'>$customText</a>", $content);
 							}
 						}
 					}
@@ -192,7 +204,7 @@ class SparkyNewsletter
 
 		if ( $substitutionVariables ) {
 			foreach ( $substitutionVariables as $key => $variable ) {
-				if ( $key === 'unsubscribe' || $key === 'view_this_email_in_the_browser' || $key === 'review_your_preferences' || $key === 'review_your_preferences_text' )
+				if ( $key === 'unsubscribe' || $key === 'unsubscribe_text' ||$key === 'view_this_email_in_the_browser'  || $key === 'view_this_email_in_the_browser_text' || $key === 'review_your_preferences' || $key === 'review_your_preferences_text' )
 					$data[$key] = Hashids::encode($subscriber->id);
 				else
 					$data[$key] = $subscriber->{$key};
