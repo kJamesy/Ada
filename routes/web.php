@@ -18,7 +18,6 @@ Route::redirect('/home', route('guest.home'));
 Route::group(['prefix' => 'lab'], function() {
 	Route::get('/', function() {
 
-
 	});
 
 	Route::get('worker', function() {
