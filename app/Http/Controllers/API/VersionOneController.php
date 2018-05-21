@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\MailingList;
 use App\Subscriber;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -43,7 +44,6 @@ class VersionOneController extends Controller
 		return response()->json(compact('is_subscribed', 'active'));
 	}
 
-
 	/**
 	 * Register supplied details as a new subscriber
 	 * @param Request $request
@@ -52,7 +52,10 @@ class VersionOneController extends Controller
 	 */
 	public function subscribe(Request $request)
 	{
-		$this->validate($request, Subscriber::$rules);
+		$rules = Subscriber::$rules;
+		$rules['consent'] = 'required';
+
+		$this->validate($request, $rules);
 
 		try {
 			$subscriber = new Subscriber();
@@ -60,6 +63,8 @@ class VersionOneController extends Controller
 			$subscriber->last_name = trim($request->last_name);
 			$subscriber->email = strtolower(trim($request->email));
 			$subscriber->active = 1;
+			$subscriber->consent = (int) $request->consent ? 1 : 0;
+			$subscriber->reviewed_at = Carbon::now();
 			$subscriber->save();
 
 			if ( $request->has('mailing_lists') && is_array($request->mailing_lists) && count($request->mailing_lists) )
@@ -72,6 +77,5 @@ class VersionOneController extends Controller
 		}
 
 	}
-
 
 }
