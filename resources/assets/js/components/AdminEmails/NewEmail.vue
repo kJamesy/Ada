@@ -291,10 +291,6 @@
                         vm.selectedDate = {time: moment().format(vm.datePickerOptions.format)};
                 }, 1000);
             },
-            showHideToggleBtn() {
-                let vm = this;
-                vm.showToggleBtn = ( vm.validationErrors.sender_name && vm.validationErrors.sender_email && vm.validationErrors.reply_to_email );
-            },
             updateSubmitBtnText() {
                 let vm = this;
                 let now = moment().format(vm.datePickerOptions.format);
@@ -326,14 +322,15 @@
             'resource': {
                 handler: function(newVal) {
                     let vm = this;
-                    vm.showToggleBtn = ( vm.resource.sender_name && vm.resource.sender_email && vm.resource.reply_to_email );
+                    vm.showToggleBtn = ( newVal.sender_name && newVal.sender_email && newVal.reply_to_email );
                 },
                 deep: true
             },
             'validationErrors': {
                 handler: function(newVal) {
                     let vm = this;
-                    vm.showToggleBtn = ! ( vm.validationErrors.sender_name || vm.validationErrors.sender_email || vm.validationErrors.reply_to_email );
+                    vm.showToggleBtn = ! ( newVal.sender_name || newVal.sender_email || newVal.reply_to_email );
+                    vm.showSenderDetails = ( newVal.sender_name || newVal.sender_email || newVal.reply_to_email );
                 },
                 deep: true
             },
