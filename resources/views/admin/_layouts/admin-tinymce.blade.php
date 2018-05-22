@@ -19,6 +19,7 @@
         image_description: true,
         image_advtab: true ,
         relative_urls: false,
+        remove_script_host: false,
         external_filemanager_path: "{{ asset('assets/responsive-filemanager/filemanager') }}/",
         filemanager_title: "{{ config('app.name') }} File Manager",
         filemanager_sort_by: 'name',
