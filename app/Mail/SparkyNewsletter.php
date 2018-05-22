@@ -105,10 +105,12 @@ class SparkyNewsletter
 			'email' => '%email%',
 			'unsubscribe' => '%unsubscribe%',
 			'unsubscribe_text' => '%unsubscribe_text=',
+			'unsubscribe_link' => '%unsubscribe_link%',
 			'view_this_email_in_the_browser' => '%view_this_email_in_the_browser%',
 			'view_this_email_in_the_browser_text' => '%view_this_email_in_the_browser_text=',
 			'review_your_preferences' => '%review_your_preferences%',
 			'review_your_preferences_text' => '%review_your_preferences_text=',
+			'review_your_preferences_link' => '%review_your_preferences_link%',
 		];
 	}
 
@@ -126,6 +128,9 @@ class SparkyNewsletter
 			foreach ( $substitutionVariables as $key => $variable ) {
 				if ( $key === 'unsubscribe' )
 					$content = str_ireplace($variable, "<a href='{$this->unsubscribeUrl}?unique={{ $key }}' data-msys-unsubscribe='1'>unsubscribe</a>", $content);
+
+				elseif ( $key === 'unsubscribe_link' )
+					$content = str_ireplace($variable, "{$this->unsubscribeUrl}?unique={{ $key }}", $content);
 
 				elseif ( $key === 'unsubscribe_text' ) {
 					$start = $variable;
@@ -184,6 +189,9 @@ class SparkyNewsletter
 					}
 				}
 
+				elseif ( $key === 'review_your_preferences_link' )
+					$content = str_ireplace($variable, "{$this->reviewYourPreferencesUrl}?unique={{ $key }}", $content);
+
 				else
 					$content = str_ireplace($variable, "{{ $key }}", $content);
 			}
@@ -204,7 +212,9 @@ class SparkyNewsletter
 
 		if ( $substitutionVariables ) {
 			foreach ( $substitutionVariables as $key => $variable ) {
-				if ( $key === 'unsubscribe' || $key === 'unsubscribe_text' ||$key === 'view_this_email_in_the_browser'  || $key === 'view_this_email_in_the_browser_text' || $key === 'review_your_preferences' || $key === 'review_your_preferences_text' )
+				if ( $key === 'unsubscribe' || $key === 'unsubscribe_text' || $key === 'unsubscribe_link' || $key === 'view_this_email_in_the_browser'
+				     || $key === 'view_this_email_in_the_browser_text' || $key === 'review_your_preferences' || $key === 'review_your_preferences_text'
+				     || $key === 'review_your_preferences_link' )
 					$data[$key] = Hashids::encode($subscriber->id);
 				else
 					$data[$key] = $subscriber->{$key};
