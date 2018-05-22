@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Email;
+use App\Helpers\EmailVariables;
 use App\Helpers\Hashids;
 use App\Subscriber;
 use GuzzleHttp\Client;
@@ -69,7 +70,8 @@ class SparkyNewsletter
 	 */
 	protected function getSparkyContent()
 	{
-		$preparedContent = $this->replaceSubstitutionVariables($this->email->content);
+		$sanitisedContent = EmailVariables::sanitiseHrefs($this->email->content);
+		$preparedContent = $this->replaceSubstitutionVariables($sanitisedContent);
 		$html = "<html><body>$preparedContent</body></html>";
 		$html2Text = new Html2Text($html);
 		$text = $html2Text->getText();
