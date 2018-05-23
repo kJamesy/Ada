@@ -110,6 +110,7 @@ class SparkyNewsletter
 			'unsubscribe_link' => '%unsubscribe_link%',
 			'view_this_email_in_the_browser' => '%view_this_email_in_the_browser%',
 			'view_this_email_in_the_browser_text' => '%view_this_email_in_the_browser_text=',
+			'view_this_email_in_the_browser_link' => '%view_this_email_in_the_browser_link%',
 			'review_your_preferences' => '%review_your_preferences%',
 			'review_your_preferences_text' => '%review_your_preferences_text=',
 			'review_your_preferences_link' => '%review_your_preferences_link%',
@@ -171,6 +172,9 @@ class SparkyNewsletter
 					}
 				}
 
+				elseif ( $key === 'view_this_email_in_the_browser_link' )
+					$content = str_ireplace($variable, "{$this->viewInBrowserUrl}?unique={{ $key }}", $content);
+
 				elseif ( $key === 'review_your_preferences' )
 					$content = str_ireplace($variable, "<a href='{$this->reviewYourPreferencesUrl}?unique={{ $key }}'>review your preferences</a>", $content);
 
@@ -215,8 +219,8 @@ class SparkyNewsletter
 		if ( $substitutionVariables ) {
 			foreach ( $substitutionVariables as $key => $variable ) {
 				if ( $key === 'unsubscribe' || $key === 'unsubscribe_text' || $key === 'unsubscribe_link' || $key === 'view_this_email_in_the_browser'
-				     || $key === 'view_this_email_in_the_browser_text' || $key === 'review_your_preferences' || $key === 'review_your_preferences_text'
-				     || $key === 'review_your_preferences_link' )
+				     || $key === 'view_this_email_in_the_browser_text' || $key === 'view_this_email_in_the_browser_link' || $key === 'review_your_preferences'
+				     || $key === 'review_your_preferences_text' || $key === 'review_your_preferences_link' )
 					$data[$key] = Hashids::encode($subscriber->id);
 				else
 					$data[$key] = $subscriber->{$key};
