@@ -36,6 +36,9 @@ class EmailVariables
 
 							elseif ( str_contains(strtolower($href), '%review_your_preferences_link%') )
 								$anchor->setAttribute( 'href', '%review_your_preferences_link%' );
+
+							elseif ( str_contains(strtolower($href), '%view_this_email_in_the_browser_link%') )
+								$anchor->setAttribute( 'href', '%view_this_email_in_the_browser_link%' );
 						}
 					}
 				}
