@@ -70,8 +70,7 @@ class SparkyNewsletter
 	 */
 	protected function getSparkyContent()
 	{
-		$sanitisedContent = EmailVariables::sanitiseHrefs($this->email->content);
-		$preparedContent = $this->replaceSubstitutionVariables($sanitisedContent);
+		$preparedContent = $this->replaceSubstitutionVariables($this->email->content);
 		$html = "<html><body>$preparedContent</body></html>";
 		$html2Text = new Html2Text($html);
 		$text = $html2Text->getText();
@@ -93,117 +92,22 @@ class SparkyNewsletter
 
 	/**
 	 * Define all variables to be substituted.
-	 * Everything except unsubscribe_link is a property of Subscriber model
 	 * The value represents what the user entered in their HTML
 	 * @return array
 	 */
 	protected function getSubstitutionVariables()
 	{
-		return [
-			'id' => '%id%',
-			'first_name' => '%first_name%',
-			'last_name' => '%last_name%',
-			'name' => '%name%',
-			'email' => '%email%',
-			'unsubscribe' => '%unsubscribe%',
-			'unsubscribe_text' => '%unsubscribe_text=',
-			'unsubscribe_link' => '%unsubscribe_link%',
-			'view_this_email_in_the_browser' => '%view_this_email_in_the_browser%',
-			'view_this_email_in_the_browser_text' => '%view_this_email_in_the_browser_text=',
-			'view_this_email_in_the_browser_link' => '%view_this_email_in_the_browser_link%',
-			'review_your_preferences' => '%review_your_preferences%',
-			'review_your_preferences_text' => '%review_your_preferences_text=',
-			'review_your_preferences_link' => '%review_your_preferences_link%',
-		];
+		return EmailVariables::getSubstitutionVariables();
 	}
 
 	/**
 	 * Replace user's substitution data with the Sparkpost format.
-	 * Unescape unsubscribe link
 	 * @param $content
 	 * @return mixed
 	 */
 	protected function replaceSubstitutionVariables($content)
 	{
-		$substitutionVariables = $this->getSubstitutionVariables();
-
-		if ( $substitutionVariables ) {
-			foreach ( $substitutionVariables as $key => $variable ) {
-				if ( $key === 'unsubscribe' )
-					$content = str_ireplace($variable, "<a href='{$this->unsubscribeUrl}?unique={{ $key }}' data-msys-unsubscribe='1'>unsubscribe</a>", $content);
-
-				elseif ( $key === 'unsubscribe_link' )
-					$content = str_ireplace($variable, "{$this->unsubscribeUrl}?unique={{ $key }}", $content);
-
-				elseif ( $key === 'unsubscribe_text' ) {
-					$start = $variable;
-					$end = '%';
-
-					$occurrences = preg_split("/$start/i", $content);
-
-					if ( count($occurrences) ) {
-						foreach( $occurrences as $occurrence ) {
-							if ( strlen($occurrence) ) {
-								$customText = preg_split("/$end/i", $occurrence)[0];
-								if ( strlen($customText) )
-									$content = str_ireplace("$start$customText$end", "<a href='{$this->unsubscribeUrl}?unique={{ $key }}' data-msys-unsubscribe='1'>$customText</a>", $content);
-							}
-						}
-					}
-				}
-
-				elseif ( $key === 'view_this_email_in_the_browser' )
-					$content = str_ireplace($variable, "<a href='{$this->viewInBrowserUrl}?unique={{ $key }}'>view this email in the browser</a>", $content);
-
-				elseif ( $key === 'view_this_email_in_the_browser_text' ) {
-					$start = $variable;
-					$end = '%';
-
-					$occurrences = preg_split("/$start/i", $content);
-
-					if ( count($occurrences) ) {
-						foreach( $occurrences as $occurrence ) {
-							if ( strlen($occurrence) ) {
-								$customText = preg_split("/$end/i", $occurrence)[0];
-								if ( strlen($customText) )
-									$content = str_ireplace("$start$customText$end", "<a href='{$this->viewInBrowserUrl}?unique={{ $key }}'>$customText</a>", $content);
-							}
-						}
-					}
-				}
-
-				elseif ( $key === 'view_this_email_in_the_browser_link' )
-					$content = str_ireplace($variable, "{$this->viewInBrowserUrl}?unique={{ $key }}", $content);
-
-				elseif ( $key === 'review_your_preferences' )
-					$content = str_ireplace($variable, "<a href='{$this->reviewYourPreferencesUrl}?unique={{ $key }}'>review your preferences</a>", $content);
-
-				elseif ( $key === 'review_your_preferences_text' ) {
-					$start = $variable;
-					$end = '%';
-
-					$occurrences = preg_split("/$start/i", $content);
-
-					if ( count($occurrences) ) {
-						foreach( $occurrences as $occurrence ) {
-							if ( strlen($occurrence) ) {
-								$customText = preg_split("/$end/i", $occurrence)[0];
-								if ( strlen($customText) )
-									$content = str_ireplace("$start$customText$end", "<a href='{$this->reviewYourPreferencesUrl}?unique={{ $key }}'>$customText</a>", $content);
-							}
-						}
-					}
-				}
-
-				elseif ( $key === 'review_your_preferences_link' )
-					$content = str_ireplace($variable, "{$this->reviewYourPreferencesUrl}?unique={{ $key }}", $content);
-
-				else
-					$content = str_ireplace($variable, "{{ $key }}", $content);
-			}
-		}
-
-		return $content;
+		return EmailVariables::replaceSubstitutionVariables($this->getSubstitutionVariables(), $content, $this->unsubscribeUrl, $this->viewInBrowserUrl, $this->reviewYourPreferencesUrl);
 	}
 
 	/**
@@ -213,21 +117,7 @@ class SparkyNewsletter
 	 */
 	protected function getSubstitutionData(Subscriber $subscriber)
 	{
-		$substitutionVariables = $this->getSubstitutionVariables();
-		$data = [];
-
-		if ( $substitutionVariables ) {
-			foreach ( $substitutionVariables as $key => $variable ) {
-				if ( $key === 'unsubscribe' || $key === 'unsubscribe_text' || $key === 'unsubscribe_link' || $key === 'view_this_email_in_the_browser'
-				     || $key === 'view_this_email_in_the_browser_text' || $key === 'view_this_email_in_the_browser_link' || $key === 'review_your_preferences'
-				     || $key === 'review_your_preferences_text' || $key === 'review_your_preferences_link' )
-					$data[$key] = Hashids::encode($subscriber->id);
-				else
-					$data[$key] = $subscriber->{$key};
-			}
-		}
-
-		return $data;
+		return EmailVariables::getSubstitutionData($this->getSubstitutionVariables(), $subscriber);
 	}
 
 	/**
