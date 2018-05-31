@@ -57,6 +57,13 @@ class VersionOneController extends Controller
 
 		$this->validate($request, $rules);
 
+		//$this->validate($request, $rules);
+
+		$validator = Validator::make($request->all(), $rules);
+
+		if ( $validator->fails() )
+			return response()->json(['validation' => $validator->errors()], 422);
+
 		try {
 			$subscriber = new Subscriber();
 			$subscriber->first_name = trim($request->first_name);
