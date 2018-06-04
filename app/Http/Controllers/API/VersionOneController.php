@@ -55,8 +55,6 @@ class VersionOneController extends Controller
 		$rules = Subscriber::$rules;
 		$rules['consent'] = 'required';
 
-		$this->validate($request, $rules);
-
 		//$this->validate($request, $rules);
 
 		$validator = Validator::make($request->all(), $rules);
