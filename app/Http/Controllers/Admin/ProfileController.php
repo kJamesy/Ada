@@ -33,8 +33,10 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        if ( $profile = Auth::user() )
+        if ( $profile = Auth::user() ) {
+	        $profile = User::findResource($profile->id);
 	        return response()->json(compact('profile'));
+        }
         else
             return response()->json(['error' => 'User does not exist. Please login and try again'], 403);
     }

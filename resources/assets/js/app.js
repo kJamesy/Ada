@@ -71,6 +71,7 @@ import AdminProfile from './components/AdminProfile/AdminProfile.vue';
 import AdminProfileProfile from './components/AdminProfile/Profile.vue';
 import AdminEditProfile from './components/AdminProfile/EditProfile.vue';
 import AdminEditPassword from './components/AdminProfile/EditPassword.vue';
+import AdminLoginActivities from './components/AdminProfile/LoginActivities.vue';
 
 if ( $('#admin-profile-app').length ) {
     let router = new VueRouter({
@@ -81,6 +82,7 @@ if ( $('#admin-profile-app').length ) {
             { path: '/', name: 'profile.index', component: AdminProfileProfile },
             { path: '/edit-profile', name: 'profile.edit_profile', component: AdminEditProfile },
             { path: '/edit-password', name: 'profile.edit_password', component: AdminEditPassword },
+            { path: '/login-activities', name: 'profile.login_activities', component: AdminLoginActivities },
             { path: '*', redirect: { name: 'profile.index' } }
         ]
     });
@@ -359,6 +361,7 @@ import AdminUsersNew from './components/AdminUsers/NewUser.vue';
 import AdminUsersView from './components/AdminUsers/ViewUser.vue';
 import AdminUsersEdit from './components/AdminUsers/EditUser.vue';
 import AdminUsersEditPermissions from './components/AdminUsers/EditUserPermissions.vue';
+import AdminUsersLoginActivities from './components/AdminUsers/ViewLoginActivities';
 
 if ( $('#admin-users-app').length ) {
     let router = new VueRouter({
@@ -371,6 +374,7 @@ if ( $('#admin-users-app').length ) {
             { path: '/:id(\\d+)/view', name: 'admin_users.view', component: AdminUsersView },
             { path: '/:id(\\d+)/edit', name: 'admin_users.edit', component: AdminUsersEdit },
             { path: '/:id(\\d+)/permissions', name: 'admin_users.edit_permissions', component: AdminUsersEditPermissions },
+            { path: '/:id(\\d+)/login-activities', name: 'admin_users.view_login_activities', component: AdminUsersLoginActivities },
             { path: '*', redirect: { name: 'admin_users.index' } }
         ]
     });

@@ -21,6 +21,25 @@
                     <td>{{ profile.username }}</td>
                 </tr>
                 <tr>
+                    <th scope="row">Role</th>
+                    <td>
+                        {{ profile.is_super_admin ? 'Super Admin' : 'User' }}
+                        <span v-if="profile.is_super_admin" class="text-dark"> <i class="icon ion-android-star"></i> </span>
+                    </td>
+                </tr>
+                <tr v-if="permissions">
+                    <th scope="row">Permissions</th>
+                    <td>{{ permissions }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">User Since</th>
+                    <td>{{ profile.created_at | dateToTheMinute }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Last Login</th>
+                    <td v-html="getLastLoginDateHtml(profile.penultimate_login)"></td>
+                </tr>
+                <tr>
                     <th scope="row">Last Profile Update</th>
                     <td>{{ profile.updated_at | dateToTheMinute }}</td>
                 </tr>
@@ -44,6 +63,23 @@
                 profile: {}
             }
         },
+        computed: {
+            permissions() {
+                let vm = this;
+                let permissionsMarkup = '';
+
+                if ( vm.profile.meta ) {
+                    let meta = JSON.parse(vm.profile.meta);
+
+                    _.forEach(meta, function(value, key) {
+                        if ( value === true )
+                            permissionsMarkup += _.upperFirst(_.replace(key, /_/g, ' ')) + '; ';
+                    });
+                }
+
+                return permissionsMarkup;
+            }
+        },
         methods: {
             fetchProfile() {
                 let vm = this;
@@ -58,7 +94,10 @@
                     vm.appGeneralErrorAlert();
                     progress.fail();
                 });
-            }
+            },
+            getLastLoginDateHtml(last_login) {
+                return last_login ? this.$options.filters.dateToTheMinute(last_login.attempted_at) : '-';
+            },
         }
     }
 </script>

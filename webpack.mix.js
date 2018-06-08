@@ -19,11 +19,11 @@ if ( mix.config.inProduction ) {
     mix.version();
 }
 
-mix.browserSync('anada.jamesy');
+mix.browserSync('tulip.jamesy');
 
 // mix.browserSync({
 //     host: '192.168.10.10',
-//     proxy: 'ada2.app',
+//     proxy: 'tulip.jamesy',
 //     open: false,
 //     watchOptions: {
 //         usePolling: true,

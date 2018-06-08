@@ -15,5 +15,9 @@
         <li class="nav-item" v-if="appCurrentRouteIdParam && appUserHasPermission('update')">
             <router-link v-bind:to="{ name: 'admin_users.edit_permissions', params: { id: appCurrentRouteIdParam }}" class="nav-link" exact><i class="icon ion-ribbon-b"></i> Edit Permissions</router-link>
         </li>
+        <li class="nav-item" v-if="appCurrentRouteIdParam && appUserHasPermission('read')">
+            <router-link v-bind:to="{ name: 'admin_users.view_login_activities', params: { id: appCurrentRouteIdParam }}" class="nav-link" exact><i class="fa fa-exchange"></i>
+                Login Activities</router-link>
+        </li>
     </ul>
 </template>
