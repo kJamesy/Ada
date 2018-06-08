@@ -43,6 +43,7 @@
                                 <th v-on:click.prevent="appChangeSort('first_name')">Name <span v-html="appGetSortMarkup('first_name')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('email')">Email <span v-html="appGetSortMarkup('email')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('username')">Username <span v-html="appGetSortMarkup('username')"></span></th>
+                                <th class="normal-cursor">Last Login</th>
                                 <th v-on:click.prevent="appChangeSort('active')" >Active <span v-html="appGetSortMarkup('active')"></span></th>
                                 <th v-on:click.prevent="appChangeSort('updated_at')" >Updated <span v-html="appGetSortMarkup('updated_at')"></span></th>
                                 <th></th>
@@ -61,6 +62,7 @@
                                 <td>{{ user.name }} <span v-if="user.is_super_admin" class="text-dark" title="Super Admin" data-toggle="tooltip"> <i class="icon ion-android-star"></i> </span></td>
                                 <td>{{ user.email }}</td>
                                 <td> {{ user.username }}</td>
+                                <td v-bind:title="getLastLoginLongDateHtml(user.last_login)" data-toggle="tooltip" v-html="getLastLoginHtml(user.last_login)"></td>
                                 <td v-html="appActiveMarkup(user.active)"></td>
                                 <td v-bind:title="user.updated_at | dateToTheMinWithDayOfWeek" data-toggle="tooltip">{{ user.updated_at | dateToTheDay }}</td>
                                 <td>
@@ -95,6 +97,7 @@
             this.$nextTick(function() {
                 this.appInitialiseSettings();
                 this.fetchResources();
+                this.applyListeners();
             });
         },
         data() {
@@ -141,6 +144,19 @@
             exportAll() {
                 this.appExportAll();
             },
+            applyListeners() {
+                let vm = this;
+
+                vm.$on('successfulfetch', function () {
+                    vm.appInitialiseTooltip();
+                });
+            },
+            getLastLoginHtml(last_login) {
+                return last_login ? this.$options.filters.dateToTheDay(last_login.attempted_at) : '&mdash;';
+            },
+            getLastLoginLongDateHtml(last_login) {
+                return last_login ? this.$options.filters.dateToTheMinWithDayOfWeek(last_login.attempted_at) : '-';
+            }
         },
     }
 </script>

@@ -61,7 +61,7 @@ class UserController extends Controller
 
                 $resources = $search
                     ? User::getSearchResults($search, $settings["{$this->settingsKey}_per_page"])
-                    : User::getResources($settings["{$this->settingsKey}_order_by"], $settings["{$this->settingsKey}_order"], $settings["{$this->settingsKey}_per_page"]);
+                    : User::getResources([], [], $settings["{$this->settingsKey}_order_by"], $settings["{$this->settingsKey}_order"], $settings["{$this->settingsKey}_per_page"]);
 
                 if ( $resources->count() )
                     return response()->json(compact('resources'));
@@ -329,7 +329,7 @@ class UserController extends Controller
 
             if ( $selectedNum ) {
                 try {
-                    $resources = User::getResourcesByIds($resourceIds);
+                    $resources = User::getResources($resourceIds);
                     $successNum = 0;
 
                     if ( $resources ) {
@@ -372,25 +372,25 @@ class UserController extends Controller
             return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
     }
 
-    /**
-     * Export users to Excel
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function export(Request $request)
-    {
-        if ( $request->user()->can('read', $this->policyOwnerClass) ) {
-            $resourceIds = (array) $request->resourceIds;
-            $fileName = '';
+	/**
+	 * Export users to Excel
+	 * @param Request $request
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
+	public function export(Request $request)
+	{
+		if ( $request->user()->can('read', $this->policyOwnerClass) ) {
+			$resourceIds = (array) $request->resourceIds;
+			$fileName = '';
 
-            $resources = count($resourceIds) ? User::getResourcesByIds($resourceIds) : User::getResourcesNoPagination();
-            $fileName .= count($resourceIds) ? 'Specified-Resources-' : 'All-Resources-';
-            $fileName .= Carbon::now()->toDateString();
+			$resources = count($resourceIds) ? User::getResources($resourceIds) : User::getResources();
+			$fileName .= count($resourceIds) ? 'Specified-Resources-' : 'All-Resources-';
+			$fileName .= Carbon::now()->toDateString();
 
-            $exporter = new ResourceExporter($resources, $fileName);
-            return $exporter->generateExcelExport('users');
-        }
-        else
-            return redirect()->back();
-    }
+			$exporter = new ResourceExporter($resources, $fileName);
+			return $exporter->generateExcelExport('users');
+		}
+		else
+			return redirect()->back();
+	}
 }

@@ -42,6 +42,10 @@
                             <td>{{ resource.created_at | dateToTheMinute }}</td>
                         </tr>
                         <tr>
+                            <th scope="row">Last Login</th>
+                            <td v-html="getLastLoginDateHtml(resource.last_login)"></td>
+                        </tr>
+                        <tr>
                             <th scope="row">Last Profile Update</th>
                             <td>{{ resource.updated_at | dateToTheMinute }}</td>
                         </tr>
@@ -65,7 +69,8 @@
         data() {
             return {
                 fetchingData: true,
-                resource: {id: '', first_name: '', last_name: '', phone: '', email: '', username: '', active: null, created_at: '', updated_at: '', is_super_admin: null, meta: {}},
+                resource: {id: '', first_name: '', last_name: '', phone: '', email: '', username: '', active: null, created_at: '', updated_at: '',
+                    is_super_admin: null, meta: {}, last_login: '', penultimate_login: ''},
                 listRoute: 'admin_users.index',
             }
         },
@@ -89,7 +94,13 @@
         methods: {
             showResource() {
                 this.appShowResource();
-            }
+            },
+            getLastLoginDateHtml(last_login) {
+                return last_login ? this.$options.filters.dateToTheMinute(last_login.attempted_at) : '-';
+            },
+            getLastLoginLongDateHtml(last_login) {
+                return last_login ? this.$options.filters.dateToTheMinWithDayOfWeek(last_login.attempted_at) : '-';
+            },
         },
     }
 </script>

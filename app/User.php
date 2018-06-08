@@ -30,7 +30,7 @@ class User extends Authenticatable
      * Custom attributes
      * @var array
      */
-    protected $appends = ['name', 'is_super_admin', 'is_user'];
+    protected $appends = ['name', 'is_super_admin', 'is_user', 'last_login', 'penultimate_login', ];
 
     /**
      * Validation rules
@@ -43,6 +43,15 @@ class User extends Authenticatable
         'email' => 'required|email|max:255|unique:users',
         'password' => 'required|min:6|confirmed',
     ];
+
+	/**
+	 * A user has many Login Activities
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function login_activities()
+	{
+		return $this->hasMany(LoginActivity::class);
+	}
 
 	/**
 	 * A User has many Emails
@@ -82,17 +91,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Send the password reset notification.
-     *
-     * @param  string  $token
-     * @return void
-     */
-    public function sendPasswordResetNotification($token)
-    {
-        $this->notify(new AdminPasswordReset($token, $this));
-    }
-
-    /**
      * 'is_super_admin' accessor
      * @return bool
      */
@@ -120,6 +118,35 @@ class User extends Authenticatable
         return false;
     }
 
+	/**
+	 * 'last_login' accessor
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Query\Builder|null
+	 */
+	public function getLastLoginAttribute()
+	{
+		return $this->login_activities()->where('success', 1)->orderBy('created_at', 'DESC')->first();
+	}
+
+	/**
+	 * 'penultimate_login' accessor
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Query\Builder|null
+	 */
+	public function getPenultimateLoginAttribute()
+	{
+		return $this->login_activities()->where('success', 1)->orderBy('created_at', 'DESC')->skip(1)->first();
+	}
+
+	/**
+	 * Send the password reset notification.
+	 *
+	 * @param  string  $token
+	 * @return void
+	 */
+	public function sendPasswordResetNotification($token)
+	{
+		$this->notify(new AdminPasswordReset($token, $this));
+	}
+
     /**
      * Find resource by id
      * @param $id
@@ -127,60 +154,51 @@ class User extends Authenticatable
      */
     public static function findResource($id)
     {
-        return static::find($id);
+        return static::with('login_activities')->find($id);
     }
 
-    /***
-     * Get resources of specified ids
-     * @param $ids
-     * @param string $orderBy
-     * @param string $order
-     * @return mixed
-     */
-    public static function getResourcesByIds($ids, $orderBy = 'first_name', $order = 'asc')
-    {
-        return static::whereIn('id', (array) $ids)->orderBy($orderBy, $order)->get();
-    }
+	/**
+	 * Get all resources
+	 * @param array $selected
+	 * @param array $except
+	 * @param string $orderBy
+	 * @param string $order
+	 * @param null $paginate
+	 *
+	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection|static[]
+	 */
+	public static function getResources($selected = [], $except = [], $orderBy = 'first_name', $order = 'asc', $paginate = null)
+	{
+		$query = static::with('login_activities');
 
-    /**
-     * Get all resources with no pagination
-     * @param string $orderBy
-     * @param string $order
-     * @return mixed
-     */
-    public static function getResourcesNoPagination($orderBy = 'first_name', $order = 'asc')
-    {
-        return static::orderBy($orderBy, $order)->get();
-    }
+		if ( $selected )
+			$query->whereIn('id', $selected);
 
-    /**
-     * Get all resources
-     * @param string $orderBy
-     * @param string $order
-     * @param int $paginate
-     * @param array $except
-     * @return mixed
-     */
-    public static function getResources($orderBy = 'first_name', $order = 'asc', $paginate = 25, $except = [])
-    {
-        return static::whereNotIn('id', $except)->orderBy($orderBy, $order)->paginate($paginate);
-    }
+		if ( $except )
+			$query->whereNotIn('id', $except);
 
-    /**
-     * Get search results
-     * @param $search
-     * @param int $paginate
-     * @param array $except
-     * @return mixed
-     */
-    public static function getSearchResults($search, $paginate = 25, $except = [])
-    {
-	    $searchQuery = static::search($search);
-	    $searchQuery->limit = 5000;
-	    $results = $searchQuery->get()->pluck('id');
+		$query->orderBy($orderBy, $order);
 
-        return static::whereIn('id', $results)->whereNotIn('id', $except)->paginate($paginate);
-    }
+		return (int) $paginate ? $query->paginate($paginate) : $query->get();
+	}
+
+	/**
+	 * Get search results
+	 * @param $search
+	 * @param int $paginate
+	 *
+	 * @return mixed
+	 */
+	public static function getSearchResults($search, $paginate = 25)
+	{
+		$searchQuery = static::search($search);
+		$searchQuery->limit = 5000;
+		$results = $searchQuery->get()->pluck('id');
+
+		$query = static::with('login_activities')->whereIn('id', $results);
+
+		return $query->paginate($paginate);
+	}
 
 	/**
 	 * Get resources that are attached to emails
