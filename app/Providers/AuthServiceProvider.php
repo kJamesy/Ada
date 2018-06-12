@@ -3,19 +3,23 @@
 namespace App\Providers;
 
 use App\Campaign;
+use App\DeveloperGuide;
 use App\Email;
 use App\EmailContent;
 use App\MailingList;
 use App\Policies\CampaignPolicy;
+use App\Policies\DeveloperGuidePolicy;
 use App\Policies\EmailContentPolicy;
 use App\Policies\EmailPolicy;
 use App\Policies\MailingListPolicy;
 use App\Policies\SubscriberPolicy;
 use App\Policies\TemplatePolicy;
+use App\Policies\UserGuidePolicy;
 use App\Policies\UserPolicy;
 use App\Subscriber;
 use App\Template;
 use App\User;
+use App\UserGuide;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -33,6 +37,9 @@ class AuthServiceProvider extends ServiceProvider
 	    Template::class => TemplatePolicy::class,
 	    Email::class => EmailPolicy::class,
 	    EmailContent::class => EmailContentPolicy::class,
+	    UserGuide::class => UserGuidePolicy::class,
+	    DeveloperGuide::class => DeveloperGuidePolicy::class,
+
     ];
 
     /**

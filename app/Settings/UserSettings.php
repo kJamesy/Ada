@@ -31,7 +31,9 @@ class UserSettings
 	    'templates',
 	    'email_settings',
 	    'emails',
-	    'email_contents'
+	    'email_contents',
+	    'user_guides',
+	    'developer_guides',
     ];
 
     /**

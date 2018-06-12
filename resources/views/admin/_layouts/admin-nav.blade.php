@@ -118,6 +118,31 @@
                         </a>
                     </li>
                 @endif
+
+                <li class="nav-item">
+                    <a href="" class="nav-link with-sub {{ ( isset($activeGroup) && $activeGroup == 'documentation' ) ? 'active show-sub' : '' }}">
+                        <i class="icon ion-android-bulb"></i>
+                        <span>Documentation</span>
+                    </a>
+                    <ul class="nav-sub">
+                        @if ( (array_key_exists('read_user_guides', $permissions) && $permissions['read_user_guides']) || ! array_key_exists('read_user_guides', $permissions) )
+                            <li class="nav-item">
+                                <a class="nav-link @yield('user_guides_active')" href="{{ route('user-guides.index') }}">
+                                    <i class="icon ion-ios-book-outline"></i>
+                                    <span>User Guides</span>
+                                </a>
+                            </li>
+                        @endif
+                        @if ( (array_key_exists('read_developer_guides', $permissions) && $permissions['read_developer_guides']) || ! array_key_exists('read_developer_guides', $permissions) )
+                            <li class="nav-item">
+                                <a class="nav-link @yield('developer_guides_active')" href="{{ route('developer-guides.index') }}">
+                                    <i class="icon ion-android-options"></i>
+                                    <span>Developer Guides</span>
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
             </ul>
             <div id="sidebar-credit">
                 <a href="//kjamesy.london" target="_blank">&copy;{{ strtolower(config('app.name')) }} {{ date('Y') }} all rights reserved.</a>

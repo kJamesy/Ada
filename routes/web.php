@@ -67,6 +67,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 				Route::get('emails/export', 'EmailController@export');
 				Route::get('emails/{vue?}', 'EmailController@index');
 				Route::get('email-contents/{vue?}', 'EmailContentController@index');
+				Route::get('user-guides/{vue?}', 'UserGuideController@index');
+				Route::get('developer-guides/{vue?}', 'DeveloperGuideController@index');
 			}
 
 			Route::resource('dashboard', 'DashboardController');
@@ -92,6 +94,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 			Route::resource('emails', 'EmailController');
 			Route::put('email-contents/{option}/quick-update', 'EmailContentController@quickUpdate');
 			Route::resource('email-contents', 'EmailContentController');
+			Route::put('user-guides/{option}/quick-update', 'UserGuideController@quickUpdate');
+			Route::resource('user-guides', 'UserGuideController');
+			Route::put('developer-guides/{option}/quick-update', 'DeveloperGuideController@quickUpdate');
+			Route::resource('developer-guides', 'DeveloperGuideController');
 		});
 
 		Route::get('inactive', ['as' => 'admin.inactive', 'middleware' => 'inactive', function () { return view('admin.inactive'); }]);
@@ -104,6 +110,8 @@ Route::group(['prefix' => 'guest'], function() {
 	Route::get('templates/{id}/display', ['as' => 'templates.display', 'uses' => 'Admin\\TemplateController@display']);
 	Route::get('emails/{id}/display', ['as' => 'emails.display', 'uses' => 'Admin\\EmailController@display']);
 	Route::get('email-contents/{id}/display', ['as' => 'email-contents.display', 'uses' => 'Admin\\EmailContentController@display']);
+	Route::get('user-guides/{id}/display', ['as' => 'user-guides.display', 'uses' => 'Admin\\UserGuideController@display']);
+	Route::get('developer-guides/{id}/display', ['as' => 'developer-guides.display', 'uses' => 'Admin\\DeveloperGuideController@display']);
 });
 
 Route::group(['prefix' => 'subscriber'], function() {
