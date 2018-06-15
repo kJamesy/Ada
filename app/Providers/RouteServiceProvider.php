@@ -24,6 +24,8 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
 	    Route::pattern('vue', '[\/\w\.-]*');
+	    Route::pattern('slug', '[a-z0-9]+(?:-[a-z0-9]+)*');
+
         parent::boot();
     }
 

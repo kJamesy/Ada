@@ -11,6 +11,12 @@ class DeveloperGuide extends Model
 	use Searchable;
 
 	/**
+	 * Custom attributes
+	 * @var array
+	 */
+	protected $appends = ['has_parent', 'has_children'];
+
+	/**
 	 * Validation rules
 	 * @var array
 	 */
@@ -38,6 +44,24 @@ class DeveloperGuide extends Model
 	public function children()
 	{
 		return $this->hasMany(DeveloperGuide::class, 'parent_id');
+	}
+
+	/**
+	 * has_parent accessor
+	 * @return bool
+	 */
+	public function getHasParentAttribute()
+	{
+		return !! $this->parent()->count();
+	}
+
+	/**
+	 * has_children accessor
+	 * @return bool
+	 */
+	public function getHasChildrenAttribute()
+	{
+		return !! $this->children()->count();
 	}
 
 	/**
@@ -183,4 +207,49 @@ class DeveloperGuide extends Model
 		return static::isNotDeleted()->whereNull('parent_id')->orderBy('title')->get(['id', 'title']);
 	}
 
+
+	//FRONTEND METHODS
+
+	/**
+	 * Get a page by slug
+	 * @param $slug
+	 * @return mixed
+	 */
+	public static function getPageBySlug($slug)
+	{
+		return static::with(['parent', 'children'])->isNotDeleted()->where('slug', $slug)->first();
+	}
+
+	/**
+	 * Get the landing page
+	 * @return mixed
+	 */
+	public static function getHomePage()
+	{
+		return static::with(['parent', 'children'])
+		             ->isNotDeleted()
+		             ->where('slug', 'home')
+		             ->orWhere('slug', 'home-page')
+		             ->orWhere('slug', 'index')
+		             ->first();
+	}
+
+	/**
+	 * Get/Cache all pages
+	 * @return mixed|null
+	 */
+	public static function getCachedPages()
+	{
+		$pages = null;
+
+		try {
+			$pages = cache()->remember('developer_guides', $minutes = (60*24), function() {
+				return static::with(['parent', 'children'])->isNotDeleted()->orderBy('order', 'ASC')->get();
+			});
+		} catch(\Exception $e) {
+
+		}
+
+		return $pages;
+	}
 }

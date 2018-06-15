@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\EmailContent;
 use App\Helpers\Content;
 use App\Helpers\Hashids;
+use App\Helpers\Slug;
 use App\Permissions\UserPermissions;
 use App\Settings\UserSettings;
 use Illuminate\Http\Request;
@@ -95,7 +96,7 @@ class EmailContentController extends Controller
 			$this->validate($request, $this->rules);
 
 			$proposedSlug = $request->slug ? str_slug($request->slug) : str_slug($request->title);
-			$slug = self::generateUniqueSlug(EmailContent::getExistingSlugs(), $proposedSlug);
+			$slug = Slug::generateUniqueSlug(EmailContent::getExistingSlugs(), $proposedSlug);
 
 			$resource = new EmailContent();
 			$resource->user_id = $request->user()->id;
@@ -125,31 +126,12 @@ class EmailContentController extends Controller
 			if ( ! $currentUser->can('read', $this->policyOwnerClass) )
 				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 
-			$resource->url = route('email-contents.display', ['id' => Hashids::encode($resource->id)]);
+			$resource->url = route('guest-email-contents.display', ['id' => Hashids::encode($resource->id)]);
 
 			return response()->json(compact('resource'));
 		}
 
 		return response()->json(['error' => "$this->friendlyName does not exist"], 404);
-	}
-
-	/**
-	 * Display resource content
-	 * @param $id
-	 */
-	public function display($id)
-	{
-		$id = (int) Hashids::decode($id);
-		if ( $resource = EmailContent::findResource($id) ) {
-			$replaced = new Content($resource->content);
-			$content = $replaced->setH2sIdAttribute();
-			$menu = $replaced->getAnchorsMenu();
-
-//			dd($menu);
-			return view('guest.view-content', compact('resource', 'content', 'menu'));
-		}
-		else
-			echo "No $this->friendlyName found";
 	}
 
 	/**
@@ -191,7 +173,7 @@ class EmailContentController extends Controller
 			$this->validate($request, $this->rules);
 
 			$proposedSlug = $request->slug ? str_slug($request->slug) : str_slug($request->title);
-			$slug = ( $proposedSlug === $resource->slug ) ? $resource->slug : self::generateUniqueSlug(EmailContent::getExistingSlugs(), $proposedSlug);
+			$slug = ( $proposedSlug === $resource->slug ) ? $resource->slug : Slug::generateUniqueSlug(EmailContent::getExistingSlugs(), $proposedSlug);
 
 			$resource->user_id = $request->user()->id;
 			$resource->title = trim($request->title);
@@ -293,52 +275,4 @@ class EmailContentController extends Controller
 
 		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 	}
-
-	/**
-	 * Generate a unique slug
-	 * @param $existingSlugs
-	 * @param $proposedSlug
-	 *
-	 * @return mixed
-	 */
-	protected static function generateUniqueSlug($existingSlugs, $proposedSlug)
-	{
-		$exists = false;
-
-		if ( $existingSlugs ) {
-			foreach ( $existingSlugs as $existingSlug ) {
-				if ( strtolower( $proposedSlug ) === strtolower( $existingSlug ) ) {
-					$exists = strtolower( $existingSlug );
-					break;
-				}
-			}
-		}
-
-		if ( $exists ) {
-			$parts = explode("-", $exists);
-			$length = count($parts);
-			$lastPart = $parts[$length-1];
-			$newSlug = '';
-
-			if( (int) $lastPart > 0 ) {
-				$allOtherParts = $parts;
-				unset($allOtherParts[$length-1]);
-				$allOtherParts[] = (int) $lastPart + 1;
-
-				foreach ($allOtherParts as $key=>$part) {
-					if( $key !== $length )
-						$newSlug .= $part . "-";
-					else
-						$newSlug .= $part;
-				}
-			}
-			else
-				$newSlug = $exists . '-1';
-
-			return static::generateUniqueSlug($existingSlugs, $newSlug);
-		}
-
-		return $proposedSlug;
-	}
-
 }

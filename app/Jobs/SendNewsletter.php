@@ -47,8 +47,8 @@ class SendNewsletter implements ShouldQueue
 		$this->email = $email;
 		$this->recipients = $recipients;
 		$this->sender = $sender;
-		$this->unsubscribeUrl = route('unsubscribe');
-		$this->viewInBrowserUrl = route('emails.display', ['id' => Hashids::encode($email->id)]);
+		$this->unsubscribeUrl = route('subscriber.unsubscribe');
+		$this->viewInBrowserUrl = route('guest-emails.display', ['id' => Hashids::encode($email->id)]);
 		$this->reviewYourPreferencesUrl = route('subscriber.review');
 	}
 

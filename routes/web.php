@@ -106,35 +106,20 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 	Route::get('login-helper', ['as' => 'login', function () { return redirect(route('admin.auth.show_login')); }]);
 });
 
-Route::group(['prefix' => 'guest'], function() {
-	Route::get('templates/{id}/display', ['as' => 'templates.display', 'uses' => 'Admin\\TemplateController@display']);
-	Route::get('emails/{id}/display', ['as' => 'emails.display', 'uses' => 'Admin\\EmailController@display']);
-	Route::get('email-contents/{id}/display', ['as' => 'email-contents.display', 'uses' => 'Admin\\EmailContentController@display']);
-	Route::get('user-guides/{id}/display', ['as' => 'user-guides.display', 'uses' => 'Admin\\UserGuideController@display']);
-	Route::get('developer-guides/{id}/display', ['as' => 'developer-guides.display', 'uses' => 'Admin\\DeveloperGuideController@display']);
+Route::group(['prefix' => 'guest', 'namespace' => 'Guest'], function() {
+	Route::get('templates/{id}/display', ['as' => 'guest-templates.display', 'uses' => 'TemplateController@display']);
+	Route::get('emails/{id}/display', ['as' => 'guest-emails.display', 'uses' => 'EmailController@display']);
+	Route::get('email-contents/{id}/display', ['as' => 'guest-email-contents.display', 'uses' => 'EmailContentController@display']);
+	Route::get('user-guides', ['as' => 'guest-user-guides.index', 'uses' => 'UserGuideController@index']);
+	Route::get('user-guides/search', ['as' => 'guest-user-guides.search', 'uses' => 'UserGuideController@search']);
+	Route::get('user-guides/{slug}', ['as' => 'guest-user-guides.show', 'uses' => 'UserGuideController@show']);
+	Route::get('developer-guides', ['as' => 'guest-developer-guides.index', 'uses' => 'DeveloperGuideController@index']);
+	Route::get('developer-guides/search', ['as' => 'guest-developer-guides.search', 'uses' => 'DeveloperGuideController@search']);
+	Route::get('developer-guides/{slug}', ['as' => 'guest-developer-guides.show', 'uses' => 'DeveloperGuideController@show']);
 });
 
-Route::group(['prefix' => 'subscriber'], function() {
-	Route::get('unsubscribe', ['as' => 'unsubscribe', function() {
-		$subscriber = null;
-
-		if ( $id = request()->get('unique') ) {
-			if ( $subscriber = \App\Subscriber::findResource( \App\Helpers\Hashids::decode( $id ) ) )
-				$subscriber = \App\Subscriber::deactivate($subscriber);
-		}
-
-		return view('guest.unsubscribe', compact('subscriber'));
-	}]);
-
-	Route::get('review-preferences', ['as' => 'subscriber.review', function() {
-		$subscriber = null;
-		$id = null;
-
-		if ( $id = request()->get('unique') )
-			$subscriber = \App\Subscriber::findResource( \App\Helpers\Hashids::decode( $id ) );
-
-		return view('guest.review-preferences', compact('subscriber', 'id'));
-	}]);
-
-	Route::post('update-preferences', ['as' => 'subscriber.update_preferences', 'uses' => 'Admin\\SubscriberController@updatePreferences']);
+Route::group(['prefix' => 'subscriber', 'namespace' => 'Subscriber'], function() {
+	Route::get('unsubscribe', ['as' => 'subscriber.unsubscribe', 'uses' => 'SubscriberController@unsubscribe']);
+	Route::get('review-preferences', ['as' => 'subscriber.review', 'uses' => 'SubscriberController@reviewPreferences']);
+	Route::post('update-preferences', ['as' => 'subscriber.update_preferences', 'uses' => 'SubscriberController@updatePreferences']);
 });

@@ -143,26 +143,13 @@ class TemplateController extends Controller
 			if ( ! $currentUser->can('read', $this->policyOwnerClass) )
 				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 
-			$resource->url = route('templates.display', ['id' => Hashids::encode($resource->id)]);
+			$resource->url = route('guest-templates.display', ['id' => Hashids::encode($resource->id)]);
 			$resource->pdf = "{$this->pdfIt}?url={$resource->url}&pdfName=" . str_slug($resource->name);
 
 			return response()->json(compact('resource'));
 		}
 
 		return response()->json(['error' => "$this->friendlyName does not exist"], 404);
-	}
-
-	/**
-	 * Display resource content
-	 * @param $id
-	 */
-	public function display($id)
-	{
-		$id = (int) Hashids::decode($id);
-		if ( $resource = Template::findResource($id) )
-			echo $resource->content;
-		else
-			echo "No $this->friendlyName found";
 	}
 
 	/**
