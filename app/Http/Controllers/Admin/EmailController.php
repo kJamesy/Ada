@@ -231,7 +231,7 @@ class EmailController extends Controller
 			if ( ! $currentUser->can('read', $this->policyOwnerClass) )
 				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 
-			$resource->url = route('emails.display', ['id' => Hashids::encode($resource->id)]);
+			$resource->url = route('guest-emails.display', ['id' => Hashids::encode($resource->id)]);
 			$resource->pdf = "{$this->pdfIt}?url={$resource->url}&pdfName=" . str_slug($resource->subject);
 
 			return response()->json(compact('resource'));
@@ -372,40 +372,6 @@ class EmailController extends Controller
 		}
 
 		return response()->json(['error' => "No stats found"], 404);
-	}
-
-	/**
-	 * Display resource content
-	 * @param $id
-	 *
-	 * @return mixed|string
-	 */
-	public function display($id)
-	{
-		$id = (int) Hashids::decode($id);
-
-		if ( $resource = Email::findResource($id) ) {
-			$content = $resource->content;
-
-			$decodedSubscriberId = request()->has('unique') ? (int) Hashids::decode(request()->get('unique')) : null;
-			$subscriber = $decodedSubscriberId ? Subscriber::findResource($decodedSubscriberId) : null;
-
-			if ( $decodedSubscriberId && $subscriber ) {
-				$encodedEmailId = Hashids::encode($id);
-
-				$unsubscribeUrl = route('unsubscribe');
-				$viewInBrowserUrl = route('emails.display', ['id' => $encodedEmailId]);
-				$reviewYourPreferencesUrl = route('subscriber.review');
-
-				$substitutionVariables = EmailVariables::getSubstitutionVariables();
-
-				return EmailVariables::replaceSubstitutionVariablesForBrowser($substitutionVariables, $content, $unsubscribeUrl, $viewInBrowserUrl, $reviewYourPreferencesUrl, $subscriber);
-			}
-
-			return $content;
-		}
-
-		return "No $this->friendlyName found";
 	}
 
 	/**

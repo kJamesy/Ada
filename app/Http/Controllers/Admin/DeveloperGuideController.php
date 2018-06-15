@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exporters\ResourceExporter;
-use App\Helpers\Hashids;
-use App\Http\Controllers\Controller;
+use App\Helpers\Slug;
 use App\Permissions\UserPermissions;
 use App\Settings\UserSettings;
-use App\Template;
-use Carbon\Carbon;
+use App\DeveloperGuide;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class TemplateController extends Controller
+class DeveloperGuideController extends Controller
 {
 	protected $redirect;
 	public $rules;
@@ -24,27 +22,24 @@ class TemplateController extends Controller
 	protected $permissionsKey;
 	protected $friendlyName;
 	protected $friendlyNamePlural;
-	protected $pdfIt;
 
 	/**
-	 * TemplateController constructor.
+	 * CampaignController constructor.
 	 */
 	public function __construct()
 	{
 		$this->redirect = route('admin.home');
-		$this->rules = Template::$rules;
+		$this->rules = DeveloperGuide::$rules;
 		$this->perPage = 25;
-		$this->orderByFields = ['name', 'last_editor', 'created_at', 'updated_at'];
+		$this->orderByFields = ['title', 'last_editor', 'order', 'created_at', 'updated_at'];
 		$this->orderCriteria = ['asc', 'desc'];
-		$this->settingsKey = 'templates';
+		$this->settingsKey = 'developer_guides';
 		$this->policies = UserPermissions::getPolicies();
-		$this->policyOwnerClass = Template::class;
+		$this->policyOwnerClass = DeveloperGuide::class;
 		$this->permissionsKey = UserPermissions::getModelShortName($this->policyOwnerClass);
-		$this->friendlyName = 'Template';
-		$this->friendlyNamePlural = 'Templates';
-		$this->pdfIt = 'http://pdf-it.dev.acw.website/please-and-thank-you';
+		$this->friendlyName = 'Developer guide';
+		$this->friendlyNamePlural = 'Developer guides';
 	}
-
 
 	/**
 	 * Display a listing of the resource.
@@ -56,23 +51,23 @@ class TemplateController extends Controller
 		if ( $request->user()->can('read', $this->policyOwnerClass) ) {
 			$user = $request->user();
 
-			$orderBy = in_array(strtolower($request->orderBy), $this->orderByFields) ? strtolower($request->orderBy) : $this->orderByFields[0];
+			$orderBy = in_array(strtolower($request->orderBy), $this->orderByFields) ? strtolower($request->orderBy) : $this->orderByFields[2];
 			$order = in_array(strtolower($request->order), $this->orderCriteria) ? strtolower($request->order) : $this->orderCriteria[1];
 			$perPage = (int) $request->perPage ?: $this->perPage;
 			$deleted = (int) $request->trash;
 
 			if ( ! $request->ajax() ) {
-				return view('admin.templates')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey, 'activeGroup' => 'content']);
+				return view('admin.developer_guides')->with(['settingsKey' => $this->settingsKey, 'permissionsKey' => $this->permissionsKey, 'activeGroup' => 'documentation']);
 			}
 			else {
 				$settings = UserSettings::getSettings($user->id, $this->settingsKey, $orderBy, $order, $perPage, true);
 				$search = strtolower($request->search);
 
 				$resources = $search
-					? Template::getSearchResults($search, $deleted, $settings["{$this->settingsKey}_per_page"])
-					: Template::getResources([], $deleted, $settings["{$this->settingsKey}_order_by"], $settings["{$this->settingsKey}_order"], $settings["{$this->settingsKey}_per_page"]);
+					? DeveloperGuide::getSearchResults($search, $deleted, $settings["{$this->settingsKey}_per_page"])
+					: DeveloperGuide::getResources([], $deleted, $settings["{$this->settingsKey}_order_by"], $settings["{$this->settingsKey}_order"], $settings["{$this->settingsKey}_per_page"]);
 
-				$deletedNum = Template::getCount(1);
+				$deletedNum = DeveloperGuide::getCount(1);
 
 				if ( $resources->count() )
 					return response()->json(compact('resources', 'deletedNum'));
@@ -95,9 +90,9 @@ class TemplateController extends Controller
 	public function create(Request $request)
 	{
 		if ( $request->user()->can('create', $this->policyOwnerClass) ) {
-			$templates = Template::getAttachableResources();
+			$parents = DeveloperGuide::getAttachableResources();
 
-			return response()->json(compact('templates'));
+			return response()->json(compact('parents'));
 		}
 
 		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
@@ -105,22 +100,38 @@ class TemplateController extends Controller
 
 	/**
 	 * Store a newly created resource in storage.
+	 *
 	 * @param Request $request
-	 * @return Template|\Illuminate\Http\JsonResponse
+	 *
+	 * @return DeveloperGuide|\Illuminate\Http\JsonResponse
 	 */
 	public function store(Request $request)
 	{
-		if ( $request->user()->can('create', $this->policyOwnerClass) ) {
+		$currentUser = $request->user();
+		if ( $currentUser->can('create', $this->policyOwnerClass) ) {
+
 			$this->validate($request, $this->rules);
 
-			$user = $request->user();
+			$proposedSlug = $request->slug ? str_slug($request->slug) : str_slug($request->title);
+			$slug = Slug::generateUniqueSlug(DeveloperGuide::getExistingSlugs(), $proposedSlug);
 
-			$resource = new Template();
-			$resource->name = trim($request->name);
-			$resource->description = trim($request->description);
-			$resource->content = trim($request->get('content'));
-			$resource->last_editor = "{$user->name}";
+			$parent_id = (int) $request->parent_id;
+
+			$resource       = new DeveloperGuide();
+			$resource->title = $request->title;
+			$resource->slug = $slug;
+			$resource->content = $request->get('content');
+			if ( $parent_id )
+				$resource->parent_id = $parent_id;
+			$resource->last_editor = "{$currentUser->name}";
+			$resource->order = (int) $request->order;
 			$resource->save();
+
+			try {
+				cache()->forget($this->settingsKey);
+			} catch(\Exception $e) {
+
+			}
 
 			return $resource;
 		}
@@ -136,15 +147,14 @@ class TemplateController extends Controller
 	 */
 	public function show($id, Request $request)
 	{
-		$resource = Template::findResource( (int) $id );
+		$resource = DeveloperGuide::findResource( (int) $id );
 		$currentUser = $request->user();
 
 		if ( $resource ) {
 			if ( ! $currentUser->can('read', $this->policyOwnerClass) )
 				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 
-			$resource->url = route('guest-templates.display', ['id' => Hashids::encode($resource->id)]);
-			$resource->pdf = "{$this->pdfIt}?url={$resource->url}&pdfName=" . str_slug($resource->name);
+			$resource->url = route('guest-developer-guides.show', ['slug' => $resource->slug]);
 
 			return response()->json(compact('resource'));
 		}
@@ -160,15 +170,15 @@ class TemplateController extends Controller
 	 */
 	public function edit($id, Request $request)
 	{
-		$resource = Template::findResource( (int) $id );
+		$resource = DeveloperGuide::findResource( (int) $id );
 		$currentUser = $request->user();
 
 		if ( $resource ) {
 			if ( ! $currentUser->can('update', $this->policyOwnerClass) )
 				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 
-			$templates = Template::getAttachableResources();
-			return response()->json(compact('resource', 'templates'));
+			$parents = DeveloperGuide::getAttachableResources();
+			return response()->json(compact('resource', 'parents'));
 		}
 
 		return response()->json(['error' => "$this->friendlyName does not exist"], 404);
@@ -182,29 +192,36 @@ class TemplateController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
-		$resource = Template::findResource( (int) $id );
+		$resource    = DeveloperGuide::findResource( (int) $id );
 		$currentUser = $request->user();
 
 		if ( $resource ) {
 			if ( ! $currentUser->can('update', $this->policyOwnerClass) )
 				return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
 
-			$rules = $this->rules;
+			$this->validate($request, $this->rules);
 
-			if ( strtolower($resource->name) === strtolower(trim($request->name)) )
-				unset($rules['name']);
+			$proposedSlug = $request->slug ? str_slug($request->slug) : str_slug($request->title);
+			$slug = ( $proposedSlug === $resource->slug ) ? $resource->slug : Slug::generateUniqueSlug(DeveloperGuide::getExistingSlugs(), $proposedSlug);
 
-			$this->validate($request, $rules);
+			$parent_id = (int) $request->parent_id;
+			$parent_id = ( $parent_id === $resource->id ) ? null : $parent_id;
 
-			$user = $request->user();
-
-			$resource->name = trim($request->name);
-			$resource->description = trim($request->description);
-			$resource->last_editor = "{$user->name}";
-			$resource->content = trim($request->get('content'));
+			$resource->title = $request->title;
+			$resource->slug = $slug;
+			$resource->content = $request->get('content');
+			$resource->parent_id = $parent_id ?: null;
+			$resource->last_editor = "{$currentUser->name}";
+			$resource->order = (int) $request->order;
 			$resource->save();
 
-			return response()->json(compact('resource'));
+			try {
+				cache()->forget($this->settingsKey);
+			} catch(\Exception $e) {
+
+			}
+
+			return $resource;
 		}
 
 		return response()->json(['error' => "$this->friendlyName does not exist"], 404);
@@ -217,7 +234,7 @@ class TemplateController extends Controller
 	 */
 	public function destroy($id, Request $request)
 	{
-		$resource = Template::findResource( (int) $id );
+		$resource = DeveloperGuide::findResource( (int) $id );
 		$currentUser = $request->user();
 
 		if ( $currentUser->can('delete', $this->policyOwnerClass) ) {
@@ -232,6 +249,12 @@ class TemplateController extends Controller
 				$resource->is_deleted = 1;
 				$resource->save();
 				$suffix = 'moved to trash';
+			}
+
+			try {
+				cache()->forget($this->settingsKey);
+			} catch(\Exception $e) {
+
 			}
 
 			return response()->json(['success' => "$this->friendlyName $suffix"]);
@@ -256,19 +279,19 @@ class TemplateController extends Controller
 
 			if ( $selectedNum ) {
 				try {
-					$resources = Template::getResources($resourceIds, -1)->pluck('id')->toArray();
+					$resources = DeveloperGuide::getResources($resourceIds, -1)->pluck('id')->toArray();
 					$successNum = 0;
 
 					if ( $resources ) {
 						switch ($update) {
 							case 'delete':
-								$successNum = Template::doBulkActions($resources, 'delete');
+								$successNum = DeveloperGuide::doBulkActions($resources, 'delete');
 								break;
 							case 'restore':
-								$successNum = Template::doBulkActions($resources, 'restore');
+								$successNum = DeveloperGuide::doBulkActions($resources, 'restore');
 								break;
 							case 'destroy':
-								$successNum = Template::doBulkActions($resources, 'destroy');
+								$successNum = DeveloperGuide::doBulkActions($resources, 'destroy');
 								break;
 						}
 
@@ -282,6 +305,12 @@ class TemplateController extends Controller
 							$update = 'permanently deleted';
 						else
 							$update = "{$update}d";
+
+						try {
+							cache()->forget($this->settingsKey);
+						} catch(\Exception $e) {
+
+						}
 
 						return response()->json(['success' => "$successNum $string $update. $append"]);
 					}
@@ -297,30 +326,6 @@ class TemplateController extends Controller
 		}
 
 		return response()->json(['error' => 'You are not authorised to perform this action.'], 403);
-	}
-
-	/**
-	 * Export resources to Excel
-	 * @param Request $request
-	 * @return \Illuminate\Http\RedirectResponse|mixed
-	 */
-	public function export(Request $request)
-	{
-		if ( $request->user()->can('read', $this->policyOwnerClass) ) {
-			$resourceIds = (array) $request->resourceIds;
-			$fileName = '';
-
-			$deleted = $request->has('trash') ? (int) $request->trash : -1;
-
-			$resources = Template::getResources($resourceIds, $deleted);
-			$fileName .= count($resourceIds) ? 'Specified-Items-' : 'All-Items-';
-			$fileName .= Carbon::now()->toDateString();
-
-			$exporter = new ResourceExporter($resources, $fileName);
-			return $exporter->generateExcelExport('templates');
-		}
-		else
-			return redirect()->back();
 	}
 
 }

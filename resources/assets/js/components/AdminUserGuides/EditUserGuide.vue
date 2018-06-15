@@ -8,23 +8,47 @@
                     <i class="icon ion-ios-compose"></i> {{ resource.title }}
                 </h3>
 
-                <form v-on:submit.prevent='updateResource' v-if="! fetchingData ">
-                    <div class="form-group">
-                        <label class="form-control-label" for="title">Title</label>
-                        <div class="">
-                            <input type="text" class="form-control" id="title" v-model.trim="resource.title" v-bind:class="validationErrors.title ? 'is-invalid' : ''" placeholder="Title">
-                            <small class="invalid-feedback">
-                                {{ validationErrors.title }}
-                            </small>
+                <form v-on:submit.prevent='updateResource'>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label" for="title">Title</label>
+                            <div class="">
+                                <input type="text" class="form-control" id="title" v-model.trim="resource.title" v-bind:class="validationErrors.title ? 'is-invalid' : ''" placeholder="Title">
+                                <small class="invalid-feedback">
+                                    {{ validationErrors.title }}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label" for="slug">URL Slug</label>
+                            <div class="">
+                                <input type="text" class="form-control" id="slug" v-model.trim="resource.slug" v-bind:class="validationErrors.slug ? 'is-invalid' : ''" placeholder="url-slug">
+                                <small class="invalid-feedback">
+                                    {{ validationErrors.slug }}
+                                </small>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-control-label" for="slug">URL Slug</label>
-                        <div class="">
-                            <input type="text" class="form-control" id="slug" v-model.trim="resource.slug" v-bind:class="validationErrors.slug ? 'is-invalid' : ''" placeholder="url-slug">
-                            <small class="invalid-feedback">
-                                {{ validationErrors.slug }}
-                            </small>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label" for="parent_id">Parent <small class="text-danger">{{ validationErrors.parent_id }}</small></label>
+                            <div class="">
+                                <select class="custom-select form-control" v-model="resource.parent_id" id="parent_id">
+                                    <option value="">(No parent)</option>
+                                    <option v-for="option in sortedParents" v-bind:value="option.id" v-if="isNotCurrent(option.id)">
+                                        {{ option.title }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label" for="slug">Menu Order</label>
+                            <div class="">
+                                <input type="text" class="form-control" id="order" v-model.trim="resource.order" v-bind:class="validationErrors.order ? 'is-invalid' : ''" placeholder="0">
+                                <small class="invalid-feedback">
+                                    {{ validationErrors.order }}
+                                </small>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -68,18 +92,24 @@
         data() {
             return {
                 fetchingData: true,
-                resource: {title: '', slug: '', content: ''},
-                validationErrors: {title: '', slug: '', content: ''},
-                listRoute: 'admin_email_contents.index',
+                resource: {title: '', slug: '', parent_id: '', order: '', content: ''},
+                validationErrors: {title: '', slug: '', parent_id: '', order: '', content: ''},
+                listRoute: 'admin_user_guides.index',
                 moreOptions: [
                     { text: 'Select Option', value: '' },
-                    { text: 'Delete Content', value: 'delete' },
+                    { text: 'Delete User Guide', value: 'delete' },
                 ],
                 moreOption: '',
+                parents: [],
                 originalTitle: '',
                 originalSlug: '',
                 editorReady: false
             }
+        },
+        computed: {
+            sortedParents() {
+                return _.sortBy(this.parents, ['title']);
+            },
         },
         methods: {
             getResource() {
@@ -89,10 +119,17 @@
                 progress.start();
 
                 vm.$http.get(vm.appResourceUrl + '/' + vm.id + '/edit').then(function(response) {
-                    if ( response.data.resource && response.data.resource ) {
-                        vm.resource = response.data.resource;
-                        vm.originalTitle = response.data.resource.title;
-                        vm.originalSlug = response.data.resource.slug;
+                    if ( response.data ) {
+                        if ( response.data.resource ) {
+                            vm.resource = response.data.resource;
+                            vm.originalTitle = response.data.resource.title;
+                            vm.originalSlug = response.data.resource.slug;
+                        }
+
+                        vm.resource.parent_id = response.data.resource.parent_id ? response.data.resource.parent_id : '';
+
+                        if ( response.data.parents && response.data.parents.length )
+                            vm.parents = response.data.parents;
                     }
 
                     vm.initTinyMce(10);
@@ -159,6 +196,9 @@
                     if ( data.response )
                         vm.resource.slug = data.response.data.slug;
                 });
+            },
+            isNotCurrent(optionId) {
+                return this.resource.id !== optionId;
             }
         },
         watch: {

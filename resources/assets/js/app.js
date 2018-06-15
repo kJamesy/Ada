@@ -387,3 +387,72 @@ if ( $('#admin-users-app').length ) {
         router: router
     });
 }
+
+
+/**
+ * User Guides
+ */
+import AdminUserGuides from './components/AdminUserGuides/AdminUserGuides.vue';
+import AdminUserGuidesAll from './components/AdminUserGuides/AllUserGuides.vue';
+import AdminUserGuidesTrash from './components/AdminUserGuides/TrashUserGuides.vue';
+import AdminUserGuidesNew from './components/AdminUserGuides/NewUserGuide.vue';
+import AdminUserGuidesView from './components/AdminUserGuides/ViewUserGuide.vue';
+import AdminUserGuidesEdit from './components/AdminUserGuides/EditUserGuide.vue';
+
+if ( $('#admin-user-guides-app').length ) {
+    let router = new VueRouter({
+        mode: 'history',
+        base: links.base,
+        linkActiveClass: 'active',
+        routes: [
+            { path: '/', name: 'admin_user_guides.index', component: AdminUserGuidesAll },
+            { path: '/trash', name: 'admin_user_guides.trash', component: AdminUserGuidesTrash },
+            { path: '/create', name: 'admin_user_guides.create', component: AdminUserGuidesNew },
+            { path: '/:id(\\d+)/view', name: 'admin_user_guides.view', component: AdminUserGuidesView },
+            { path: '/:id(\\d+)/edit', name: 'admin_user_guides.edit', component: AdminUserGuidesEdit },
+            { path: '*', redirect: { name: 'admin_user_guides.index' } }
+        ]
+    });
+
+    new Vue({
+        el: '#admin-user-guides-app',
+        components: {
+            AdminUserGuides
+        },
+        router: router
+    });
+}
+
+/**
+ * Developer Guides
+ */
+import AdminDeveloperGuides from './components/AdminDeveloperGuides/AdminDeveloperGuides.vue';
+import AdminDeveloperGuidesAll from './components/AdminDeveloperGuides/AllDeveloperGuides.vue';
+import AdminDeveloperGuidesTrash from './components/AdminDeveloperGuides/TrashDeveloperGuides.vue';
+import AdminDeveloperGuidesNew from './components/AdminDeveloperGuides/NewDeveloperGuide.vue';
+import AdminDeveloperGuidesView from './components/AdminDeveloperGuides/ViewDeveloperGuide.vue';
+import AdminDeveloperGuidesEdit from './components/AdminDeveloperGuides/EditDeveloperGuide.vue';
+
+if ( $('#admin-developer-guides-app').length ) {
+    let router = new VueRouter({
+        mode: 'history',
+        base: links.base,
+        linkActiveClass: 'active',
+        routes: [
+            { path: '/', name: 'admin_developer_guides.index', component: AdminDeveloperGuidesAll },
+            { path: '/trash', name: 'admin_developer_guides.trash', component: AdminDeveloperGuidesTrash },
+            { path: '/create', name: 'admin_developer_guides.create', component: AdminDeveloperGuidesNew },
+            { path: '/:id(\\d+)/view', name: 'admin_developer_guides.view', component: AdminDeveloperGuidesView },
+            { path: '/:id(\\d+)/edit', name: 'admin_developer_guides.edit', component: AdminDeveloperGuidesEdit },
+            { path: '*', redirect: { name: 'admin_developer_guides.index' } }
+        ]
+    });
+
+    new Vue({
+        el: '#admin-developer-guides-app',
+        components: {
+            AdminDeveloperGuides
+        },
+        router: router
+    });
+}

@@ -89,7 +89,7 @@
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
     <div class="navbar-brand mr-auto mr-lg-0">
-        {{ strtoupper(config('newsletter.client_name')) }}
+        {{ config('newsletter.client_name') }}
     </div>
     <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
         <span class="navbar-toggler-icon"></span>
