@@ -38,7 +38,7 @@ class UserGuideController extends Controller
 			return view('guest.view-user-guide', compact('page', 'content', 'menu', 'anchorMenu', 'isHome'));
 		}
 
-		return app()->abort(404);
+		return view('guest.404-user-guide');
 	}
 
 	/**

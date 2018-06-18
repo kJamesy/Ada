@@ -34,8 +34,12 @@
                 <div class="row no-gutters">
                     <div class="d-none"></div>
                     <div class="col-lg-12 text-center">
-                        <div>
-                            <h1>{{ strtoupper(config('newsletter.client_name')) }}</h1>
+                        <h1>{{ config('newsletter.client_name') }}</h1>
+                        <h3 class="text-muted mt-3">Newsletter application</h3>
+                        <div class="mt-5">
+                            <a href="{{ route('guest-user-guides.index') }}">User Guide</a>
+                            | <a href="{{ route('guest-developer-guides.index') }}">Developer Guide</a>
+                            | <a target="_blank" href="//github.com/kJamesy/tulip">Github</a>
                         </div>
                     </div>
                 </div>
