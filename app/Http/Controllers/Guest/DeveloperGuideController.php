@@ -27,7 +27,7 @@ class DeveloperGuideController extends Controller
 	 */
 	public function index()
 	{
-		if ( ! $page = DeveloperGuide::getHomePage() ) {
+		if ( $page = DeveloperGuide::getHomePage() ) {
 			$pages = DeveloperGuide::getCachedPages();
 			$menu = Menu::generateTwoLevelMenu($pages, $page, 'developer_guide');
 
