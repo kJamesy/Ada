@@ -27,7 +27,7 @@ class DeveloperGuideController extends Controller
 	 */
 	public function index()
 	{
-		if ( $page = DeveloperGuide::getHomePage() ) {
+		if ( ! $page = DeveloperGuide::getHomePage() ) {
 			$pages = DeveloperGuide::getCachedPages();
 			$menu = Menu::generateTwoLevelMenu($pages, $page, 'developer_guide');
 
@@ -39,7 +39,7 @@ class DeveloperGuideController extends Controller
 			return view('guest.view-developer-guide', compact('page', 'content', 'menu', 'anchorMenu', 'isHome'));
 		}
 
-		return app()->abort(404);
+		return view('guest.404-developer-guide');
 	}
 
 	/**
