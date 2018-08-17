@@ -226,16 +226,17 @@ class UserGuide extends Model
 	 */
 	public static function getHomePage()
 	{
-		$query = static::with(['parent', 'children'])
+		$homePage = static::with(['parent', 'children'])
 		               ->isNotDeleted()
-		               ->whereNull('parent_id');
+		               ->whereNull('parent_id')
+		               ->where('slug', 'home')
+		               ->orWhere('slug', 'home-page')
+		               ->orWhere('slug', 'index')
+		               ->first();
 
-		return $query->where('slug', 'home')
-		             ->orWhere('slug', 'home-page')
-		             ->orWhere('slug', 'index')
-		             ->first()
-			?:
-			$query->orderBy('order', 'ASC')->first();
+		return $homePage ?: static::with(['parent', 'children'])
+		                          ->isNotDeleted()
+		                          ->whereNull('parent_id')->orderBy('order', 'ASC')->first();
 	}
 
 	/**
