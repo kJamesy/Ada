@@ -10,16 +10,6 @@ use App\Http\Controllers\Controller;
 
 class UserGuideController extends Controller
 {
-	protected $homeSlugs;
-
-	/**
-	 * UserGuideController constructor.
-	 */
-	public function __construct()
-	{
-		$this->homeSlugs = ['home-page', 'home', 'index'];
-	}
-
 	/**
 	 * Display landing page
 	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|mixed
@@ -57,7 +47,9 @@ class UserGuideController extends Controller
 			$replaced = new Content($page->content);
 			$content = $replaced->setH2sIdAttribute();
 			$anchorMenu = $replaced->getAnchorsMenu();
-			$isHome = in_array($page->slug, $this->homeSlugs);
+
+			$homePage = UserGuide::getHomePage();
+			$isHome = $homePage && ( $homePage->slug === $page->slug );
 
 			return view('guest.view-user-guide', compact('page', 'content', 'menu', 'anchorMenu', 'isHome'));
 		}

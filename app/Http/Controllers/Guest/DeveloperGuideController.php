@@ -10,17 +10,6 @@ use App\Http\Controllers\Controller;
 
 class DeveloperGuideController extends Controller
 {
-
-	protected $homeSlugs;
-
-	/**
-	 * DeveloperGuideController constructor.
-	 */
-	public function __construct()
-	{
-		$this->homeSlugs = ['home-page', 'home', 'index'];
-	}
-
 	/**
 	 * Display landing page
 	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|mixed
@@ -58,7 +47,9 @@ class DeveloperGuideController extends Controller
 			$replaced = new Content($page->content);
 			$content = $replaced->setH2sIdAttribute();
 			$anchorMenu = $replaced->getAnchorsMenu();
-			$isHome = in_array($page->slug, $this->homeSlugs);
+
+			$homePage = DeveloperGuide::getHomePage();
+			$isHome = $homePage && ( $homePage->slug === $page->slug );
 
 			return view('guest.view-developer-guide', compact('page', 'content', 'menu', 'anchorMenu', 'isHome'));
 		}
