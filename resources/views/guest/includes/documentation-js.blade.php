@@ -50,6 +50,26 @@
         //Animated UL open
         let $ulToggle = $('.animated-toggle');
 
+        //Open the Menu for the Active Parent
+        $ulToggle.each(function() {
+            let $this = $(this);
+            let $parent = $this.parent();
+
+            if ( $parent.hasClass('active') ) {
+                $parent.addClass('active-parent');
+                let $closedUl = $this.parent().find('ul');
+
+                if ( $this.hasClass('open') ) {
+                    $this.removeClass('open');
+                    $closedUl.slideUp();
+                }
+                else {
+                    $this.addClass('open');
+                    $closedUl.slideDown();
+                }
+            }
+        });
+
         $ulToggle.click(function(event) {
             event.preventDefault();
             let $this = $(this);
