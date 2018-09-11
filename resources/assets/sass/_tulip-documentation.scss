@@ -122,6 +122,14 @@
     padding-left: 2rem;
     font-family: Helvetica, Arial, 'lucida grande', tahoma, verdana, arial, sans-serif;
 
+    a {
+      color: $pink;
+
+      &:hover, &:active, &:focus {
+        color: $pink;
+      }
+    }
+
     h1 {
       margin-bottom: 1rem;
     }
